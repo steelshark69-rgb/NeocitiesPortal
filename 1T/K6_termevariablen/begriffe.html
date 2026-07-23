@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variablen & Terme entdecken</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root { --easter-pink: #d946ef; --easter-yellow: #f59e0b; --easter-blue: #0ea5e9; }
+        .easter-box { background: #fdf4ff; border-left: 5px solid var(--easter-pink); padding: 1.5rem; border-radius: 8px; margin: 2rem 0; }
+        .interactive-area { background: white; border: 2px dashed #cbd5e1; padding: 2rem; border-radius: 12px; text-align: center; margin: 1.5rem 0; }
+        
+        /* Drag & Drop / Klick Boxen */
+        .term-btn { background: #f1f5f9; border: 2px solid #cbd5e1; padding: 15px; border-radius: 8px; font-size: 1.2rem; cursor: pointer; transition: 0.2s; font-family: monospace; font-weight: bold; width: 100%; max-width: 200px; }
+        .term-btn:hover { transform: scale(1.05); }
+        .term-correct { background: #d1fae5; border-color: #10b981; color: #065f46; pointer-events: none; }
+        .term-wrong { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+        
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; justify-items: center; }
+        
+        .slider-x { width: 80%; max-width: 300px; accent-color: var(--easter-pink); }
+        .result-box { font-size: 2rem; font-weight: bold; color: var(--easter-pink); margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+<header style="background-color: var(--easter-pink);">
+    <h1>Geheimschrift der Mathematik</h1>
+    <p>Was sind Variablen und Terme? (Oster-Edition 🐰)</p>
+</header>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main style="max-width: 900px; margin: 0 auto; padding: 0 1.5rem;">
+
+    <div class="easter-box">
+        <h2 style="margin-top: 0; color: #a21caf;">Teil 1: Der Platzhalter (Die Variable)</h2>
+        <p>In der Volksschule hast du oft solche Rechnungen gelöst: <strong>$5 + \square = 8$</strong></p>
+        <p>Das leere Kästchen war ein Platzhalter. Weil wir in der AHS aber oft kompliziertere Rechnungen haben und Kästchen zeichnen unpraktisch ist, verwenden Mathematiker stattdessen einfach <strong>Buchstaben</strong> als Platzhalter!</p>
+        <p style="background: white; padding: 10px; border-radius: 4px; text-align: center; font-weight: bold; color: var(--easter-pink); font-size: 1.2rem;">Aus $5 + \square = 8$ wird einfach $5 + x = 8$</p>
+        <p>Einen solchen Buchstaben (meistens $x, y, a$ oder $b$) nennt man <strong>Variable</strong>. Das Wort kommt von "variabel" (veränderlich), weil man für den Buchstaben verschiedene Zahlen einsetzen kann.</p>
+    </div>
+
+    <div class="interactive-area">
+        <h3>🛒 Einkaufen am Ostermarkt</h3>
+        <p>Ein Schokohase kostet <strong>3 Euro</strong>. Du weißt aber noch nicht, wie viele Hasen du für deine Familie kaufst. Die Anzahl der Hasen nennen wir einfach <strong>$x$</strong>.</p>
+        <p style="font-size: 1.2rem;">Die Rechnung für den Preis lautet also: <strong>$3 \cdot x$</strong></p>
+        
+        <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin-top: 20px;">
+            <label style="font-weight: bold; color: #475569;">Wie viele Hasen ($x$) kaufst du?</label><br>
+            <input type="range" id="x-slider" class="slider-x" min="1" max="10" value="1" oninput="calculateEaster()">
+            <p style="font-size: 1.2rem; font-weight: bold;">$x$ = <span id="x-val" style="color: var(--easter-pink);">1</span> Hasen</p>
+            
+            <div style="border-top: 2px dashed #cbd5e1; margin-top: 15px; padding-top: 15px;">
+                <span style="color: #64748b;">Dein Preis ($3 \cdot x$):</span>
+                <div class="result-box" id="price-val">3 €</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="easter-box" style="border-left-color: var(--easter-blue); background: #f0f9ff;">
+        <h2 style="margin-top: 0; color: #0369a1;">Teil 2: Was ist ein Term?</h2>
+        <p>Ein <strong>Term</strong> ist einfach ein <strong>sinnvoller Rechenausdruck</strong>. Er kann aus Zahlen, Variablen (Buchstaben) und Rechenzeichen ($+, -, \cdot, :$) bestehen. Wichtig ist nur: Er muss mathematisch Sinn ergeben!</p>
+        <ul style="line-height: 1.6;">
+            <li>$4 \cdot x + 5$ <strong>(Das ist ein Term!)</strong></li>
+            <li>$12 - 3$ <strong>(Auch einfache Zahlenrechnungen sind Terme!)</strong></li>
+            <li>$7 + \cdot - x$ <strong>(Kein Term! Das ist unsinniger Kauderwelsch.)</strong></li>
+        </ul>
+    </div>
+
+    <div class="interactive-area">
+        <h3>🔍 Term-Detektiv</h3>
+        <p>Klicke auf alle Kärtchen, die <strong>echte, sinnvolle Terme</strong> sind. Vermeide den mathematischen Unsinn!</p>
+        
+        <div class="grid-3">
+            <button class="term-btn" onclick="checkTerm(this, true)">$2 \cdot a + 4$</button>
+            <button class="term-btn" onclick="checkTerm(this, false)">$5 + \cdot = x$</button>
+            <button class="term-btn" onclick="checkTerm(this, true)">$x - 10$</button>
+            <button class="term-btn" onclick="checkTerm(this, true)">$150 : 3$</button>
+            <button class="term-btn" onclick="checkTerm(this, false)">$- \cdot + 4 y$</button>
+            <button class="term-btn" onclick="checkTerm(this, true)">$x$</button>
+        </div>
+        <p id="term-feedback" style="font-weight: bold; margin-top: 20px; color: var(--easter-blue);"></p>
+    </div>
+
+</main>
+
+<script>
+    // Schieberegler Logik
+    function calculateEaster() {
+        let x = document.getElementById('x-slider').value;
+        document.getElementById('x-val').innerText = x;
+        document.getElementById('price-val').innerText = (3 * x) + " €";
+    }
+
+    // Klick-Logik Terme
+    let correctCount = 0;
+    function checkTerm(btn, isTerm) {
+        if (isTerm) {
+            btn.classList.add("term-correct");
+            btn.innerHTML += " ✅";
+            correctCount++;
+            if(correctCount === 4) {
+                document.getElementById('term-feedback').innerText = "Super! Du hast alle echten Terme gefunden. Gehe nun zur nächsten Aufgabe!";
+            }
+        } else {
+            btn.classList.add("term-wrong");
+            setTimeout(() => { btn.classList.remove("term-wrong"); }, 800);
+        }
+    }
+</script>
+
+</body>
+</html>

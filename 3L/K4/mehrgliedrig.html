@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polynome multiplizieren | Prof. Schweitzer</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .content-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .content-box h3 {
+            color: var(--primary);
+            margin-top: 0;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 0.5rem;
+        }
+        .example-box {
+            background: #f0fdf4;
+            border-left: 4px solid var(--info-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        
+        /* Quiz Styles */
+        .quiz-container {
+            background: #f8fafc;
+            border: 2px solid var(--primary);
+            padding: 2rem 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .quiz-question {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+        }
+        .quiz-options {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .quiz-btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+            color: var(--text-main);
+            min-width: 150px;
+        }
+        .quiz-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .quiz-btn.correct {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        .quiz-btn.wrong {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+        .quiz-feedback {
+            margin-top: 1.5rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            min-height: 28px;
+        }
+        #next-btn {
+            display: none;
+            margin: 1.5rem auto 0;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        #next-btn:hover {
+            background: var(--primary-dark);
+        }
+        .score-display {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .math-text {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Mehrgliedrige Terme multiplizieren</h1>
+    <p>Klammer mal Klammer: Die "Jedes mit Jedem"-Regel</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">⬅ Zurück zur Klasse 3L</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Mathematik</span>
+            <h2>Ausmultiplizieren von Polynomen</h2>
+        </div>
+
+        <div class="content-box">
+            <h3>Die Regel: "Jedes mit Jedem"</h3>
+            <p>Wenn zwei Klammern miteinander multipliziert werden, musst du <strong>jedes Glied der ersten Klammer mit jedem Glied der zweiten Klammer</strong> multiplizieren.</p>
+            
+            <p>Zur Veranschaulichung kannst du dir das Flächenmodell eines Rechtecks vorstellen:</p>
+            
+            <div class="example-box">
+                <strong>Die allgemeine Formel:</strong><br>
+                <span class="math-text">(a + b) &middot; (c + d) = ac + ad + bc + bd</span>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h3>Schritt für Schritt Beispiel</h3>
+            <p>Oft kannst du das Ergebnis am Ende noch zusammenfassen (Gleichartige Glieder addieren!). Achte dabei besonders auf die Vorzeichen.</p>
+            <div class="example-box">
+                <span class="math-text">(x + 2) &middot; (x + 3)</span><br><br>
+                1. Ausmultiplizieren:<br>
+                <span class="math-text">= x&middot;x + x&middot;3 + 2&middot;x + 2&middot;3</span><br><br>
+                2. Vereinfachen:<br>
+                <span class="math-text">= x<sup>2</sup> + 3x + 2x + 6</span><br><br>
+                3. Zusammenfassen:<br>
+                <span class="math-text">= x<sup>2</sup> + 5x + 6</span>
+            </div>
+            <div class="example-box" style="background: #fffbeb; border-left-color: #f59e0b;">
+                <strong>Vorsicht bei Minuszeichen!</strong><br>
+                <span class="math-text">(a - 4) &middot; (a + 2) = a<sup>2</sup> + 2a - 4a - 8 = a<sup>2</sup> - 2a - 8</span>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h3>Profiklasse: Mehrere Variablen</h3>
+            <p>Wenn verschiedene Variablen in den Klammern vorkommen, entstehen oft <strong>Variablenkombinationen</strong> wie <em>xy</em> oder <em>ab</em>. Gehe genau nach demselben Muster vor und sortiere die Buchstaben alphabetisch (also <em>xy</em> statt <em>yx</em>), damit du gleichartige Glieder besser erkennst!</p>
+            
+            <div class="example-box">
+                <strong>Beispiel 1: Zwei Variablen (x und y)</strong><br>
+                <span class="math-text">(x + y) &middot; (x + 2y)</span><br><br>
+                1. Ausmultiplizieren:<br>
+                <span class="math-text">= x&middot;x + x&middot;2y + y&middot;x + y&middot;2y</span><br><br>
+                2. Alphabetisch ordnen und vereinfachen:<br>
+                <span class="math-text">= x<sup>2</sup> + 2xy + xy + 2y<sup>2</sup></span><br><br>
+                3. Zusammenfassen:<br>
+                <span class="math-text">= x<sup>2</sup> + 3xy + 2y<sup>2</sup></span>
+            </div>
+
+            <div class="example-box" style="background: #fffbeb; border-left-color: #f59e0b;">
+                <strong>Beispiel 2: Mit Vorfaktoren und Minuszeichen</strong><br>
+                <span class="math-text">(2a - 3b) &middot; (a + 4b)</span><br><br>
+                1. Ausmultiplizieren (Achtung auf das Minus!):<br>
+                <span class="math-text">= 2a&middot;a + 2a&middot;4b - 3b&middot;a - 3b&middot;4b</span><br><br>
+                2. Vereinfachen:<br>
+                <span class="math-text">= 2a<sup>2</sup> + 8ab - 3ab - 12b<sup>2</sup></span><br><br>
+                3. Zusammenfassen:<br>
+                <span class="math-text">= 2a<sup>2</sup> + 5ab - 12b<sup>2</sup></span>
+            </div>
+
+            <div class="example-box" style="background: #fef2f2; border-left-color: #ef4444;">
+                <strong>Beispiel 3: Wenn man nichts zusammenfassen kann</strong><br>
+                <span class="math-text">(3x - 2y) &middot; (x - 5z)</span><br><br>
+                1. Ausmultiplizieren:<br>
+                <span class="math-text">= 3x&middot;x + 3x&middot;(-5z) - 2y&middot;x - 2y&middot;(-5z)</span><br><br>
+                2. Vereinfachen (Minus mal Minus ergibt Plus!):<br>
+                <span class="math-text">= 3x<sup>2</sup> - 15xz - 2xy + 10yz</span><br><br>
+                <em>Fertig! Da alle Glieder unterschiedlich sind (x², xz, xy, yz), darf hier <strong>nichts</strong> weiter zusammengefasst werden.</em>
+            </div>
+        </div>
+
+        <div class="quiz-container">
+            <h3 style="margin-top: 0; color: var(--primary);">Klammer-Profi Quiz</h3>
+            <p>Multipliziere im Kopf aus und fasse zusammen! Welches Ergebnis stimmt?</p>
+            <div class="score-display">Frage <span id="current-q">1</span> von <span id="total-q">5</span></div>
+            
+            <div id="quiz-content">
+                <div class="quiz-question math-text" id="question-text">Lade Frage...</div>
+                <div class="quiz-options" id="options-container">
+                    </div>
+                <div class="quiz-feedback" id="feedback-text"></div>
+                <button id="next-btn" onclick="nextQuestion()">Nächste Frage ➡</button>
+            </div>
+            
+            <div id="quiz-result" style="display: none;">
+                <div class="quiz-question">Quiz beendet! 🎯</div>
+                <p id="final-score" style="font-size: 1.2rem; margin-bottom: 1.5rem;"></p>
+                <button class="quiz-btn" onclick="location.reload()" style="border-color: var(--primary);">Nochmal üben</button>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+</footer>
+
+<script>
+    const questions = [
+        { q: "(x + 2)(x + 4)", options: ["x² + 6x + 8", "x² + 8x + 6", "2x + 8"], correct: 0 },
+        { q: "(y - 3)(y + 5)", options: ["y² - 15", "y² + 2y - 15", "y² - 2y - 15"], correct: 1 },
+        { q: "(a - 2)(a - 4)", options: ["a² - 6a + 8", "a² - 6a - 8", "a² + 8"], correct: 0 },
+        { q: "(2x + 1)(x + 3)", options: ["2x² + 4x + 3", "2x² + 7x + 3", "3x² + 3"], correct: 1 },
+        { q: "(x + y)(x + 2y)", options: ["x² + 3xy + 2y²", "x² + 2xy + y²", "x² + 3y²"], correct: 0 }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    const questionText = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const feedbackText = document.getElementById('feedback-text');
+    const nextBtn = document.getElementById('next-btn');
+    const currentQSpan = document.getElementById('current-q');
+    const totalQSpan = document.getElementById('total-q');
+    
+    totalQSpan.innerText = questions.length;
+
+    function loadQuestion() {
+        answered = false;
+        feedbackText.innerText = "";
+        nextBtn.style.display = "none";
+        currentQSpan.innerText = currentQuestionIndex + 1;
+        
+        const currentQ = questions[currentQuestionIndex];
+        questionText.innerText = currentQ.q;
+        optionsContainer.innerHTML = "";
+
+        currentQ.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.innerHTML = opt.replace(/²/g, '<sup>2</sup>'); // Hoch 2 schöner formatieren
+            btn.className = 'quiz-btn';
+            btn.onclick = () => checkAnswer(index, btn);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selectedIndex, btnElement) {
+        if (answered) return;
+        answered = true;
+
+        const correctIndex = questions[currentQuestionIndex].correct;
+        const allButtons = optionsContainer.children;
+
+        if (selectedIndex === correctIndex) {
+            btnElement.classList.add('correct');
+            feedbackText.innerText = "Stark! Komplett richtig. ✅";
+            feedbackText.style.color = "#10b981";
+            score++;
+        } else {
+            btnElement.classList.add('wrong');
+            allButtons[correctIndex].classList.add('correct');
+            feedbackText.innerText = "Nicht ganz! Achte auf die Vorzeichen und das Zusammenfassen.";
+            feedbackText.style.color = "#ef4444";
+        }
+
+        for (let btn of allButtons) {
+            btn.style.cursor = "default";
+        }
+
+        nextBtn.style.display = "block";
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        document.getElementById('quiz-content').style.display = "none";
+        const resultDiv = document.getElementById('quiz-result');
+        resultDiv.style.display = "block";
+        document.getElementById('final-score').innerText = `Du hast ${score} von ${questions.length} Polynomen richtig berechnet!`;
+    }
+
+    window.onload = loadQuestion;
+</script>
+
+</body>
+</html>

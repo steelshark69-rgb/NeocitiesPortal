@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station 4: Die Schatzkarte | Rallye 1T</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <style>
+        .rallye-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .code-input {
+            font-size: 1.5rem;
+            padding: 0.75rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            width: 200px;
+            text-align: center;
+            letter-spacing: 2px;
+            font-family: monospace;
+            margin-bottom: 1rem;
+        }
+        .check-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .check-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        .riddle-box {
+            background: #f8fafc;
+            border-left: 4px solid #f59e0b; /* Orange für diese Station */
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            text-align: left;
+            font-size: 1.1rem;
+        }
+        .task-number {
+            font-weight: 800;
+            color: #d97706;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🗺️ Station 4: Die geheime Schatzkarte</h1>
+    <p>Die Jagd nach dem goldenen Zirkel - Der Maßstab</p>
+</header>
+
+<main>
+    <div class="rallye-container">
+        <h2 style="color: var(--primary); margin-top: 0; text-align: center;">Das Archiv der Kartografen</h2>
+        <p style="font-size: 1.1rem; line-height: 1.8; text-align: center;">
+            Ihr betretet ein staubiges Archiv voller alter Karten und Baupläne. Um die schwere Tresortür zur Grabkammer (Station 5) zu öffnen, müsst ihr fünf kartografische Meisterleistungen vollbringen! Achtet genau auf die Einheiten!
+        </p>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Aufgabe 1:</span> Die reale Entfernung.<br>
+            Auf einer Karte im Maßstab 1 : 50 000 ist der Weg zur Oase genau 3 cm lang gezeichnet.<br>
+            <em>Wie viele <strong>Meter (m)</strong> ist die Oase in Wirklichkeit entfernt?</em><br>
+            Lösung = <strong>A</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Aufgabe 2:</span> Der winzige Wächter (Vergrößerung).<br>
+            Ein Skarabäus-Käfer ist in Wirklichkeit nur winzige 4 mm lang. Auf einer Wandzeichnung ist er riesige 20 cm lang abgebildet.<br>
+            <em>Welcher Maßstab (X : 1) wurde verwendet? Berechne die Zahl X.</em><br>
+            Lösung = <strong>B</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Aufgabe 3:</span> Von der Wirklichkeit auf die Karte.<br>
+            Die direkte Luftlinie zwischen zwei Tempeln beträgt 12 km. Eine alte Wanderkarte hat den Maßstab 1 : 400 000.<br>
+            <em>Wie viele <strong>Zentimeter (cm)</strong> sind die Tempel auf dieser Karte voneinander entfernt?</em><br>
+            Lösung = <strong>C</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Aufgabe 4:</span> Der Grundriss der Kammer.<br>
+            Ihr findet einen Grundriss (Maßstab 1 : 100) eines rechteckigen Raumes. Auf dem Plan ist der Raum 45 mm lang und 30 mm breit.<br>
+            <em>Wie groß ist der tatsächliche <strong>Umfang</strong> dieses Raumes in <strong>Metern (m)</strong>?</em><br>
+            Lösung = <strong>D</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Aufgabe 5:</span> Der Kartenwechsel (Meisterstufe!).<br>
+            Ein Flusslauf ist auf einer alten Karte (Maßstab 1 : 25 000) genau 8 cm lang. <br>
+            <em>Wie viele <strong>Zentimeter (cm)</strong> lang ist dieser selbe Flusslauf auf einer neuen, detaillierteren Karte im Maßstab 1 : 40 000?</em><br>
+            Lösung = <strong>E</strong></p>
+        </div>
+
+        <div style="background: #eff6ff; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; border: 2px dashed #3b82f6; text-align: center;">
+            <h3 style="margin-top: 0; color: #1e3a8a;">🔑 Euer Geheimcode</h3>
+            <p>Bildet die <strong>Summe aller fünf Ergebnisse</strong> (A + B + C + D + E). Die Summe öffnet das Schloss zur Grabkammer!</p>
+            
+            <input type="text" id="codeInput" class="code-input" placeholder="CODE..." autocomplete="off">
+            <br>
+            <button class="check-btn" onclick="checkCode()">Schloss überprüfen 🔓</button>
+            <p id="errorMsg" style="color: var(--pdf-red); font-weight: bold; display: none;">Das Schloss klemmt! Habt ihr beim "Kartenwechsel" oder dem "Umfang" einen Fehler gemacht?</p>
+        </div>
+    </div>
+</main>
+
+<footer style="margin-top: 3rem; text-align: center; font-weight: bold; color: var(--text-muted);">
+    &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+</footer>
+
+<script>
+    function checkCode() {
+        const input = document.getElementById('codeInput').value.trim();
+        const errorMsg = document.getElementById('errorMsg');
+        
+        /* Lösungen für die Lehrkraft:
+           A: 3 * 50 000 = 150 000 cm = 1500 m. -> 1500
+           B: 20 cm = 200 mm. 200 : 4 = 50. Maßstab 50:1. -> 50
+           C: 12 km = 1 200 000 cm. 1 200 000 : 400 000 = 3 cm. -> 3
+           D: Plan: u = 2*(45+30) = 150 mm. Real: 150 * 100 = 15 000 mm = 15 m. (Oder: 4,5m + 3m = 7,5m. 7,5 * 2 = 15). -> 15
+           E: Realität: 8 * 25 000 = 200 000 cm. Karte 2: 200 000 : 40 000 = 5 cm. -> 5
+           Summe: 1500 + 50 + 3 + 15 + 5 = 1573
+        */
+        
+        if (input === "1573") {
+            document.body.style.backgroundColor = "#dcfce7";
+            errorMsg.style.display = "none";
+            setTimeout(() => {
+                window.location.href = 'station5.html'; 
+            }, 800);
+        } else {
+            errorMsg.style.display = "block";
+            const inputField = document.getElementById('codeInput');
+            inputField.style.transform = "translateX(-10px)";
+            setTimeout(() => inputField.style.transform = "translateX(10px)", 100);
+            setTimeout(() => inputField.style.transform = "translateX(-10px)", 200);
+            setTimeout(() => inputField.style.transform = "translateX(0)", 300);
+        }
+    }
+
+    document.getElementById('codeInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            checkCode();
+        }
+    });
+</script>
+
+</body>
+</html>

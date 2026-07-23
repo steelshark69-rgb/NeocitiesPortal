@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jahresrückblick Escape-Room - AHS 2. Klasse</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body style="background-color: var(--bg); color: var(--text-main); font-family: sans-serif;">
+
+<header style="background-color: #0f172a; border-bottom: 4px solid var(--primary); padding: 2rem 1rem; text-align: center; color: white;">
+    <h1 style="margin: 0;">> OPERATION: JAHRESRÜCKBLICK_</h1>
+    <p style="margin-top: 0.5rem; opacity: 0.9; font-family: monospace;">Mathematik verstehen 2 - Escape Room</p>
+</header>
+
+<div style="display: flex; justify-content: center; margin-top: 1.5rem; margin-bottom: 2rem;">
+    <a href="../index.html" class="btn-back">← Mission abbrechen (Zurück zur Übersicht)</a>
+</div>
+
+<main style="max-width: 800px; margin: 0 auto; padding: 0 1.5rem;">
+    
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Mathematik</span>
+            <h2 style="margin: 0; color: var(--primary);">System-Hack: Die Jahresprüfung</h2>
+        </div>
+        
+        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h3 style="color: var(--pdf-red); margin-top: 0; font-family: monospace;">// ACHTUNG: SYSTEM GESPERRT //</h3>
+            <p style="line-height: 1.6; font-size: 1.1rem;">
+                Willkommen, Agenten der 2L! Ein unbekannter Virus hat das Schulnetzwerk infiziert und das Zeugnis-System verriegelt. Um das System neu zu starten, müsst ihr 6 Sicherheitsstationen durchlaufen. 
+            </p>
+            <p style="line-height: 1.6; font-size: 1.1rem;">
+                <strong>Die Regeln:</strong> Jede Station besteht aus 8 kniffligen Mathematik-Aufgaben aus dem vergangenen Schuljahr. 
+                Berechnet alle 8 Ergebnisse und bildet am Ende die <strong>Summe aller Lösungen</strong>. Diese Summe ist der Freischaltcode für die nächste Station!
+            </p>
+
+            <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1rem; margin: 2rem 0; border-radius: 0 8px 8px 0;">
+                <label for="teamName" style="font-weight: bold; display: block; margin-bottom: 0.5rem; color: var(--primary);">Registriere dein Agenten-Team:</label>
+                <input type="text" id="teamName" placeholder="Deckname (z. B. Mathe-Ninjas)" 
+                       style="width: 100%; max-width: 300px; padding: 10px; border: 2px solid #cbd5e1; border-radius: 6px; font-size: 1.1rem; outline: none;">
+                <p id="error-msg" style="color: var(--pdf-red); display: none; margin-top: 10px; font-weight: bold; font-family: monospace;">FEHLER: Teamname erforderlich!</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button onclick="startRallye()" 
+                        style="background-color: var(--primary); color: white; font-size: 1.2rem; font-weight: bold; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: opacity 0.2s;">
+                    Hack starten 🚀
+                </button>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    // Initialisierung und DSGVO-konforme, lokale Speicherung
+    function startRallye() {
+        const teamInput = document.getElementById('teamName').value.trim();
+        const errorMsg = document.getElementById('error-msg');
+
+        if (teamInput === "") {
+            errorMsg.style.display = "block";
+            // Kleiner Wackeleffekt
+            const inputField = document.getElementById('teamName');
+            inputField.style.borderColor = "var(--pdf-red)";
+            setTimeout(() => { inputField.style.borderColor = "#cbd5e1"; }, 500);
+            return;
+        }
+
+        // Teamname im SessionStorage speichern (wird gelöscht, wenn der Tab geschlossen wird)
+        sessionStorage.setItem('rallye_team', teamInput);
+        
+        // Fortschritt auf Station 1 setzen (verhindert das Überspringen von Seiten)
+        sessionStorage.setItem('rallye_progress', '1');
+
+        // Weiterleitung zur ersten Station
+        window.location.href = "station1.html";
+    }
+
+    // Beim Laden prüfen, ob vielleicht schon ein Teamname existiert (falls sie zurückgegangen sind)
+    window.onload = function() {
+        const savedTeam = sessionStorage.getItem('rallye_team');
+        if (savedTeam) {
+            document.getElementById('teamName').value = savedTeam;
+        }
+    };
+</script>
+
+</body>
+</html>

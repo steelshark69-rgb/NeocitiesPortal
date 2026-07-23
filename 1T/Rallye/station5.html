@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station 5: Die Grabkammer | Rallye 1T</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <style>
+        .rallye-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .code-input {
+            font-size: 1.5rem;
+            padding: 0.75rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            width: 200px;
+            text-align: center;
+            letter-spacing: 2px;
+            font-family: monospace;
+            margin-bottom: 1rem;
+        }
+        .check-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .check-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        .riddle-box {
+            background: #f8fafc;
+            border-left: 4px solid #0d9488; /* Ein edles Türkis für Geometrie */
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            text-align: left;
+            font-size: 1.1rem;
+        }
+        .task-number {
+            font-weight: 800;
+            color: #0f766e;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🏛️ Station 5: Die Grabkammer des Pharao</h1>
+    <p>Die Jagd nach dem goldenen Zirkel - Geometrie</p>
+</header>
+
+<main>
+    <div class="rallye-container">
+        <h2 style="color: var(--primary); margin-top: 0; text-align: center;">Das Tor zum Tresor</h2>
+        <p style="font-size: 1.1rem; line-height: 1.8; text-align: center;">
+            Ihr habt das Archiv durchquert und steht nun vor dem massiven Steintor der Hauptkammer. Auf dem Tor sind geometrische Figuren und Baupläne eingraviert. Löst die fünf Rätsel der alten Baumeister!
+        </p>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Gravur 1:</span> Das Rätsel der Linien.<br>
+            Eine Strecke hat <strong>x</strong> Endpunkte. Ein Strahl hat <strong>y</strong> Endpunkte. Eine Gerade hat <strong>z</strong> Endpunkte.<br>
+            <em>Berechne: (x &middot; 10) + y - z</em><br>
+            Lösung = <strong>A</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Gravur 2:</span> Die magischen Kreise.<br>
+            Der Durchmesser eines großen Kreises beträgt 48 cm. Der Radius eines zweiten, kleineren Kreises ist um genau 5 cm kleiner als der Radius des großen Kreises.<br>
+            <em>Wie lang ist der <strong>Durchmesser</strong> des kleineren Kreises in cm?</em><br>
+            Lösung = <strong>B</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Gravur 3:</span> Der königliche Teppich.<br>
+            Der rechteckige Vorraum der Kammer ist 12 m lang und 8 m breit. Er soll vollständig mit einem goldenen Teppich ausgelegt werden.<br>
+            <em>Wie viele Quadratmeter (m<sup>2</sup>) Teppich werden benötigt?</em><br>
+            Lösung = <strong>C</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Gravur 4:</span> Das Kantenmodell.<br>
+            Aus einem massiven Golddraht wurde das Kantenmodell eines Quaders gebogen. Der Quader ist 15 cm lang, 10 cm breit und 8 cm hoch.<br>
+            <em>Wie viele Zentimeter (cm) Draht wurden für <strong>alle Kanten zusammen</strong> benötigt?</em><br>
+            Lösung = <strong>D</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Gravur 5:</span> Die Zisterne des Pharao (Meisterstufe!).<br>
+            In der Kammer steht ein quaderförmiges Wasserbecken. Es ist 5 m lang, 4 m breit und 3 m tief und bis zum Rand mit Wasser gefüllt. <br>
+            (Zur Erinnerung: 1 m<sup>3</sup> entspricht 1000 Litern).<br>
+            <em>Wie viele <strong>Hektoliter (hl)</strong> Wasser befinden sich in dem Becken?</em><br>
+            Lösung = <strong>E</strong></p>
+        </div>
+
+        <div style="background: #eff6ff; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; border: 2px dashed #3b82f6; text-align: center;">
+            <h3 style="margin-top: 0; color: #1e3a8a;">🔑 Euer Geheimcode</h3>
+            <p>Bildet die <strong>Summe aller fünf Ergebnisse</strong> (A + B + C + D + E). Die Summe öffnet das schwere Steintor zum Finale!</p>
+            
+            <input type="text" id="codeInput" class="code-input" placeholder="CODE..." autocomplete="off">
+            <br>
+            <button class="check-btn" onclick="checkCode()">Tor öffnen 🗝️</button>
+            <p id="errorMsg" style="color: var(--pdf-red); font-weight: bold; display: none;">Das Tor bewegt sich nicht. (Tipp: Habt ihr beim Kantenmodell alle Kanten gezählt? Und bei der Zisterne auf Hektoliter geachtet?)</p>
+        </div>
+    </div>
+</main>
+
+<footer style="margin-top: 3rem; text-align: center; font-weight: bold; color: var(--text-muted);">
+    &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+</footer>
+
+<script>
+    function checkCode() {
+        const input = document.getElementById('codeInput').value.trim();
+        const errorMsg = document.getElementById('errorMsg');
+        
+        /* Lösungen für die Lehrkraft:
+           A: x=2, y=1, z=0. (2 * 10) + 1 - 0 = 21. -> 21
+           B: d1 = 48 -> r1 = 24. r2 = 24 - 5 = 19. d2 = 19 * 2 = 38. -> 38
+           C: A = a * b = 12 * 8 = 96. -> 96
+           D: Kanten = 4 * (a + b + c) = 4 * (15 + 10 + 8) = 4 * 33 = 132. -> 132
+           E: V = 5 * 4 * 3 = 60 m³. 60 m³ = 60 000 l. 1 hl = 100 l. 60 000 / 100 = 600 hl. -> 600
+           Summe: 21 + 38 + 96 + 132 + 600 = 887
+        */
+        
+        if (input === "887") {
+            document.body.style.backgroundColor = "#dcfce7";
+            errorMsg.style.display = "none";
+            setTimeout(() => {
+                window.location.href = 'finale.html'; 
+            }, 800);
+        } else {
+            errorMsg.style.display = "block";
+            const inputField = document.getElementById('codeInput');
+            inputField.style.transform = "translateX(-10px)";
+            setTimeout(() => inputField.style.transform = "translateX(10px)", 100);
+            setTimeout(() => inputField.style.transform = "translateX(-10px)", 200);
+            setTimeout(() => inputField.style.transform = "translateX(0)", 300);
+        }
+    }
+
+    document.getElementById('codeInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            checkCode();
+        }
+    });
+</script>
+
+</body>
+</html>

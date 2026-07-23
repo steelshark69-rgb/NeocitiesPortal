@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.1 Brüche & Eigenschaften - AHS 2. Klasse</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <style>
+        :root {
+            --math-primary: #3b82f6; /* Blau für Algebra & Brüche */
+            --math-dark: #1d4ed8;
+            --math-light: #eff6ff;
+            --fraction-color: #60a5fa;
+            --empty-color: #f1f5f9;
+        }
+
+        body { padding-bottom: 2rem; }
+
+        /* Custom Header Styling */
+        .page-header {
+            background-color: var(--math-primary);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        .page-header h1 { margin: 0; color: white; }
+        .page-header p { margin-top: 0.5rem; opacity: 0.9; color: white; }
+
+        /* Info & Theorie Boxen */
+        .theory-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            line-height: 1.6;
+        }
+        .theory-box h3 { color: var(--math-primary); margin-top: 0; font-size: 1.4rem; }
+        
+        .term-card {
+            background: #f8fafc;
+            border-left: 4px solid var(--math-primary);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .term-card strong { color: var(--math-dark); font-size: 1.2rem; display: block; margin-bottom: 8px;}
+
+        /* Brüche Typografie OHNE LaTeX */
+        .fraction {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            vertical-align: middle;
+            margin: 0 0.3rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .fraction > span:first-child {
+            border-bottom: 2px solid #1e293b;
+            padding: 0 0.3rem;
+        }
+        .fraction > span:last-child {
+            padding: 0 0.3rem;
+        }
+        .mixed-number {
+            display: inline-flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .mixed-number > .whole {
+            margin-right: 0.2rem;
+            font-size: 1.4rem;
+        }
+
+        /* Interaktives Labor */
+        .interactive-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            background: var(--math-light);
+            border: 2px solid #bfdbfe;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+        }
+        
+        .control-panel {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .input-group label {
+            font-weight: bold;
+            color: #475569;
+        }
+
+        .number-input {
+            width: 80px;
+            padding: 10px;
+            font-size: 1.5rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--math-dark);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .number-input:focus { border-color: var(--math-primary); }
+
+        .result-panel {
+            text-align: center;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        .status-echt { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+        .status-genau { background: #fef08a; color: #854d0e; border: 1px solid #fde047; }
+        .status-unecht { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header class="page-header">
+    <h1>2.1 Brüche und ihre Eigenschaften</h1>
+    <p>Teile des Ganzen vergleichen (Kapitel 2)</p>
+</header>
+
+<div class="back-nav" style="display: flex; justify-content: center; margin-bottom: 2rem;">
+    <a href="../index.html" class="btn-back" style="padding: 0.6rem 1.2rem; border-radius: 10px; background: #f8fafc; border: 1px solid #e2e8f0; color: #1e293b; text-decoration: none; font-weight: 700;">← Zurück zur Übersicht</a>
+</div>
+
+<main style="max-width: 1000px; margin: 0 auto; padding: 0 1.5rem;">
+
+    <section class="theory-box">
+        <h3>📚 Theorie: Weniger, genau oder mehr als ein Ganzes?</h3>
+        <p>Ein Bruch besteht immer aus einem <strong>Zähler</strong> (oben), einem <strong>Bruchstrich</strong> (in der Mitte) und einem <strong>Nenner</strong> (unten). Der Nenner gibt an, in wie viele gleich große Teile ein Ganzes (z. B. eine Pizza) geteilt wurde. Der Zähler gibt an, wie viele dieser Teile wir nehmen.</p>
+        
+        <p>Je nachdem, wie Zähler und Nenner zueinander stehen, unterscheiden wir drei wichtige Arten von Brüchen:</p>
+        
+        <div class="term-card" style="border-left-color: #166534;">
+            <strong style="color: #166534;">1. Weniger als ein Ganzes (Echter Bruch)</strong>
+            Der Zähler ist kleiner als der Nenner. Wir haben noch nicht einmal ein ganzes Stück voll.<br>
+            <em>Beispiel:</em> 
+            <div class="fraction"><span>3</span><span>4</span></div> 
+            (3 ist kleiner als 4)
+        </div>
+
+        <div class="term-card" style="border-left-color: #ca8a04;">
+            <strong style="color: #ca8a04;">2. Genau ein Ganzes (Sonderfall)</strong>
+            Der Zähler ist exakt gleich groß wie der Nenner. Wir haben alle Stücke, die ein Ganzes ausmachen.<br>
+            <em>Beispiel:</em> 
+            <div class="fraction"><span>4</span><span>4</span></div> 
+            = 1 Ganzes
+        </div>
+
+        <div class="term-card" style="border-left-color: #991b1b;">
+            <strong style="color: #991b1b;">3. Mehr als ein Ganzes (Unechter Bruch)</strong>
+            Der Zähler ist größer als der Nenner. Das bedeutet, wir haben mehr Stücke, als in ein einzelnes Ganzes hineinpassen. Wir brauchen also eine zweite (oder dritte) Pizza!<br>
+            <em>Beispiel:</em> 
+            <div class="fraction"><span>5</span><span>4</span></div> 
+            <br><br>
+            Diesen unechten Bruch können wir auch als <strong>gemischte Zahl</strong> anschreiben. 5 Viertel sind 1 Ganzes und noch 1 Viertel extra: 
+            <div class="mixed-number"><span class="whole">1</span><div class="fraction"><span>1</span><span>4</span></div></div>
+        </div>
+    </section>
+
+    <section class="interactive-section">
+        <div style="text-align: center;">
+            <h3 style="margin-top: 0; color: var(--math-dark); font-size: 1.8rem;">🍕 Das Pizza-Labor</h3>
+            <p style="margin-bottom: 0;">Verändere Zähler und Nenner, um zu sehen, wie sich der Bruch verändert.</p>
+        </div>
+
+        <div class="control-panel">
+            <div class="input-group">
+                <label for="zaehler">Zähler (Stücke)</label>
+                <input type="number" id="zaehler" class="number-input" value="5" min="0" max="24" oninput="updateFraction()">
+            </div>
+            
+            <div style="font-size: 2.5rem; font-weight: bold; color: #94a3b8; padding-top: 20px;">/</div>
+            
+            <div class="input-group">
+                <label for="nenner">Nenner (Teilung)</label>
+                <input type="number" id="nenner" class="number-input" value="4" min="1" max="12" oninput="updateFraction()">
+            </div>
+        </div>
+
+        <div class="result-panel">
+            <div id="status-display" class="status-badge status-unecht">Mehr als ein Ganzes (Unechter Bruch)</div>
+            
+            <div style="font-size: 1.3rem; margin-bottom: 1rem; color: #334155;">
+                Du hast eingestellt: 
+                <span id="text-fraction" class="fraction" style="font-size: 1.5rem;"><span>5</span><span>4</span></span>
+                <span id="mixed-text" style="display: none;">
+                    &nbsp;=&nbsp; 
+                    <span class="mixed-number" style="font-size: 1.5rem;"><span class="whole" id="mixed-whole">1</span><div class="fraction"><span id="mixed-num">1</span><span id="mixed-den">4</span></div></span>
+                </span>
+            </div>
+
+            <div class="canvas-container">
+                <canvas id="fractionCanvas" height="150"></canvas>
+            </div>
+            <p style="color: #64748b; font-size: 0.9rem; margin-top: 10px;">Blau markierte Stücke = Zähler. Graue Linien = Einteilung durch den Nenner.</p>
+        </div>
+    </section>
+
+</main>
+
+<footer style="margin-top: 5rem; padding: 2rem 1rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.9rem;">
+    <div style="max-width: 800px; margin: 0 auto 2rem auto; text-align: left; background: white; padding: 1.5rem; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <h4 style="margin-top: 0; color: #334155; font-size: 1.1rem;">Datenschutzhinweis (DSGVO)</h4>
+        <p style="margin-bottom: 0; line-height: 1.5;">Die Nutzung dieses Portals ist datenschutzkonform. Es werden keine Daten an externe Server gesendet. Die grafische Darstellung der Brüche wird ausschließlich lokal auf deinem Gerät mithilfe von JavaScript im Browser generiert.</p>
+    </div>
+    <div style="text-align: center; font-weight: bold;">
+        &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+    </div>
+</footer>
+
+<script>
+    function updateFraction() {
+        let num = parseInt(document.getElementById('zaehler').value);
+        let den = parseInt(document.getElementById('nenner').value);
+
+        // Sicherheitschecks
+        if (isNaN(num) || num < 0) num = 0;
+        if (isNaN(den) || den < 1) den = 1;
+        
+        // Limits für die Anzeige
+        if (num > 36) { num = 36; document.getElementById('zaehler').value = 36; }
+        if (den > 16) { den = 16; document.getElementById('nenner').value = 16; }
+
+        // Text & Status aktualisieren
+        const statusBadge = document.getElementById('status-display');
+        const textFraction = document.getElementById('text-fraction');
+        const mixedText = document.getElementById('mixed-text');
+        
+        textFraction.innerHTML = `<span>${num}</span><span>${den}</span>`;
+
+        if (num < den) {
+            statusBadge.className = 'status-badge status-echt';
+            statusBadge.innerText = 'Weniger als ein Ganzes (Echter Bruch)';
+            mixedText.style.display = 'none';
+        } else if (num === den) {
+            statusBadge.className = 'status-badge status-genau';
+            statusBadge.innerText = 'Genau ein Ganzes';
+            mixedText.style.display = 'inline-block';
+            mixedText.innerHTML = `&nbsp;=&nbsp; <strong>1</strong>`;
+        } else {
+            statusBadge.className = 'status-badge status-unecht';
+            statusBadge.innerText = 'Mehr als ein Ganzes (Unechter Bruch)';
+            
+            // Gemischte Zahl berechnen
+            let wholes = Math.floor(num / den);
+            let remainder = num % den;
+            
+            mixedText.style.display = 'inline-block';
+            if (remainder === 0) {
+                mixedText.innerHTML = `&nbsp;=&nbsp; <strong>${wholes}</strong>`;
+            } else {
+                mixedText.innerHTML = `
+                    &nbsp;=&nbsp; 
+                    <span class="mixed-number" style="font-size: 1.5rem;">
+                        <span class="whole">${wholes}</span>
+                        <div class="fraction"><span>${remainder}</span><span>${den}</span></div>
+                    </span>`;
+            }
+        }
+
+        // Canvas zeichnen
+        drawPizzas(num, den);
+    }
+
+    function drawPizzas(num, den) {
+        const canvas = document.getElementById('fractionCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        const radius = 60;
+        const spacing = 140;
+        const startX = 75;
+        const centerY = 75;
+        
+        // Wie viele ganze Kreise brauchen wir? (Mindestens 1, damit man den leeren Nenner sieht)
+        let totalCircles = Math.max(1, Math.ceil(num / den));
+        
+        // Canvas Breite dynamisch anpassen
+        canvas.width = Math.max(150, (totalCircles * spacing));
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        let slicesDrawn = 0;
+
+        for (let i = 0; i < totalCircles; i++) {
+            let cx = startX + (i * spacing);
+            
+            // Jeden Kreis in 'den' Stücke teilen
+            let sliceAngle = (2 * Math.PI) / den;
+            
+            // Startwinkel oben (12 Uhr) -> -Math.PI / 2
+            let currentAngle = -Math.PI / 2;
+
+            for (let s = 0; s < den; s++) {
+                ctx.beginPath();
+                ctx.moveTo(cx, centerY);
+                ctx.arc(cx, centerY, radius, currentAngle, currentAngle + sliceAngle);
+                ctx.lineTo(cx, centerY);
+                
+                // Färben: Sind noch Zähler-Stücke übrig?
+                // FIX: Canvas kann CSS-Variablen wie var(--color) oft nicht direkt verarbeiten. 
+                // Deshalb verwenden wir hier die direkten Hex-Codes.
+                if (slicesDrawn < num) {
+                    ctx.fillStyle = '#60a5fa'; // Blau für die markierten Stücke
+                    slicesDrawn++;
+                } else {
+                    ctx.fillStyle = '#f1f5f9'; // Hellgrau für die leeren Stücke
+                }
+                
+                ctx.fill();
+                
+                // Rahmen um jedes Stück (zur Trennung)
+                ctx.strokeStyle = '#94a3b8';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                
+                currentAngle += sliceAngle;
+            }
+            
+            // Dickerer Rahmen um den ganzen Kreis
+            ctx.beginPath();
+            ctx.arc(cx, centerY, radius, 0, 2 * Math.PI);
+            ctx.strokeStyle = '#1d4ed8'; // Dunkelblau für den äußeren Rand
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+    }
+
+    // Beim ersten Laden direkt initialisieren
+    window.addEventListener('load', updateFraction);
+</script>
+
+</body>
+</html>

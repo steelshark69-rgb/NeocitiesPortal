@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.2 Erweitern und Kürzen - AHS 2. Klasse</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <style>
+        :root {
+            --math-primary: #3b82f6; /* Blau für Algebra & Brüche */
+            --math-dark: #1d4ed8;
+            --math-light: #eff6ff;
+            --correct-bg: #d1fae5;
+            --correct-border: #10b981;
+            --incorrect-bg: #fee2e2;
+            --incorrect-border: #ef4444;
+        }
+
+        body { padding-bottom: 2rem; }
+
+        /* Custom Header Styling */
+        .page-header {
+            background-color: var(--math-primary);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        .page-header h1 { margin: 0; color: white; }
+        .page-header p { margin-top: 0.5rem; opacity: 0.9; color: white; }
+
+        /* Info & Theorie Boxen */
+        .theory-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            line-height: 1.6;
+            font-size: 1.1rem;
+            color: #1e293b;
+        }
+        .theory-box h3 { color: var(--math-primary); margin-top: 0; font-size: 1.4rem; }
+        
+        .term-card {
+            background: #f8fafc;
+            border-left: 4px solid var(--math-primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .term-card strong { color: var(--math-dark); font-size: 1.2rem; display: block; margin-bottom: 8px;}
+
+        /* Brüche Typografie OHNE LaTeX */
+        .fraction {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            vertical-align: middle;
+            margin: 0 0.5rem;
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #0f172a;
+        }
+        .fraction > span:first-child {
+            border-bottom: 2px solid #0f172a;
+            padding: 0 0.4rem;
+        }
+        .fraction > span:last-child {
+            padding: 0 0.4rem;
+        }
+
+        .math-operator {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #64748b;
+            margin: 0 10px;
+            vertical-align: middle;
+        }
+
+        /* Interaktive Challenge */
+        .interactive-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            background: var(--math-light);
+            border: 2px solid #bfdbfe;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .challenge-board {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin: 0 auto;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .task-instruction {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--math-dark);
+            margin-bottom: 2rem;
+            padding: 10px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            border: 1px dashed #94a3b8;
+        }
+
+        .equation-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .input-fraction {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .fraction-input {
+            width: 70px;
+            padding: 10px;
+            font-size: 1.5rem;
+            text-align: center;
+            font-weight: bold;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            outline: none;
+            transition: 0.2s;
+            color: #0f172a;
+        }
+        .fraction-input:focus { border-color: var(--math-primary); box-shadow: 0 0 8px rgba(59, 130, 246, 0.3); }
+        
+        .fraction-line {
+            width: 100%;
+            height: 3px;
+            background-color: #0f172a;
+            border-radius: 2px;
+        }
+
+        .btn-check {
+            background-color: var(--math-primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+        }
+        .btn-check:hover { background-color: var(--math-dark); }
+        .btn-next { background-color: #10b981; display: none; }
+        .btn-next:hover { background-color: #059669; }
+
+        .score-board {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #475569;
+            margin-top: 1rem;
+        }
+
+        /* Pfeile für die Operation */
+        .operation-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--math-primary);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .arrow-line {
+            font-size: 2rem;
+            line-height: 0.5;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body style="background-color: var(--bg); color: var(--text-main); font-family: sans-serif;">
+
+<header class="page-header">
+    <h1>2.2 Erweitern und kürzen</h1>
+    <p>Brüche verändern, ohne ihren Wert zu ändern (Kapitel 2)</p>
+</header>
+
+<div class="back-nav" style="display: flex; justify-content: center; margin-bottom: 2rem;">
+    <a href="../index.html" class="btn-back" style="padding: 0.6rem 1.2rem; border-radius: 10px; background: #f8fafc; border: 1px solid #e2e8f0; color: #1e293b; text-decoration: none; font-weight: 700;">← Zurück zur Übersicht</a>
+</div>
+
+<main style="max-width: 1000px; margin: 0 auto; padding: 0 1.5rem;">
+
+    <!-- THEORIE BEREICH -->
+    <section class="theory-box">
+        <h3>📚 Theorie: Die magische Verwandlung</h3>
+        <p>Manchmal sieht ein Bruch ganz anders aus als ein anderer, obwohl beide <strong>exakt gleich viel</strong> wert sind! Stell dir eine halbe Pizza vor. Wenn du dieses halbe Pizzastück in der Mitte durchschneidest, hast du plötzlich zwei Stücke. Aber hast du dadurch mehr Pizza zum Essen? Nein! Die Stücke sind nur kleiner geworden.</p>
+        
+        <div style="display: flex; align-items: center; justify-content: center; background: #f8fafc; padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0; margin: 2rem 0; font-size: 1.5rem;">
+            <div class="fraction"><span>1</span><span>2</span></div>
+            <span class="math-operator">=</span>
+            <div class="fraction"><span>2</span><span>4</span></div>
+            <span class="math-operator">=</span>
+            <div class="fraction"><span>4</span><span>8</span></div>
+        </div>
+
+        <div class="term-card">
+            <strong>✖️ Erweitern (Stücke werden mehr, aber kleiner)</strong>
+            Beim Erweitern multiplizierst du den Zähler (oben) UND den Nenner (unten) mit <strong>derselben Zahl</strong>. Der Wert des Bruchs ändert sich dabei nicht!<br>
+            <em>Beispiel (Erweitern mit 3):</em><br>
+            <div style="margin-top: 10px; display: flex; align-items: center;">
+                <div class="fraction"><span>2</span><span>5</span></div>
+                <div class="operation-arrow" style="margin: 0 15px;">
+                    <span>· 3</span>
+                    <span class="arrow-line">➔</span>
+                    <span>· 3</span>
+                </div>
+                <div class="fraction"><span>6</span><span>15</span></div>
+            </div>
+        </div>
+
+        <div class="term-card" style="border-left-color: #059669;">
+            <strong style="color: #059669;">➗ Kürzen (Stücke werden weniger, aber größer)</strong>
+            Beim Kürzen gehst du den umgekehrten Weg. Du dividierst den Zähler UND den Nenner durch <strong>dieselbe Zahl</strong>. Das macht den Bruch übersichtlicher. Einen Bruch zu kürzen ist nur möglich, wenn Zähler und Nenner einen gemeinsamen Teiler haben.<br>
+            <em>Beispiel (Kürzen durch 4):</em><br>
+            <div style="margin-top: 10px; display: flex; align-items: center;">
+                <div class="fraction"><span>8</span><span>12</span></div>
+                <div class="operation-arrow" style="margin: 0 15px; color: #059669;">
+                    <span>: 4</span>
+                    <span class="arrow-line">➔</span>
+                    <span>: 4</span>
+                </div>
+                <div class="fraction"><span>2</span><span>3</span></div>
+            </div>
+            <br>
+            <strong>Vollständig kürzen:</strong> Das bedeutet, du kürzt so lange, bis Zähler und Nenner keine gemeinsamen Teiler mehr haben (außer der 1).
+        </div>
+    </section>
+
+    <!-- INTERAKTIVES LABOR -->
+    <section class="interactive-section">
+        <h3 style="margin-top: 0; color: var(--math-dark); font-size: 1.8rem;">🏆 Die Kürz- & Erweiter-Challenge</h3>
+        <p style="margin-bottom: 0;">Löse die Aufgaben, indem du den neuen Zähler und Nenner in die Felder tippst.</p>
+
+        <div class="challenge-board">
+            <div id="instruction" class="task-instruction">
+                Erweitere den Bruch mit <strong>3</strong>
+            </div>
+
+            <div class="equation-area">
+                <div class="fraction" style="font-size: 2rem;">
+                    <span id="start-num">2</span>
+                    <span id="start-den">5</span>
+                </div>
+                
+                <div class="operation-arrow" style="margin: 0 15px;">
+                    <span id="op-top" style="font-size: 1.2rem;">· 3</span>
+                    <span class="arrow-line">➔</span>
+                    <span id="op-bot" style="font-size: 1.2rem;">· 3</span>
+                </div>
+
+                <div class="input-fraction">
+                    <input type="number" id="input-num" class="fraction-input" placeholder="?">
+                    <div class="fraction-line"></div>
+                    <input type="number" id="input-den" class="fraction-input" placeholder="?">
+                </div>
+            </div>
+
+            <p id="feedback-msg" style="font-weight: bold; font-size: 1.2rem; min-height: 25px; margin-bottom: 1.5rem;"></p>
+
+            <button id="btn-submit" class="btn-check" onclick="checkAnswer()">Ergebnis prüfen</button>
+            <button id="btn-next" class="btn-check btn-next" onclick="generateChallenge()">Nächste Aufgabe ➔</button>
+
+            <div class="score-board">
+                ⭐ Score: <span id="score-display">0</span>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer style="margin-top: 5rem; padding: 2rem 1rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.9rem;">
+    <div style="max-width: 800px; margin: 0 auto 2rem auto; text-align: left; background: white; padding: 1.5rem; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <h4 style="margin-top: 0; color: #334155; font-size: 1.1rem;">Datenschutzhinweis (DSGVO)</h4>
+        <p style="margin-bottom: 0; line-height: 1.5;">Die Nutzung dieses Portals ist datenschutzkonform. Es werden keine Daten an externe Server gesendet. Die Aufgabengenerierung und Auswertung der Challenge passiert komplett lokal in deinem Browser.</p>
+    </div>
+    <div style="text-align: center; font-weight: bold;">
+        &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+    </div>
+</footer>
+
+<script>
+    let currentTask = {};
+    let score = 0;
+
+    // Hilfsfunktion: Zufallszahl zwischen min und max (inklusive)
+    function randInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function generateChallenge() {
+        // Reset UI
+        document.getElementById('input-num').value = "";
+        document.getElementById('input-den').value = "";
+        document.getElementById('input-num').style.borderColor = "#cbd5e1";
+        document.getElementById('input-num').style.backgroundColor = "white";
+        document.getElementById('input-den').style.borderColor = "#cbd5e1";
+        document.getElementById('input-den').style.backgroundColor = "white";
+        
+        document.getElementById('feedback-msg').innerText = "";
+        document.getElementById('btn-submit').style.display = "inline-block";
+        document.getElementById('btn-next').style.display = "none";
+        document.getElementById('input-num').focus();
+
+        // Aufgabe generieren
+        const isExpand = Math.random() < 0.6; // 60% Erweitern, 40% Kürzen
+        const factor = randInt(2, 6);
+        
+        // Einen schönen, irreduziblen Basisbruch generieren (z.B. 1/2, 2/3, 3/4, 2/5...)
+        let baseNum = randInt(1, 5);
+        let baseDen = baseNum + randInt(1, 4);
+        
+        if (isExpand) {
+            currentTask = {
+                mode: 'expand',
+                factor: factor,
+                startNum: baseNum,
+                startDen: baseDen,
+                targetNum: baseNum * factor,
+                targetDen: baseDen * factor
+            };
+            
+            document.getElementById('instruction').innerHTML = `Erweitere den Bruch mit <strong>${factor}</strong>`;
+            document.getElementById('op-top').innerText = `· ${factor}`;
+            document.getElementById('op-bot').innerText = `· ${factor}`;
+            document.querySelector('.operation-arrow').style.color = "var(--math-primary)";
+            
+        } else {
+            currentTask = {
+                mode: 'simplify',
+                factor: factor,
+                startNum: baseNum * factor, // Wir zeigen den großen Bruch
+                startDen: baseDen * factor,
+                targetNum: baseNum,         // Das Ziel ist der kleine Bruch
+                targetDen: baseDen
+            };
+            
+            document.getElementById('instruction').innerHTML = `Kürze den Bruch durch <strong>${factor}</strong>`;
+            document.getElementById('op-top').innerText = `: ${factor}`;
+            document.getElementById('op-bot').innerText = `: ${factor}`;
+            document.querySelector('.operation-arrow').style.color = "#059669"; // Grün für Kürzen
+        }
+
+        // Werte ins HTML eintragen
+        document.getElementById('start-num').innerText = currentTask.startNum;
+        document.getElementById('start-den').innerText = currentTask.startDen;
+    }
+
+    function checkAnswer() {
+        const inNum = parseInt(document.getElementById('input-num').value);
+        const inDen = parseInt(document.getElementById('input-den').value);
+        const feedback = document.getElementById('feedback-msg');
+        
+        const numField = document.getElementById('input-num');
+        const denField = document.getElementById('input-den');
+
+        if (isNaN(inNum) || isNaN(inDen)) {
+            feedback.innerText = "Bitte fülle beide Felder aus!";
+            feedback.style.color = "#ef4444";
+            return;
+        }
+
+        const isNumCorrect = inNum === currentTask.targetNum;
+        const isDenCorrect = inDen === currentTask.targetDen;
+
+        // Styling für Zähler
+        if (isNumCorrect) {
+            numField.style.borderColor = "var(--correct-border)";
+            numField.style.backgroundColor = "var(--correct-bg)";
+        } else {
+            numField.style.borderColor = "var(--incorrect-border)";
+            numField.style.backgroundColor = "var(--incorrect-bg)";
+        }
+
+        // Styling für Nenner
+        if (isDenCorrect) {
+            denField.style.borderColor = "var(--correct-border)";
+            denField.style.backgroundColor = "var(--correct-bg)";
+        } else {
+            denField.style.borderColor = "var(--incorrect-border)";
+            denField.style.backgroundColor = "var(--incorrect-bg)";
+        }
+
+        if (isNumCorrect && isDenCorrect) {
+            feedback.innerText = "🎉 Perfekt! Richtig berechnet.";
+            feedback.style.color = "#059669";
+            score += 10;
+            document.getElementById('score-display').innerText = score;
+            
+            // Buttons umschalten
+            document.getElementById('btn-submit').style.display = "none";
+            document.getElementById('btn-next').style.display = "inline-block";
+            document.getElementById('btn-next').focus();
+        } else {
+            feedback.innerText = "Das stimmt noch nicht ganz. Rechne noch einmal nach!";
+            feedback.style.color = "#ef4444";
+            score = Math.max(0, score - 2); // Punktabzug, aber nicht unter 0
+            document.getElementById('score-display').innerText = score;
+        }
+    }
+
+    // Enter-Taste Support für die Eingabefelder
+    document.getElementById('input-num').addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById('input-den').focus(); // Springe zum Nenner
+        }
+    });
+
+    document.getElementById('input-den').addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            if(document.getElementById('btn-submit').style.display !== "none") {
+                checkAnswer();
+            } else {
+                generateChallenge(); // Falls schon richtig, generiere gleich eine neue
+            }
+        }
+    });
+
+    // Start
+    window.addEventListener('load', generateChallenge);
+
+</script>
+
+</body>
+</html>

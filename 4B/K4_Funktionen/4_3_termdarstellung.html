@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.3 Termdarstellung | Prof. Schweitzer</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        /* Spezifische Styles für dieses Kapitel */
+        .explanation-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary, #2563eb);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .highlight-box {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        /* Interaktiv 1: Quiz */
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #cbd5e1;
+            margin-bottom: 2rem;
+        }
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #334155;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .option-btn {
+            padding: 1rem;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-family: monospace;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option-btn:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+        .option-btn.correct {
+            background: #dcfce7;
+            border-color: #22c55e;
+            color: #166534;
+        }
+        .option-btn.wrong {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #991b1b;
+        }
+
+        /* Interaktiv 2: Graphen-Zuordnung */
+        .matching-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        .graph-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        canvas {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            max-width: 100%;
+            margin-bottom: 1rem;
+        }
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            border: 1px solid #94a3b8;
+            font-family: monospace;
+        }
+        .feedback-icon {
+            margin-left: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Kapitel 4.3</h1>
+    <p>Termdarstellung reeller Funktionen</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">⬅ Zurück zur Übersicht</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Erklärung</span>
+            <h2 style="margin: 0; color: var(--primary);">Vom Text zur Mathematik</h2>
+        </div>
+
+        <div class="explanation-box">
+            <p>Bisher haben wir Funktionen oft mit Worten beschrieben, zum Beispiel: <em>"Jeder Zahl wird das Doppelte ihres Quadrats zugeordnet."</em></p>
+            <p>In der Mathematik wollen wir das kürzer und präziser aufschreiben. Dafür geben wir der Funktion einen Namen (meistens <i>f</i>). Die Ausgangsgröße (oft <i>x</i>) nennen wir <strong>Argument</strong> oder <strong>Stelle</strong>. Das, was herauskommt, ist der <strong>Funktionswert</strong> <i>f(x)</i>.</p>
+        </div>
+
+        <div class="highlight-box">
+            <h4 style="margin-top: 0; color: #b45309;">⚠️ Wichtige Unterscheidung!</h4>
+            <p style="margin-bottom: 0;">
+                Unterscheide genau zwischen der Funktion <strong><i>f</i></strong> (das ist die "Maschine" oder die Regel selbst) und dem Funktionswert <strong><i>f(x)</i></strong> (das ist das fertige Ergebnis, eine Zahl!). <br><br>
+                Wenn die Regel durch einen Term gegeben ist (z.B. 2<i>x</i><sup>2</sup>), schreiben wir: <br>
+                <strong><i>f(x)</i> = 2<i>x</i><sup>2</sup></strong> <br>
+                Das nennt man die <strong>Termdarstellung</strong> der Funktion.
+            </p>
+        </div>
+    </div>
+
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Interaktiv</span>
+            <h2 style="margin: 0; color: var(--primary);">Übersetzer: Text zu Term (Aufgabe 4.25)</h2>
+        </div>
+        
+        <p>Lies dir den Text genau durch und wähle die korrekte Termdarstellung aus. Klicke auf die richtige Antwort!</p>
+
+        <div class="quiz-container">
+            <div class="question-text" id="quizQuestion">Lade Frage...</div>
+            <div class="options-grid" id="quizOptions">
+                </div>
+            <button id="nextBtn" style="margin-top: 1.5rem; padding: 0.5rem 1rem; display: none; cursor: pointer; background: var(--primary); color: white; border: none; border-radius: 4px;">Nächste Frage ➡</button>
+        </div>
+    </div>
+
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Interaktiv</span>
+            <h2 style="margin: 0; color: var(--primary);">Graphen zuordnen (Aufgabe 4.26)</h2>
+        </div>
+        
+        <p>Welche Termdarstellung passt zu welchem Graphen? Überlege dir, wie sich das Vorzeichen (-) oder der Faktor (z.B. 2) auf den Verlauf der Geraden oder Parabel auswirkt. Wähle die passende Funktion aus dem Dropdown-Menü.</p>
+
+        <div class="matching-container" id="matchingGrid">
+            </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        
+        /* =========================================================
+           INTERAKTIV 1: Text-zu-Term Quiz (Logik)
+           ========================================================= */
+        const quizData = [
+            {
+                text: "a) Eine Funktion f ordnet jedem Argument x die Hälfte des Arguments zu.",
+                options: ["f(x) = 2x", "f(x) = 0,5x", "f(x) = x + 0,5", "f(x) = x²"],
+                correct: 1
+            },
+            {
+                text: "b) Eine Funktion r ordnet jedem Argument x das Dreifache des Arguments zu.",
+                options: ["r(x) = x/3", "r(x) = x³", "r(x) = 3x", "r(x) = 3 + x"],
+                correct: 2
+            },
+            {
+                text: "c) Eine Funktion V ordnet jedem Argument t den Kehrwert von t zu.",
+                options: ["V(t) = -t", "V(t) = 1/t", "V(t) = t - 1", "V(t) = 0"],
+                correct: 1
+            },
+            {
+                text: "d) Eine Funktion p ordnet jedem Argument t das Fünffache des Quadrats von t zu.",
+                options: ["p(t) = (5t)²", "p(t) = 5t", "p(t) = 5t²", "p(t) = 5 + t²"],
+                correct: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        const questionEl = document.getElementById("quizQuestion");
+        const optionsEl = document.getElementById("quizOptions");
+        const nextBtn = document.getElementById("nextBtn");
+
+        function loadQuestion() {
+            nextBtn.style.display = "none";
+            const q = quizData[currentQuestion];
+            questionEl.textContent = q.text;
+            optionsEl.innerHTML = "";
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.textContent = opt;
+                btn.onclick = () => checkAnswer(btn, index, q.correct);
+                optionsEl.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(btn, selected, correct) {
+            // Alle Buttons deaktivieren nach Klick
+            Array.from(optionsEl.children).forEach(b => b.style.pointerEvents = "none");
+            
+            if (selected === correct) {
+                btn.classList.add("correct");
+                nextBtn.style.display = "block";
+            } else {
+                btn.classList.add("wrong");
+                optionsEl.children[correct].classList.add("correct"); // Zeige richtige Antwort
+                nextBtn.style.display = "block";
+            }
+
+            if (currentQuestion === quizData.length - 1) {
+                nextBtn.textContent = "Quiz neu starten 🔄";
+            }
+        }
+
+        nextBtn.onclick = () => {
+            currentQuestion++;
+            if (currentQuestion >= quizData.length) {
+                currentQuestion = 0;
+                nextBtn.textContent = "Nächste Frage ➡";
+            }
+            loadQuestion();
+        };
+
+        // Quiz starten
+        loadQuestion();
+
+
+        /* =========================================================
+           INTERAKTIV 2: Graphen-Zuordnung (Logik)
+           ========================================================= */
+        const graphsData = [
+            { id: "canvas1", func: (x) => 2*x, correctTerm: "2x", label: "Graph 1" },
+            { id: "canvas2", func: (x) => -Math.pow(x, 2), correctTerm: "-x²", label: "Graph 2" },
+            { id: "canvas3", func: (x) => -2*x, correctTerm: "-2x", label: "Graph 3" },
+            { id: "canvas4", func: (x) => Math.pow(x, 2), correctTerm: "x²", label: "Graph 4" }
+        ];
+
+        const terms = ["Bitte wählen...", "f(x) = -x²", "f(x) = -2x", "f(x) = 2x", "f(x) = x²"];
+        const termValues = ["", "-x²", "-2x", "2x", "x²"];
+        
+        const matchingGrid = document.getElementById("matchingGrid");
+
+        function drawCoordinateSystem(ctx, width, height) {
+            const scale = 25; // 25px pro Einheit
+            const originX = width / 2;
+            const originY = height / 2;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Raster
+            ctx.beginPath();
+            ctx.strokeStyle = "#e2e8f0";
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= width; i += scale) {
+                ctx.moveTo(i, 0); ctx.lineTo(i, height);
+                ctx.moveTo(0, i); ctx.lineTo(width, i);
+            }
+            ctx.stroke();
+
+            // Achsen
+            ctx.beginPath();
+            ctx.strokeStyle = "#334155";
+            ctx.lineWidth = 2;
+            ctx.moveTo(0, originY); ctx.lineTo(width, originY); // X
+            ctx.moveTo(originX, 0); ctx.lineTo(originX, height); // Y
+            ctx.stroke();
+            
+            // Markierungen (grob)
+            ctx.fillStyle = "#334155";
+            ctx.font = "10px sans-serif";
+            ctx.fillText("x", width - 10, originY - 5);
+            ctx.fillText("f(x)", originX + 5, 10);
+            
+            return { scale, originX, originY };
+        }
+
+        function plotFunction(ctx, width, height, funcParams, mathFunc) {
+            ctx.beginPath();
+            ctx.strokeStyle = "#2563eb"; // var(--primary)
+            ctx.lineWidth = 3;
+
+            for (let px = 0; px <= width; px++) {
+                // Pixel in Koordinaten umwandeln
+                let x = (px - funcParams.originX) / funcParams.scale;
+                let y = mathFunc(x);
+                
+                // Zurück in Pixel umwandeln
+                let py = funcParams.originY - (y * funcParams.scale);
+
+                if (px === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+        }
+
+        // DOM Elemente für die Graphen aufbauen
+        graphsData.forEach((graph, index) => {
+            const card = document.createElement("div");
+            card.className = "graph-card";
+
+            const canvas = document.createElement("canvas");
+            canvas.id = graph.id;
+            canvas.width = 200;
+            canvas.height = 200;
+            
+            const selectContainer = document.createElement("div");
+            selectContainer.style.width = "100%";
+            selectContainer.style.display = "flex";
+            selectContainer.style.alignItems = "center";
+
+            const select = document.createElement("select");
+            terms.forEach((term, i) => {
+                const option = document.createElement("option");
+                option.value = termValues[i];
+                option.textContent = term;
+                select.appendChild(option);
+            });
+
+            const feedback = document.createElement("span");
+            feedback.className = "feedback-icon";
+
+            select.addEventListener("change", (e) => {
+                if (e.target.value === "") {
+                    feedback.textContent = "";
+                    select.style.borderColor = "#94a3b8";
+                } else if (e.target.value === graph.correctTerm) {
+                    feedback.textContent = "✅";
+                    select.style.borderColor = "#22c55e";
+                    select.style.backgroundColor = "#dcfce7";
+                    select.disabled = true; // Sperren wenn richtig
+                } else {
+                    feedback.textContent = "❌";
+                    select.style.borderColor = "#ef4444";
+                    select.style.backgroundColor = "#fee2e2";
+                }
+            });
+
+            selectContainer.appendChild(select);
+            selectContainer.appendChild(feedback);
+
+            card.appendChild(canvas);
+            card.appendChild(selectContainer);
+            matchingGrid.appendChild(card);
+
+            // Graphen zeichnen
+            const ctx = canvas.getContext("2d");
+            const params = drawCoordinateSystem(ctx, canvas.width, canvas.height);
+            plotFunction(ctx, canvas.width, canvas.height, params, graph.func);
+        });
+
+    });
+</script>
+
+</body>
+</html>

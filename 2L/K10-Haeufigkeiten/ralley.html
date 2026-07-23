@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geheimagenten Rallye - Statistik</title>
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body style="position: relative; min-height: 100vh; background-color: #f8fafc;">
+
+<header style="background-color: #0f172a; color: white; border-bottom: 4px solid #38bdf8;">
+    <h1 style="color: #38bdf8; font-family: monospace;">> TOP SECRET: Mission Notenrettung_</h1>
+    <p style="color: #94a3b8; font-family: monospace;">System-Analyse K10 // Statistik Escape-Room</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">⬅ Verbindung trennen (Zurück)</a>
+    </div>
+</header>
+
+<main style="max-width: 850px; padding-bottom: 5rem; margin: 2rem auto;">
+    
+    <!-- Startbildschirm -->
+    <div id="intro-screen" class="subject-group" style="background: #1e293b; border: 2px solid #38bdf8; padding: 3rem 2rem; border-radius: 12px; text-align: center; box-shadow: 0 10px 25px rgba(56, 189, 248, 0.2); color: white;">
+        <h2 style="color: #ef4444; margin-top: 0; font-size: 2.5rem; font-family: monospace;">🚨 SYSTEM COMPROMISED 🚨</h2>
+        <p style="font-size: 1.1rem; margin-bottom: 1.5rem; text-align: left; color: #cbd5e1; line-height: 1.6;">
+            Agenten der 2L! Der berüchtigte Hacker "ZeroDay" hat sich Zugriff auf den Schul-Server verschafft und alle Mathe-Zeugnisnoten in einem stark verschlüsselten Daten-Tresor gesperrt.<br><br>
+            Er hält sich selbst für ein Statistik-Genie und hat den Master-Code in seinen Log-Dateien versteckt. Euer Auftrag: Analysiert seine Daten, wendet euer Wissen aus Kapitel 10 an und knackt den 10-stelligen Tresor!
+        </p>
+        
+        <div style="background: #0f172a; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #10b981; margin-bottom: 2rem; text-align: left;">
+            <p style="margin: 0; color: #10b981; font-family: monospace;">> Benötigtes Wissen: <br>
+            - Absolute & Relative Häufigkeit<br>
+            - Spannweite, Median & Mittelwert<br>
+            - Kreisdiagramme & Baumdiagramme</p>
+        </div>
+        
+        <p style="font-size: 1.1rem; margin-bottom: 1rem; color: #38bdf8; font-weight: bold;">Loggt euer Agenten-Team ins System ein:</p>
+        
+        <input type="text" id="team-name-input" class="input-field" placeholder="Team-Deckname (z.B. Alpha-Wölfe)" style="margin-bottom: 1.5rem; text-align: center; max-width: 350px; background: #0f172a; color: #38bdf8; border: 1px solid #38bdf8;">
+        <br>
+        <button onclick="startRallye()" class="class-pill" style="background-color: #38bdf8; color: #0f172a; font-size: 1.2rem; font-weight: bold; border: none; padding: 1rem 2rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);">Hack-Sequenz starten 💻</button>
+        <p id="intro-error" style="color: #ef4444; display: none; margin-top: 1rem; font-weight: bold;">Identität unbekannt. Bitte Decknamen eingeben!</p>
+    </div>
+
+    <!-- Hauptspielbereich (anfangs versteckt) -->
+    <div id="game-area" style="display: none;">
+        
+        <!-- Status Anzeige (Das gesuchte Passwort) -->
+        <div style="background: #0f172a; border: 2px solid #334155; border-radius: 12px; padding: 1.5rem; text-align: center; margin-bottom: 2rem; color: white; box-shadow: inset 0 0 20px rgba(0,0,0,0.5);">
+            <h3 style="margin-top: 0; color: #64748b; font-family: monospace; letter-spacing: 2px; font-size: 1rem;">// TRESOR MASTER-KEY //</h3>
+            <div id="code-display" style="font-size: 2.5rem; font-family: monospace; letter-spacing: 10px; font-weight: bold; color: #ef4444; text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);">
+                - - - - - : - - - - -
+            </div>
+            <p style="margin-bottom: 0; margin-top: 10px; color: #94a3b8; font-size: 0.85rem;">Fortschritt der Entschlüsselung</p>
+        </div>
+
+        <!-- Quiz-Behälter -->
+        <div id="quiz-container">
+            <!-- Hier werden die Rätsel per JS eingefügt -->
+        </div>
+    </div>
+
+    <!-- Erfolgsbildschirm (anfangs versteckt) -->
+    <div id="success-screen" style="display: none; text-align: center; background: #0f172a; border-radius: 12px; padding: 3rem; border: 4px solid #10b981; animation: fadeIn 0.8s; color: white;">
+        <h1 style="color: #10b981; font-size: 3rem; margin-top: 0; font-family: monospace;">> ACCESS GRANTED 🔓</h1>
+        <p style="font-size: 1.2rem; color: #94a3b8;">Firewall offline. Der Tresor ist geöffnet. Die Noten sind sicher!</p>
+        
+        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; padding: 1.5rem; border-radius: 8px; margin: 2rem 0;">
+            <p style="font-size: 1rem; color: #10b981; margin: 0; text-transform: uppercase;">Zertifikat der Cyber-Abwehr ausgestellt für:</p>
+            <h2 id="cert-team-name" style="font-size: 2.5rem; color: white; margin: 10px 0; font-family: monospace;"></h2>
+        </div>
+        
+        <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem auto; line-height: 1.6;">
+            Hervorragende Arbeit! Ihr habt den 10-stelligen Code des Hackers geknackt. Ihr seid nun offizielle Meister-Analysten der Abteilung <strong>K10 (Häufigkeiten & Kombinatorik)</strong>.
+        </p>
+        
+        <div style="font-size: 4rem; margin-bottom: 2rem;">
+            📊 🕵️‍♀️ 💾
+        </div>
+        
+        <p style="font-size: 1.2rem; font-weight: bold; color: #38bdf8; margin-bottom: 2rem;">Meldet Prof. Schweitzer sofort die erfolgreiche Beendigung der Mission!</p>
+        
+        <a href="../index.html" class="class-pill" style="background: white; color: #0f172a; font-size: 1.1rem; padding: 1rem 2rem; text-decoration: none; font-weight: bold;">Zurück zur Basis</a>
+    </div>
+</main>
+
+<style>
+    .input-field {
+        padding: 1rem 1.2rem;
+        font-size: 1.2rem;
+        border-radius: 8px;
+        border: 2px solid #cbd5e1;
+        margin-bottom: 1.5rem;
+        width: 100%;
+        max-width: 250px;
+        box-sizing: border-box;
+        transition: 0.2s;
+        font-family: monospace;
+    }
+    .input-field:focus {
+        border-color: #38bdf8;
+        outline: none;
+        box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+    }
+    
+    .hacker-quote {
+        background: #1e293b;
+        color: #10b981;
+        padding: 1rem;
+        border-radius: 6px;
+        border-left: 4px solid #10b981;
+        margin-bottom: 1.5rem;
+        font-family: monospace;
+        font-size: 1.05rem;
+    }
+</style>
+
+<script>
+    let teamName = "";
+    let currentPuzzleIndex = 0;
+    // 10-teiliger Code
+    let crackedCode = ["_", "_", "_", "_", "_", "_", "_", "_", "_", "_"]; 
+
+    // Die Rätsel-Konfiguration (10 Stationen)
+    const puzzles = [
+        {
+            title: "Log 1/10: Die gefälschte Urliste",
+            story: "Der Hacker hat folgende Urliste hinterlassen, um uns auf eine falsche Fährte zu locken: <br><strong style='font-size: 1.5rem; letter-spacing: 5px; color: #ea580c; display: block; margin: 15px 0;'>2, 5, 2, 7, 2, 5, 9, 2</strong><br>Um die erste Zahl für den Tresor zu erhalten, müssen wir den häufigsten Wert finden.",
+            question: "Wie lautet die <strong>absolute Häufigkeit</strong> der Zahl 2?",
+            inputType: "number",
+            correctAnswer: 4,
+            hint: "Zähle einfach, wie oft die Ziffer 2 in der Liste vorkommt."
+        },
+        {
+            title: "Log 2/10: Daten retten (Anteile)",
+            story: "<div class='hacker-quote'>> HAHA! Stufe 1 war zu einfach. Mal sehen, ob ihr auch mit relativen Häufigkeiten umgehen könnt!</div>Das System zeigt an, dass von insgesamt <strong>50 infizierten Dateien</strong> bereits <strong>15 Dateien</strong> gerettet wurden.",
+            question: "Wie hoch ist die relative Häufigkeit der geretteten Dateien in <strong>Prozent (%)</strong>?",
+            inputType: "number",
+            correctAnswer: 30,
+            hint: "Stelle den Bruch auf (15/50). Erweitere den Bruch auf Hundertstel (mal 2), um die Prozentzahl zu erhalten."
+        },
+        {
+            title: "Log 3/10: Das versteckte Minimum",
+            story: "Gute Arbeit. Die Firewall schwankt. Der nächste Hinweis lautet: <br><em>'Ich habe 5 Verschlüsselungscodes gelöscht. Ihre Längen in Bit waren: 14, 18, 11, 23, 15. Die gesuchte Tresor-Zahl ist die Spannweite dieser Daten.'</em>",
+            question: "Berechne die <strong>Spannweite</strong> dieser Datenliste.",
+            inputType: "number",
+            correctAnswer: 12,
+            hint: "Die Spannweite berechnet man, indem man das Minimum (den kleinsten Wert, 11) vom Maximum (dem größten Wert, 23) abzieht."
+        },
+        {
+            title: "Log 4/10: Die Mitte der Verwirrung",
+            story: "<div class='hacker-quote'>> Ihr seid hartnäckig... aber den wahren Zentralwert meiner Lieblinge findet ihr nie! Sie lauten: 8, 1, 9, 3 und 6.</div>Um den ersten Block des Master-Keys vorzubereiten, brauchen wir die wahre Mitte.",
+            question: "Ermittle den <strong>Median (Zentralwert)</strong> dieser Zahlen.",
+            inputType: "number",
+            correctAnswer: 6,
+            hint: "Denke daran: Bevor du den Median in der Mitte ablesen kannst, musst du die Liste zwingend der Größe nach ordnen! (1, 3, ...)"
+        },
+        {
+            title: "Log 5/10: Der durchschnittliche Hacker",
+            story: "Der erste Block ist fast geknackt! Das System bootet neu. Das nächste Rätsel lautet: <br><em>'Ein echter Hacker arbeitet viel. In den letzten drei Tagen habe ich 10 Stunden, 8 Stunden und 6 Stunden programmiert. Die fünfte Tresor-Zahl ist meine durchschnittliche Arbeitszeit.'</em>",
+            question: "Berechne das <strong>arithmetische Mittel (Durchschnitt)</strong> dieser Stunden.",
+            inputType: "number",
+            correctAnswer: 8,
+            hint: "Addiere alle drei Werte zusammen und dividiere die Summe dann durch die Anzahl der Werte (durch 3)."
+        },
+        {
+            title: "Log 6/10: Das zerstörte Kreisdiagramm",
+            story: "<div class='hacker-quote'>> Mist, meine Algorithmen versagen! Einer meiner Sektoren im Kreisdiagramm, der 10 % der Daten darstellt, wurde gelöscht. Wie groß war er?</div>",
+            question: "Welchen <strong>Winkel (in Grad)</strong> hat ein Sektor in einem Kreisdiagramm, der exakt 10 % darstellt?",
+            inputType: "number",
+            correctAnswer: 36,
+            hint: "Ein ganzer Kreis hat 360 Grad (das sind 100 %). Wenn du 10 % suchst, musst du die 360 durch 10 teilen."
+        },
+        {
+            title: "Log 7/10: Durch das Labyrinth (Kombinatorik)",
+            story: "Jetzt wird es mehrstufig. Um einen Unterordner zu öffnen, muss ein Code aus 3 Stufen eingegeben werden. <br>Für Stufe 1 gibt es <strong>5</strong> Möglichkeiten. <br>Für Stufe 2 gibt es <strong>4</strong> Möglichkeiten. <br>Für Stufe 3 gibt es <strong>2</strong> Möglichkeiten.",
+            question: "Wie viele Pfade hat das <strong>Baumdiagramm</strong> für diesen Code insgesamt?",
+            inputType: "number",
+            correctAnswer: 40,
+            hint: "Verwende das Zählprinzip (die Multiplikationsregel): Möglichkeiten Stufe 1 × Stufe 2 × Stufe 3."
+        },
+        {
+            title: "Log 8/10: Der zweistufige Zufall",
+            story: "Der Hacker wirft virtuell einen <strong>normalen Spielwürfel (1-6)</strong> und wirft danach eine <strong>Münze (Kopf/Zahl)</strong>.",
+            question: "Wie viele <strong>mögliche Ergebnisse (Pfade)</strong> gibt es bei diesem zweistufigen Zufallsexperiment insgesamt im Baumdiagramm?",
+            inputType: "number",
+            correctAnswer: 12,
+            hint: "Stufe 1 (Würfel) hat 6 Möglichkeiten. Stufe 2 (Münze) hat 2 Möglichkeiten. Multipliziere sie!"
+        },
+        {
+            title: "Log 9/10: Der verkürzte Baum (Ohne Zurücklegen)",
+            story: "<div class='hacker-quote'>> Ihr seid schlau! Aber wie zeichnet ihr ein Baumdiagramm, bei dem Äste abgeschnitten wurden?!</div>Ein 2-stelliger PIN wird aus den Ziffern 1, 2 und 3 gebildet. <strong>WICHTIG: Keine Ziffer darf doppelt vorkommen!</strong> (Also keine 11, 22, oder 33 erlaubt).",
+            question: "Wie viele <strong>Pfade (Endpunkte)</strong> bleiben im fertig gezeichneten Baumdiagramm noch übrig?",
+            inputType: "number",
+            correctAnswer: 6,
+            hint: "Zeichne den Baum im Kopf! Vom Start gehen 3 Äste weg (1, 2, 3). Wenn du dem ersten Ast (die 1) folgst, dürfen bei der 2. Stufe nur noch 2 Äste folgen (die 2 und die 3, da die 1 verboten ist). Rechne: 3 × 2 = ?"
+        },
+        {
+            title: "Log 10/10: Das Mega-Diagramm",
+            story: "<div class='hacker-quote'>> UNMÖGLICH! Ihr seid im Finale. Aber mein letzter Code ist unknackbar!</div>Der Hacker hat ein riesiges, 3-stufiges Baumdiagramm programmiert, das am Ende <strong>exakt 100 Pfade</strong> hat. Die 1. Stufe hat 4 Äste. Die 2. Stufe hat 5 Äste.",
+            question: "Wie viele <strong>Möglichkeiten (Äste)</strong> muss die 3. Stufe pro Knoten haben, damit es insgesamt genau 100 Pfade sind?",
+            inputType: "number",
+            correctAnswer: 5,
+            hint: "Die Multiplikationsregel lautet: Stufe 1 × Stufe 2 × Stufe 3 = 100 Pfade. Setze die Zahlen ein: 4 × 5 × ??? = 100. (Oder: 20 × ??? = 100)."
+        }
+    ];
+
+    // UI-Elemente
+    const introScreen = document.getElementById('intro-screen');
+    const gameArea = document.getElementById('game-area');
+    const quizContainer = document.getElementById('quiz-container');
+    const codeDisplay = document.getElementById('code-display');
+    const successScreen = document.getElementById('success-screen');
+
+    function startRallye() {
+        const input = document.getElementById('team-name-input').value.trim();
+        if (input === "") {
+            document.getElementById('intro-error').style.display = 'block';
+            return;
+        }
+        teamName = input;
+        introScreen.style.display = 'none';
+        gameArea.style.display = 'block';
+        renderPuzzle(0);
+    }
+
+    function renderPuzzle(index) {
+        if (index >= puzzles.length) {
+            // Spannung aufbauen vor dem Erfolg
+            codeDisplay.style.color = '#10b981';
+            codeDisplay.style.textShadow = '0 0 20px #10b981';
+            setTimeout(renderSuccess, 1200);
+            return;
+        }
+
+        const puzzle = puzzles[index];
+        quizContainer.innerHTML = ''; 
+
+        const card = document.createElement('div');
+        card.style.background = 'white';
+        card.style.border = '1px solid #e2e8f0';
+        card.style.borderTop = '5px solid #38bdf8';
+        card.style.padding = '2.5rem';
+        card.style.borderRadius = '8px';
+        card.style.boxShadow = '0 10px 15px rgba(0,0,0,0.05)';
+        card.style.animation = 'fadeIn 0.4s';
+
+        card.innerHTML = `
+            <h3 style="margin-top: 0; color: #0f172a; font-size: 1.5rem; font-family: monospace;">> ${puzzle.title}</h3>
+            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 6px; border: 1px solid #e2e8f0; margin-bottom: 2rem;">
+                <p style="margin: 0; font-size: 1.1rem; line-height: 1.6; color: #334155;">${puzzle.story}</p>
+            </div>
+            
+            <p style="text-align: center; font-size: 1.25rem; margin-bottom: 1.5rem; font-weight: bold; color: #0f172a;">${puzzle.question}</p>
+            
+            <div style="text-align: center;">
+                <input type="${puzzle.inputType}" id="answer-input" placeholder="Zahl eingeben..." class="input-field">
+                <br>
+                <button onclick="checkAnswer()" style="background-color: #0f172a; color: #38bdf8; font-weight: bold; font-size: 1.1rem; padding: 1rem 2.5rem; border: none; border-radius: 6px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">Code verifizieren 🔐</button>
+                <p id="error-message" style="color: #ef4444; display: none; font-weight: bold; margin-top: 1rem; padding: 10px; background: #fef2f2; border-radius: 6px;"></p>
+                
+                <br>
+                <button onclick="showHint()" id="hint-btn" style="background: none; border: none; color: #64748b; margin-top: 20px; text-decoration: underline; cursor: pointer; font-size: 0.95rem;">> Zentrale um Hinweis bitten</button>
+                <p id="hint-text" style="display: none; background: #fffbeb; padding: 15px; border-radius: 6px; font-size: 0.95rem; color: #b45309; margin-top: 15px; border-left: 4px solid #f59e0b; text-align: left;"><strong>Tipp:</strong> ${puzzle.hint}</p>
+            </div>
+        `;
+        quizContainer.appendChild(card);
+        
+        // Enter-Taste im Input-Feld aktivieren
+        document.getElementById('answer-input').addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                checkAnswer();
+            }
+        });
+    }
+
+    function checkAnswer() {
+        const puzzle = puzzles[currentPuzzleIndex];
+        const userInput = document.getElementById('answer-input').value;
+        const errorField = document.getElementById('error-message');
+
+        if (userInput === "") {
+            errorField.innerText = "Eingabe fehlt!";
+            errorField.style.display = 'inline-block';
+            return;
+        }
+
+        if (parseInt(userInput) === puzzle.correctAnswer) {
+            // Richtig!
+            errorField.style.display = 'none';
+            crackedCode[currentPuzzleIndex] = puzzle.correctAnswer;
+            updateCodeDisplay();
+            
+            currentPuzzleIndex++;
+            renderPuzzle(currentPuzzleIndex);
+        } else {
+            // Falsch
+            errorField.innerText = "Zugriff verweigert! Fehlerhafte Berechnung.";
+            errorField.style.display = 'inline-block';
+            
+            // Kleiner Ruckel-Effekt bei falscher Eingabe
+            const inputField = document.getElementById('answer-input');
+            inputField.style.borderColor = '#ef4444';
+            setTimeout(() => { inputField.style.borderColor = '#cbd5e1'; }, 500);
+        }
+    }
+
+    function showHint() {
+        document.getElementById('hint-text').style.display = 'block';
+        document.getElementById('hint-btn').style.display = 'none';
+    }
+
+    function updateCodeDisplay() {
+        // Formatiere die Anzeige in 2 Blöcke a 5 Stellen
+        let block1 = crackedCode.slice(0, 5).join(' ');
+        let block2 = crackedCode.slice(5, 10).join(' ');
+        codeDisplay.innerText = `${block1} : ${block2}`;
+        
+        // Kurzes visuelles Feedback für das Update (Grün aufblitzen)
+        codeDisplay.style.color = '#10b981';
+        codeDisplay.style.textShadow = '0 0 15px rgba(16, 185, 129, 0.5)';
+        
+        // Wenn nicht fertig, wieder auf Rot wechseln
+        if (currentPuzzleIndex < 9) {
+            setTimeout(() => { 
+                codeDisplay.style.color = '#ef4444'; 
+                codeDisplay.style.textShadow = '0 0 10px rgba(239, 68, 68, 0.5)';
+            }, 500);
+        }
+    }
+
+    function renderSuccess() {
+        gameArea.style.display = 'none';
+        document.getElementById('cert-team-name').innerText = teamName;
+        successScreen.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>

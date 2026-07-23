@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.4 Direkte Proportionalität | Prof. Schweitzer</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .explanation-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary, #2563eb);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .highlight-box {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        /* Container für Interaktive Tools */
+        .interactive-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #cbd5e1;
+        }
+        .controls {
+            flex: 1;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .canvas-container {
+            flex: 1.5;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        canvas {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            max-width: 100%;
+        }
+        
+        /* Tabellen-Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f8fafc;
+            color: var(--primary, #2563eb);
+        }
+
+        /* Trainer Styling */
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        input[type="text"] {
+            width: 80px;
+            padding: 8px;
+            font-size: 1.1rem;
+            text-align: center;
+            border: 1px solid #94a3b8;
+            border-radius: 4px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: var(--primary, #2563eb);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #1d4ed8;
+        }
+        .feedback-msg {
+            margin-top: 10px;
+            font-weight: bold;
+            min-height: 24px;
+        }
+        .correct-text { color: #166534; }
+        .wrong-text { color: #991b1b; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Kapitel 4.4</h1>
+    <p>Direkte Proportionalitätsfunktionen</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">⬅ Zurück zur Übersicht</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Theorie</span>
+            <h2 style="margin: 0; color: var(--primary);">Was ist eine direkte Proportionalität?</h2>
+        </div>
+
+        <div class="explanation-box">
+            <p>Wenn du an der Tankstelle stehst, gilt: Je mehr Liter Benzin du tankst, desto mehr musst du bezahlen. Verdoppelst du die Menge, verdoppelt sich der Preis. Diesen Zusammenhang nennt man <strong>direkt proportional</strong>.</p>
+            <p>Jede direkte Proportionalität lässt sich im Koordinatensystem als <strong>Gerade</strong> darstellen, die exakt durch den Nullpunkt, den Ursprung (0|0), verläuft. Wenn du 0 Liter tankst, zahlst du schließlich auch 0 Euro.</p>
+        </div>
+
+        <div class="highlight-box">
+            <h4 style="margin-top: 0; color: #b45309;">⚠️ Die mathematische Definition</h4>
+            <p style="margin-bottom: 0;">
+                Ist <i>f</i> eine reelle Funktion mit der Termdarstellung <strong><i>f(x) = k &middot; x</i></strong> (wobei <i>k &ne; 0</i>), so nennt man die Funktion <i>f</i> eine <strong>direkte Proportionalitätsfunktion</strong>.<br><br>
+                Die Konstante <strong><i>k</i></strong> nennt man den <strong>Proportionalitätsfaktor</strong>. Er gibt an, wie steil die Gerade ist (Steigung). Man findet ihn im Graphen heraus, indem man von einem Punkt der Geraden <strong>1 Einheit nach rechts</strong> geht und schaut, wie weit man nach oben (positives <i>k</i>) oder nach unten (negatives <i>k</i>) gehen muss, um wieder auf der Geraden zu landen.
+            </p>
+        </div>
+    </div>
+
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Erforschen</span>
+            <h2 style="margin: 0; color: var(--primary);">Die k-Maschine: Graphen & Tabellen verstehen</h2>
+        </div>
+        
+        <p>Verändere den Proportionalitätsfaktor <i>k</i> mit dem Schieberegler. Beobachte, wie sich die Gerade (blau), das Steigungsdreieck (rot) und die Werte in der Tabelle verändern!</p>
+
+        <div class="interactive-container">
+            <div class="controls">
+                <div style="background: #f8fafc; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 6px;">
+                    <label for="sliderK" style="font-weight: bold; display: block; margin-bottom: 10px;">
+                        Proportionalitätsfaktor <i>k</i> = <span id="valK" style="color: var(--primary); font-size: 1.2rem;">1</span>
+                    </label>
+                    <input type="range" id="sliderK" min="-3" max="3" step="0.5" value="1" style="width: 100%; cursor: pointer;">
+                </div>
+
+                <div style="text-align: center; font-size: 1.2rem; font-family: monospace; background: #eff6ff; padding: 10px; border-radius: 4px;">
+                    Term: <strong><i>f(x) = <span id="termK">1</span> &middot; x</i></strong>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Argument <i>x</i></th>
+                            <th>Funktionswert <i>f(x)</i></th>
+                        </tr>
+                    </thead>
+                    <tbody id="exploreTableBody">
+                        </tbody>
+                </table>
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="exploreCanvas" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Übung</span>
+            <h2 style="margin: 0; color: var(--primary);">Trainer: Faktor k ablesen (Aufgabe 4.32)</h2>
+        </div>
+        
+        <p>Welcher Proportionalitätsfaktor <i>k</i> gehört zu der abgebildeten Geraden? Erinnere dich an das Steigungsdreieck: Gehe vom Ursprung (0|0) genau <strong>1 Einheit nach rechts</strong> und zähle, wie viele Einheiten du nach oben oder unten gehen musst!</p>
+
+        <div class="interactive-container">
+            <div class="canvas-container">
+                <canvas id="trainerCanvas" width="400" height="400"></canvas>
+            </div>
+            <div class="controls" style="justify-content: center;">
+                <h3>Wie lautet k?</h3>
+                <p>Gib den abgelesenen Wert für <i>k</i> ein (z.B. 2 oder -1,5):</p>
+                <div class="input-group">
+                    <label for="kInput"><i>k</i> = </label>
+                    <input type="text" id="kInput" placeholder="Zahl">
+                    <button id="btnCheck">Prüfen</button>
+                </div>
+                <div id="trainerFeedback" class="feedback-msg"></div>
+                <button id="btnNext" style="display: none; margin-top: 15px; background-color: #10b981;">Nächster Graph ➡</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        
+        /* ==========================================
+           HILFSFUNKTIONEN FÜR KOORDINATENSYSTEME
+           ========================================== */
+        function drawGridAndAxes(ctx, width, height, scale) {
+            const originX = width / 2;
+            const originY = height / 2;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Raster zeichnen
+            ctx.beginPath();
+            ctx.strokeStyle = "#e2e8f0";
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= width; i += scale) {
+                ctx.moveTo(i, 0); ctx.lineTo(i, height); // vertikal
+                ctx.moveTo(0, i); ctx.lineTo(width, i); // horizontal
+            }
+            ctx.stroke();
+
+            // Achsen zeichnen
+            ctx.beginPath();
+            ctx.strokeStyle = "#334155";
+            ctx.lineWidth = 2;
+            ctx.moveTo(0, originY); ctx.lineTo(width, originY); // X-Achse
+            ctx.moveTo(originX, 0); ctx.lineTo(originX, height); // Y-Achse
+            ctx.stroke();
+
+            // Achsenbeschriftung & Skalierung
+            ctx.fillStyle = "#334155";
+            ctx.font = "12px sans-serif";
+            ctx.fillText("x", width - 15, originY - 10);
+            ctx.fillText("f(x)", originX + 10, 15);
+            ctx.fillText("0", originX - 15, originY + 15);
+
+            // Zahlen auf den Achsen (alle 1 Einheiten)
+            ctx.textAlign = "center";
+            for(let x = -5; x <= 5; x++) {
+                if(x !== 0) {
+                    ctx.fillText(x, originX + x * scale, originY + 15);
+                    ctx.fillText(x, originX - 10, originY - x * scale + 4);
+                }
+            }
+            
+            return { originX, originY };
+        }
+
+        /* ==========================================
+           INTERAKTIV 1: DIE k-MASCHINE (Erforschen)
+           ========================================== */
+        const exploreCanvas = document.getElementById("exploreCanvas");
+        const ctxExplore = exploreCanvas.getContext("2d");
+        const sliderK = document.getElementById("sliderK");
+        const valK = document.getElementById("valK");
+        const termK = document.getElementById("termK");
+        const exploreTableBody = document.getElementById("exploreTableBody");
+
+        const scaleEx = 40; // 40px = 1 Einheit (Bereich -5 bis +5 bei 400px Canvas)
+
+        function updateExplorer() {
+            const k = parseFloat(sliderK.value);
+            
+            // Text Updates
+            let kStr = k.toString().replace('.', ',');
+            valK.textContent = kStr;
+            termK.textContent = kStr;
+
+            // Tabelle Updates (x = 0, 1, 2, 3)
+            exploreTableBody.innerHTML = "";
+            for(let x = 0; x <= 3; x++) {
+                let fx = x * k;
+                let row = `<tr><td>${x}</td><td><strong>${fx.toString().replace('.', ',')}</strong></td></tr>`;
+                exploreTableBody.insertAdjacentHTML('beforeend', row);
+            }
+
+            // Canvas Zeichnen
+            const origins = drawGridAndAxes(ctxExplore, exploreCanvas.width, exploreCanvas.height, scaleEx);
+            
+            // Funktionsgraph zeichnen
+            ctxExplore.beginPath();
+            ctxExplore.strokeStyle = "#2563eb";
+            ctxExplore.lineWidth = 3;
+            // Von x=-5 bis x=5
+            ctxExplore.moveTo(origins.originX + (-5) * scaleEx, origins.originY - (-5 * k) * scaleEx);
+            ctxExplore.lineTo(origins.originX + (5) * scaleEx, origins.originY - (5 * k) * scaleEx);
+            ctxExplore.stroke();
+
+            // Steigungsdreieck zeichnen (immer von x=0 bis x=1)
+            if (k !== 0) {
+                ctxExplore.beginPath();
+                ctxExplore.strokeStyle = "#ef4444"; // Rot
+                ctxExplore.setLineDash([4, 4]); // Gestrichelt
+                ctxExplore.lineWidth = 2;
+                
+                // 1 nach rechts
+                ctxExplore.moveTo(origins.originX, origins.originY);
+                ctxExplore.lineTo(origins.originX + 1 * scaleEx, origins.originY);
+                // k nach oben/unten
+                ctxExplore.lineTo(origins.originX + 1 * scaleEx, origins.originY - k * scaleEx);
+                
+                ctxExplore.stroke();
+                ctxExplore.setLineDash([]); // Reset
+                
+                // Beschriftung Steigungsdreieck
+                ctxExplore.fillStyle = "#ef4444";
+                ctxExplore.font = "bold 14px sans-serif";
+                ctxExplore.fillText("+1", origins.originX + (scaleEx / 2), origins.originY + (k > 0 ? 15 : -5));
+                ctxExplore.textAlign = "left";
+                ctxExplore.fillText("k = " + kStr, origins.originX + scaleEx + 5, origins.originY - (k * scaleEx / 2));
+            }
+        }
+
+        sliderK.addEventListener("input", updateExplorer);
+        updateExplorer(); // Init
+
+
+        /* ==========================================
+           INTERAKTIV 2: TRAINER (Ablesen)
+           ========================================== */
+        const trainerCanvas = document.getElementById("trainerCanvas");
+        const ctxTrainer = trainerCanvas.getContext("2d");
+        const kInput = document.getElementById("kInput");
+        const btnCheck = document.getElementById("btnCheck");
+        const btnNext = document.getElementById("btnNext");
+        const trainerFeedback = document.getElementById("trainerFeedback");
+
+        // Mögliche k-Werte (ähnlich zum Buch)
+        const possibleKs = [0.5, 1, 1.5, 2, 2.5, 3, -0.5, -1, -1.5, -2, -3];
+        let currentTrainerK = 0;
+
+        function generateTrainerGraph() {
+            // Zufälliges K auswählen, das nicht das gleiche ist wie vorher
+            let newK;
+            do {
+                newK = possibleKs[Math.floor(Math.random() * possibleKs.length)];
+            } while (newK === currentTrainerK);
+            currentTrainerK = newK;
+
+            // Reset UI
+            kInput.value = "";
+            kInput.disabled = false;
+            btnCheck.disabled = false;
+            trainerFeedback.textContent = "";
+            trainerFeedback.className = "feedback-msg";
+            btnNext.style.display = "none";
+
+            // Zeichnen (ohne Steigungsdreieck)
+            const origins = drawGridAndAxes(ctxTrainer, trainerCanvas.width, trainerCanvas.height, scaleEx);
+            
+            ctxTrainer.beginPath();
+            ctxTrainer.strokeStyle = "#2563eb";
+            ctxTrainer.lineWidth = 3;
+            ctxTrainer.moveTo(origins.originX + (-5) * scaleEx, origins.originY - (-5 * currentTrainerK) * scaleEx);
+            ctxTrainer.lineTo(origins.originX + (5) * scaleEx, origins.originY - (5 * currentTrainerK) * scaleEx);
+            ctxTrainer.stroke();
+        }
+
+        function drawTrainerSolution() {
+            const origins = { originX: trainerCanvas.width / 2, originY: trainerCanvas.height / 2 };
+            ctxTrainer.beginPath();
+            ctxTrainer.strokeStyle = "#22c55e"; // Grün für Lösung
+            ctxTrainer.setLineDash([4, 4]);
+            ctxTrainer.lineWidth = 3;
+            
+            ctxTrainer.moveTo(origins.originX, origins.originY);
+            ctxTrainer.lineTo(origins.originX + 1 * scaleEx, origins.originY);
+            ctxTrainer.lineTo(origins.originX + 1 * scaleEx, origins.originY - currentTrainerK * scaleEx);
+            ctxTrainer.stroke();
+            ctxTrainer.setLineDash([]);
+        }
+
+        btnCheck.addEventListener("click", () => {
+            // Eingabe säubern (Komma zu Punkt)
+            let userVal = parseFloat(kInput.value.replace(',', '.'));
+            
+            if (isNaN(userVal)) {
+                trainerFeedback.textContent = "Bitte gib eine gültige Zahl ein!";
+                trainerFeedback.className = "feedback-msg wrong-text";
+                return;
+            }
+
+            if (Math.abs(userVal - currentTrainerK) < 0.01) {
+                trainerFeedback.textContent = "✅ Richtig! Super abgelesen.";
+                trainerFeedback.className = "feedback-msg correct-text";
+                kInput.disabled = true;
+                btnCheck.disabled = true;
+                btnNext.style.display = "block";
+                drawTrainerSolution(); // Zeige Steigungsdreieck als Belohnung
+            } else {
+                trainerFeedback.textContent = "❌ Leider nicht ganz. Überprüfe bei x=1 noch einmal den y-Wert!";
+                trainerFeedback.className = "feedback-msg wrong-text";
+            }
+        });
+
+        btnNext.addEventListener("click", generateTrainerGraph);
+
+        // Enter-Taste für den Trainer erlauben
+        kInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                btnCheck.click();
+            }
+        });
+
+        // Start erstes Trainer-Beispiel
+        generateTrainerGraph();
+    });
+</script>
+
+</body>
+</html>

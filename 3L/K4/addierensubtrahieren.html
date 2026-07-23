@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.2 Terme addieren & subtrahieren | Prof. Schweitzer</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .content-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .content-box h3 {
+            color: var(--primary);
+            margin-top: 0;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 0.5rem;
+        }
+        .example-box {
+            background: #f0fdf4;
+            border-left: 4px solid var(--info-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        
+        /* Interaktives Quiz Styles */
+        .quiz-container {
+            background: #f8fafc;
+            border: 2px solid var(--primary);
+            padding: 2rem 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .quiz-question {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+        }
+        .quiz-options {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .quiz-btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+            color: var(--text-main);
+            min-width: 120px;
+        }
+        .quiz-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .quiz-btn.correct {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+        .quiz-btn.wrong {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+        .quiz-feedback {
+            margin-top: 1.5rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            min-height: 28px;
+        }
+        #next-btn {
+            display: none;
+            margin: 1.5rem auto 0;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        #next-btn:hover {
+            background: var(--primary-dark);
+        }
+        .score-display {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Kapitel 4.2: Addition & Subtraktion</h1>
+    <p>Gleichartige Glieder zusammenfassen</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">⬅ Zurück zur Klasse 3L</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Mathematik</span>
+            <h2>Äpfel zu Äpfeln, Birnen zu Birnen</h2>
+        </div>
+
+        <div class="content-box">
+            <h3>Die wichtigste Regel</h3>
+            <p>Man darf bei Termen nur <strong>gleichartige Glieder</strong> addieren oder subtrahieren. Das bedeutet: Die Variablen (und ihre Hochzahlen) müssen exakt übereinstimmen!</p>
+            
+            <div class="example-box">
+                <strong>Richtig:</strong><br>
+                3x + 4x = 7x<br>
+                5a - 2a + 3b = 3a + 3b
+            </div>
+            <div class="example-box" style="background: #fef2f2; border-left-color: #ef4444;">
+                <strong>Falsch (Das geht nicht!):</strong><br>
+                3x + 4y &rarr; Bleibt 3x + 4y<br>
+                2a + 3 &rarr; Bleibt 2a + 3 (Zahlen und Variablen darf man nicht mischen!)
+            </div>
+        </div>
+
+        <div class="quiz-container">
+            <h3 style="margin-top: 0; color: var(--primary);">Interaktives Trainingslager</h3>
+            <div class="score-display">Frage <span id="current-q">1</span> von <span id="total-q">5</span></div>
+            
+            <div id="quiz-content">
+                <div class="quiz-question" id="question-text">Lade Frage...</div>
+                <div class="quiz-options" id="options-container">
+                    </div>
+                <div class="quiz-feedback" id="feedback-text"></div>
+                <button id="next-btn" onclick="nextQuestion()">Nächste Frage ➡</button>
+            </div>
+            
+            <div id="quiz-result" style="display: none;">
+                <div class="quiz-question">Training abgeschlossen! 🎉</div>
+                <p id="final-score" style="font-size: 1.2rem; margin-bottom: 1.5rem;"></p>
+                <button class="quiz-btn" onclick="location.reload()" style="border-color: var(--primary);">Nochmal spielen</button>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+</footer>
+
+<script>
+    // Quiz Daten
+    const questions = [
+        { q: "4x + 3x = ?", options: ["7x", "12x", "7x²"], correct: 0 },
+        { q: "8a - 5a + 2a = ?", options: ["a", "5a", "15a"], correct: 1 },
+        { q: "3x + 2y + x = ?", options: ["6xy", "4x + 2y", "3x² + 2y"], correct: 1 },
+        { q: "5b - 2 - 3b = ?", options: ["2b - 2", "0", "2b"], correct: 0 },
+        { q: "7y + 3x - 7y = ?", options: ["3x", "14y + 3x", "3xy"], correct: 0 }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    const questionText = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const feedbackText = document.getElementById('feedback-text');
+    const nextBtn = document.getElementById('next-btn');
+    const currentQSpan = document.getElementById('current-q');
+    const totalQSpan = document.getElementById('total-q');
+    
+    totalQSpan.innerText = questions.length;
+
+    function loadQuestion() {
+        answered = false;
+        feedbackText.innerText = "";
+        nextBtn.style.display = "none";
+        currentQSpan.innerText = currentQuestionIndex + 1;
+        
+        const currentQ = questions[currentQuestionIndex];
+        questionText.innerText = currentQ.q;
+        optionsContainer.innerHTML = "";
+
+        currentQ.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.innerText = opt;
+            btn.className = 'quiz-btn';
+            btn.onclick = () => checkAnswer(index, btn);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selectedIndex, btnElement) {
+        if (answered) return; // Verhindert mehrfaches Klicken
+        answered = true;
+
+        const correctIndex = questions[currentQuestionIndex].correct;
+        const allButtons = optionsContainer.children;
+
+        if (selectedIndex === correctIndex) {
+            btnElement.classList.add('correct');
+            feedbackText.innerText = "Richtig! Super gemacht. 🌟";
+            feedbackText.style.color = "#10b981";
+            score++;
+        } else {
+            btnElement.classList.add('wrong');
+            allButtons[correctIndex].classList.add('correct');
+            feedbackText.innerText = "Leider falsch! Schau dir die Lösung an.";
+            feedbackText.style.color = "#ef4444";
+        }
+
+        // Deaktiviere alle Buttons
+        for (let btn of allButtons) {
+            btn.style.cursor = "default";
+        }
+
+        nextBtn.style.display = "block";
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        document.getElementById('quiz-content').style.display = "none";
+        const resultDiv = document.getElementById('quiz-result');
+        resultDiv.style.display = "block";
+        document.getElementById('final-score').innerText = `Du hast ${score} von ${questions.length} Fragen richtig beantwortet.`;
+    }
+
+    // Quiz starten
+    window.onload = loadQuestion;
+</script>
+
+</body>
+</html>

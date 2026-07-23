@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gleichungen: Term, Gleichung und Waagemodell</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* Spezifische Klassen für den interaktiven Waage-Simulator */
+        .weight-ball {
+            fill: var(--doc-blue);
+            stroke: white;
+            stroke-width: 2px;
+        }
+        .weight-x {
+            fill: var(--html-orange);
+            stroke: white;
+            stroke-width: 2px;
+        }
+        .scale-plate {
+            fill: #cbd5e1;
+            stroke: #94a3b8;
+            stroke-width: 3px;
+        }
+        .scale-base {
+            fill: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Gleichungen verstehen</h1>
+    <p>Der Unterschied zwischen Termen und Gleichungen & das Waage-Modell</p>
+</header>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main>
+    <section class="subject-group" id="term-gleichung">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Mathematik</span>
+            <h2 style="margin: 0; color: var(--primary);">1. Term vs. Gleichung</h2>
+        </div>
+        <p>In der Mathematik arbeiten wir oft mit Buchstaben als Platzhaltern für Zahlen (Variablen). Doch was ist eigentlich der Unterschied zwischen einem Term und einer Gleichung? Stell dir vor, die Mathematik ist wie eine Sprache:</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+            <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--doc-blue); padding: 1.5rem; border-radius: 8px;">
+                <h4 style="margin-top: 0; color: var(--doc-blue);">Der Term</h4>
+                <p>Ein Term ist wie ein <strong>mathematisches Wort</strong> oder ein kurzer Ausruf. Es gibt hier <strong>kein Ist-Gleich-Zeichen</strong> ($=$). Man kann einen Term nur vereinfachen, aber nicht "lösen", weil man nicht weiß, wie groß das Ergebnis sein soll.</p>
+                <div style="text-align: center; font-size: 1.5rem; margin-top: 1.5rem; font-weight: bold; background: #f1f5f9; padding: 10px; border-radius: 8px;">
+                    $2x + 5$
+                </div>
+            </div>
+
+            <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--xls-green); padding: 1.5rem; border-radius: 8px;">
+                <h4 style="margin-top: 0; color: var(--xls-green);">Die Gleichung</h4>
+                <p>Eine Gleichung ist wie ein <strong>vollständiger Satz</strong>. Sie hat immer eine linke Seite, eine rechte Seite und dazwischen ein <strong>Ist-Gleich-Zeichen</strong> ($=$). Sie behauptet: "Die linke Seite ist exakt gleich viel wert wie die rechte Seite!"</p>
+                <div style="text-align: center; font-size: 1.5rem; margin-top: 1.5rem; font-weight: bold; background: #f0fdf4; padding: 10px; border-radius: 8px;">
+                    $2x + 5 = 11$
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="subject-group" id="waagemodell">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Mathematik</span>
+            <h2 style="margin: 0; color: var(--primary);">2. Das Waage-Modell</h2>
+        </div>
+        <p>Eine Gleichung kannst du dir wie eine altmodische Balkenwaage im perfekten Gleichgewicht vorstellen. Damit die Waage im Gleichgewicht bleibt, gilt eine eiserne Regel:</p>
+        
+        <div style="background: var(--card-bg); border: 2px dashed var(--pdf-red); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; text-align: center; font-size: 1.2rem; font-weight: bold; color: var(--pdf-red);">
+            Was du auf der linken Waagschale tust, musst du exakt genauso auf der rechten Waagschale tun!
+        </div>
+
+        [Image of a simple mathematical balance scale with a box labeled x and weights on the left side, balancing equal weights on the right side]
+
+        <h4 style="color: var(--primary);">Die Äquivalenzumformung (Der Rechenstrich)</h4>
+        <p>Um eine Gleichung zu lösen, wollen wir herausfinden, wie schwer die Box mit dem $x$ ist. Dafür müssen wir alle anderen Gewichte auf dieser Seite wegräumen. Was wir tun, schreiben wir ganz rechts hinter einen langen senkrechten Strich ($|$).</p>
+        
+        <div style="background: white; border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; max-width: 400px; margin: 0 auto; font-size: 1.2rem;">
+            $$ x + 4 = 10 \quad \color{red}{| - 4} $$
+            <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center; margin-top: -10px; margin-bottom: 15px;">(Wir nehmen auf beiden Seiten 4 weg)</p>
+            $$ x = 6 $$
+        </div>
+    </section>
+
+    <section class="subject-group" id="labor">
+        <div class="subject-header">
+            <span class="subject-badge bg-info">Labor</span>
+            <h2 style="margin: 0; color: var(--primary);">Der interaktive Waage-Simulator</h2>
+        </div>
+        <p>Auf der linken Seite liegt unsere Geheimnis-Box ($x$) und 3 zusätzliche Kugeln. Auf der rechten Seite liegen 8 Kugeln. Die Waage ist im Gleichgewicht. <strong>Deine Aufgabe:</strong> Nimm so lange Kugeln von <em>beiden</em> Seiten weg, bis das $x$ alleine auf der Waagschale liegt!</p>
+        
+        <div style="background: white; border: 2px solid var(--primary); padding: 2rem; border-radius: 12px; text-align: center;">
+            
+            <div id="equationDisplay" style="font-size: 2rem; font-weight: bold; color: var(--text-main); margin-bottom: 1rem;">
+                $x + 3 = 8$
+            </div>
+
+            <div style="display: flex; justify-content: center; align-items: flex-end; height: 250px; margin-bottom: 2rem;">
+                <svg viewBox="0 0 500 250" width="100%" height="100%" id="scaleSvg">
+                    <rect x="240" y="50" width="20" height="180" class="scale-base" rx="5" />
+                    <polygon points="210,230 290,230 250,180" class="scale-base" />
+                    <line x1="100" y1="50" x2="400" y2="50" stroke="#64748b" stroke-width="8" stroke-linecap="round" />
+                    <circle cx="250" cy="50" r="8" fill="#cbd5e1" stroke="#64748b" stroke-width="2" />
+                    
+                    <line x1="100" y1="50" x2="100" y2="180" stroke="#94a3b8" stroke-width="3" />
+                    <line x1="400" y1="50" x2="400" y2="180" stroke="#94a3b8" stroke-width="3" />
+
+                    <path d="M 40 180 Q 100 210 160 180 Z" class="scale-plate" />
+                    <path d="M 340 180 Q 400 210 460 180 Z" class="scale-plate" />
+
+                    <g id="leftWeights"></g>
+                    <g id="rightWeights"></g>
+                </svg>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                <button class="nav-toggle" onclick="removeWeight()" id="btnRemove" style="background: var(--pdf-red); color: white; border: none; padding: 10px 20px; font-size: 1.1rem;">
+                    Kugel auf BEIDEN Seiten wegnehmen ( | - 1 )
+                </button>
+                <button class="nav-toggle" onclick="resetScale()" style="background: #e2e8f0; color: var(--text-main); border: none; padding: 10px 20px; font-size: 1.1rem;">
+                    Neustart
+                </button>
+            </div>
+
+            <div id="successMsg" style="display: none; background: var(--xls-green); color: white; padding: 1rem; border-radius: 8px; margin-top: 1.5rem; font-size: 1.2rem; font-weight: bold;">
+                🎉 Klasse! Das $x$ ist jetzt alleine. Du hast die Gleichung gelöst: $x = 5$
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Mathematik verstehen 2 | Algebra - Gleichungen</p>
+</footer>
+
+<script>
+    let leftBalls = 3;
+    let rightBalls = 8;
+    const initialLeft = 3;
+    const initialRight = 8;
+
+    function drawScale() {
+        const leftGroup = document.getElementById('leftWeights');
+        const rightGroup = document.getElementById('rightWeights');
+        
+        leftGroup.innerHTML = '';
+        rightGroup.innerHTML = '';
+
+        // Zeichne X-Box auf der linken Seite
+        let xBox = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        xBox.setAttribute("x", "70");
+        xBox.setAttribute("y", "140");
+        xBox.setAttribute("width", "40");
+        xBox.setAttribute("height", "40");
+        xBox.setAttribute("class", "weight-x");
+        xBox.setAttribute("rx", "4");
+        leftGroup.appendChild(xBox);
+
+        let xText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        xText.setAttribute("x", "90");
+        xText.setAttribute("y", "165");
+        xText.setAttribute("fill", "white");
+        xText.setAttribute("font-size", "20");
+        xText.setAttribute("font-weight", "bold");
+        xText.setAttribute("text-anchor", "middle");
+        xText.setAttribute("font-family", "sans-serif");
+        xText.setAttribute("font-style", "italic");
+        xText.textContent = "x";
+        leftGroup.appendChild(xText);
+
+        // Zeichne Kugeln links (stapeln sich neben/auf der Box)
+        const leftPositions = [
+            {cx: 130, cy: 165},
+            {cx: 130, cy: 135},
+            {cx: 100, cy: 125}
+        ];
+
+        for(let i=0; i<leftBalls; i++) {
+            let ball = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            ball.setAttribute("cx", leftPositions[i].cx);
+            ball.setAttribute("cy", leftPositions[i].cy);
+            ball.setAttribute("r", "15");
+            ball.setAttribute("class", "weight-ball");
+            leftGroup.appendChild(ball);
+        }
+
+        // Zeichne Kugeln rechts (pyramidenartig gestapelt)
+        const rightPositions = [
+            {cx: 370, cy: 165}, {cx: 400, cy: 165}, {cx: 430, cy: 165},
+            {cx: 385, cy: 135}, {cx: 415, cy: 135},
+            {cx: 400, cy: 105},
+            {cx: 355, cy: 135}, {cx: 445, cy: 135} // Extra Kugeln für 8
+        ];
+
+        for(let i=0; i<rightBalls; i++) {
+            let ball = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            ball.setAttribute("cx", rightPositions[i].cx);
+            ball.setAttribute("cy", rightPositions[i].cy);
+            ball.setAttribute("r", "15");
+            ball.setAttribute("class", "weight-ball");
+            rightGroup.appendChild(ball);
+        }
+
+        // Gleichungstext updaten
+        const eqDisplay = document.getElementById('equationDisplay');
+        if (leftBalls > 0) {
+            eqDisplay.innerHTML = `$x + ${leftBalls} = ${rightBalls}$`;
+        } else {
+            eqDisplay.innerHTML = `$x = ${rightBalls}$`;
+        }
+
+        // MathJax neu rendern, falls geladen
+        if (typeof MathJax !== 'undefined') {
+            MathJax.typesetPromise ? MathJax.typesetPromise() : MathJax.typeset();
+        }
+
+        // Prüfen ob gelöst
+        if (leftBalls === 0) {
+            document.getElementById('successMsg').style.display = 'block';
+            document.getElementById('btnRemove').disabled = true;
+            document.getElementById('btnRemove').style.opacity = '0.5';
+            document.getElementById('btnRemove').style.cursor = 'not-allowed';
+        }
+    }
+
+    function removeWeight() {
+        if (leftBalls > 0 && rightBalls > 0) {
+            leftBalls--;
+            rightBalls--;
+            drawScale();
+        }
+    }
+
+    function resetScale() {
+        leftBalls = initialLeft;
+        rightBalls = initialRight;
+        document.getElementById('successMsg').style.display = 'none';
+        document.getElementById('btnRemove').disabled = false;
+        document.getElementById('btnRemove').style.opacity = '1';
+        document.getElementById('btnRemove').style.cursor = 'pointer';
+        drawScale();
+    }
+
+    // Beim Start einmal zeichnen
+    window.onload = drawScale;
+</script>
+
+</body>
+</html>

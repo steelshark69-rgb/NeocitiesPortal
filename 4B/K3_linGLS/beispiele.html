@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lösungen: Lineare Gleichungssysteme (3.35 & 3.36)</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        details > summary {
+            cursor: pointer;
+            color: var(--doc-blue);
+            font-weight: bold;
+            transition: color 0.2s;
+            outline: none;
+        }
+        details > summary:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Lösungsblatt: LGS</h1>
+    <p>Aufgaben 3.35 und 3.36 (Lösungsmethoden und Berechnung)</p>
+</header>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main>
+    <section class="subject-group" id="aufgabe-335">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Aufgabe 3.35</span>
+            <h2 style="margin: 0; color: var(--primary);">Begründung der Lösungsmethoden</h2>
+        </div>
+        <p>Hier geht es darum, den "cleversten" Weg zu finden, um sich unnötige Rechenarbeit zu ersparen.</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+            
+            <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--doc-blue); padding: 1rem; border-radius: 8px;">
+                <strong style="color: var(--primary); font-size: 1.1rem;">a)</strong><br>
+                <span style="font-weight: bold;">Eliminationsverfahren</span><br>
+                <span style="font-size: 0.9rem; color: var(--text-muted);">Warum? Die Terme $-7y$ und $+7y$ heben sich beim Addieren der Gleichungen sofort auf.</span>
+            </div>
+
+            <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--pdf-red); padding: 1rem; border-radius: 8px;">
+                <strong style="color: var(--primary); font-size: 1.1rem;">b)</strong><br>
+                <span style="font-weight: bold;">Einsetzungsverfahren</span><br>
+                <span style="font-size: 0.9rem; color: var(--text-muted);">Warum? Die erste Gleichung ist bereits perfekt nach $y$ freigestellt ($y = 4x - 7$). Man kann den Term direkt in II einsetzen.</span>
+            </div>
+
+            <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--doc-blue); padding: 1rem; border-radius: 8px;">
+                <strong style="color: var(--primary); font-size: 1.1rem;">c)</strong><br>
+                <span style="font-weight: bold;">Eliminationsverfahren</span><br>
+                <span style="font-size: 0.9rem; color: var(--text-muted);">Warum? $+2x$ in I und $-2x$ in II heben sich bei der Addition sofort auf.</span>
+            </div>
+
+            <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--xls-green); padding: 1rem; border-radius: 8px;">
+                <strong style="color: var(--primary); font-size: 1.1rem;">d)</strong><br>
+                <span style="font-weight: bold;">Gleichsetzungsverfahren</span><br>
+                <span style="font-size: 0.9rem; color: var(--text-muted);">Warum? Beide Gleichungen sind bereits nach $x$ freigestellt. Man kann sofort $3y + 10 = 5y - 7$ schreiben.</span>
+            </div>
+
+            <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--pdf-red); padding: 1rem; border-radius: 8px;">
+                <strong style="color: var(--primary); font-size: 1.1rem;">e)</strong><br>
+                <span style="font-weight: bold;">Einsetzungsverfahren</span><br>
+                <span style="font-size: 0.9rem; color: var(--text-muted);">Warum? Aus Gleichung II ($x + 8 = 13$) lässt sich $x$ im Kopf ausrechnen ($x = 5$) und direkt in I einsetzen.</span>
+            </div>
+
+            <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--pdf-red); padding: 1rem; border-radius: 8px;">
+                <strong style="color: var(--primary); font-size: 1.1rem;">f)</strong><br>
+                <span style="font-weight: bold;">Einsetzungsverfahren</span><br>
+                <span style="font-size: 0.9rem; color: var(--text-muted);">Warum? In Gleichung II steht das $y$ fast alleine. Formt man auf $y = -37x - 3$ um, kann man es leicht in I einsetzen.</span>
+            </div>
+
+            <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--doc-blue); padding: 1rem; border-radius: 8px;">
+                <strong style="color: var(--primary); font-size: 1.1rem;">g)</strong><br>
+                <span style="font-weight: bold;">Eliminationsverfahren</span><br>
+                <span style="font-size: 0.9rem; color: var(--text-muted);">Warum? Die Terme $-x$ in I und $+x$ in II heben sich beim Addieren direkt auf.</span>
+            </div>
+
+            <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--doc-blue); padding: 1rem; border-radius: 8px;">
+                <strong style="color: var(--primary); font-size: 1.1rem;">h)</strong><br>
+                <span style="font-weight: bold;">Eliminationsverfahren</span><br>
+                <span style="font-size: 0.9rem; color: var(--text-muted);">Warum? Das $y$ aus I und das $-y$ aus II ergeben bei Addition sofort $0$.</span>
+            </div>
+            
+        </div>
+    </section>
+
+    <section class="subject-group" id="aufgabe-336">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Aufgabe 3.36</span>
+            <h2 style="margin: 0; color: var(--primary);">Rechnerische & Grafische Lösungen</h2>
+        </div>
+        <p>Klicke auf "Lösungsweg anzeigen", um die schrittweise Rechnung und den exakten Schnittpunkt im Koordinatensystem zu sehen.</p>
+        
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <strong style="font-size: 1.2rem; color: var(--primary);">a)</strong>
+                <span style="font-weight: bold; font-size: 1.1rem; color: var(--text-main);">Schnittpunkt: $(-3 \mid 2,5)$</span>
+            </div>
+            <details>
+                <summary style="margin-top: 0.5rem;">Lösungsweg anzeigen</summary>
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                    <div style="flex: 1; min-width: 250px; color: var(--text-muted); line-height: 1.8;">
+                        <p><strong>I:</strong> $2y - 3x = 14 \implies 2y = 3x + 14$<br>
+                        <strong>II:</strong> $4y - 2x = 16 \implies 4y = 2x + 16 \implies 2y = x + 8$</p>
+                        <p><em>Gleichsetzungsverfahren:</em><br>
+                        $3x + 14 = x + 8$<br>
+                        $2x = -6 \implies x = -3$</p>
+                        <p><em>In umgeformte II einsetzen:</em><br>
+                        $2y = -3 + 8 \implies 2y = 5 \implies y = 2,5$</p>
+                    </div>
+                    <div style="flex: 1; min-width: 250px;">
+                        <div class="graph-container" data-eq1="-3,2,14" data-eq2="-2,4,16" data-cx="-3" data-cy="2.5" data-scale="20"></div>
+                        <div style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">I: <strong style="color: var(--doc-blue);">Blau</strong> | II: <strong style="color: var(--pdf-red);">Rot</strong></div>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <strong style="font-size: 1.2rem; color: var(--primary);">b)</strong>
+                <span style="font-weight: bold; font-size: 1.1rem; color: var(--text-main);">Schnittpunkt: $(10 \mid -10)$</span>
+            </div>
+            <details>
+                <summary style="margin-top: 0.5rem;">Lösungsweg anzeigen</summary>
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                    <div style="flex: 1; min-width: 250px; color: var(--text-muted); line-height: 1.8;">
+                        <p><em>Eliminationsverfahren: I und II addieren</em></p>
+                        $$
+                        \begin{array}{lrcr}
+                        \text{I:} & 2x - 2y &=& 40 \\
+                        \text{II:} & +\ (3x + 2y &=& 10) \\
+                        \hline
+                        \text{I+II:} & 5x &=& 50
+                        \end{array}
+                        $$
+                        <p>Daraus folgt durch Division mit $5$ direkt: $x = 10$.</p>
+                        <p><em>In II einsetzen:</em><br>
+                        $3(10) + 2y = 10 \implies 30 + 2y = 10$<br>
+                        $2y = -20 \implies y = -10$</p>
+                    </div>
+                    <div style="flex: 1; min-width: 250px;">
+                        <div class="graph-container" data-eq1="2,-2,40" data-eq2="3,2,10" data-cx="10" data-cy="-10" data-scale="10"></div>
+                        <div style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">I: <strong style="color: var(--doc-blue);">Blau</strong> | II: <strong style="color: var(--pdf-red);">Rot</strong></div>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <strong style="font-size: 1.2rem; color: var(--primary);">c)</strong>
+                <span style="font-weight: bold; font-size: 1.1rem; color: var(--text-main);">Schnittpunkt: $(7 \mid 8)$</span>
+            </div>
+            <details>
+                <summary style="margin-top: 0.5rem;">Lösungsweg anzeigen</summary>
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                    <div style="flex: 1; min-width: 250px; color: var(--text-muted); line-height: 1.8;">
+                        <p><strong>I:</strong> $6y = 3x + 27 \implies x = 2y - 9$<br>
+                        <strong>II:</strong> $-10x + 7y = -14$</p>
+                        <p><em>Einsetzungsverfahren (I in II):</em><br>
+                        $-10(2y - 9) + 7y = -14$<br>
+                        $-20y + 90 + 7y = -14$<br>
+                        $-13y = -104 \implies y = 8$</p>
+                        <p><em>In umgeformte I einsetzen:</em><br>
+                        $x = 2(8) - 9 = 16 - 9 \implies x = 7$</p>
+                    </div>
+                    <div style="flex: 1; min-width: 250px;">
+                        <div class="graph-container" data-eq1="-3,6,27" data-eq2="-10,7,-14" data-cx="7" data-cy="8" data-scale="15"></div>
+                        <div style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">I: <strong style="color: var(--doc-blue);">Blau</strong> | II: <strong style="color: var(--pdf-red);">Rot</strong></div>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <strong style="font-size: 1.2rem; color: var(--primary);">d)</strong>
+                <span style="font-weight: bold; font-size: 1.1rem; color: var(--text-main);">Schnittpunkt: $(2 \mid 2)$</span>
+            </div>
+            <details>
+                <summary style="margin-top: 0.5rem;">Lösungsweg anzeigen</summary>
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                    <div style="flex: 1; min-width: 250px; color: var(--text-muted); line-height: 1.8;">
+                        <p><strong>I:</strong> $y = -2x + 6$<br>
+                        <strong>II:</strong> $y + x = 4 \implies y = -x + 4$</p>
+                        <p><em>Gleichsetzungsverfahren:</em><br>
+                        $-2x + 6 = -x + 4$<br>
+                        $-x = -2 \implies x = 2$</p>
+                        <p><em>In umgeformte II einsetzen:</em><br>
+                        $y = -2 + 4 \implies y = 2$</p>
+                    </div>
+                    <div style="flex: 1; min-width: 250px;">
+                        <div class="graph-container" data-eq1="2,1,6" data-eq2="1,1,4" data-cx="2" data-cy="2" data-scale="25"></div>
+                        <div style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">I: <strong style="color: var(--doc-blue);">Blau</strong> | II: <strong style="color: var(--pdf-red);">Rot</strong></div>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; border-left: 5px solid var(--pdf-red);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <strong style="font-size: 1.2rem; color: var(--primary);">e)</strong>
+                <span style="font-weight: bold; font-size: 1.1rem; color: var(--pdf-red);">Keine Lösung $\{\}$ (parallel)</span>
+            </div>
+            <details>
+                <summary style="margin-top: 0.5rem;">Lösungsweg anzeigen</summary>
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                    <div style="flex: 1; min-width: 250px; color: var(--text-muted); line-height: 1.8;">
+                        <p><strong>I:</strong> $-\frac{x}{3} - \frac{y}{2} = -1 \quad | \cdot (-6) \implies 2x + 3y = 6$<br>
+                        <strong>II:</strong> $2x + 3y = 12$</p>
+                        <p><em>Eliminationsverfahren: Gleichung II von I' subtrahieren</em></p>
+                        $$
+                        \begin{array}{lrcr}
+                        \text{I':} & 2x + 3y &=& 6 \\
+                        \text{II:} & -\ (2x + 3y &=& 12) \\
+                        \hline
+                        \text{I'-II:} & 0 &=& -6
+                        \end{array}
+                        $$
+                        <p>Das ist eine <strong>falsche Aussage</strong>. Es gibt keinen Schnittpunkt, die Geraden sind parallel.</p>
+                    </div>
+                    <div style="flex: 1; min-width: 250px;">
+                        <div class="graph-container" data-eq1="2,3,6" data-eq2="2,3,12" data-cx="0" data-cy="2" data-scale="20"></div>
+                        <div style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">I: <strong style="color: var(--doc-blue);">Blau</strong> | II: <strong style="color: var(--pdf-red);">Rot</strong> (Parallel)</div>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; border-left: 5px solid var(--xls-green);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <strong style="font-size: 1.2rem; color: var(--primary);">f)</strong>
+                <span style="font-weight: bold; font-size: 1.1rem; color: var(--xls-green);">Unendlich viele Lösungen (identisch)</span>
+            </div>
+            <details>
+                <summary style="margin-top: 0.5rem;">Lösungsweg anzeigen</summary>
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                    <div style="flex: 1; min-width: 250px; color: var(--text-muted); line-height: 1.8;">
+                        <p><strong>I:</strong> $-2y + 3x = 6 \implies 3x - 2y = 6$<br>
+                        <strong>II:</strong> $x = 2 + \frac{2}{3}y \quad | \cdot 3 \implies 3x = 6 + 2y \implies 3x - 2y = 6$</p>
+                        <p>Wir sehen sofort, dass Gleichung I und Gleichung II <strong>exakt gleich</strong> sind. Es handelt sich um ein und dieselbe Gerade. Jeder Punkt auf der Geraden ist eine Lösung.</p>
+                    </div>
+                    <div style="flex: 1; min-width: 250px;">
+                        <div class="graph-container" data-eq1="3,-2,6" data-eq2="3,-2,6" data-cx="2" data-cy="0" data-scale="20"></div>
+                        <div style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">Beide Gleichungen liegen exakt übereinander.</div>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <strong style="font-size: 1.2rem; color: var(--primary);">g)</strong>
+                <span style="font-weight: bold; font-size: 1.1rem; color: var(--text-main);">Schnittpunkt: $(\frac{4}{3} \mid -\frac{28}{9})$</span>
+            </div>
+            <details>
+                <summary style="margin-top: 0.5rem;">Lösungsweg anzeigen</summary>
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                    <div style="flex: 1; min-width: 250px; color: var(--text-muted); line-height: 1.8;">
+                        <p><strong>I:</strong> $\frac{3}{4}y + x = -1 \quad | \cdot 4 \implies 3y + 4x = -4$<br>
+                        <strong>II:</strong> $5x - 3y = 16$</p>
+                        <p><em>Eliminationsverfahren: Gleichung I' und II addieren</em></p>
+                        $$
+                        \begin{array}{lrcr}
+                        \text{I':} & 4x + 3y &=& -4 \\
+                        \text{II:} & +\ (5x - 3y &=& 16) \\
+                        \hline
+                        \text{I'+II:} & 9x &=& 12
+                        \end{array}
+                        $$
+                        <p>Daraus folgt: $x = \frac{12}{9} = \frac{4}{3}$</p>
+                        <p><em>In II einsetzen:</em><br>
+                        $5(\frac{4}{3}) - 3y = 16 \implies \frac{20}{3} - 16 = 3y$<br>
+                        $y = -\frac{28}{9} \approx -3,11$</p>
+                    </div>
+                    <div style="flex: 1; min-width: 250px;">
+                        <div class="graph-container" data-eq1="4,3,-4" data-eq2="5,-3,16" data-cx="1.33" data-cy="-3.11" data-scale="15"></div>
+                        <div style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">I: <strong style="color: var(--doc-blue);">Blau</strong> | II: <strong style="color: var(--pdf-red);">Rot</strong></div>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <strong style="font-size: 1.2rem; color: var(--primary);">h)</strong>
+                <span style="font-weight: bold; font-size: 1.1rem; color: var(--text-main);">Schnittpunkt: $(1,1 \mid 2,5)$</span>
+            </div>
+            <details>
+                <summary style="margin-top: 0.5rem;">Lösungsweg anzeigen</summary>
+                <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                    <div style="flex: 1; min-width: 250px; color: var(--text-muted); line-height: 1.8;">
+                        <p><strong>I:</strong> $5x + 8y = 25,5 \quad | \cdot 2 \implies 10x + 16y = 51$<br>
+                        <strong>II:</strong> $2x + 3y = 9,7 \quad | \cdot 5 \implies 10x + 15y = 48,5$</p>
+                        <p><em>Eliminationsverfahren: Gleichung II' von I' subtrahieren</em></p>
+                        $$
+                        \begin{array}{lrcr}
+                        \text{I':} & 10x + 16y &=& 51 \\
+                        \text{II':} & -\ (10x + 15y &=& 48,5) \\
+                        \hline
+                        \text{I'-II':} & y &=& 2,5
+                        \end{array}
+                        $$
+                        <p><em>In II einsetzen:</em><br>
+                        $2x + 3(2,5) = 9,7 \implies 2x + 7,5 = 9,7$<br>
+                        $2x = 2,2 \implies x = 1,1$</p>
+                    </div>
+                    <div style="flex: 1; min-width: 250px;">
+                        <div class="graph-container" data-eq1="5,8,25.5" data-eq2="2,3,9.7" data-cx="1.1" data-cy="2.5" data-scale="30"></div>
+                        <div style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">I: <strong style="color: var(--doc-blue);">Blau</strong> | II: <strong style="color: var(--pdf-red);">Rot</strong></div>
+                    </div>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <section class="subject-group" id="labor">
+        <div class="subject-header">
+            <span class="subject-badge bg-info">Labor</span>
+            <h2 style="margin: 0; color: var(--primary);">LGS-Lösungskontrolle</h2>
+        </div>
+        <p>Bringe deine Gleichungen in die Form $ax + by = c$. Gib die Zahlen unten ein, um eigene Beispiele zu überprüfen!</p>
+        
+        <div style="background: white; border: 2px solid var(--primary); padding: 1.5rem; border-radius: 12px;">
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 1rem; flex-wrap: wrap;">
+                <strong style="color: var(--doc-blue); width: 30px;">I:</strong>
+                <input type="number" id="a1" value="2" step="any" style="width: 60px; padding: 5px; text-align: center;"> $x \quad +$
+                <input type="number" id="b1" value="-3" step="any" style="width: 60px; padding: 5px; text-align: center;"> $y \quad =$
+                <input type="number" id="c1" value="14" step="any" style="width: 60px; padding: 5px; text-align: center;">
+            </div>
+            
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                <strong style="color: var(--pdf-red); width: 30px;">II:</strong>
+                <input type="number" id="a2" value="-2" step="any" style="width: 60px; padding: 5px; text-align: center;"> $x \quad +$
+                <input type="number" id="b2" value="4" step="any" style="width: 60px; padding: 5px; text-align: center;"> $y \quad =$
+                <input type="number" id="c2" value="16" step="any" style="width: 60px; padding: 5px; text-align: center;">
+            </div>
+
+            <button class="nav-toggle active" onclick="solveLGS()" style="border: none;">Schnittpunkt berechnen</button>
+
+            <div id="lgsResult" style="display: none; margin-top: 1.5rem; background: var(--bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px;">
+                </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Mathematik verstehen 4 | Algebra - Lineare Gleichungssysteme</p>
+</footer>
+
+<script>
+    // Skript zum automatischen Zeichnen der 8 Graphen beim Laden der Seite
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.graph-container').forEach(container => {
+            let eq1 = container.dataset.eq1.split(',').map(Number);
+            let eq2 = container.dataset.eq2.split(',').map(Number);
+            let cx = parseFloat(container.dataset.cx);
+            let cy = parseFloat(container.dataset.cy);
+            let scale = parseFloat(container.dataset.scale);
+
+            let w = 300, h = 200;
+            let svg = `<svg viewBox="0 0 ${w} ${h}" width="100%" height="200" style="background: white; border: 1px solid #e2e8f0; border-radius: 8px;">`;
+
+            let mx = x => w/2 + (x - cx) * scale;
+            let my = y => h/2 - (y - cy) * scale;
+
+            // X- und Y-Achsen zeichnen
+            let xAxisY = my(0);
+            let yAxisX = mx(0);
+            if(xAxisY >= 0 && xAxisY <= h) {
+                svg += `<line x1="0" y1="${xAxisY}" x2="${w}" y2="${xAxisY}" stroke="#cbd5e1" stroke-width="1.5" />`;
+            }
+            if(yAxisX >= 0 && yAxisX <= w) {
+                svg += `<line x1="${yAxisX}" y1="0" x2="${yAxisX}" y2="${h}" stroke="#cbd5e1" stroke-width="1.5" />`;
+            }
+
+            // Funktion zum Zeichnen einer Geraden
+            let getLine = (a, b, c, color) => {
+                let x1 = cx - w/(2*scale);
+                let x2 = cx + w/(2*scale);
+                let y1, y2;
+                if (b !== 0) {
+                    y1 = (c - a*x1)/b;
+                    y2 = (c - a*x2)/b;
+                } else {
+                    x1 = c/a; x2 = c/a;
+                    y1 = cy - h/(2*scale);
+                    y2 = cy + h/(2*scale);
+                }
+                return `<line x1="${mx(x1)}" y1="${my(y1)}" x2="${mx(x2)}" y2="${my(y2)}" stroke="${color}" stroke-width="2.5" />`;
+            }
+
+            // Spezialfall f) (Identische Linien) prüfen, um die zweite Linie gestrichelt zu zeichnen
+            let isIdentical = (eq1[0]*eq2[1] === eq1[1]*eq2[0]) && (eq1[0]*eq2[2] === eq1[2]*eq2[0]);
+            
+            svg += getLine(eq1[0], eq1[1], eq1[2], 'var(--doc-blue)'); // Gleichung 1
+            
+            let line2 = getLine(eq2[0], eq2[1], eq2[2], 'var(--pdf-red)');
+            if(isIdentical) line2 = line2.replace('/>', 'stroke-dasharray="6,6" />');
+            svg += line2; // Gleichung 2
+
+            // Schnittpunkt zeichnen (wenn nicht parallel oder identisch)
+            let det = eq1[0]*eq2[1] - eq2[0]*eq1[1];
+            if (Math.abs(det) > 0.0001) {
+                let ix = (eq1[2]*eq2[1] - eq2[2]*eq1[1])/det;
+                let iy = (eq1[0]*eq2[2] - eq2[0]*eq1[2])/det;
+                svg += `<circle cx="${mx(ix)}" cy="${my(iy)}" r="5" fill="var(--text-main)" />`;
+            }
+
+            svg += `</svg>`;
+            container.innerHTML = svg;
+        });
+    });
+
+    // Skript für das LGS-Labor am Ende der Seite
+    function solveLGS() {
+        const a1 = parseFloat(document.getElementById('a1').value);
+        const b1 = parseFloat(document.getElementById('b1').value);
+        const c1 = parseFloat(document.getElementById('c1').value);
+        
+        const a2 = parseFloat(document.getElementById('a2').value);
+        const b2 = parseFloat(document.getElementById('b2').value);
+        const c2 = parseFloat(document.getElementById('c2').value);
+        
+        const resultBox = document.getElementById('lgsResult');
+
+        if (isNaN(a1) || isNaN(b1) || isNaN(c1) || isNaN(a2) || isNaN(b2) || isNaN(c2)) {
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = `<strong style="color: var(--pdf-red);">Bitte fülle alle Felder mit gültigen Zahlen aus!</strong>`;
+            return;
+        }
+
+        const det = (a1 * b2) - (a2 * b1);
+        const detX = (c1 * b2) - (c2 * b1);
+        const detY = (a1 * c2) - (a2 * c1);
+
+        resultBox.style.display = 'block';
+
+        if (det === 0) {
+            if (detX === 0 && detY === 0) {
+                resultBox.innerHTML = `
+                    <h4 style="margin-top:0; color: var(--xls-green);">Ergebnis: Identisch</h4>
+                    <p>Dieses Gleichungssystem hat <strong>unendlich viele Lösungen</strong>, da beide Gleichungen dieselbe Gerade beschreiben.</p>
+                `;
+            } else {
+                resultBox.innerHTML = `
+                    <h4 style="margin-top:0; color: var(--pdf-red);">Ergebnis: Parallel</h4>
+                    <p>Dieses Gleichungssystem hat <strong>keine Lösung</strong>, da die Geraden parallel verlaufen und sich nie schneiden.</p>
+                `;
+            }
+        } else {
+            let x = detX / det;
+            let y = detY / det;
+            
+            let strX = Number.isInteger(x) ? x : parseFloat(x.toFixed(3)).toString().replace('.', ',');
+            let strY = Number.isInteger(y) ? y : parseFloat(y.toFixed(3)).toString().replace('.', ',');
+
+            resultBox.innerHTML = `
+                <h4 style="margin-top:0; color: var(--primary);">Ergebnis: Genau ein Schnittpunkt</h4>
+                <div style="font-size: 1.5rem; text-align: center; margin-top: 1rem;">
+                    $x = ${strX}$ <br>
+                    $y = ${strY}$
+                </div>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <strong>Schnittpunkt:</strong> $S(${strX} \\mid ${strY})$
+                </div>
+            `;
+            
+            if (typeof MathJax !== 'undefined') {
+                MathJax.typesetPromise ? MathJax.typesetPromise() : MathJax.typeset();
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

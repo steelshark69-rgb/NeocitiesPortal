@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station 1: Ganze Zahlen | Klasse 3L Rallye</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .code-input-container {
+            margin-top: 3rem;
+            padding: 2.5rem;
+            background: var(--bg);
+            border: 2px dashed var(--primary);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .code-input {
+            font-size: 1.8rem;
+            letter-spacing: 0.2rem;
+            padding: 0.75rem;
+            width: 150px;
+            text-align: center;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .code-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        .task-number {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: bold;
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Station 1: System-Boot</h1>
+    <p>Die große Jahresabschluss-Rallye der 3L</p>
+    <div class="back-nav">
+        <a href="index.html" class="btn-back">⬅ Zurück zum Start</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 1</span>
+            <h2 style="margin: 0; color: var(--primary);">Mit ganzen Zahlen rechnen</h2>
+        </div>
+        
+        <div style="background: white; border: 1px solid #e2e8f0; border-left: 4px solid var(--pdf-red); padding: 1.5rem; border-radius: 8px; margin-bottom: 2.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            <p style="margin-top: 0; font-size: 1.1rem; line-height: 1.6;"><strong>Warnung: Verschlüsselung aktiv!</strong><br>
+            Um das Sicherheitssystem zu überwinden, müssen 8 Datenpakete entschlüsselt werden. Berechnet die Ergebnisse der folgenden Aufgaben. <strong>Die Summe aller 8 Ergebnisse</strong> ist euer Zugangscode für die nächste Station!</p>
+        </div>
+
+        <div class="resource-grid">
+            
+            <div class="resource-card">
+                <h4><span class="task-number">1</span> Kühlkammer (Leicht)</h4>
+                <p>Die Temperatur im Serverraum beträgt -18 °C. Durch einen Lüfterausfall steigt sie um 12 °C an, bevor die Notkühlung sie wieder um 5 °C senkt. Welche Temperatur hat es nun?</p>
+            </div>
+            
+            <div class="resource-card">
+                <h4><span class="task-number">2</span> Datenstrom (Leicht)</h4>
+                <p>Berechne den Quotienten aus -144 und 12. Multipliziere das Ergebnis anschließend mit -3.</p>
+            </div>
+            
+           <div class="resource-card">
+                <h4><span class="task-number">3</span> Protokoll A (Mittel)</h4>
+                <p>Beachte die Vorrangregeln (Punkt vor Strich). Berechne:<br>
+                <br>
+                <strong>−15 − 4 · (−8) + (−20) : 5</strong></p>
+            </div>
+            
+            <div class="resource-card">
+                <h4><span class="task-number">4</span> Abweichung (Mittel)</h4>
+                <p>Subtrahiere den Betrag von -45 vom Betrag von -20.</p>
+            </div>
+            
+            <div class="resource-card">
+                <h4><span class="task-number">5</span> Protokoll B (Schwer)</h4>
+                <p>Löse die Klammern von innen nach außen auf:<br>
+                <br>
+                <strong>−[ −12 − ( −8 + 15 ) · 2 ]</strong></p>
+            </div>
+            
+            <div class="resource-card">
+                <h4><span class="task-number">6</span> Text-Schlüssel (Schwer)</h4>
+                <p>Multipliziere die Summe der Zahlen -17 und 25 mit der Differenz der Zahlen -8 und -14.</p>
+            </div>
+
+            <div class="resource-card">
+                <h4><span class="task-number">7</span> Firewall (Sehr Schwer)</h4>
+                <p>Dividiere das Produkt von -15 und -8 durch die Summe von -27 und 37. Addiere zu diesem Zwischenergebnis abschließend die Zahl -12.</p>
+            </div>
+
+            <div class="resource-card">
+                <h4><span class="task-number">8</span> Der Kern (Sehr Schwer)</h4>
+                <p>Berechne den Wert des folgenden geschachtelten Ausdrucks:<br>
+                <br>
+                <strong>100 − { −5 · [ 12 − ( −4 + 7 ) · 6 ] } : 3</strong></p>
+            </div>
+
+        </div>
+
+        <div class="code-input-container">
+            <h3 style="margin-top: 0; color: var(--primary); font-size: 1.5rem;">Zugangscode (Summe) eingeben</h3>
+            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem;">Addiert die Ergebnisse der Aufgaben 1 bis 8 und gebt die Summe hier ein.</p>
+            
+            <input type="number" id="mastercode" class="code-input" placeholder="000" autocomplete="off">
+            <br>
+            <button class="nav-toggle active" onclick="checkCode()" style="font-size: 1.1rem; padding: 1rem 2rem;">🔓 Code bestätigen</button>
+            
+            <div id="error-message" style="display: none; background: #fef2f2; border: 1px solid var(--pdf-red); color: var(--pdf-red); padding: 1rem; border-radius: 8px; margin-top: 1.5rem; font-weight: bold;">
+                ❌ Zugriff verweigert! Die Summe stimmt noch nicht. Überprüft eure Rechenwege.
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Lösungen zur Kontrolle:
+    // 1: -11 | 2: 36 | 3: 13 | 4: -25 | 5: 26 | 6: 48 | 7: 0 | 8: 90
+    // Summe: 177
+
+    function checkCode() {
+        const codeInput = document.getElementById('mastercode').value;
+        const errorMsg = document.getElementById('error-message');
+        
+        if (codeInput === "177") {
+            errorMsg.style.display = "none";
+            
+            // Speichere den Fortschritt im sessionStorage
+            sessionStorage.setItem("rallye_station1_solved", "true");
+            
+            alert("✅ System-Boot erfolgreich! Zugangscode ist korrekt. Weiter geht es zu Station 2.");
+            window.location.href = "station2.html";
+        } else {
+            errorMsg.style.display = "block";
+            // Kleiner Wackeleffekt für das Eingabefeld bei falschem Code
+            const inputField = document.getElementById('mastercode');
+            inputField.style.transform = "translateX(-10px)";
+            setTimeout(() => inputField.style.transform = "translateX(10px)", 100);
+            setTimeout(() => inputField.style.transform = "translateX(-10px)", 200);
+            setTimeout(() => inputField.style.transform = "translateX(0)", 300);
+            
+            inputField.value = ""; 
+            inputField.focus(); 
+        }
+    }
+
+    document.getElementById('mastercode').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            checkCode();
+        }
+    });
+</script>
+
+</body>
+</html>

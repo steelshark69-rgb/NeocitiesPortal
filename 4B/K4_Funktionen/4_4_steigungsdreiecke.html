@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.4 Steigungsdreiecke | Prof. Schweitzer</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .explanation-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary, #2563eb);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .highlight-box {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .interactive-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #cbd5e1;
+        }
+        .controls {
+            flex: 1;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .canvas-container {
+            flex: 1.5;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        canvas {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            max-width: 100%;
+        }
+
+        .slider-group {
+            background: #f8fafc;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+        }
+        .slider-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .fraction-display {
+            text-align: center;
+            font-size: 1.4rem;
+            background: #eff6ff;
+            color: var(--primary, #2563eb);
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px dashed #93c5fd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .fraction {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            vertical-align: middle;
+        }
+        .fraction-top {
+            border-bottom: 2px solid var(--primary, #2563eb);
+            padding: 0 5px;
+        }
+        .fraction-bottom {
+            padding: 0 5px;
+        }
+
+        /* Trainer Styling */
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .input-row input {
+            width: 80px;
+            padding: 8px;
+            font-size: 1.1rem;
+            text-align: center;
+            border: 1px solid #94a3b8;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: var(--primary, #2563eb);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+            width: 100%;
+        }
+        button:hover { background-color: #1d4ed8; }
+        button:disabled { background-color: #94a3b8; cursor: not-allowed; }
+        
+        .feedback-msg {
+            margin-top: 10px;
+            font-weight: bold;
+            min-height: 24px;
+            text-align: center;
+        }
+        .correct-text { color: #166534; background: #dcfce7; padding: 10px; border-radius: 4px; }
+        .wrong-text { color: #991b1b; background: #fee2e2; padding: 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Kapitel 4.4</h1>
+    <p>Steigungsdreiecke anwenden</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">⬅ Zurück zur Übersicht</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Theorie</span>
+            <h2 style="margin: 0; color: var(--primary);">Das Geheimnis der Steigung k</h2>
+        </div>
+
+        <div class="explanation-box">
+            <p>Bisher haben wir die Steigung <i>k</i> immer so abgelesen: Wir gehen vom Graphen <strong>1 Einheit nach rechts</strong> (parallel zur 1. Achse) und schauen, wie weit wir hinauf oder hinunter gehen müssen, um wieder auf dem Graphen zu landen.</p>
+            <p>Mathematisch ausgedrückt: <strong><i>f(x + 1) = f(x) + k</i></strong>. Wird das Argument um 1 vergrößert, ändert sich der Funktionswert stets um <i>k</i>.</p>
+        </div>
+
+        <div class="highlight-box">
+            <h4 style="margin-top: 0; color: #b45309;">⚠️ Wenn k ein Bruch ist (Aufgabe 4.60)</h4>
+            <p style="margin-bottom: 0;">
+                Manchmal ist das Ablesen bei einem Schritt nach rechts sehr ungenau. Was, wenn die Steigung <i>k</i> = 2/3 ist? Dann müsste man 1 nach rechts und mühsame 0,666... nach oben gehen.<br><br>
+                <strong>Die Lösung: Große Steigungsdreiecke!</strong><br>
+                Wir können das Dreieck einfach vergrößern. Anstatt 1 nach rechts, gehen wir einfach den Wert des Nenners nach rechts (z.B. <strong>3</strong>) und den Wert des Zählers nach oben (z.B. <strong>2</strong>). Die Steigung <i>k</i> berechnet sich immer so:<br><br>
+                <span style="display: block; text-align: center; font-size: 1.2rem;">
+                    <i>k</i> = <strong>&Delta;y / &Delta;x</strong> (Änderung nach oben/unten dividiert durch Änderung nach rechts)
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Interaktiv</span>
+            <h2 style="margin: 0; color: var(--primary);">Explorer: Beliebige Steigungsdreiecke</h2>
+        </div>
+        
+        <p>Erstelle dein eigenes Steigungsdreieck! Wähle, wie viele Einheiten du nach rechts gehst (<strong>&Delta;x</strong>) und wie viele Einheiten hinauf oder hinunter (<strong>&Delta;y</strong>). Beobachte, wie sich der Bruch für <i>k</i> zusammensetzt.</p>
+
+        <div class="interactive-container">
+            <div class="controls">
+                
+                <div class="fraction-display">
+                    <i>k</i> = 
+                    <div class="fraction">
+                        <span class="fraction-top">&Delta;y (<span id="valDyTop">2</span>)</span>
+                        <span class="fraction-bottom">&Delta;x (<span id="valDxBottom">3</span>)</span>
+                    </div>
+                    = <strong id="valKDecimal">0,67</strong>
+                </div>
+
+                <div class="slider-group">
+                    <label for="sliderDx">
+                        Schritt nach rechts (&Delta;x) = <span id="valDx" style="color: #16a34a;">3</span>
+                    </label>
+                    <input type="range" id="sliderDx" min="1" max="6" step="1" value="3">
+                </div>
+
+                <div class="slider-group">
+                    <label for="sliderDy">
+                        Schritt hinauf/hinunter (&Delta;y) = <span id="valDy" style="color: #ea580c;">2</span>
+                    </label>
+                    <input type="range" id="sliderDy" min="-6" max="6" step="1" value="2">
+                </div>
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="triangleCanvas" width="450" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Übung</span>
+            <h2 style="margin: 0; color: var(--primary);">Trainer: k und d ablesen (vgl. Aufgabe 4.66)</h2>
+        </div>
+        
+        <p>Finde die Funktionsgleichung <strong><i>f(x) = k &middot; x + d</i></strong> der abgebildeten Geraden heraus! <br>
+        <strong>Tipp:</strong> Du kannst für <i>k</i> auch Brüche eingeben (z.B. <code>1/2</code> oder <code>-3/4</code>).</p>
+
+        <div class="interactive-container">
+            <div class="canvas-container">
+                <canvas id="trainerCanvas" width="450" height="400"></canvas>
+            </div>
+            <div class="controls">
+                <div style="background: #f8fafc; padding: 1.5rem; border: 1px solid #e2e8f0; border-radius: 6px;">
+                    <div class="input-row">
+                        <label for="inputK" style="width: 140px; font-weight: bold;">Steigung <i>k</i> =</label>
+                        <input type="text" id="inputK" placeholder="z.B. 2/3 oder 2">
+                    </div>
+                    <div class="input-row">
+                        <label for="inputD" style="width: 140px; font-weight: bold;">Startwert <i>d</i> =</label>
+                        <input type="text" id="inputD" placeholder="z.B. -1">
+                    </div>
+                    
+                    <div style="margin-top: 15px; text-align: center; font-size: 1.2rem; font-family: monospace; color: var(--primary);">
+                        <i>f(x)</i> = <span id="previewK">k</span> &middot; <i>x</i> + <span id="previewD">d</span>
+                    </div>
+                </div>
+
+                <button id="btnCheck">Ergebnis prüfen</button>
+                <div id="trainerFeedback" class="feedback-msg"></div>
+                <button id="btnNext" style="display: none; background-color: #10b981;">Nächste Gerade ➡</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        
+        // --- GEMEINSAME HILFSFUNKTIONEN ---
+        const scale = 30; // Pixel pro Einheit
+
+        function drawGrid(ctx, width, height) {
+            const originX = width / 2;
+            const originY = height / 2;
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.beginPath();
+            ctx.strokeStyle = "#e2e8f0";
+            ctx.lineWidth = 1;
+            // Vertikale Linien
+            for (let x = -10; x <= 10; x++) {
+                ctx.moveTo(originX + x * scale, 0); ctx.lineTo(originX + x * scale, height);
+            }
+            // Horizontale Linien
+            for (let y = -10; y <= 10; y++) {
+                ctx.moveTo(0, originY + y * scale); ctx.lineTo(width, originY + y * scale);
+            }
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.strokeStyle = "#334155";
+            ctx.lineWidth = 2;
+            ctx.moveTo(0, originY); ctx.lineTo(width, originY);
+            ctx.moveTo(originX, 0); ctx.lineTo(originX, height);
+            ctx.stroke();
+
+            ctx.fillStyle = "#334155";
+            ctx.font = "12px sans-serif";
+            ctx.fillText("x", width - 15, originY - 10);
+            ctx.fillText("f(x)", originX + 10, 15);
+
+            ctx.textAlign = "center";
+            for(let x = -7; x <= 7; x++) {
+                if(x !== 0) {
+                    ctx.fillText(x, originX + x * scale, originY + 15);
+                    ctx.fillText(-x, originX - 12, originY + x * scale + 4);
+                }
+            }
+            return { originX, originY };
+        }
+
+        // --- INTERAKTIV 1: EXPLORER ---
+        const canvasEx = document.getElementById("triangleCanvas");
+        const ctxEx = canvasEx.getContext("2d");
+        const sliderDx = document.getElementById("sliderDx");
+        const sliderDy = document.getElementById("sliderDy");
+        
+        function updateExplorer() {
+            const dx = parseInt(sliderDx.value);
+            const dy = parseInt(sliderDy.value);
+            const k = dy / dx;
+
+            // UI Text
+            document.getElementById("valDx").textContent = dx;
+            document.getElementById("valDy").textContent = dy;
+            document.getElementById("valDxBottom").textContent = dx;
+            document.getElementById("valDyTop").textContent = dy;
+            document.getElementById("valKDecimal").textContent = k.toFixed(2).replace('.', ',');
+
+            const origins = drawGrid(ctxEx, canvasEx.width, canvasEx.height);
+            
+            // Gerade zeichnen (Start bei d=1 der Übersichtlichkeit halber)
+            const d = 1;
+            ctxEx.beginPath();
+            ctxEx.strokeStyle = "#2563eb";
+            ctxEx.lineWidth = 3;
+            ctxEx.moveTo(origins.originX + (-7) * scale, origins.originY - (k * (-7) + d) * scale);
+            ctxEx.lineTo(origins.originX + (7) * scale, origins.originY - (k * (7) + d) * scale);
+            ctxEx.stroke();
+
+            // Steigungsdreieck zeichnen
+            const startX = 0;
+            const startY = d;
+            
+            ctxEx.beginPath();
+            ctxEx.strokeStyle = "#16a34a"; // Grün für dx
+            ctxEx.lineWidth = 3;
+            ctxEx.moveTo(origins.originX + startX * scale, origins.originY - startY * scale);
+            ctxEx.lineTo(origins.originX + (startX + dx) * scale, origins.originY - startY * scale);
+            ctxEx.stroke();
+
+            ctxEx.beginPath();
+            ctxEx.strokeStyle = "#ea580c"; // Orange für dy
+            ctxEx.moveTo(origins.originX + (startX + dx) * scale, origins.originY - startY * scale);
+            ctxEx.lineTo(origins.originX + (startX + dx) * scale, origins.originY - (startY + dy) * scale);
+            ctxEx.stroke();
+
+            // Beschriftung Dreieck
+            ctxEx.fillStyle = "#16a34a";
+            ctxEx.font = "bold 14px sans-serif";
+            ctxEx.fillText("Δx = " + dx, origins.originX + (dx/2) * scale, origins.originY - startY * scale + 20);
+            
+            ctxEx.fillStyle = "#ea580c";
+            ctxEx.textAlign = "left";
+            ctxEx.fillText("Δy = " + dy, origins.originX + dx * scale + 5, origins.originY - (startY + dy/2) * scale);
+        }
+
+        sliderDx.addEventListener("input", updateExplorer);
+        sliderDy.addEventListener("input", updateExplorer);
+        updateExplorer();
+
+        // --- INTERAKTIV 2: TRAINER ---
+        const canvasTr = document.getElementById("trainerCanvas");
+        const ctxTr = canvasTr.getContext("2d");
+        const inputK = document.getElementById("inputK");
+        const inputD = document.getElementById("inputD");
+        const btnCheck = document.getElementById("btnCheck");
+        const btnNext = document.getElementById("btnNext");
+        const feedback = document.getElementById("trainerFeedback");
+        
+        let currentK = 0;
+        let currentD = 0;
+
+        // Hilfsfunktion: Brucheingaben ("-1/2") oder Kommas ("-0,5") parsen
+        function parseMathInput(str) {
+            str = str.replace(/\s/g, '').replace(',', '.');
+            if(str.includes('/')) {
+                let parts = str.split('/');
+                if(parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1]) && parseFloat(parts[1]) !== 0) {
+                    return parseFloat(parts[0]) / parseFloat(parts[1]);
+                }
+            }
+            return parseFloat(str);
+        }
+
+        function generateTask() {
+            // Zufälliges d (-3 bis 3)
+            currentD = Math.floor(Math.random() * 7) - 3;
+            
+            // Zufälliges k (dx: 1 bis 3, dy: -3 bis 3, ausgenommen 0)
+            const dxOptions = [1, 2, 3];
+            const dyOptions = [-3, -2, -1, 1, 2, 3];
+            let dx = dxOptions[Math.floor(Math.random() * dxOptions.length)];
+            let dy = dyOptions[Math.floor(Math.random() * dyOptions.length)];
+            
+            currentK = dy / dx;
+
+            // UI Reset
+            inputK.value = "";
+            inputD.value = "";
+            inputK.disabled = false;
+            inputD.disabled = false;
+            btnCheck.disabled = false;
+            btnNext.style.display = "none";
+            feedback.textContent = "";
+            feedback.className = "feedback-msg";
+            
+            document.getElementById("previewK").textContent = "k";
+            document.getElementById("previewD").textContent = "d";
+
+            drawTask();
+        }
+
+        function drawTask(showSolution = false) {
+            const origins = drawGrid(ctxTr, canvasTr.width, canvasTr.height);
+            
+            ctxTr.beginPath();
+            ctxTr.strokeStyle = "#2563eb";
+            ctxTr.lineWidth = 3;
+            ctxTr.moveTo(origins.originX + (-7) * scale, origins.originY - (currentK * (-7) + currentD) * scale);
+            ctxTr.lineTo(origins.originX + (7) * scale, origins.originY - (currentK * (7) + currentD) * scale);
+            ctxTr.stroke();
+
+            if(showSolution) {
+                // Zeige den Punkt d
+                ctxTr.beginPath();
+                ctxTr.fillStyle = "#b45309";
+                ctxTr.arc(origins.originX, origins.originY - currentD * scale, 5, 0, Math.PI*2);
+                ctxTr.fill();
+            }
+        }
+
+        function updatePreview() {
+            document.getElementById("previewK").textContent = inputK.value || "k";
+            let dVal = inputD.value || "d";
+            if(dVal !== "d" && !dVal.startsWith("-") && dVal !== "0") dVal = "+ " + dVal;
+            if(dVal === "0") dVal = ""; // +0 weglassen
+            document.getElementById("previewD").textContent = dVal === "d" ? "+ d" : dVal;
+        }
+
+        inputK.addEventListener("input", updatePreview);
+        inputD.addEventListener("input", updatePreview);
+
+        btnCheck.addEventListener("click", () => {
+            let userK = parseMathInput(inputK.value);
+            let userD = parseMathInput(inputD.value);
+
+            if(isNaN(userK) || isNaN(userD)) {
+                feedback.textContent = "Bitte gib gültige Zahlen oder Brüche (z.B. 1/3) ein!";
+                feedback.className = "feedback-msg wrong-text";
+                return;
+            }
+
+            // Toleranz für Rundungsfehler bei Kommaeingaben (z.b. 0.33 statt 1/3)
+            const kCorrect = Math.abs(userK - currentK) < 0.05;
+            const dCorrect = Math.abs(userD - currentD) < 0.01;
+
+            if(kCorrect && dCorrect) {
+                feedback.innerHTML = "✅ <strong>Hervorragend!</strong> Du hast die Steigung und den Startwert richtig abgelesen.";
+                feedback.className = "feedback-msg correct-text";
+                inputK.disabled = true;
+                inputD.disabled = true;
+                btnCheck.disabled = true;
+                btnNext.style.display = "block";
+                drawTask(true); // Zeigt den d-Punkt als Bestätigung
+            } else if (!kCorrect && dCorrect) {
+                feedback.textContent = "❌ Der Startwert d stimmt, aber die Steigung k ist noch nicht ganz richtig. Zeichne dir ein Steigungsdreieck ein!";
+                feedback.className = "feedback-msg wrong-text";
+            } else if (kCorrect && !dCorrect) {
+                feedback.textContent = "❌ Die Steigung k ist super! Aber schau nochmal genau auf die y-Achse für den Startwert d.";
+                feedback.className = "feedback-msg wrong-text";
+            } else {
+                feedback.textContent = "❌ Beide Werte stimmen leider noch nicht. Finde zuerst den Schnittpunkt mit der y-Achse (d)!";
+                feedback.className = "feedback-msg wrong-text";
+            }
+        });
+
+        btnNext.addEventListener("click", generateTask);
+
+        // Init
+        generateTask();
+    });
+</script>
+
+</body>
+</html>

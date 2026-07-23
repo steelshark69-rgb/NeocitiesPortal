@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grafik-Fokus: Lineare Gleichungen & Systeme</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --light: #ecf0f1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        /* Neuer Style für den Portal-Zurück-Button */
+        .portal-back {
+            position: absolute;
+            left: 20px;
+            background-color: var(--light);
+            padding: 5px 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .portal-back:hover {
+            background-color: #ddd;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        section {
+            margin-bottom: 60px;
+            scroll-margin-top: 80px;
+        }
+
+        h2 {
+            border-left: 5px solid var(--accent);
+            padding-left: 15px;
+            color: var(--primary);
+        }
+
+        .theory-card {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .book-ref {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .interactive-tool {
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .grid-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .svg-graph {
+            background: white;
+            border: 1px solid #ccc;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background: var(--accent);
+            color: white;
+            font-weight: bold;
+        }
+
+        button.secondary { background: #95a5a6; }
+        button:hover { opacity: 0.9; }
+
+        .result-box {
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .success { background-color: #d4edda; color: #155724; display: block; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th { background-color: var(--light); }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Grafik-Labor: Lineare Zusammenhänge</h1>
+    <p>Visualisierung, Interpretation und Modellbildung</p>
+</header>
+
+<nav>
+    <a href="../index.html" class="portal-back">← Zurück zur Übersicht</a>
+    
+    <a href="#draw">1. Gerade zeichnen</a>
+    <a href="#lgs-visual">2. LGS & Spezialfälle</a>
+    <a href="#reverse">3. Gleichung finden</a>
+</nav>
+
+<div class="container">
+
+    <section id="draw">
+        <span class="book-ref">Referenz: S. 77, Aufgabe 3.10</span>
+        <h2>1. Zeichnen einer linearen Gleichung</h2>
+        <p>Um eine Gleichung wie \(2x + 7y = 56\) zu zeichnen, gibt es zwei Hauptwege:</p>
+        
+        <div class="theory-card">
+            <h4>Methode A: Achsenschnittpunkte (Schnittpunktmethode)</h4>
+            <ol>
+                <li>Setze \(x = 0\) \(\rightarrow\) Berechne \(y\) (Schnittpunkt mit der 2. Achse)</li>
+                <li>Setze \(y = 0\) \(\rightarrow\) Berechne \(x\) (Schnittpunkt mit der 1. Achse)</li>
+                <li>Verbinde die beiden Punkte.</li>
+            </ol>
+        </div>
+
+        <div class="interactive-tool">
+            <h3>Interaktives Beispiel 3.10</h3>
+            <p>Gleichung: \(2x + 7y = 56\)</p>
+            <div class="btn-group">
+                <button onclick="draw310Step(1)">Schritt 1: x=0 setzen</button>
+                <button onclick="draw310Step(2)">Schritt 2: y=0 setzen</button>
+                <button onclick="draw310Step(3)" class="secondary">Schritt 3: Gerade zeichnen</button>
+            </div>
+            <div class="grid-container">
+                <svg width="400" height="300" viewBox="0 0 400 300" class="svg-graph" id="svg310">
+                    <defs>
+                        <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="gray" stroke-width="0.5"/>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#smallGrid)" />
+                    <line x1="40" y1="260" x2="380" y2="260" stroke="black" stroke-width="2" /> <line x1="40" y1="20" x2="40" y2="260" stroke="black" stroke-width="2" />  </svg>
+            </div>
+            <div id="info310" style="font-weight: bold; color: var(--accent);"></div>
+        </div>
+    </section>
+
+    <section id="lgs-visual">
+        <span class="book-ref">Referenz: S. 80, S. 86</span>
+        <h2>2. LGS im Koordinatensystem</h2>
+        <p>Ein Gleichungssystem grafisch zu lösen bedeutet, den <strong>Schnittpunkt</strong> zu finden. Es gibt drei mögliche Lagen:</p>
+
+        <table>
+            <tr>
+                <th>Lage der Geraden</th>
+                <th>Anzahl der Lösungen</th>
+                <th>Bedingung</th>
+            </tr>
+            <tr>
+                <td>Schneidend</td>
+                <td>Genau eine</td>
+                <td>Unterschiedliche Steigung</td>
+            </tr>
+            <tr>
+                <td>Parallel</td>
+                <td>Keine Lösung</td>
+                <td>Gleiche Steigung, verschiedene Achsenabschnitte</td>
+            </tr>
+            <tr>
+                <td>Identisch</td>
+                <td>Unendlich viele</td>
+                <td>Gleiche Steigung, gleiche Achsenabschnitte</td>
+            </tr>
+        </table>
+
+        <div class="interactive-tool">
+            <h3>Visualisierung der Spezialfälle</h3>
+            <p>Wähle einen Fall aus Aufgabe 3.22 oder 3.45:</p>
+            <div class="btn-group">
+                <button onclick="drawLGS('single')">Ein Schnittpunkt</button>
+                <button onclick="drawLGS('parallel')" style="background: var(--warning)">Parallel (Keine)</button>
+                <button onclick="drawLGS('ident')" style="background: var(--success)">Identisch (Unendlich)</button>
+            </div>
+            <div class="grid-container">
+                <svg width="400" height="300" viewBox="0 0 400 300" class="svg-graph" id="svgLGS">
+                    <rect width="100%" height="100%" fill="url(#smallGrid)" />
+                    <line x1="200" y1="20" x2="200" y2="280" stroke="#ddd" />
+                    <line x1="20" y1="150" x2="380" y2="150" stroke="#ddd" />
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <section id="reverse">
+        <span class="book-ref">Referenz: S. 78, Merksatz & Aufgabe 3.16</span>
+        <h2>3. Von der Grafik zur Gleichung</h2>
+        <p>Wenn du die Schnittpunkte mit den Achsen kennst, kannst du die Gleichung extrem schnell aufstellen.</p>
+        
+        <div class="theory-card">
+            <h4>Die Achsenabschnitt-Formel (S. 78)</h4>
+            <p>Sind die Schnittpunkte \(P(p_1 | 0)\) und \(Q(0 | q_2)\) gegeben, lautet eine passende Gleichung stets:</p>
+            <div style="text-align: center; font-size: 1.2rem; margin: 15px 0;">
+                \(q_2 \cdot x + p_1 \cdot y = p_1 \cdot q_2\)
+            </div>
+            <p><strong>Beispiel:</strong> Schnittpunkte \((3|0)\) und \((0|2)\) <br>
+            \(\Rightarrow 2 \cdot x + 3 \cdot y = 3 \cdot 2\) <br>
+            \(\Rightarrow 2x + 3y = 6\)</p>
+        </div>
+
+        <div class="interactive-tool">
+            <h3>Gleichungs-Generator</h3>
+            <p>Gib die Schnittpunkte aus einem Graphen ein:</p>
+            Schnittpunkt 1. Achse: \(p_1 = \) <input type="number" id="inpP1" value="3"> <br><br>
+            Schnittpunkt 2. Achse: \(q_2 = \) <input type="number" id="inpQ2" value="2"> <br><br>
+            <button onclick="generateEquation()">Gleichung erstellen</button>
+            
+            <div id="eqResult" class="result-box success">
+                </div>
+        </div>
+    </section>
+
+</div>
+
+<footer>
+    <p>Mathematik verstehen 4 | Grafische Kompetenzen</p>
+</footer>
+
+<script>
+    // --- PART 1: DRAWING ---
+    function draw310Step(step) {
+        const svg = document.getElementById('svg310');
+        const info = document.getElementById('info310');
+        
+        if(step === 1) {
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute("cx", "40");
+            circle.setAttribute("cy", "100"); 
+            circle.setAttribute("r", "5");
+            circle.setAttribute("fill", "red");
+            svg.appendChild(circle);
+            info.innerHTML = "Schnittpunkt 2. Achse: (0 | 8)";
+        } else if(step === 2) {
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute("cx", "320"); 
+            circle.setAttribute("cy", "260");
+            circle.setAttribute("r", "5");
+            circle.setAttribute("fill", "red");
+            svg.appendChild(circle);
+            info.innerHTML = "Schnittpunkt 1. Achse: (28 | 0)";
+        } else {
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", "40");
+            line.setAttribute("y1", "100");
+            line.setAttribute("x2", "320");
+            line.setAttribute("y2", "260");
+            line.setAttribute("stroke", "blue");
+            line.setAttribute("stroke-width", "2");
+            svg.appendChild(line);
+            info.innerHTML = "Gerade der Gleichung 2x + 7y = 56 gezeichnet!";
+        }
+    }
+
+    // --- PART 2: LGS CASES ---
+    function drawLGS(type) {
+        const svg = document.getElementById('svgLGS');
+        while (svg.childNodes.length > 5) svg.removeChild(svg.lastChild);
+
+        const line1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        const line2 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        
+        line1.setAttribute("stroke", "blue");
+        line1.setAttribute("stroke-width", "2");
+        line2.setAttribute("stroke-width", "2");
+
+        if(type === 'single') {
+            line1.setAttribute("x1", "50"); line1.setAttribute("y1", "50");
+            line1.setAttribute("x2", "350"); line1.setAttribute("y2", "250");
+            line2.setAttribute("x1", "50"); line2.setAttribute("y1", "250");
+            line2.setAttribute("x2", "350"); line2.setAttribute("y2", "50");
+            line2.setAttribute("stroke", "red");
+        } else if(type === 'parallel') {
+            line1.setAttribute("x1", "50"); line1.setAttribute("y1", "100");
+            line1.setAttribute("x2", "350"); line1.setAttribute("y2", "100");
+            line2.setAttribute("x1", "50"); line2.setAttribute("y1", "150");
+            line2.setAttribute("x2", "350"); line2.setAttribute("y2", "150");
+            line2.setAttribute("stroke", "orange");
+        } else {
+            line1.setAttribute("x1", "50"); line1.setAttribute("y1", "200");
+            line1.setAttribute("x2", "350"); line1.setAttribute("y2", "100");
+            line2.setAttribute("x1", "50"); line2.setAttribute("y1", "200");
+            line2.setAttribute("x2", "350"); line2.setAttribute("y2", "100");
+            line2.setAttribute("stroke", "blue");
+            line2.setAttribute("stroke-dasharray", "5,5"); 
+        }
+        svg.appendChild(line1);
+        svg.appendChild(line2);
+    }
+
+    // --- PART 3: GENERATE ---
+    function generateEquation() {
+        const p1 = document.getElementById('inpP1').value;
+        const q2 = document.getElementById('inpQ2').value;
+        const result = document.getElementById('eqResult');
+        
+        const constant = p1 * q2;
+        
+        result.style.display = 'block';
+        result.innerHTML = `
+            <strong>Ergebnis:</strong><br>
+            Achsenabschnitt-Form: \\(${q2}x + ${p1}y = ${constant}\\)<br>
+            <small>Umgeformt auf y = kx + d:</small><br>
+            \\(y = -\\frac{${q2}}{${p1}}x + ${q2}\\)
+        `;
+        
+        if (typeof MathJax !== 'undefined') {
+            MathJax.typesetPromise ? MathJax.typesetPromise() : MathJax.typeset();
+        }
+    }
+</script>
+
+</body>
+</html>

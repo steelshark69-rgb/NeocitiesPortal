@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10.3 Häufigkeiten - AHS 2. Klasse</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <style>
+        :root {
+            --math-primary: #ea580c; /* Orange für Statistik & Daten */
+            --math-dark: #c2410c;
+            --math-light: #ffedd5;
+            --correct-bg: #d1fae5;
+            --correct-border: #10b981;
+            --incorrect-bg: #fee2e2;
+            --incorrect-border: #ef4444;
+        }
+
+        body { padding-bottom: 2rem; }
+
+        /* Custom Header Styling */
+        .page-header {
+            background-color: var(--math-primary);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        .page-header h1 { margin: 0; color: white; }
+        .page-header p { margin-top: 0.5rem; opacity: 0.9; color: white; }
+
+        /* Info & Theorie Boxen */
+        .theory-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            line-height: 1.6;
+        }
+        .theory-box h3 { color: var(--math-primary); margin-top: 0; font-size: 1.4rem; }
+        
+        .calculation-step {
+            background: #f8fafc;
+            border-left: 4px solid var(--math-primary);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Formel Box */
+        .formula-box {
+            background: white;
+            border: 2px dashed var(--math-primary);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .calc-fraction {
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+            margin: 0 10px;
+        }
+        .calc-fraction > span { display: block; padding: 2px 5px; }
+        .calc-fraction > span:first-child { border-bottom: 2px solid #1e293b; }
+
+        /* Interaktives Tool */
+        .interactive-section {
+            background: var(--math-light);
+            border: 2px solid #fdba74;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+        }
+        
+        .interactive-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        @media(min-width: 768px) {
+            .interactive-grid { grid-template-columns: 1fr 1.5fr; }
+        }
+
+        .input-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .poll-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .poll-input {
+            width: 70px;
+            padding: 8px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-top: 1rem;
+        }
+        th, td { padding: 10px; text-align: center; border-bottom: 1px solid #e2e8f0; }
+        th { background-color: var(--math-dark); color: white; font-size: 0.9rem; }
+        tr:last-child td { border-bottom: none; }
+
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-top: 1rem;
+        }
+
+        /* Tab-Navigation Styling */
+        .tab-nav-container {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 2rem;
+            background: white;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            color: #64748b;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+        .tab-btn:hover { background: #f8fafc; color: #334155; }
+        .tab-active { border-bottom: 4px solid var(--math-primary); color: var(--math-dark); background: #ffedd5; }
+
+        /* Aufgaben-Karten Styling */
+        .task-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            transition: border-color 0.2s;
+        }
+        @media(min-width: 768px) {
+            .task-card { flex-direction: row; justify-content: space-between; align-items: flex-start; }
+        }
+        
+        .task-content { flex: 1; padding-right: 1rem; }
+        .task-badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--math-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .task-text { font-size: 1.1rem; color: #334155; line-height: 1.5; margin: 0; }
+        
+        /* Lösungsbox */
+        .solution-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f8fafc;
+            border-left: 4px solid var(--math-primary);
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+            color: #475569;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Eingabefelder und Buttons */
+        .task-action { display: flex; gap: 10px; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
+        .task-input {
+            padding: 10px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            width: 130px;
+            text-align: center;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.2s;
+        }
+        .task-input:focus { border-color: var(--math-primary); }
+        
+        .task-btn {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .task-btn:hover { background: #1e293b; }
+        .btn-solution { background: #e2e8f0; color: #475569; }
+        .btn-solution:hover { background: #cbd5e1; color: #1e293b; }
+    </style>
+</head>
+<body>
+
+<header class="page-header">
+    <h1>10.3 Absolute & Relative Häufigkeit</h1>
+    <p>Daten zählen und ihren Anteil am Ganzen berechnen (Kapitel 10)</p>
+</header>
+
+<div class="back-nav" style="display: flex; justify-content: center; margin-bottom: 2rem;">
+    <a href="../index.html" class="btn-back" style="padding: 0.6rem 1.2rem; border-radius: 10px; background: #f8fafc; border: 1px solid #e2e8f0; color: #1e293b; text-decoration: none; font-weight: 700;">← Zurück zur Übersicht</a>
+</div>
+
+<main style="max-width: 1000px; margin: 0 auto; padding: 0 1.5rem;">
+
+    <!-- THEORIE BEREICH -->
+    <section class="theory-box">
+        <h3>📚 Theorie: Stückzahl vs. Anteil</h3>
+        <p>In der Statistik unterscheiden wir streng, ob wir nur einfache "Stückzahlen" angeben oder ob wir diese Stückzahlen in ein Verhältnis zur Gesamtzahl setzen.</p>
+        
+        <div class="calculation-step">
+            <strong>🔢 Absolute Häufigkeit (Die nackte Zahl)</strong><br>
+            Das ist einfach die Anzahl, wie oft ein bestimmtes Ergebnis vorgekommen ist. Sie wird gezählt (z. B. durch eine Strichliste).<br>
+            <em>Beispiel:</em> Genau <strong>6 Kinder</strong> spielen in der Pause gerne Fußball.
+        </div>
+        
+        <div class="calculation-step">
+            <strong>🍕 Relative Häufigkeit (Der Anteil)</strong><br>
+            Hier setzen wir die absolute Häufigkeit ins Verhältnis zur <strong>Gesamtzahl</strong>. Das ist wichtig zum Vergleichen! 6 Kinder sind in einer kleinen Klasse sehr viele, in einer ganzen Schule aber fast niemand.<br>
+            <em>Beispiel:</em> 6 Kinder <em>von insgesamt 24 Kindern</em> spielen Fußball.
+        </div>
+
+        <div class="formula-box">
+            <strong>Relative Häufigkeit =</strong> 
+            <div class="calc-fraction">
+                <span>Absolute Häufigkeit</span>
+                <span>Gesamtzahl</span>
+            </div>
+        </div>
+
+        <p>Die relative Häufigkeit kann man auf drei Arten anschreiben: als <strong>Bruch</strong>, als <strong>Dezimalzahl</strong> oder in <strong>Prozent (%)</strong>.</p>
+        <p style="text-align: center; background: #f1f5f9; padding: 10px; border-radius: 8px;">
+            <em>Beispiel 6 von 24:</em> Bruch: <strong>6/24 = 1/4</strong> ➔ Dezimalzahl: <strong>0,25</strong> ➔ Prozent: <strong>25 %</strong>
+        </p>
+    </section>
+
+    <!-- INTERAKTIVES LABOR -->
+    <section class="interactive-section">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+            <h3 style="margin-top: 0; color: var(--math-dark); font-size: 1.8rem;">🔬 Das Umfrage-Labor</h3>
+            <p style="margin-bottom: 0;">Trage die absoluten Häufigkeiten (Stückzahlen) der Haustier-Umfrage ein. Beobachte, wie sich die relativen Anteile und das Kreisdiagramm automatisch anpassen!</p>
+        </div>
+
+        <div class="interactive-grid">
+            <!-- Linke Seite: Eingaben -->
+            <div class="input-card">
+                <h4 style="margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Absolute Häufigkeiten</h4>
+                
+                <div class="poll-row">
+                    <span style="font-size: 1.2rem;">🐶 Hunde</span>
+                    <input type="number" id="val-hund" class="poll-input" value="8" min="0" oninput="updateStats()">
+                </div>
+                <div class="poll-row">
+                    <span style="font-size: 1.2rem;">🐱 Katzen</span>
+                    <input type="number" id="val-katze" class="poll-input" value="12" min="0" oninput="updateStats()">
+                </div>
+                <div class="poll-row">
+                    <span style="font-size: 1.2rem;">🐹 Nager</span>
+                    <input type="number" id="val-nager" class="poll-input" value="4" min="0" oninput="updateStats()">
+                </div>
+                <div class="poll-row" style="border-bottom: none;">
+                    <span style="font-size: 1.2rem;">Kein Haustier</span>
+                    <input type="number" id="val-keines" class="poll-input" value="6" min="0" oninput="updateStats()">
+                </div>
+
+                <div style="background: var(--math-light); padding: 10px; border-radius: 6px; text-align: center; font-size: 1.2rem; font-weight: bold; margin-top: 10px; border: 1px solid #fdba74;">
+                    Gesamtzahl: <span id="total-count" style="color: var(--math-dark);">30</span>
+                </div>
+            </div>
+
+            <!-- Rechte Seite: Auswertung (Tabelle & Diagramm) -->
+            <div>
+                <table id="stats-table">
+                    <thead>
+                        <tr>
+                            <th>Kategorie</th>
+                            <th>Relativ (Bruch)</th>
+                            <th>Relativ (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Wird per JS gefüllt -->
+                    </tbody>
+                </table>
+                
+                <div class="canvas-container">
+                    <canvas id="pieChart" width="300" height="300" style="max-width: 100%; height: auto;"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HINWEIS EINGABE -->
+    <div style="background: #fffbeb; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid #f59e0b;">
+        <strong>💡 Hinweis zur Eingabe:</strong>
+        <p style="margin-bottom: 0; margin-top: 5px;">Einheiten wie % müssen nicht eingetippt werden. Verwende bei Dezimalzahlen immer ein Komma (keinen Punkt). Falls du Brüche eingeben sollst, verwende den Schrägstrich (z.B. 1/4).</p>
+    </div>
+
+    <!-- ÜBUNGEN TABS -->
+    <div class="tab-nav-container">
+        <button onclick="showTab('leicht')" id="tab-leicht" class="tab-btn tab-active">🟢 Leicht (1-5)</button>
+        <button onclick="showTab('mittel')" id="tab-mittel" class="tab-btn">🟡 Mittel (6-10)</button>
+        <button onclick="showTab('schwer')" id="tab-schwer" class="tab-btn">🔴 Schwer (11-15)</button>
+    </div>
+
+    <div id="tasks-container">
+        <!-- Aufgaben werden hier per JS geladen -->
+    </div>
+
+</main>
+
+<footer style="margin-top: 5rem; padding: 2rem 1rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.9rem;">
+    <div style="max-width: 800px; margin: 0 auto 2rem auto; text-align: left; background: white; padding: 1.5rem; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <h4 style="margin-top: 0; color: #334155; font-size: 1.1rem;">Datenschutzhinweis (DSGVO)</h4>
+        <p style="margin-bottom: 0; line-height: 1.5;">Die Nutzung dieses Portals ist absolut datenschutzkonform. Es werden keine Eingaben an einen Server gesendet. Die Berechnung der relativen Häufigkeiten und das Zeichnen des Kreisdiagramms erfolgen rein lokal in deinem Browser.</p>
+    </div>
+    <div style="text-align: center; font-weight: bold;">
+        &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+    </div>
+</footer>
+
+<script>
+    // --- INTERAKTIVES LABOR LOGIK ---
+    const colors = ['#ea580c', '#3b82f6', '#10b981', '#64748b']; // Orange, Blau, Grün, Grau
+    const labels = ['Hunde', 'Katzen', 'Nager', 'Keines'];
+    
+    // Größter gemeinsamer Teiler zum Kürzen von Brüchen
+    function gcd(a, b) {
+        return b === 0 ? a : gcd(b, a % b);
+    }
+
+    function updateStats() {
+        const v1 = parseInt(document.getElementById('val-hund').value) || 0;
+        const v2 = parseInt(document.getElementById('val-katze').value) || 0;
+        const v3 = parseInt(document.getElementById('val-nager').value) || 0;
+        const v4 = parseInt(document.getElementById('val-keines').value) || 0;
+        
+        const data = [v1, v2, v3, v4];
+        const total = data.reduce((a, b) => a + b, 0);
+        
+        document.getElementById('total-count').innerText = total;
+
+        const tbody = document.getElementById('table-body');
+        tbody.innerHTML = '';
+
+        if (total === 0) {
+            drawEmptyPieChart();
+            return;
+        }
+
+        // Tabelle updaten
+        data.forEach((val, index) => {
+            const tr = document.createElement('tr');
+            
+            // Name mit Farbbox
+            const tdName = document.createElement('td');
+            tdName.innerHTML = `<span style="display:inline-block; width:12px; height:12px; background:${colors[index]}; border-radius:3px; margin-right:5px;"></span> <strong>${labels[index]}</strong>`;
+            
+            // Bruch (gekürzt)
+            const tdFraction = document.createElement('td');
+            if (val === 0) {
+                tdFraction.innerText = "0";
+            } else {
+                const divisor = gcd(val, total);
+                const num = val / divisor;
+                const den = total / divisor;
+                tdFraction.innerText = `${num}/${den}`;
+            }
+            
+            // Prozent
+            const tdPercent = document.createElement('td');
+            const percent = ((val / total) * 100).toFixed(1).replace('.', ',');
+            tdPercent.innerText = `${percent} %`;
+
+            tr.appendChild(tdName);
+            tr.appendChild(tdFraction);
+            tr.appendChild(tdPercent);
+            tbody.appendChild(tr);
+        });
+
+        // Diagramm updaten
+        drawPieChart(data, total);
+    }
+
+    function drawPieChart(data, total) {
+        const canvas = document.getElementById('pieChart');
+        const ctx = canvas.getContext('2d');
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(centerX, centerY) - 10;
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        let startAngle = -Math.PI / 2; // Start oben (12 Uhr)
+
+        data.forEach((val, i) => {
+            if (val === 0) return;
+            
+            const sliceAngle = (val / total) * 2 * Math.PI;
+            
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+            ctx.closePath();
+            
+            ctx.fillStyle = colors[i];
+            ctx.fill();
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            startAngle += sliceAngle;
+        });
+    }
+
+    function drawEmptyPieChart() {
+        const canvas = document.getElementById('pieChart');
+        const ctx = canvas.getContext('2d');
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(centerX, centerY) - 10;
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = '#f1f5f9';
+        ctx.fill();
+        ctx.strokeStyle = '#cbd5e1';
+        ctx.stroke();
+        
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText("Keine Daten", centerX, centerY);
+    }
+
+    window.addEventListener('load', updateStats);
+
+    // --- ÜBUNGSAUFGABEN LOGIK ---
+    const tasks = {
+        leicht: [
+            { id: 1, q: "In einer Klasse mit 20 Kindern tragen 10 eine Brille. Wie hoch ist die relative Häufigkeit der Brillenträger in Prozent?", a: "50", s: "Der Bruch ist 10/20. Gekürzt ist das 1/2. Ein Halbes entspricht genau 50 %." },
+            { id: 2, q: "Die absolute Häufigkeit ist 5, die Gesamtzahl ist 25. Wie lautet die relative Häufigkeit als vollständig gekürzter Bruch? (Eingabe z.B. 1/3)", a: "1/5", s: "Relative Häufigkeit = Absolute Häufigkeit / Gesamtzahl = 5/25. Wir können oben und unten durch 5 dividieren (kürzen) und erhalten 1/5." },
+            { id: 3, q: "Die relative Häufigkeit eines Ereignisses beträgt 3/4. Wie viel Prozent sind das?", a: "75", s: "Ein Viertel (1/4) entspricht 25 %. Drei Viertel (3/4) sind daher 3 · 25 % = 75 %." },
+            { id: 4, q: "In einem Korb liegen 10 Bälle. Genau 2 davon sind rot. Wie hoch ist die relative Häufigkeit der roten Bälle in Prozent?", a: "20", s: "Bruch: 2/10. Wenn wir das auf Hundertstel erweitern (mal 10), erhalten wir 20/100, was exakt 20 % bedeutet." },
+            { id: 5, q: "Alle 8 von 8 Mitgliedern eines Teams sind beim Training erschienen. Wie hoch ist die relative Häufigkeit der anwesenden Mitglieder in Prozent?", a: "100", s: "Bruch: 8/8 = 1. Ein Ganzes (1) entspricht immer genau 100 %. Alle sind da!" }
+        ],
+        mittel: [
+            { id: 6, q: "Die Klasse 2L hat 24 Schüler. 6 davon spielen in der Freizeit Tennis. Berechne die relative Häufigkeit in Prozent.", a: "25", s: "Bruch: 6/24. Wir kürzen mit 6 und erhalten 1/4. Ein Viertel entspricht 25 %." },
+            { id: 7, q: "In einer Urne liegen 15 rote, 5 blaue und 10 grüne Kugeln. Du ziehst eine Kugel. Wie hoch ist die relative Häufigkeit, eine rote Kugel zu ziehen? (in Prozent)", a: "50", s: "Zuerst die Gesamtzahl berechnen: 15 + 5 + 10 = 30 Kugeln. Es gibt 15 rote Kugeln. Der Bruch lautet 15/30 = 1/2 = 50 %." },
+            { id: 8, q: "Ein normaler, fairer Spielwürfel (Zahlen 1 bis 6) wird geworfen. Wie hoch ist die relative Häufigkeit für das Würfeln einer geraden Zahl? (in Prozent)", a: "50", s: "Gerade Zahlen auf dem Würfel sind 2, 4 und 6. Das sind 3 Zahlen (Absolute Häufigkeit = 3). Gesamtzahl aller Zahlen = 6. Der Bruch ist 3/6 = 1/2 = 50 %." },
+            { id: 9, q: "40 % von 30 befragten Personen essen gerne Äpfel. Wie hoch ist die absolute Häufigkeit (die genaue Anzahl der Personen)?", a: "12", s: "Wir suchen den Prozentwert. 10 % von 30 Personen sind 3 Personen. 40 % sind viermal so viel: 4 · 3 = 12 Personen." },
+            { id: 10, q: "Die relative Häufigkeit ist 2/5. Schreibe diesen Anteil als Prozentzahl.", a: "40", s: "Wir erweitern den Bruch 2/5 auf Hundertstel. Oben und unten mal 20 rechnen: (2·20)/(5·20) = 40/100 = 40 %." }
+        ],
+        schwer: [
+            { id: 11, q: "15 % einer Klasse haben einen Einser in Mathe. Das sind genau 6 Schüler. Wie groß ist die Gesamtzahl der Schüler in dieser Klasse?", a: "40", s: "Hier ist die absolute Häufigkeit (6) und die relative Häufigkeit (15 %) gegeben, wir suchen die Gesamtzahl (Grundwert).<br>15 % = 6 Schüler. Wir dividieren durch 3.<br>5 % = 2 Schüler. Wir multiplizieren mit 20.<br>100 % = 40 Schüler." },
+            { id: 12, q: "In einer Umfrage stimmen 30 von 150 Leuten für 'Ja'. Du sollst dies in einem Kreisdiagramm zeichnen. Wie viel Grad (°) hat der Kreissektor für 'Ja'?", a: "72", s: "Zuerst den Anteil berechnen: 30/150 = 1/5 = 20 %.<br>Ein ganzer Kreis hat 360°. Wir brauchen 20 % von 360°.<br>10 % von 360° = 36°. 20 % sind 2 · 36 = 72°." },
+            { id: 13, q: "Die absolute Häufigkeit steigt von 5 auf 10, gleichzeitig steigt die Gesamtzahl aber von 20 auf 50. Sinkt oder steigt die relative Häufigkeit insgesamt? (Antwort: sinkt oder steigt)", a: "sinkt", s: "Vorher: 5/20 = 1/4 = 25 %.<br>Nachher: 10/50 = 1/5 = 20 %.<br>Obwohl die absolute Zahl gestiegen ist, ist der Anteil (die relative Häufigkeit) gesunken!" },
+            { id: 14, q: "Heute fehlen 5 Kinder in der Klasse. Das sind 20 % aller Schüler. Wie hoch ist die absolute Häufigkeit der ANWESENDEN Kinder?", a: "20", s: "Zuerst die Gesamtzahl berechnen: 20 % = 5 Kinder. 100 % (mal 5) = 25 Kinder gesamt.<br>5 fehlen, also sind 25 - 5 = 20 Kinder anwesend." },
+            { id: 15, q: "In Klasse A (20 Schüler) haben 10 % einen Einser. In Klasse B (30 Schüler) haben ebenfalls 10 % einen Einser. Wie lautet die absolute Häufigkeit aller Einser aus beiden Klassen zusammen?", a: "5", s: "Klasse A: 10 % von 20 = 2 Einser.<br>Klasse B: 10 % von 30 = 3 Einser.<br>Zusammengezählt ergibt das 2 + 3 = 5 Einser." }
+        ]
+    };
+
+    let currentTab = 'leicht';
+
+    function showTab(tabName) {
+        currentTab = tabName;
+        
+        // Update UI Tabs
+        ['leicht', 'mittel', 'schwer'].forEach(t => {
+            document.getElementById('tab-' + t).classList.remove('tab-active');
+        });
+        document.getElementById('tab-' + tabName).classList.add('tab-active');
+
+        renderTasks();
+    }
+
+    function renderTasks() {
+        const container = document.getElementById('tasks-container');
+        container.innerHTML = '';
+
+        tasks[currentTab].forEach(task => {
+            const div = document.createElement('div');
+            div.className = "task-card";
+            div.innerHTML = `
+                <div class="task-content">
+                    <div class="task-badge">Aufgabe ${task.id}</div>
+                    <p class="task-text">${task.q}</p>
+                    <div id="solution-${task.id}" class="solution-box">
+                        <strong>💡 Lösungsweg:</strong><br> ${task.s}
+                    </div>
+                </div>
+                <div class="task-action">
+                    <input type="text" id="input-${task.id}" placeholder="Ergebnis" class="task-input">
+                    <button onclick="checkAnswer(${task.id}, '${task.a}')" class="task-btn">Prüfen</button>
+                    <button onclick="toggleSolution(${task.id})" class="task-btn btn-solution">Lösungsweg</button>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function checkAnswer(id, correct) {
+        const input = document.getElementById('input-' + id);
+        let userVal = input.value.trim().replace(',', '.').toLowerCase();
+        let targetVal = correct.replace(',', '.').toLowerCase();
+
+        // Überprüfung, ob eine Zahl eingegeben wurde für Toleranz (außer bei Textantworten wie 'sinkt' oder Brüchen '1/5')
+        let numUser = parseFloat(userVal);
+        let numTarget = parseFloat(targetVal);
+
+        if (!isNaN(numUser) && !isNaN(numTarget) && !userVal.includes('/') && !targetVal.includes('/') && numUser === numTarget) {
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
+        } else if (userVal === targetVal) {
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
+        } else {
+            input.classList.remove('correct');
+            input.classList.add('incorrect');
+        }
+    }
+
+    function toggleSolution(id) {
+        const solBox = document.getElementById('solution-' + id);
+        if (solBox.style.display === "block") {
+            solBox.style.display = "none";
+        } else {
+            solBox.style.display = "block";
+        }
+    }
+
+    // Initialize Tasks
+    window.addEventListener('load', () => showTab('leicht'));
+</script>
+
+</body>
+</html>

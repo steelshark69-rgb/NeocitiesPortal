@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brüche & Dezimalzahlen umwandeln</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        .memory-card {
+            background: white; border: 2px solid #e2e8f0; border-radius: 8px; padding: 1rem;
+            text-align: center; font-size: 1.5rem; font-weight: bold; color: var(--primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: 0.2s;
+        }
+        .memory-card:hover { transform: translateY(-3px); border-color: var(--primary); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        
+        .quiz-input {
+            font-size: 1.5rem; text-align: center; font-weight: bold; border: 2px solid #cbd5e1; 
+            border-radius: 6px; padding: 10px; width: 120px; outline: none; transition: 0.2s;
+        }
+        .quiz-input:focus { border-color: var(--primary); }
+        .frac-input { width: 80px; margin: 2px 0; }
+        .frac-line { width: 80px; height: 3px; background-color: var(--text-main); margin: 5px auto; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Zwei Seiten derselben Medaille</h1>
+    <p>Brüche in Dezimalzahlen (Kommazahlen) umwandeln – und umgekehrt!</p>
+</header>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main>
+    <section class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Erklärung</span>
+            <h2 style="margin: 0; color: var(--primary);">Von Bruch zu Kommazahl</h2>
+        </div>
+        <p>Ein Bruch und eine Kommazahl sind nur zwei verschiedene Schreibweisen für exakt denselben Wert. Um von einem Bruch zu einer Kommazahl zu kommen, hast du zwei gute Werkzeuge zur Auswahl:</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+            <div style="background: var(--card-bg); border-left: 5px solid var(--xls-green); padding: 1.5rem; border-radius: 8px;">
+                <h3 style="margin-top: 0; color: var(--xls-green);">Methode 1: Der Dezimalbruch</h3>
+                <p style="font-size: 0.95rem;">Wenn im Nenner (unten) eine 10, 100 oder 1000 steht, kannst du die Kommazahl direkt ablesen. Die Anzahl der Nullen im Nenner verrät dir die Anzahl der Nachkommastellen!</p>
+                
+                
+                
+                <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; text-align: center; font-size: 1.2rem; margin-top: 1rem;">
+                    $\frac{7}{10} = 0,7 \quad$ (1 Null $\rightarrow$ 1 Stelle)<br><br>
+                    $\frac{13}{100} = 0,13 \quad$ (2 Nullen $\rightarrow$ 2 Stellen)
+                </div>
+                <p style="font-size: 0.95rem; margin-top: 1rem;"><strong>Tipp:</strong> Wenn im Nenner eine andere Zahl steht, musst du den Bruch zuerst auf 10, 100 oder 1000 <strong>erweitern</strong>!<br>
+                <em>Beispiel:</em> $\frac{1 \cdot 5}{2 \cdot 5} = \frac{5}{10} = 0,5$</p>
+            </div>
+
+            <div style="background: var(--card-bg); border-left: 5px solid var(--doc-blue); padding: 1.5rem; border-radius: 8px;">
+                <h3 style="margin-top: 0; color: var(--doc-blue);">Methode 2: Die Division</h3>
+                <p style="font-size: 0.95rem;">Manchmal lässt sich ein Bruch nicht so leicht auf 10 oder 100 erweitern. Erinnere dich: Der Bruchstrich ist eigentlich nur ein <strong>Divisionszeichen</strong> ($:$).</p>
+                <div style="background: #f0f9ff; padding: 1rem; border-radius: 8px; text-align: center; font-size: 1.2rem; margin-top: 1rem;">
+                    $\frac{3}{4} = 3 : 4 = 0,75$<br>
+                </div>
+                <p style="font-size: 0.95rem; margin-top: 1rem;">Rechne einfach den Zähler geteilt durch den Nenner (notfalls als schriftliche Division oder Nebenrechnung). Das Ergebnis ist deine Kommazahl!</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Erklärung</span>
+            <h2 style="margin: 0; color: var(--primary);">Von Kommazahl zu Bruch</h2>
+        </div>
+        <p>Der Rückweg ist oft noch einfacher! Du liest die Kommazahl ab und schreibst sie in einen Bruch um. Danach darfst du das Kürzen nicht vergessen!</p>
+
+        <div style="background: white; border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+            
+            
+            <ol style="line-height: 1.8; font-size: 1.1rem; color: var(--text-main);">
+                <li><strong>Zähler (oben):</strong> Schreibe die Kommazahl einfach ohne Komma ab (z.B. aus $0,45$ wird $45$).</li>
+                <li><strong>Nenner (unten):</strong> Zähle die Nachkommastellen. Bei einer Stelle nimmst du eine $10$, bei zwei Stellen eine $100$ und bei drei Stellen eine $1000$.</li>
+                <li><strong>Kürzen:</strong> Überprüfe, ob du den Bruch noch kleiner machen kannst (z.B. durch 2 oder durch 5 dividieren).</li>
+            </ol>
+            <div style="text-align: center; font-size: 1.5rem; margin-top: 1.5rem;">
+                $0,45 = \frac{45}{100} = \frac{45 : 5}{100 : 5} = \frac{9}{20}$
+            </div>
+        </div>
+    </section>
+
+    <section class="subject-group">
+        <h3 style="text-align: center; color: var(--text-muted); text-transform: uppercase; font-size: 1rem; letter-spacing: 1px;">Diese Freunde solltest du auswendig kennen:</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+            <div class="memory-card">$\frac{1}{2} = 0,5$</div>
+            <div class="memory-card">$\frac{1}{4} = 0,25$</div>
+            <div class="memory-card">$\frac{3}{4} = 0,75$</div>
+            <div class="memory-card">$\frac{1}{5} = 0,2$</div>
+            <div class="memory-card">$\frac{1}{10} = 0,1$</div>
+        </div>
+    </section>
+
+    <section class="subject-group" id="labor">
+        <div class="subject-header">
+            <span class="subject-badge bg-info">Labor</span>
+            <h2 style="margin: 0; color: var(--primary);">Das Umwandlungs-Trainingslager</h2>
+        </div>
+        <p>Zeig, was du kannst! Wähle eine Trainings-Richtung und trage die richtige Lösung ein. Schreibe Kommazahlen mit einem Komma (,) und nicht mit einem Punkt!</p>
+        
+        <div style="background: white; border: 2px solid var(--primary); border-radius: 12px; overflow: hidden; max-width: 600px; margin: 0 auto;">
+            
+            <div style="display: flex; background: var(--bg); border-bottom: 1px solid #e2e8f0;">
+                <button id="btn-mode-1" onclick="switchQuizMode('toDec')" style="flex: 1; padding: 1rem; font-weight: bold; border: none; background: white; color: var(--primary); border-bottom: 3px solid var(--primary); cursor: pointer; font-size: 1.1rem;">Bruch ➔ Komma</button>
+                <button id="btn-mode-2" onclick="switchQuizMode('toFrac')" style="flex: 1; padding: 1rem; font-weight: bold; border: none; background: transparent; color: var(--text-muted); border-bottom: 3px solid transparent; cursor: pointer; font-size: 1.1rem;">Komma ➔ Bruch</button>
+            </div>
+
+            <div style="padding: 2.5rem; display: flex; flex-direction: column; align-items: center; min-height: 250px;">
+                
+                <div style="display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem;">
+                    
+                    <div id="quiz-question" style="font-size: 3rem; font-weight: bold; color: var(--text-main);">
+                        </div>
+
+                    <div style="font-size: 2rem; color: var(--text-muted); font-weight: bold;">=</div>
+
+                    <div id="quiz-input-area">
+                        <div id="input-dec-mode" style="display: block;">
+                            <input type="text" id="ans-dec" class="quiz-input" placeholder="0,..." onkeydown="if(event.key === 'Enter') checkAnswer()">
+                        </div>
+
+                        <div id="input-frac-mode" style="display: none; flex-direction: column; align-items: center;">
+                            <input type="number" id="ans-z" class="quiz-input frac-input" placeholder="Zähler" onkeydown="if(event.key === 'Enter') checkAnswer()">
+                            <div class="frac-line"></div>
+                            <input type="number" id="ans-n" class="quiz-input frac-input" placeholder="Nenner" onkeydown="if(event.key === 'Enter') checkAnswer()">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="checkAnswer()" style="background: var(--primary); color: white; border: none; padding: 10px 20px; font-size: 1.1rem; font-weight: bold; border-radius: 6px; cursor: pointer;">Prüfen</button>
+                    <button onclick="nextQuestion()" style="background: var(--bg); color: var(--text-main); border: 1px solid #cbd5e1; padding: 10px 20px; font-size: 1.1rem; font-weight: bold; border-radius: 6px; cursor: pointer;">Überspringen</button>
+                </div>
+
+                <div id="quiz-feedback" style="display: none; width: 100%; text-align: center; padding: 1rem; border-radius: 8px; margin-top: 1.5rem; font-weight: bold; font-size: 1.1rem;">
+                    </div>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Mathematik verstehen 1 | Brüche und Dezimalzahlen</p>
+</footer>
+
+<script>
+    // Aufgaben-Pool für die 1. Klasse AHS
+    const fractionPool = [
+        { z: 1, n: 2, dec: 0.5 },
+        { z: 1, n: 4, dec: 0.25 },
+        { z: 3, n: 4, dec: 0.75 },
+        { z: 1, n: 5, dec: 0.2 },
+        { z: 2, n: 5, dec: 0.4 },
+        { z: 3, n: 5, dec: 0.6 },
+        { z: 4, n: 5, dec: 0.8 },
+        { z: 1, n: 10, dec: 0.1 },
+        { z: 3, n: 10, dec: 0.3 },
+        { z: 7, n: 10, dec: 0.7 },
+        { z: 9, n: 10, dec: 0.9 },
+        { z: 1, n: 20, dec: 0.05 },
+        { z: 3, n: 20, dec: 0.15 },
+        { z: 1, n: 25, dec: 0.04 },
+        { z: 1, n: 8, dec: 0.125 } // Eine kleine Challenge!
+    ];
+
+    let currentMode = 'toDec'; // 'toDec' oder 'toFrac'
+    let currentTask = null;
+
+    // Hilfsfunktion: Größter gemeinsamer Teiler (zum Prüfen, ob gekürzt wurde)
+    function ggT(a, b) {
+        return b === 0 ? a : ggT(b, a % b);
+    }
+
+    function switchQuizMode(mode) {
+        currentMode = mode;
+        
+        // Buttons stylen
+        const btn1 = document.getElementById('btn-mode-1');
+        const btn2 = document.getElementById('btn-mode-2');
+        
+        if(mode === 'toDec') {
+            btn1.style.background = 'white'; btn1.style.color = 'var(--primary)'; btn1.style.borderBottomColor = 'var(--primary)';
+            btn2.style.background = 'transparent'; btn2.style.color = 'var(--text-muted)'; btn2.style.borderBottomColor = 'transparent';
+            document.getElementById('input-dec-mode').style.display = 'block';
+            document.getElementById('input-frac-mode').style.display = 'none';
+        } else {
+            btn2.style.background = 'white'; btn2.style.color = 'var(--primary)'; btn2.style.borderBottomColor = 'var(--primary)';
+            btn1.style.background = 'transparent'; btn1.style.color = 'var(--text-muted)'; btn1.style.borderBottomColor = 'transparent';
+            document.getElementById('input-dec-mode').style.display = 'none';
+            document.getElementById('input-frac-mode').style.display = 'flex';
+        }
+        
+        nextQuestion();
+    }
+
+    function nextQuestion() {
+        // Feedback ausblenden
+        const fb = document.getElementById('quiz-feedback');
+        fb.style.display = 'none';
+
+        // Inputs leeren
+        document.getElementById('ans-dec').value = '';
+        document.getElementById('ans-z').value = '';
+        document.getElementById('ans-n').value = '';
+
+        // Zufällige Aufgabe ziehen
+        const randIndex = Math.floor(Math.random() * fractionPool.length);
+        currentTask = fractionPool[randIndex];
+
+        // Aufgabe anzeigen
+        const qDiv = document.getElementById('quiz-question');
+        if(currentMode === 'toDec') {
+            qDiv.innerHTML = `$\\frac{${currentTask.z}}{${currentTask.n}}$`;
+            setTimeout(() => { document.getElementById('ans-dec').focus(); }, 100);
+        } else {
+            // Kommazahl im deutschen Format (mit Komma) anzeigen
+            qDiv.innerHTML = `$${currentTask.dec.toString().replace('.', ',')}$`;
+            setTimeout(() => { document.getElementById('ans-z').focus(); }, 100);
+        }
+
+        // MathJax neu rendern
+        if (window.MathJax) {
+            MathJax.typesetPromise([qDiv]);
+        }
+    }
+
+    function checkAnswer() {
+        const fb = document.getElementById('quiz-feedback');
+        fb.style.display = 'block';
+
+        if(currentMode === 'toDec') {
+            // Prüfung: Bruch zu Komma
+            let userAns = document.getElementById('ans-dec').value.trim();
+            // Ersetze Komma durch Punkt für interne JS-Prüfung
+            userAns = parseFloat(userAns.replace(',', '.'));
+
+            if(isNaN(userAns)) {
+                showFeedback(fb, 'error', "Bitte gib eine Zahl ein!");
+                return;
+            }
+
+            if(userAns === currentTask.dec) {
+                showFeedback(fb, 'success', "🎉 Richtig! Super gemacht.");
+                setTimeout(nextQuestion, 2000);
+            } else {
+                showFeedback(fb, 'error', "❌ Das stimmt noch nicht ganz. Versuch es nochmal!");
+            }
+
+        } else {
+            // Prüfung: Komma zu Bruch
+            let userZ = parseInt(document.getElementById('ans-z').value);
+            let userN = parseInt(document.getElementById('ans-n').value);
+
+            if(isNaN(userZ) || isNaN(userN) || userN === 0) {
+                showFeedback(fb, 'error', "Bitte fülle Zähler und Nenner (darf nicht 0 sein) aus!");
+                return;
+            }
+
+            // Welchen Dezimalwert hat der eingegebene Bruch?
+            let userDec = userZ / userN;
+
+            if(Math.abs(userDec - currentTask.dec) < 0.0001) {
+                // Wert stimmt! Jetzt prüfen wir, ob er vollständig gekürzt ist.
+                let teiler = ggT(userZ, userN);
+                
+                if(teiler > 1) {
+                    showFeedback(fb, 'warning', `Mathematisch richtig! 👍 Aber Tipp: Du kannst den Bruch noch durch ${teiler} kürzen!`);
+                    // Wir lassen sie hier noch nachbessern, statt sofort zur nächsten Frage zu springen
+                } else {
+                    showFeedback(fb, 'success', "🎉 Perfekt! Richtig umgewandelt und vollständig gekürzt.");
+                    setTimeout(nextQuestion, 2000);
+                }
+            } else {
+                showFeedback(fb, 'error', "❌ Das ergibt leider eine andere Kommazahl. Versuch es nochmal!");
+            }
+        }
+    }
+
+    function showFeedback(element, type, message) {
+        element.innerHTML = message;
+        if(type === 'success') {
+            element.style.backgroundColor = 'var(--xls-green)';
+            element.style.color = 'white';
+        } else if (type === 'error') {
+            element.style.backgroundColor = '#fee2e2'; // Light red
+            element.style.color = 'var(--pdf-red)';
+        } else if (type === 'warning') {
+            element.style.backgroundColor = '#fef3c7'; // Light orange
+            element.style.color = 'var(--html-orange)';
+        }
+    }
+
+    // Beim Laden erste Frage starten
+    window.onload = nextQuestion;
+
+</script>
+
+</body>
+</html>

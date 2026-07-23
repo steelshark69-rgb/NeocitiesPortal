@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funktionen Übungen | Prof. Schweitzer</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .explanation-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary, #2563eb);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .interactive-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #cbd5e1;
+        }
+        .controls {
+            flex: 1;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .canvas-container {
+            flex: 1.5;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        canvas {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            max-width: 100%;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .input-row input {
+            flex: 1;
+            padding: 8px;
+            font-size: 1.1rem;
+            text-align: center;
+            border: 1px solid #94a3b8;
+            border-radius: 4px;
+        }
+        .input-row label {
+            min-width: 140px;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: var(--primary, #2563eb);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+            width: 100%;
+        }
+        button:hover { background-color: #1d4ed8; }
+        button:disabled { background-color: #94a3b8; cursor: not-allowed; }
+        
+        .feedback-msg {
+            margin-top: 10px;
+            font-weight: bold;
+            min-height: 24px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .correct-text { color: #166534; background: #dcfce7; }
+        .wrong-text { color: #991b1b; background: #fee2e2; }
+
+        /* Zuordnungs-Aufgaben */
+        .matching-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        .matching-column {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+        }
+        .matching-column h4 {
+            margin-top: 0;
+            color: var(--primary, #2563eb);
+            text-align: center;
+        }
+        .matching-item {
+            background: #f8fafc;
+            padding: 1rem;
+            margin-bottom: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: move;
+            user-select: none;
+            transition: all 0.2s;
+        }
+        .matching-item:hover {
+            background: #eff6ff;
+            border-color: var(--primary, #2563eb);
+        }
+        .matching-item.selected {
+            background: #eff6ff;
+            border-color: var(--primary, #2563eb);
+        }
+        .matching-item.correct {
+            background: #dcfce7;
+            border-color: #16a34a;
+            color: #166534;
+        }
+        .matching-item.incorrect {
+            background: #fee2e2;
+            border-color: #dc2626;
+            color: #991b1b;
+        }
+
+        @media (max-width: 768px) {
+            .matching-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Kapitel 4 - Funktionen</h1>
+    <p>Übungen: k und d bestimmen, Funktionsterme zuordnen</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">⬅ Zurück zur Übersicht</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Übung 1</span>
+            <h2 style="margin: 0; color: var(--primary);">k und d bestimmen (Aufgabe 4.66)</h2>
+        </div>
+
+        <div class="explanation-box">
+            <p>Bestimme zu der angezeigten Geraden die <strong>Funktionsgleichung</strong> <i>f(x) = k &middot; x + d</i>.</p>
+            <p><strong>Tipps:</strong></p>
+            <ul style="margin-bottom: 0;">
+                <li>Der <strong>Startwert d</strong> ist der Punkt, an dem die Gerade die y-Achse schneidet (bei <i>x = 0</i>).</li>
+                <li>Die <strong>Steigung k</strong> kannst du mit einem Steigungsdreieck ablesen: Wähle zwei Punkte auf der Geraden und berechne &Delta;y / &Delta;x.</li>
+                <li>Du kannst Brüche eingeben (z.B. <code>2/3</code>) oder Dezimalzahlen (z.B. <code>0,67</code>).</li>
+            </ul>
+        </div>
+
+        <div class="interactive-container">
+            <div class="canvas-container">
+                <canvas id="trainerCanvas" width="450" height="400"></canvas>
+            </div>
+            <div class="controls">
+                <div style="background: #f8fafc; padding: 1.5rem; border: 1px solid #e2e8f0; border-radius: 6px;">
+                    <div class="input-row">
+                        <label for="inputK">Steigung <i>k</i> =</label>
+                        <input type="text" id="inputK" placeholder="z.B. 2/3 oder 0,67">
+                    </div>
+                    <div class="input-row">
+                        <label for="inputD">Startwert <i>d</i> =</label>
+                        <input type="text" id="inputD" placeholder="z.B. -1">
+                    </div>
+                    
+                    <div style="margin-top: 15px; text-align: center; font-size: 1.2rem; font-family: monospace; color: var(--primary); background: #eff6ff; padding: 10px; border-radius: 4px;">
+                        <i>f(x)</i> = <span id="previewK">k</span> &middot; <i>x</i> + <span id="previewD">d</span>
+                    </div>
+                </div>
+
+                <button id="btnCheck">Ergebnis prüfen</button>
+                <div id="trainerFeedback" class="feedback-msg"></div>
+                <button id="btnNext" style="display: none; background-color: #10b981;">Nächste Gerade ➡</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Übung 2</span>
+            <h2 style="margin: 0; color: var(--primary);">Funktionsterme zuordnen</h2>
+        </div>
+
+        <div class="explanation-box">
+            <p>Ordne die <strong>Funktionsterme</strong> (links) den entsprechenden <strong>Graphen</strong> (rechts) zu. Klicke auf einen Term und dann auf den passenden Graphen.</p>
+            <p><strong>Beachte:</strong> Die Steigung <i>k</i> bestimmt, wie steil die Gerade ist. Der Startwert <i>d</i> verschiebt die Gerade auf der y-Achse nach oben oder unten.</p>
+        </div>
+
+        <div id="matchingContainer" style="margin-top: 2rem;">
+            <!-- wird durch JavaScript gefüllt -->
+        </div>
+
+        <button id="btnCheckMatching" style="margin-top: 1.5rem;">Zuordnung prüfen</button>
+        <div id="matchingFeedback" class="feedback-msg"></div>
+    </div>
+
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Übung 3</span>
+            <h2 style="margin: 0; color: var(--primary);">Schnelle Quiz-Runde</h2>
+        </div>
+
+        <div class="explanation-box">
+            <p>Beantworte die Multiple-Choice-Fragen zu den Eigenschaften linearer Funktionen.</p>
+        </div>
+
+        <div id="quizContainer" style="margin-top: 1.5rem;">
+            <!-- wird durch JavaScript gefüllt -->
+        </div>
+
+        <button id="btnCheckQuiz" style="margin-top: 1.5rem;">Antworten prüfen</button>
+        <div id="quizFeedback" class="feedback-msg"></div>
+    </div>
+
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // ===== TRAINER: k und d bestimmen =====
+        const canvasTr = document.getElementById("trainerCanvas");
+        const ctxTr = canvasTr.getContext("2d");
+        const inputK = document.getElementById("inputK");
+        const inputD = document.getElementById("inputD");
+        const btnCheck = document.getElementById("btnCheck");
+        const btnNext = document.getElementById("btnNext");
+        const trainerFeedback = document.getElementById("trainerFeedback");
+        const previewK = document.getElementById("previewK");
+        const previewD = document.getElementById("previewD");
+        
+        let currentK = 0;
+        let currentD = 0;
+        const scale = 30;
+
+        function drawTrainerGrid(ctx, width, height) {
+            const originX = width / 2;
+            const originY = height / 2;
+            ctx.clearRect(0, 0, width, height);
+
+            // Raster
+            ctx.beginPath();
+            ctx.strokeStyle = "#e2e8f0";
+            ctx.lineWidth = 1;
+            for (let x = -10; x <= 10; x++) {
+                ctx.moveTo(originX + x * scale, 0);
+                ctx.lineTo(originX + x * scale, height);
+            }
+            for (let y = -10; y <= 10; y++) {
+                ctx.moveTo(0, originY + y * scale);
+                ctx.lineTo(width, originY + y * scale);
+            }
+            ctx.stroke();
+
+            // Achsen
+            ctx.beginPath();
+            ctx.strokeStyle = "#334155";
+            ctx.lineWidth = 2;
+            ctx.moveTo(0, originY);
+            ctx.lineTo(width, originY);
+            ctx.moveTo(originX, 0);
+            ctx.lineTo(originX, height);
+            ctx.stroke();
+
+            // Beschriftung
+            ctx.fillStyle = "#334155";
+            ctx.font = "12px sans-serif";
+            ctx.fillText("x", width - 15, originY - 10);
+            ctx.fillText("f(x)", originX + 10, 15);
+
+            ctx.textAlign = "center";
+            for (let x = -7; x <= 7; x++) {
+                if (x !== 0) {
+                    ctx.fillText(x, originX + x * scale, originY + 15);
+                    ctx.fillText(-x, originX - 12, originY + x * scale + 4);
+                }
+            }
+            return { originX, originY };
+        }
+
+        function parseMathInput(str) {
+            str = str.replace(/\s/g, '').replace(',', '.');
+            if (str.includes('/')) {
+                const parts = str.split('/');
+                if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1]) && parseFloat(parts[1]) !== 0) {
+                    return parseFloat(parts[0]) / parseFloat(parts[1]);
+                }
+            }
+            return parseFloat(str);
+        }
+
+        function formatFraction(k) {
+            if (Math.abs(k - Math.round(k)) < 0.01) return Math.round(k).toString();
+            return k.toFixed(2).replace('.', ',');
+        }
+
+        function generateTask() {
+            const dxOptions = [1, 2, 3];
+            const dyOptions = [-3, -2, -1, 1, 2, 3];
+            const dx = dxOptions[Math.floor(Math.random() * dxOptions.length)];
+            const dy = dyOptions[Math.floor(Math.random() * dyOptions.length)];
+            
+            currentK = dy / dx;
+            currentD = Math.floor(Math.random() * 7) - 3;
+
+            inputK.value = "";
+            inputD.value = "";
+            inputK.disabled = false;
+            inputD.disabled = false;
+            btnCheck.disabled = false;
+            btnNext.style.display = "none";
+            trainerFeedback.textContent = "";
+            trainerFeedback.className = "feedback-msg";
+
+            const origins = drawTrainerGrid(ctxTr, canvasTr.width, canvasTr.height);
+
+            // Gerade zeichnen
+            ctxTr.beginPath();
+            ctxTr.strokeStyle = "#2563eb";
+            ctxTr.lineWidth = 3;
+            const x1 = -7, y1 = currentK * x1 + currentD;
+            const x2 = 7, y2 = currentK * x2 + currentD;
+            ctxTr.moveTo(origins.originX + x1 * scale, origins.originY - y1 * scale);
+            ctxTr.lineTo(origins.originX + x2 * scale, origins.originY - y2 * scale);
+            ctxTr.stroke();
+
+            // Startwert markieren
+            ctxTr.beginPath();
+            ctxTr.fillStyle = "#b45309";
+            ctxTr.arc(origins.originX, origins.originY - currentD * scale, 6, 0, Math.PI * 2);
+            ctxTr.fill();
+        }
+
+        function checkTrainer() {
+            const userK = parseMathInput(inputK.value);
+            const userD = parseMathInput(inputD.value);
+
+            const kOk = Math.abs(userK - currentK) < 0.05;
+            const dOk = Math.abs(userD - currentD) < 0.05;
+
+            if (kOk && dOk) {
+                trainerFeedback.textContent = "✓ Korrekt! Sehr gut!";
+                trainerFeedback.className = "feedback-msg correct-text";
+                inputK.disabled = true;
+                inputD.disabled = true;
+                btnCheck.disabled = true;
+                btnNext.style.display = "block";
+            } else {
+                let msg = "✗ Nicht ganz richtig.";
+                if (!kOk) msg += " Die Steigung k stimmt nicht.";
+                if (!dOk) msg += " Der Startwert d stimmt nicht.";
+                trainerFeedback.textContent = msg;
+                trainerFeedback.className = "feedback-msg wrong-text";
+            }
+        }
+
+        btnCheck.addEventListener("click", checkTrainer);
+        btnNext.addEventListener("click", generateTask);
+        generateTask();
+
+        // ===== MATCHING: Funktionsterme zu Graphen =====
+        const matchingContainer = document.getElementById("matchingContainer");
+        const btnCheckMatching = document.getElementById("btnCheckMatching");
+        const matchingFeedback = document.getElementById("matchingFeedback");
+
+        const matchingFunctions = [
+            { term: "f(x) = x + 1", k: 1, d: 1 },
+            { term: "f(x) = 2x - 1", k: 2, d: -1 },
+            { term: "f(x) = -x + 2", k: -1, d: 2 },
+            { term: "f(x) = 0,5x", k: 0.5, d: 0 },
+            { term: "f(x) = -2x + 3", k: -2, d: 3 },
+            { term: "f(x) = 1,5x - 2", k: 1.5, d: -2 }
+        ];
+
+        function drawMatchingGraph(ctx, width, height, k, d) {
+            ctx.clearRect(0, 0, width, height);
+            const scale = 25;
+            const originX = width / 2;
+            const originY = height / 2;
+
+            // Raster
+            ctx.beginPath();
+            ctx.strokeStyle = "#e2e8f0";
+            ctx.lineWidth = 1;
+            for (let x = -8; x <= 8; x++) {
+                ctx.moveTo(originX + x * scale, 0);
+                ctx.lineTo(originX + x * scale, height);
+            }
+            for (let y = -8; y <= 8; y++) {
+                ctx.moveTo(0, originY + y * scale);
+                ctx.lineTo(width, originY + y * scale);
+            }
+            ctx.stroke();
+
+            // Achsen
+            ctx.beginPath();
+            ctx.strokeStyle = "#334155";
+            ctx.lineWidth = 2;
+            ctx.moveTo(0, originY);
+            ctx.lineTo(width, originY);
+            ctx.moveTo(originX, 0);
+            ctx.lineTo(originX, height);
+            ctx.stroke();
+
+            // Gerade
+            ctx.beginPath();
+            ctx.strokeStyle = "#2563eb";
+            ctx.lineWidth = 2;
+            const x1 = -6, y1 = k * x1 + d;
+            const x2 = 6, y2 = k * x2 + d;
+            ctx.moveTo(originX + x1 * scale, originY - y1 * scale);
+            ctx.lineTo(originX + x2 * scale, originY - y2 * scale);
+            ctx.stroke();
+        }
+
+        // Shuffled Liste der Funktionen
+        const shuffled = [...matchingFunctions].sort(() => Math.random() - 0.5);
+        const solutions = {};
+
+        let html = '<div class="matching-container"><div class="matching-column"><h4>Funktionsterme</h4>';
+        shuffled.forEach((func, idx) => {
+            html += `<div class="matching-item" data-idx="${idx}">${func.term}</div>`;
+        });
+        html += '</div><div class="matching-column"><h4>Graphen</h4>';
+        
+        // Erstelle 6 Graphen
+        shuffled.forEach((func, idx) => {
+            html += `<canvas id="matchCanvas${idx}" width="200" height="200" class="matching-item" data-canvas="${idx}" style="max-width: 100%; display: block;"></canvas>`;
+            setTimeout(() => {
+                const canvas = document.getElementById(`matchCanvas${idx}`);
+                if (canvas) {
+                    drawMatchingGraph(canvas.getContext("2d"), canvas.width, canvas.height, func.k, func.d);
+                }
+            }, 10);
+        });
+        html += '</div></div>';
+        matchingContainer.innerHTML = html;
+
+        let selectedTerm = null;
+        const matches = {};
+
+        document.querySelectorAll('.matching-item[data-idx]').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.matching-item[data-idx]').forEach(x => x.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedTerm = this.dataset.idx;
+            });
+        });
+
+        document.querySelectorAll('[data-canvas]').forEach(item => {
+            item.addEventListener('click', function() {
+                if (selectedTerm !== null) {
+                    const canvasIdx = this.dataset.canvas;
+                    matches[selectedTerm] = canvasIdx;
+                    document.querySelector(`[data-idx="${selectedTerm}"]`).textContent = shuffled[selectedTerm].term + " ✓";
+                    selectedTerm = null;
+                }
+            });
+        });
+
+        btnCheckMatching.addEventListener('click', function() {
+            let correct = 0;
+            shuffled.forEach((func, idx) => {
+                if (matches[idx] !== undefined && shuffled[matches[idx]].k === func.k && shuffled[matches[idx]].d === func.d) {
+                    correct++;
+                }
+            });
+            if (correct === shuffled.length) {
+                matchingFeedback.textContent = "✓ Alle Zuordnungen korrekt!";
+                matchingFeedback.className = "feedback-msg correct-text";
+            } else {
+                matchingFeedback.textContent = `✗ ${correct} von ${shuffled.length} korrekt. Versuche es nochmal!`;
+                matchingFeedback.className = "feedback-msg wrong-text";
+            }
+        });
+
+        // ===== QUIZ =====
+        const quizContainer = document.getElementById("quizContainer");
+        const btnCheckQuiz = document.getElementById("btnCheckQuiz");
+        const quizFeedback = document.getElementById("quizFeedback");
+
+        const quizQuestions = [
+            {
+                question: "Was ist der Startwert d für die Funktion f(x) = 2x - 3?",
+                options: ["2", "-3", "x", "0"],
+                correct: 1
+            },
+            {
+                question: "Welche Gerade hat die Steigung k = 0?",
+                options: ["Steigt nach rechts", "Fällt nach rechts", "Horizontal (parallel zur x-Achse)", "Verläuft durch den Nullpunkt"],
+                correct: 2
+            },
+            {
+                question: "Bei der Funktion f(x) = -0,5x + 4 ist die Gerade...",
+                options: ["Steigend", "Fallend", "Konstant", "Kann nicht bestimmt werden"],
+                correct: 1
+            },
+            {
+                question: "Welche Funktion ist direkt proportional?",
+                options: ["f(x) = 2x + 1", "f(x) = 3x", "f(x) = x - 5", "f(x) = -2"],
+                correct: 1
+            },
+            {
+                question: "Wenn Δy = 3 und Δx = 2, welche Steigung k ergibt sich?",
+                options: ["2/3", "3/2", "1,5", "0,67"],
+                correct: 1
+            }
+        ];
+
+        let quizHtml = '';
+        quizQuestions.forEach((q, qIdx) => {
+            quizHtml += `<div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid #e2e8f0;">
+                <p style="margin-top: 0; font-weight: bold;">${q.question}</p>`;
+            q.options.forEach((opt, oIdx) => {
+                quizHtml += `<label style="display: flex; align-items: center; margin-bottom: 10px; cursor: pointer;">
+                    <input type="radio" name="q${qIdx}" value="${oIdx}" style="margin-right: 10px;">
+                    ${opt}
+                </label>`;
+            });
+            quizHtml += '</div>';
+        });
+        quizContainer.innerHTML = quizHtml;
+
+        btnCheckQuiz.addEventListener('click', function() {
+            let correct = 0;
+            quizQuestions.forEach((q, idx) => {
+                const selected = document.querySelector(`input[name="q${idx}"]:checked`);
+                if (selected && parseInt(selected.value) === q.correct) {
+                    correct++;
+                }
+            });
+            if (correct === quizQuestions.length) {
+                quizFeedback.textContent = "✓ Alle Antworten korrekt! Hervorragend!";
+                quizFeedback.className = "feedback-msg correct-text";
+            } else {
+                quizFeedback.textContent = `✗ ${correct} von ${quizQuestions.length} korrekt.`;
+                quizFeedback.className = "feedback-msg wrong-text";
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>

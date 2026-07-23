@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indirekte Proportionalität - AHS 2. Klasse</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <style>
+        :root {
+            --math-primary: #0d9488; /* Türkis für indirekte Proportionalität */
+            --math-dark: #0f766e;
+            --correct-bg: #d1fae5;
+            --correct-border: #10b981;
+            --incorrect-bg: #fee2e2;
+            --incorrect-border: #ef4444;
+        }
+
+        body { padding-bottom: 2rem; }
+
+        /* Custom Header Styling */
+        .page-header {
+            background-color: var(--math-primary);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        .page-header h1 { margin: 0; color: white; }
+        .page-header p { margin-top: 0.5rem; opacity: 0.9; color: white; }
+
+        /* Info & Theorie Boxen */
+        .theory-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            line-height: 1.6;
+        }
+        .theory-box h3 { color: var(--math-primary); margin-top: 0; font-size: 1.4rem; }
+        
+        .calculation-step {
+            background: #f8fafc;
+            border-left: 4px solid var(--math-primary);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Interaktives Tool */
+        .interactive-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            background: #f0fdf4;
+            border: 2px solid #bbf7d0;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+        }
+        .interactive-controls { flex: 1; min-width: 250px; }
+        .interactive-graph { flex: 1; min-width: 300px; text-align: center; }
+        
+        input[type=range] { width: 100%; margin: 15px 0; accent-color: var(--math-primary); }
+
+        /* Tab-Navigation Styling */
+        .tab-nav-container {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 2rem;
+            background: white;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            color: #64748b;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+        .tab-btn:hover { background: #f8fafc; color: #334155; }
+        .tab-active { border-bottom: 4px solid var(--math-primary); color: var(--math-dark); background: #ccfbf1; }
+
+        /* Aufgaben-Karten Styling */
+        .task-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            transition: border-color 0.2s;
+        }
+        @media(min-width: 768px) {
+            .task-card { flex-direction: row; justify-content: space-between; align-items: flex-start; }
+        }
+        
+        .task-content { flex: 1; padding-right: 1rem; }
+        .task-badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--math-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .task-text { font-size: 1.1rem; color: #334155; line-height: 1.5; margin: 0; }
+        
+        /* Lösungsbox (Aufklappbar) */
+        .solution-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f8fafc;
+            border-left: 4px solid var(--math-primary);
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+            color: #475569;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Eingabefelder und Buttons */
+        .task-action { display: flex; gap: 10px; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
+        .task-input {
+            padding: 10px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            width: 130px;
+            text-align: center;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.2s;
+        }
+        .task-input:focus { border-color: var(--math-primary); }
+        
+        .task-btn {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .task-btn:hover { background: #1e293b; }
+        .btn-solution { background: #e2e8f0; color: #475569; }
+        .btn-solution:hover { background: #cbd5e1; color: #1e293b; }
+
+        /* Status Klassen für JS */
+        .correct { border-color: var(--correct-border) !important; background-color: var(--correct-bg) !important; color: #065f46; font-weight: bold; }
+        .incorrect { border-color: var(--incorrect-border) !important; background-color: var(--incorrect-bg) !important; color: #991b1b; }
+    </style>
+</head>
+<body>
+
+<header class="page-header">
+    <h1>Indirekte Proportionalität</h1>
+    <p>Je mehr, desto WENIGER! Schlussrechnungen richtig anwenden (Kapitel 6)</p>
+</header>
+
+<div class="back-nav" style="display: flex; justify-content: center; margin-bottom: 2rem;">
+    <a href="../index.html" class="btn-back" style="padding: 0.6rem 1.2rem; border-radius: 10px; background: #f8fafc; border: 1px solid #e2e8f0; color: #1e293b; text-decoration: none; font-weight: 700;">← Zurück zur Übersicht</a>
+</div>
+
+<main style="max-width: 1000px; margin: 0 auto; padding: 0 1.5rem;">
+
+    <!-- THEORIE BEREICH -->
+    <section class="theory-box">
+        <h3>📚 Theorie: Was ist indirekte Proportionalität?</h3>
+        <p>Zwei Größen sind zueinander indirekt (oder umgekehrt) proportional, wenn gilt: <strong>Je mehr von der einen Größe, desto WENIGER von der anderen Größe.</strong> Verdoppelt sich der eine Wert, so halbiert sich der andere. Dreifache Menge an Arbeitern = nur noch ein Drittel der Arbeitszeit.</p>
+        
+        <p><strong>Die Schlussrechnung (Dreisatz) ist hier genau umgekehrt zur direkten Proportionalität:</strong></p>
+        
+        <div class="calculation-step">
+            <strong>Schritt 1: Schluss auf die Einheit (Das Einfache ermitteln)</strong><br>
+            Du rechnest aus, wie lange <strong>1 Stück</strong> (1 Arbeiter, 1 Pumpe, ...) für die <em>gesamte</em> Aufgabe braucht. Da einer allein viel länger braucht, musst du hier <strong>multiplizieren</strong>!<br>
+            <em>Beispiel:</em> 3 Arbeiter brauchen 4 Stunden. ➔ 1 Arbeiter allein braucht: 3 · 4 = <strong>12 Stunden</strong>.
+        </div>
+        
+        <div class="calculation-step">
+            <strong>Schritt 2: Schluss auf die Mehrheit (Das Mehrfache ermitteln)</strong><br>
+            Nun rechnest du aus, wie lange die neue, gesuchte Menge braucht. Da sich die Arbeit auf mehrere aufteilt, musst du nun <strong>dividieren</strong>.<br>
+            <em>Beispiel:</em> 2 Arbeiter erledigen den Job in: 12 Stunden : 2 = <strong>6 Stunden</strong>.
+        </div>
+    </section>
+
+    <!-- INTERAKTIVES TOOL -->
+    <section class="interactive-section">
+        <div class="interactive-controls">
+            <h3 style="margin-top: 0; color: #166534;">🌊 Das Pumpen-Labor (Interaktiv)</h3>
+            <p>Ein Schwimmbecken muss geleert werden. <strong>1 Pumpe allein braucht dafür genau 12 Stunden.</strong></p>
+            <p>Bewege den Regler, um mehr Pumpen einzusetzen. Beobachte, wie die benötigte Zeit sinkt und wie der Graph absinkt (Hyperbel)!</p>
+            
+            <label for="pump-slider" style="font-weight: bold; display: block; margin-top: 1.5rem;">Anzahl: <span id="pump-amount">1</span> Pumpe(n)</label>
+            <input type="range" id="pump-slider" min="1" max="12" step="1" value="1">
+            
+            <div style="background: white; padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px solid #bbf7d0; font-size: 1.2rem;">
+                Benötigte Zeit: <strong style="color: var(--math-primary);" id="pump-time">12,00 h</strong>
+            </div>
+        </div>
+        <div class="interactive-graph">
+            <canvas id="propChart" width="400" height="300" style="background: white; border-radius: 8px; border: 1px solid #cbd5e1; max-width: 100%; height: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.05);"></canvas>
+            <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.5rem;">Der Graph einer indirekten Proportionalität ist immer eine Kurve (Hyperbel)! Er berührt die Achsen nie.</p>
+        </div>
+    </section>
+
+    <!-- HINWEIS EINGABE -->
+    <div style="background: #fffbeb; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid #f59e0b;">
+        <strong>💡 Hinweis zur Eingabe:</strong>
+        <p style="margin-bottom: 0; margin-top: 5px;">Einheiten wie €, Stunden oder kg müssen nicht in das Feld eingetippt werden. Verwende bei Dezimalzahlen immer ein Komma (keinen Punkt). Falls du nicht weiterkommst, klicke auf <strong>Lösungsweg</strong>!</p>
+    </div>
+
+    <!-- ÜBUNGEN TABS -->
+    <div class="tab-nav-container">
+        <button onclick="showTab('leicht')" id="tab-leicht" class="tab-btn tab-active">🟢 Leicht (1-5)</button>
+        <button onclick="showTab('mittel')" id="tab-mittel" class="tab-btn">🟡 Mittel (6-10)</button>
+        <button onclick="showTab('schwer')" id="tab-schwer" class="tab-btn">🔴 Schwer (11-15)</button>
+    </div>
+
+    <div id="tasks-container">
+        <!-- Aufgaben werden hier per JS geladen -->
+    </div>
+
+</main>
+
+<footer style="margin-top: 5rem; padding: 2rem 1rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.9rem;">
+    <div style="max-width: 800px; margin: 0 auto 2rem auto; text-align: left; background: white; padding: 1.5rem; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <h4 style="margin-top: 0; color: #334155; font-size: 1.1rem;">Datenschutzhinweis (DSGVO)</h4>
+        <p style="margin-bottom: 0; line-height: 1.5;">Die Nutzung dieses Portals ist absolut datenschutzkonform. Es werden keine Eingaben an einen Server gesendet. Die Auswertung der Antworten sowie das interaktive Diagramm werden lokal im Browser berechnet.</p>
+    </div>
+    <div style="text-align: center; font-weight: bold;">
+        &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+    </div>
+</footer>
+
+<script>
+    // --- INTERAKTIVER GRAPH LOGIK ---
+    const slider = document.getElementById('pump-slider');
+    const amountSpan = document.getElementById('pump-amount');
+    const timeSpan = document.getElementById('pump-time');
+    const canvas = document.getElementById('propChart');
+    const ctx = canvas.getContext('2d');
+    
+    const TOTAL_WORK = 12; // 1 Pumpe braucht 12 Stunden (Gesamtarbeit)
+
+    function drawChart() {
+        const amount = parseInt(slider.value);
+        const time = TOTAL_WORK / amount;
+        
+        // Update Text
+        amountSpan.innerText = amount;
+        timeSpan.innerText = time.toFixed(2).replace('.', ',') + " h";
+
+        // Canvas Setup
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const padding = 40;
+        const width = canvas.width - padding * 2;
+        const height = canvas.height - padding * 2;
+        const startX = padding;
+        const startY = canvas.height - padding;
+
+        // Draw Grid
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        for(let i=0; i<=12; i+=2) {
+            // Y Grid (Zeit 0 bis 12)
+            let y = startY - (i/12) * height;
+            ctx.beginPath(); ctx.moveTo(startX, y); ctx.lineTo(startX + width, y); ctx.stroke();
+            
+            // Y Labels
+            ctx.fillStyle = '#64748b';
+            ctx.font = '12px sans-serif';
+            ctx.textAlign = 'right';
+            ctx.fillText(i + 'h', startX - 5, y + 4);
+            
+            // X Grid & Labels (Pumpen 0 bis 12)
+            let x = startX + (i/12) * width;
+            ctx.beginPath(); ctx.moveTo(x, startY); ctx.lineTo(x, startY - height); ctx.stroke();
+            ctx.textAlign = 'center';
+            if (i > 0) ctx.fillText(i, x, startY + 15);
+        }
+
+        // Draw Axes
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(startX, padding); ctx.lineTo(startX, startY); // Y Axis
+        ctx.lineTo(startX + width, startY); // X Axis
+        ctx.stroke();
+
+        // Draw the Hyperbola (y = 12 / x)
+        ctx.strokeStyle = '#cbd5e1';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        let isFirstPoint = true;
+        for(let xVal = 1; xVal <= 12; xVal += 0.1) {
+            let yVal = TOTAL_WORK / xVal;
+            if (yVal > 12) continue; // Bleibe innerhalb des Graphen
+            
+            let drawX = startX + (xVal / 12) * width;
+            let drawY = startY - (yVal / 12) * height;
+            
+            if (isFirstPoint) {
+                ctx.moveTo(drawX, drawY);
+                isFirstPoint = false;
+            } else {
+                ctx.lineTo(drawX, drawY);
+            }
+        }
+        ctx.stroke();
+
+        // Draw current Point & Lines to axis
+        const currentX = startX + (amount / 12) * width;
+        const currentY = startY - (time / 12) * height;
+
+        ctx.strokeStyle = 'rgba(13, 148, 136, 0.3)'; // Leichtes Türkis
+        ctx.lineWidth = 1;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(currentX, currentY); ctx.lineTo(currentX, startY);
+        ctx.moveTo(currentX, currentY); ctx.lineTo(startX, currentY);
+        ctx.stroke();
+        ctx.setLineDash([]); // Reset
+
+        ctx.fillStyle = '#0d9488';
+        ctx.beginPath();
+        ctx.arc(currentX, currentY, 6, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    slider.addEventListener('input', drawChart);
+    window.addEventListener('load', drawChart);
+
+
+    // --- ÜBUNGSAUFGABEN LOGIK ---
+    const tasks = {
+        leicht: [
+            { id: 1, q: "2 Arbeiter brauchen für das Streichen eines Zauns 6 Tage. Wie lange braucht 1 Arbeiter allein?", a: "12", s: "Ein Arbeiter allein braucht doppelt so lange. Schluss auf die Einheit (multiplizieren!): 2 Arbeiter · 6 Tage = 12 Tage." },
+            { id: 2, q: "4 Pumpen füllen ein Wasserbecken in 3 Stunden. Wie lange braucht 1 Pumpe allein?", a: "12", s: "Eine Pumpe allein braucht viermal so lange. 4 Pumpen · 3 Stunden = 12 Stunden Gesamtarbeit." },
+            { id: 3, q: "3 Maschinen brauchen für einen Auftrag 4 Stunden. Wie lange brauchen 2 Maschinen für denselben Auftrag?", a: "6", s: "Schritt 1 (Einheit): 1 Maschine braucht 3 · 4 = 12 Stunden.<br>Schritt 2 (Mehrheit): 2 Maschinen brauchen 12 : 2 = 6 Stunden." },
+            { id: 4, q: "Ein Lebensmittelvorrat reicht für 5 Personen genau 10 Tage. Wie lange reicht er für 10 Personen?", a: "5", s: "Da es doppelt so viele Personen sind, reicht der Vorrat nur noch halb so lang. 10 : 2 = 5 Tage.<br>Oder in 2 Schritten: 1 Person reicht 50 Tage. 10 Personen reichen 50 : 10 = 5 Tage." },
+            { id: 5, q: "Ein Rechteck hat eine Länge von 8 cm und eine Breite von 3 cm. Wie breit ist ein flächengleiches Rechteck mit einer Länge von 4 cm?", a: "6", s: "Die Fläche ist 8 · 3 = 24 cm² (das ist die 'Gesamtarbeit'). Das neue Rechteck ist 4 cm lang, also muss die Breite 24 : 4 = 6 cm sein." }
+        ],
+        mittel: [
+            { id: 6, q: "6 Pferde haben einen Heuvorrat für 15 Tage. Wie lange reicht das Heu, wenn 9 Pferde gefüttert werden müssen?", a: "10", s: "Schritt 1 (Einheit): 1 Pferd hat Futter für 6 · 15 = 90 Tage.<br>Schritt 2 (Mehrheit): Für 9 Pferde reicht es 90 : 9 = 10 Tage." },
+            { id: 7, q: "Um eine Strecke abzufahren, braucht ein Auto bei 80 km/h genau 3 Stunden. Wie lange braucht es, wenn es 120 km/h fährt?", a: "2", s: "Die Strecke ist 80 · 3 = 240 km lang.<br>Mit 120 km/h braucht das Auto 240 : 120 = 2 Stunden." },
+            { id: 8, q: "4 Gärtner brauchen 9 Stunden für die Pflege einer Parkanlage. Nach wie vielen Stunden sind 6 Gärtner fertig?", a: "6", s: "Schritt 1: 1 Gärtner allein bräuchte 4 · 9 = 36 Stunden.<br>Schritt 2: 6 Gärtner brauchen 36 : 6 = 6 Stunden." },
+            { id: 9, q: "Ein Lotteriegewinn von 12.000 € wird auf 4 Personen aufgeteilt. Wie viel bekommt jeder, wenn der Gewinn doch auf 5 Personen aufgeteilt werden muss?", a: "2400", s: "Dies ist indirekt proportional: Je mehr Personen, desto weniger Geld für jeden.<br>Der Gesamtgewinn (die Einheit) ist 4 · 3000 = 12.000 € (das steht sogar in der Angabe).<br>Bei 5 Personen: 12.000 : 5 = 2.400 € pro Kopf." },
+            { id: 10, q: "Eine Ziegelmauer wird von 8 Maurern in 12 Tagen errichtet. Wie lange brauchen 6 Maurer für diese Mauer?", a: "16", s: "Schritt 1 (Einheit): 1 Maurer braucht 8 · 12 = 96 Tage (Arbeitstage).<br>Schritt 2: 6 Maurer brauchen 96 : 6 = 16 Tage." }
+        ],
+        schwer: [
+            { id: 11, q: "3 Rohre füllen ein Becken in 20 Stunden. Wie lange brauchen 5 solche Rohre für das Becken?", a: "12", s: "Schritt 1: 1 Rohr allein braucht 3 · 20 = 60 Stunden.<br>Schritt 2: 5 Rohre brauchen 60 : 5 = 12 Stunden." },
+            { id: 12, q: "Ein Getriebe hat ein Zahnrad mit 20 Zähnen, das sich 60 Mal pro Minute dreht. Es treibt ein Zahnrad mit 15 Zähnen an. Wie oft dreht sich das kleinere Zahnrad pro Minute?", a: "80", s: "Je weniger Zähne, desto öfter muss es sich drehen!<br>1 Zahn würde sich 20 · 60 = 1200 Mal drehen.<br>15 Zähne drehen sich 1200 : 15 = 80 Mal pro Minute." },
+            { id: 13, q: "Ein Futtervorrat reicht für 40 Kühe genau 18 Tage. Der Bauer kauft 5 Kühe dazu. Wie lange reicht der Vorrat nun?", a: "16", s: "Der Bauer hat jetzt 45 Kühe (40 + 5).<br>Einheit: 1 Kuh hat Futter für 40 · 18 = 720 Tage.<br>45 Kühe: 720 : 45 = 16 Tage." },
+            { id: 14, q: "5 Arbeiter wollten eine Straße in 16 Tagen asphaltieren. Nach 4 Tagen werden 3 weitere Arbeiter hinzugezogen. In wie vielen Tagen (ab dem Hinzuziehen) ist die restliche Arbeit erledigt?", a: "7,5", s: "Nach 4 Tagen ist noch Arbeit für 5 Arbeiter für 12 Tage übrig (16 - 4). Das entspricht 5 · 12 = 60 Arbeiter-Tagen (Restarbeit).<br>Nun sind es 8 Arbeiter (5 + 3).<br>60 Arbeitstage : 8 Arbeiter = 7,5 Tage." },
+            { id: 15, q: "Ein Schwimmbecken wird von 6 gleich starken Pumpen in 8 Stunden geleert. Nach 2 Stunden fallen 2 Pumpen aus. Wie viele Stunden brauchen die restlichen Pumpen noch für den Rest?", a: "9", s: "Nach 2 Stunden ist noch Arbeit für 6 Pumpen für 6 Stunden übrig (8 - 2). Das sind 6 · 6 = 36 Pumpen-Stunden Restarbeit.<br>2 Pumpen fallen aus, es bleiben 4 Pumpen übrig.<br>36 : 4 = 9 Stunden." }
+        ]
+    };
+
+    let currentTab = 'leicht';
+
+    function showTab(tabName) {
+        currentTab = tabName;
+        
+        // Update UI Tabs
+        ['leicht', 'mittel', 'schwer'].forEach(t => {
+            document.getElementById('tab-' + t).classList.remove('tab-active');
+        });
+        document.getElementById('tab-' + tabName).classList.add('tab-active');
+
+        renderTasks();
+    }
+
+    function renderTasks() {
+        const container = document.getElementById('tasks-container');
+        container.innerHTML = '';
+
+        tasks[currentTab].forEach(task => {
+            const div = document.createElement('div');
+            div.className = "task-card";
+            div.innerHTML = `
+                <div class="task-content">
+                    <div class="task-badge">Aufgabe ${task.id}</div>
+                    <p class="task-text">${task.q}</p>
+                    <div id="solution-${task.id}" class="solution-box">
+                        <strong>💡 Lösungsweg:</strong><br> ${task.s}
+                    </div>
+                </div>
+                <div class="task-action">
+                    <input type="text" id="input-${task.id}" placeholder="Ergebnis" class="task-input">
+                    <button onclick="checkAnswer(${task.id}, '${task.a}')" class="task-btn">Prüfen</button>
+                    <button onclick="toggleSolution(${task.id})" class="task-btn btn-solution">Lösungsweg</button>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function checkAnswer(id, correct) {
+        const input = document.getElementById('input-' + id);
+        let userVal = input.value.trim().replace(',', '.').toLowerCase();
+        let targetVal = correct.replace(',', '.').toLowerCase();
+
+        let numUser = parseFloat(userVal);
+        let numTarget = parseFloat(targetVal);
+
+        if (!isNaN(numUser) && !isNaN(numTarget) && numUser === numTarget) {
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
+        } else if (userVal === targetVal) {
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
+        } else {
+            input.classList.remove('correct');
+            input.classList.add('incorrect');
+        }
+    }
+
+    function toggleSolution(id) {
+        const solBox = document.getElementById('solution-' + id);
+        if (solBox.style.display === "block") {
+            solBox.style.display = "none";
+        } else {
+            solBox.style.display = "block";
+        }
+    }
+
+    // Initialize Tasks
+    window.addEventListener('load', () => showTab('leicht'));
+</script>
+
+</body>
+</html>

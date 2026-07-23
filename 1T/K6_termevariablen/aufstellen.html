@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terme aufstellen und deuten</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] }
+        };
+    </script>
+    <script id="MathJax-script" async src="../../js/mathjax/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root { 
+            --easter-green: #10b981; 
+            --easter-orange: #f59e0b; 
+            --easter-purple: #8b5cf6;
+            --easter-blue: #0ea5e9;
+        }
+        
+        .task-container { background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .task-header { display: flex; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 20px; }
+        .task-header h2 { margin: 0; color: #334155; }
+        .task-icon { font-size: 2rem; margin-right: 15px; }
+
+        /* Vokabeltrainer Styles */
+        .match-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid var(--easter-orange); gap: 10px;}
+        .match-text { font-size: 1.1rem; font-weight: bold; color: #475569; flex: 1; min-width: 250px;}
+        .match-select { padding: 10px; font-size: 1.1rem; border: 2px solid #cbd5e1; border-radius: 6px; outline: none; cursor: pointer; width: 100%; max-width: 220px; text-align: center; }
+        
+        .num-input { padding: 10px; font-size: 1.1rem; border: 2px solid #cbd5e1; border-radius: 6px; width: 100px; text-align: center; outline: none;}
+        .num-input:focus { border-color: var(--easter-blue); }
+
+        .btn-check { background: var(--easter-green); color: white; border: none; padding: 12px 25px; font-size: 1.1rem; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 15px; width: 100%; transition: 0.2s; }
+        .btn-check:hover { opacity: 0.9; transform: translateY(-2px); }
+        .feedback { display: none; text-align: center; font-weight: bold; padding: 15px; border-radius: 6px; margin-top: 15px; }
+
+        /* Ticket Styles */
+        .ticket { display: none; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 2rem; border-radius: 12px; text-align: center; margin-top: 2rem; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); }
+    </style>
+</head>
+<body>
+
+<header style="background-color: var(--easter-green);">
+    <h1>Der Übersetzer</h1>
+    <p>Deutsch $\rightarrow$ Mathematik (Terme aufstellen)</p>
+</header>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main style="max-width: 900px; margin: 0 auto; padding: 0 1.5rem;">
+
+    <div style="background: #fffbeb; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; border: 1px solid #fde68a;">
+        <p style="margin: 0; font-size: 1.1rem; line-height: 1.5;">Mathematik ist wie eine Fremdsprache. Man muss lernen, deutsche Sätze in mathematische Terme zu übersetzen. Wenn du diese Vokabeln beherrschst, löst du bald die schwierigsten Textaufgaben!</p>
+    </div>
+
+    
+    <div class="task-container" id="container-m1">
+        <div class="task-header">
+            <span class="task-icon">📝</span>
+            <h2>Mission 1: Vokabeltest</h2>
+        </div>
+        <p>Wähle für jeden deutschen Satz den passenden mathematischen Term aus (die gesuchte Zahl nennen wir <strong>x</strong>).</p>
+
+        <div class="match-row">
+            <div class="match-text">Das Doppelte einer Zahl</div>
+            <select class="match-select" id="q1">
+                <option value="0">- Wähle -</option>
+                <option value="wrong">x + 2</option>
+                <option value="correct">2 &middot; x</option>
+                <option value="wrong">x : 2</option>
+            </select>
+        </div>
+
+        <div class="match-row">
+            <div class="match-text">Eine Zahl um 5 vergrößert</div>
+            <select class="match-select" id="q2">
+                <option value="0">- Wähle -</option>
+                <option value="correct">x + 5</option>
+                <option value="wrong">5 &middot; x</option>
+                <option value="wrong">x - 5</option>
+            </select>
+        </div>
+
+        <div class="match-row">
+            <div class="match-text">Die Hälfte einer Zahl</div>
+            <select class="match-select" id="q3">
+                <option value="0">- Wähle -</option>
+                <option value="wrong">x - 2</option>
+                <option value="wrong">2 &middot; x</option>
+                <option value="correct">x : 2</option>
+            </select>
+        </div>
+
+        <div class="match-row">
+            <div class="match-text">Eine Zahl um 3 vermindert</div>
+            <select class="match-select" id="q4">
+                <option value="0">- Wähle -</option>
+                <option value="correct">x - 3</option>
+                <option value="wrong">3 - x</option>
+                <option value="wrong">x : 3</option>
+            </select>
+        </div>
+
+        <button class="btn-check" style="background: var(--easter-orange);" onclick="checkMission1()">Mission 1 prüfen</button>
+        <div id="fb-m1" class="feedback"></div>
+    </div>
+
+    <div class="task-container" id="container-m2">
+        <div class="task-header">
+            <span class="task-icon">👨‍👩‍👧‍👦</span>
+            <h2>Mission 2: Familie Mathe</h2>
+        </div>
+        <p>Anna ist <strong>a</strong> Jahre alt. Ihr Bruder Felix ist um <strong>4 Jahre älter</strong> als Anna. Ihre kleine Schwester Lena ist genau <strong>halb so alt</strong> wie Anna.</p>
+        <p>Welcher Term beschreibt das Alter von Felix und Lena?</p>
+
+        <div class="match-row" style="border-left-color: #ef4444;">
+            <div class="match-text">Alter von Felix</div>
+            <select class="match-select" id="q5">
+                <option value="0">- Wähle -</option>
+                <option value="wrong">a - 4</option>
+                <option value="correct">a + 4</option>
+                <option value="wrong">4 &middot; a</option>
+            </select>
+        </div>
+
+        <div class="match-row" style="border-left-color: #ef4444;">
+            <div class="match-text">Alter von Lena</div>
+            <select class="match-select" id="q6">
+                <option value="0">- Wähle -</option>
+                <option value="wrong">a - 2</option>
+                <option value="wrong">2 &middot; a</option>
+                <option value="correct">a : 2</option>
+            </select>
+        </div>
+
+        <button class="btn-check" style="background: #ef4444;" onclick="checkMission2()">Mission 2 prüfen</button>
+        <div id="fb-m2" class="feedback"></div>
+    </div>
+
+    <div class="task-container" id="container-m3">
+        <div class="task-header">
+            <span class="task-icon">🧠</span>
+            <h2>Mission 3: Die Profi-Übersetzung (Bsp. 6.29)</h2>
+        </div>
+        <p>Jetzt wird es knifflig! Ordne den langen Anweisungen den exakt richtigen Term zu. <em>(Tipp: Lies genau, was zuerst berechnet werden muss!)</em></p>
+
+        <div class="match-row" style="border-left-color: var(--easter-purple);">
+            <div class="match-text">Addiere b zu a!</div>
+            <select class="match-select" id="m3_q1">
+                <option value="0">- Wähle -</option>
+                <option value="wrong">(b - a) : 2</option>
+                <option value="correct">a + b</option>
+                <option value="wrong">a &middot; b + 2</option>
+            </select>
+        </div>
+
+        <div class="match-row" style="border-left-color: var(--easter-purple);">
+            <div class="match-text">Subtrahiere a von b und dividiere die Differenz durch 2!</div>
+            <select class="match-select" id="m3_q2">
+                <option value="0">- Wähle -</option>
+                <option value="wrong">b - a : 2</option>
+                <option value="wrong">b : 2 - 2 &middot; a</option>
+                <option value="correct">(b - a) : 2</option>
+            </select>
+        </div>
+
+        <div class="match-row" style="border-left-color: var(--easter-purple);">
+            <div class="match-text">Subtrahiere die Hälfte von a von der Zahl b!</div>
+            <select class="match-select" id="m3_q3">
+                <option value="0">- Wähle -</option>
+                <option value="correct">b - a : 2</option>
+                <option value="wrong">b : 2 - 2 &middot; a</option>
+                <option value="wrong">(b - a) : 2</option>
+            </select>
+        </div>
+
+        <div class="match-row" style="border-left-color: var(--easter-purple);">
+            <div class="match-text">Addiere 2 zu dem Produkt von a und b!</div>
+            <select class="match-select" id="m3_q4">
+                <option value="0">- Wähle -</option>
+                <option value="wrong">a + b</option>
+                <option value="correct">a &middot; b + 2</option>
+                <option value="wrong">2 &middot; (b + 1) - 2 &middot; a</option>
+            </select>
+        </div>
+
+        <div class="match-row" style="border-left-color: var(--easter-purple);">
+            <div class="match-text">Subtrahiere das Doppelte von a von der Hälfte von b!</div>
+            <select class="match-select" id="m3_q5">
+                <option value="0">- Wähle -</option>
+                <option value="wrong">b - a : 2</option>
+                <option value="correct">b : 2 - 2 &middot; a</option>
+                <option value="wrong">(b - a) : 2</option>
+            </select>
+        </div>
+
+        <div class="match-row" style="border-left-color: var(--easter-purple);">
+            <div class="match-text">Subtrahiere vom Doppelten des Nachfolgers der Zahl b das Doppelte von a!</div>
+            <select class="match-select" id="m3_q6">
+                <option value="0">- Wähle -</option>
+                <option value="wrong">a &middot; b + 2</option>
+                <option value="wrong">b : 2 - 2 &middot; a</option>
+                <option value="correct">2 &middot; (b + 1) - 2 &middot; a</option>
+            </select>
+        </div>
+
+        <button class="btn-check" style="background: var(--easter-purple);" onclick="checkMission3()">Mission 3 prüfen</button>
+        <div id="fb-m3" class="feedback"></div>
+    </div>
+
+    <div class="task-container" id="container-m4">
+        <div class="task-header">
+            <span class="task-icon">💶</span>
+            <h2>Mission 4: Das Taschengeld-Modell (Bsp. 6.34)</h2>
+        </div>
+        <p>Klaus besucht die 1. Klasse Gymnasium. Er erhält jetzt <strong>t Euro</strong> Taschengeld pro Monat. Seine Eltern vereinbaren mit ihm, dass das monatliche Taschengeld in jedem folgenden Schuljahr <strong>um je 10 € erhöht</strong> wird.</p>
+
+        <div class="match-row" style="border-left-color: var(--easter-blue);">
+            <div class="match-text"><strong>1)</strong> Gib den Term an, der die Höhe seines Taschengelds in der <strong>8. Klasse</strong> beschreibt!<br><span style="font-size: 0.85rem; font-weight: normal;">(Achtung Falle: Wie viele Schuljahre vergehen von der 1. bis zur 8. Klasse?)</span></div>
+            <select class="match-select" id="m4_q1">
+                <option value="0">- Wähle -</option>
+                <option value="wrong">t + 8 &middot; 10</option>
+                <option value="correct">t + 7 &middot; 10</option>
+                <option value="wrong">t + 10</option>
+            </select>
+        </div>
+
+        <div class="match-row" style="border-left-color: var(--easter-blue);">
+            <div class="match-text"><strong>2)</strong> Wie viel Taschengeld erhält er pro Monat in der <strong>7. Klasse</strong>, wenn er in der 1. Klasse genau 15 € (also t = 15) bekommt?</div>
+            <div><input type="number" id="m4_q2" class="num-input" placeholder="z.B. 40"> <strong>€</strong></div>
+        </div>
+
+        <div class="match-row" style="border-left-color: var(--easter-blue); background: #e0f2fe;">
+            <div class="match-text"><strong>3)</strong> Und wie sieht es bei DIR aus?<br><span style="font-size: 0.85rem; font-weight: normal;">Trage links dein aktuelles Taschengeld (t) ein und berechne rechts, wie viel du nach diesem Modell in der 8. Klasse bekommen würdest!</span></div>
+            <div style="text-align: right;">
+                <input type="number" id="m4_my_t" class="num-input" placeholder="Aktuell"> <strong>€ jetzt (t)</strong><br>
+                <div style="margin-top: 5px;">
+                    <input type="number" id="m4_my_8" class="num-input" placeholder="Berechnet"> <strong>€ in 8. Klasse</strong>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-check" style="background: var(--easter-blue);" onclick="checkMission4()">Mission 4 prüfen</button>
+        <div id="fb-m4" class="feedback"></div>
+    </div>
+    
+    
+
+    <div id="ticket-area" style="text-align: center; margin-top: 3rem; display: none;">
+        <h3 style="color: #334155;">🎉 Alle 4 Missionen erfüllt!</h3>
+        <input type="text" id="student-name" placeholder="Dein Vorname" style="padding: 10px; font-size: 1.1rem; border: 2px solid #cbd5e1; border-radius: 6px; width: 200px;">
+        <button class="btn-check" style="width: auto; margin-left: 10px; background: var(--easter-green);" onclick="showTicket()">Oster-Ticket generieren</button>
+           <br>   <br>   <br>   <br>
+    </div>
+
+    <div id="easter-ticket" class="ticket">
+        <div style="font-size: 4rem;">🐰🐣</div>
+        <h2 style="margin: 10px 0;">OSTER-FERIEN FREIGESCHALTET</h2>
+        <p style="font-size: 1.2rem;">Term-Experte/in: <strong><span id="t-name"></span></strong></p>
+        <p style="font-size: 0.9rem; opacity: 0.9;">Zeige dieses Ticket Prof. Schweitzer, um den Arbeitsauftrag abzuschließen!</p>
+        <br>   <br>   <br>
+    </div>
+
+</main>
+
+<script>
+    let missions = { m1: false, m2: false, m3: false, m4: false };
+
+    function markCorrect(id) {
+        document.getElementById('container-' + id).style.borderColor = "#10b981";
+        let fb = document.getElementById('fb-' + id);
+        fb.innerHTML = "✅ Hervorragend! Mission erfüllt.";
+        fb.style.background = "#d1fae5"; fb.style.color = "#065f46"; fb.style.display = "block";
+        missions[id] = true;
+        checkAllPassed();
+    }
+
+    function markWrong(id, hint) {
+        document.getElementById('container-' + id).style.borderColor = "#ef4444";
+        let fb = document.getElementById('fb-' + id);
+        fb.innerHTML = "❌ " + hint;
+        fb.style.background = "#fee2e2"; fb.style.color = "#991b1b"; fb.style.display = "block";
+        missions[id] = false;
+    }
+
+    function checkMission1() {
+        let q1 = document.getElementById('q1').value;
+        let q2 = document.getElementById('q2').value;
+        let q3 = document.getElementById('q3').value;
+        let q4 = document.getElementById('q4').value;
+
+        if(q1 === 'correct' && q2 === 'correct' && q3 === 'correct' && q4 === 'correct') {
+            markCorrect('m1');
+        } else {
+            markWrong('m1', "Da ist noch ein kleiner Übersetzungsfehler. Versuch es nochmal!");
+        }
+    }
+
+    function checkMission2() {
+        let q5 = document.getElementById('q5').value;
+        let q6 = document.getElementById('q6').value;
+
+        if(q5 === 'correct' && q6 === 'correct') {
+            markCorrect('m2');
+        } else {
+            markWrong('m2', "Überprüfe das Alter der Geschwister nochmal.");
+        }
+    }
+
+    function checkMission3() {
+        let allCorrect = true;
+        for(let i=1; i<=6; i++) {
+            if(document.getElementById('m3_q' + i).value !== 'correct') allCorrect = false;
+        }
+        
+        if(allCorrect) {
+            markCorrect('m3');
+        } else {
+            markWrong('m3', "Fast! Einer oder mehrere Terme passen noch nicht ganz zur Anweisung.");
+        }
+    }
+
+    function checkMission4() {
+        let q1 = document.getElementById('m4_q1').value;
+        let q2 = parseFloat(document.getElementById('m4_q2').value);
+        let my_t = parseFloat(document.getElementById('m4_my_t').value);
+        let my_8 = parseFloat(document.getElementById('m4_my_8').value);
+
+        // 1) Term checken
+        if (q1 !== 'correct') {
+            markWrong('m4', "Schau dir den Term für die 8. Klasse nochmal an (Frage 1). Es sind genau 7 Schuljahre vergangen!");
+            return;
+        }
+
+        // 2) Berechnung checken (7. Klasse: t + 60. Wenn t=15 -> 75)
+        if (q2 !== 75) {
+            markWrong('m4', "Die Berechnung für die 7. Klasse (Frage 2) stimmt nicht. Rechne: 15 + (6 Jahre * 10).");
+            return;
+        }
+
+        // 3) Eigene Berechnung checken
+        if (isNaN(my_t) || isNaN(my_8)) {
+            markWrong('m4', "Bitte fülle in Frage 3 beide Felder mit Zahlen aus!");
+            return;
+        }
+
+        if (my_8 !== my_t + 70) {
+            markWrong('m4', "Deine eigene Berechnung in Frage 3 stimmt nicht. Zur Erinnerung: Zur 8. Klasse kommen 70 Euro dazu!");
+            return;
+        }
+
+        // Alles richtig!
+        markCorrect('m4');
+    }
+
+    function checkAllPassed() {
+        if(missions.m1 && missions.m2 && missions.m3 && missions.m4) {
+            document.getElementById('ticket-area').style.display = "block";
+        }
+    }
+
+    function showTicket() {
+        let name = document.getElementById('student-name').value;
+        if(name.trim() !== "") {
+            document.getElementById('t-name').innerText = name;
+            document.getElementById('easter-ticket').style.display = "block";
+            document.getElementById('easter-ticket').scrolltoView({ behavior: 'smooth' });
+        } else {
+            alert("Bitte gib deinen Namen ein!");
+        }
+    }
+</script>
+
+</body>
+</html>

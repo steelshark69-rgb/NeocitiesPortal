@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station 2: Rationale Zahlen | Klasse 3L Rallye</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .code-input-container {
+            margin-top: 3rem;
+            padding: 2.5rem;
+            background: var(--bg);
+            border: 2px dashed var(--primary);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .code-input {
+            font-size: 1.8rem;
+            letter-spacing: 0.2rem;
+            padding: 0.75rem;
+            width: 150px;
+            text-align: center;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .code-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        .task-number {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: bold;
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Station 2: Daten-Knotenpunkt</h1>
+    <p>Die große Jahresabschluss-Rallye der 3L</p>
+    <div class="back-nav">
+        <a href="index.html" class="btn-back">⬅ Zurück zum Start</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 2</span>
+            <h2 style="margin: 0; color: var(--primary);">Rationale Zahlen</h2>
+        </div>
+        
+        <div style="background: white; border: 1px solid #e2e8f0; border-left: 4px solid var(--pdf-red); padding: 1.5rem; border-radius: 8px; margin-bottom: 2.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            <p style="margin-top: 0; font-size: 1.1rem; line-height: 1.6;"><strong>Zugriff auf Serverebene 2 beschränkt!</strong><br>
+            Das System verlangt präzise Berechnungen mit Brüchen und Dezimalzahlen. Berechnet die 8 fehlenden Werte. <strong>Die Summe aller 8 Ergebnisse</strong> schaltet den Zugang zu Station 3 frei!</p>
+        </div>
+
+        <div class="resource-grid">
+            
+            <div class="resource-card">
+                <h4><span class="task-number">1</span> Kontostand (Leicht)</h4>
+                <p>Der Kontostand eines virtuellen Servers liegt bei −12,50 €. Es werden 35,00 € eingezahlt, danach fallen 15,50 € Servergebühren an. Wie hoch ist der Kontostand nun?</p>
+            </div>
+            
+            <div class="resource-card">
+                <h4><span class="task-number">2</span> Bruch-Protokoll (Leicht)</h4>
+                <p>Multipliziere die beiden Brüche und kürze das Ergebnis vollständig:<br><br>
+                <strong>(−3/4) · (−16/3)</strong></p>
+            </div>
+            
+            <div class="resource-card">
+                <h4><span class="task-number">3</span> Dezimal-Cut (Mittel)</h4>
+                <p>Dividiere die beiden Kommazahlen:<br><br>
+                <strong>14,4 : 1,2</strong></p>
+            </div>
+            
+            <div class="resource-card">
+                <h4><span class="task-number">4</span> Daten-Pakete (Mittel)</h4>
+                <p>Berechne und gib das Ergebnis als ganze Zahl an:<br><br>
+                <strong>3/4 − 5/2 + 15/4</strong></p>
+            </div>
+            
+            <div class="resource-card">
+                <h4><span class="task-number">5</span> Routing-Fehler (Schwer)</h4>
+                <p>Beachte die Vorrangregeln (Punkt vor Strich):<br><br>
+                <strong>(−2/5) · 15 − (−3/8) : (1/16)</strong></p>
+            </div>
+            
+            <div class="resource-card">
+                <h4><span class="task-number">6</span> Absolut-Werte (Schwer)</h4>
+                <p>Arbeite mit den Beträgen:<br><br>
+                <strong>|−5,2| − |−8,7| + 12,5</strong></p>
+            </div>
+
+            <div class="resource-card">
+                <h4><span class="task-number">7</span> Geschachtelt (Sehr Schwer)</h4>
+                <p>Löse zuerst die eckige Klammer:<br><br>
+                <strong>[ (−1/3) − (−1/2) ] · 120 + 1,5 · 4</strong></p>
+            </div>
+
+            <div class="resource-card">
+                <h4><span class="task-number">8</span> Der Master-Bruch (Sehr Schwer)</h4>
+                <p>Achtung, 4½ bedeutet 4 ganze und ein halbes. Berechne:<br><br>
+                <strong>( 2,5 − 4½ ) · (−36) − 0,5 · 8</strong></p>
+            </div>
+
+        </div>
+
+        <div class="code-input-container">
+            <h3 style="margin-top: 0; color: var(--primary); font-size: 1.5rem;">Zugangscode (Summe) eingeben</h3>
+            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem;">Addiert die Ergebnisse der Aufgaben 1 bis 8 und gebt die Summe hier ein.</p>
+            
+            <input type="number" id="mastercode" class="code-input" placeholder="000" autocomplete="off">
+            <br>
+            <button class="nav-toggle active" onclick="checkCode()" style="font-size: 1.1rem; padding: 1rem 2rem;">🔓 Code bestätigen</button>
+            
+            <div id="error-message" style="display: none; background: #fef2f2; border: 1px solid var(--pdf-red); color: var(--pdf-red); padding: 1rem; border-radius: 8px; margin-top: 1.5rem; font-weight: bold;">
+                ❌ Zugriff verweigert! Die Summe stimmt noch nicht. Überprüft eure Vorzeichen und Brüche.
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Sicherheits-Check: War der User überhaupt in Station 1?
+    if (sessionStorage.getItem("rallye_station1_solved") !== "true") {
+        alert("Halt! Du musst zuerst Station 1 lösen.");
+        window.location.href = "station1.html";
+    }
+
+    // Lösungen zur Kontrolle:
+    // 1: 7 | 2: 4 | 3: 12 | 4: 2 | 5: 0 | 6: 9 | 7: 26 | 8: 68
+    // Summe: 128
+
+    function checkCode() {
+        const codeInput = document.getElementById('mastercode').value;
+        const errorMsg = document.getElementById('error-message');
+        
+        if (codeInput === "128") {
+            errorMsg.style.display = "none";
+            
+            sessionStorage.setItem("rallye_station2_solved", "true");
+            
+            alert("✅ Verschlüsselung geknackt! Die Berechnungen sind korrekt. Weiter geht es zu Station 3.");
+            window.location.href = "station3.html";
+        } else {
+            errorMsg.style.display = "block";
+            
+            const inputField = document.getElementById('mastercode');
+            inputField.style.transform = "translateX(-10px)";
+            setTimeout(() => inputField.style.transform = "translateX(10px)", 100);
+            setTimeout(() => inputField.style.transform = "translateX(-10px)", 200);
+            setTimeout(() => inputField.style.transform = "translateX(0)", 300);
+            
+            inputField.value = ""; 
+            inputField.focus(); 
+        }
+    }
+
+    document.getElementById('mastercode').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            checkCode();
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreiecke: Besondere Punkte</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Besondere Punkte im Dreieck</h1>
+    <p>Umkreis, Inkreis, Schwerpunkt und Höhenschnittpunkt</p>
+</header>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main>
+    <div style="background: var(--bg); border-left: 4px solid var(--primary); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+        <p style="margin: 0;">In jedem Dreieck gibt es vier Punkte mit ganz besonderen, fast schon "magischen" Eigenschaften. Um sie zu finden, müssen wir spezielle Linien (Symmetralen, Höhen oder Schwerlinien) konstruieren. Wenn du genau zeichnest, treffen sich diese drei Linien immer exakt in <strong>einem einzigen Punkt</strong>!</p>
+    </div>
+
+    <section class="subject-group" id="umkreis">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 8.4</span>
+            <h2 style="margin: 0; color: var(--primary);">1. Der Umkreismittelpunkt ($U$)</h2>
+        </div>
+        
+        
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+            <div style="flex: 1; min-width: 300px;">
+                <p>Der Umkreis ist ein Kreis, der genau durch alle drei Eckpunkte ($A, B, C$) des Dreiecks verläuft. Sein Mittelpunkt ist der <strong>Umkreismittelpunkt $U$</strong>.</p>
+                <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 12px;">
+                    <h4 style="margin-top: 0; color: var(--doc-blue);">Konstruktion:</h4>
+                    <ol style="line-height: 1.8;">
+                        <li>Konstruiere die <strong>Streckensymmetralen</strong> ($s_a, s_b, s_c$) für alle drei Seiten. Das ist die Linie, die genau in der Mitte einer Seite im rechten Winkel ($90^\circ$) steht.</li>
+                        <li>Dort, wo sich die drei Streckensymmetralen schneiden, liegt $U$.</li>
+                        <li>Stich mit dem Zirkel in $U$ ein. Der Radius $r$ reicht genau bis zu einem Eckpunkt.</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div style="flex: 1; min-width: 300px; background: var(--bg); padding: 1.5rem; border-radius: 12px; border: 2px solid var(--doc-blue); text-align: center;">
+                <h4 style="margin-top:0;">Simulator: Umkreis ($U$)</h4>
+                <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                    <button class="nav-toggle active" id="btn-u-0" onclick="showLayer('u', 0)">Dreieck</button>
+                    <button class="nav-toggle" id="btn-u-1" onclick="showLayer('u', 1)">Symmetralen</button>
+                    <button class="nav-toggle" id="btn-u-2" onclick="showLayer('u', 2)">Umkreis</button>
+                </div>
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <svg viewBox="0 0 300 220" width="100%" height="200">
+                        <polygon points="20,180 260,180 120,40" fill="#e0f2fe" stroke="var(--primary)" stroke-width="2" />
+                        <text x="5" y="195" font-weight="bold">A</text><text x="265" y="195" font-weight="bold">B</text><text x="115" y="30" font-weight="bold">C</text>
+                        
+                        <g id="u-layer1" style="display: none;">
+                            <line x1="140" y1="20" x2="140" y2="210" stroke="#94a3b8" stroke-dasharray="4,4" stroke-width="2" />
+                            <line x1="0" y1="60" x2="210" y2="210" stroke="#94a3b8" stroke-dasharray="4,4" stroke-width="2" />
+                            <line x1="80" y1="220" x2="230" y2="70" stroke="#94a3b8" stroke-dasharray="4,4" stroke-width="2" />
+                            <circle cx="140" cy="160" r="4" fill="var(--doc-blue)" />
+                            <text x="148" y="155" font-weight="bold" fill="var(--doc-blue)">U</text>
+                        </g>
+                        <g id="u-layer2" style="display: none;">
+                            <circle cx="140" cy="160" r="121.65" fill="none" stroke="var(--doc-blue)" stroke-width="2" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="subject-group" id="inkreis">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 8.4</span>
+            <h2 style="margin: 0; color: var(--primary);">2. Der Inkreismittelpunkt ($I$)</h2>
+        </div>
+        
+        
+
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+            <div style="flex: 1; min-width: 300px;">
+                <p>Der Inkreis ist der größte Kreis, der noch komplett in das Dreieck passt. Er berührt jede der drei Seiten genau einmal. Sein Mittelpunkt heißt <strong>Inkreismittelpunkt $I$</strong>.</p>
+                <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 12px;">
+                    <h4 style="margin-top: 0; color: var(--xls-green);">Konstruktion:</h4>
+                    <ol style="line-height: 1.8;">
+                        <li>Konstruiere die <strong>Winkelsymmetralen</strong> ($w_\alpha, w_\beta, w_\gamma$). Sie halbieren die Winkel in den Ecken.</li>
+                        <li>Der Schnittpunkt dieser Linien ist $I$.</li>
+                        <li>Achtung beim Radius $\rho$: Lege das Geodreieck an eine Seite an und zeichne eine Normale (im rechten Winkel) durch $I$. Dieser Abstand ist dein Radius für den Zirkel!</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div style="flex: 1; min-width: 300px; background: var(--bg); padding: 1.5rem; border-radius: 12px; border: 2px solid var(--xls-green); text-align: center;">
+                <h4 style="margin-top:0;">Simulator: Inkreis ($I$)</h4>
+                <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                    <button class="nav-toggle active" id="btn-i-0" onclick="showLayer('i', 0)">Dreieck</button>
+                    <button class="nav-toggle" id="btn-i-1" onclick="showLayer('i', 1)">Winkelsymmetralen</button>
+                    <button class="nav-toggle" id="btn-i-2" onclick="showLayer('i', 2)">Inkreis & Radius</button>
+                </div>
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <svg viewBox="0 0 300 220" width="100%" height="200">
+                        <polygon points="20,180 260,180 120,40" fill="#f0fdf4" stroke="var(--primary)" stroke-width="2" />
+                        <text x="5" y="195" font-weight="bold">A</text><text x="265" y="195" font-weight="bold">B</text><text x="115" y="30" font-weight="bold">C</text>
+                        
+                        <g id="i-layer1" style="display: none;">
+                            <line x1="20" y1="180" x2="234" y2="70" stroke="#94a3b8" stroke-dasharray="4,4" stroke-width="2" />
+                            <line x1="260" y1="180" x2="60.5" y2="97.5" stroke="#94a3b8" stroke-dasharray="4,4" stroke-width="2" />
+                            <line x1="120" y1="40" x2="131.5" y2="180" stroke="#94a3b8" stroke-dasharray="4,4" stroke-width="2" />
+                            <circle cx="127" cy="125" r="4" fill="var(--xls-green)" />
+                            <text x="135" y="125" font-weight="bold" fill="var(--xls-green)">I</text>
+                        </g>
+                        <g id="i-layer2" style="display: none;">
+                            <line x1="127" y1="125" x2="127" y2="180" stroke="var(--xls-green)" stroke-width="2" />
+                            <text x="110" y="160" font-weight="bold" fill="var(--xls-green)">ρ</text>
+                            <circle cx="127" cy="125" r="55" fill="none" stroke="var(--xls-green)" stroke-width="2" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="subject-group" id="schwerpunkt">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 8.4</span>
+            <h2 style="margin: 0; color: var(--primary);">3. Der Schwerpunkt ($S$)</h2>
+        </div>
+        
+        
+
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+            <div style="flex: 1; min-width: 300px;">
+                <p>Der Schwerpunkt ist das exakte Zentrum des Dreiecks. Wenn du das Dreieck aus Pappe ausschneidest und einen Bleistift genau unter den Punkt $S$ hältst, würde das Dreieck perfekt balancieren und nicht herunterfallen!</p>
+                <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 12px;">
+                    <h4 style="margin-top: 0; color: var(--html-orange);">Konstruktion:</h4>
+                    <ol style="line-height: 1.8;">
+                        <li>Markiere genau die Mitte von jeder der drei Seiten.</li>
+                        <li>Zeichne die <strong>Schwerlinien</strong> ($s_A, s_B, s_C$). Verbinde dazu den Mittelpunkt einer Seite immer mit der gegenüberliegenden Ecke.</li>
+                        <li>Der Schnittpunkt ist der Schwerpunkt $S$. Er teilt die Schwerlinien übrigens immer genau im Verhältnis 2:1!</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div style="flex: 1; min-width: 300px; background: var(--bg); padding: 1.5rem; border-radius: 12px; border: 2px solid var(--html-orange); text-align: center;">
+                <h4 style="margin-top:0;">Simulator: Schwerpunkt ($S$)</h4>
+                <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                    <button class="nav-toggle active" id="btn-s-0" onclick="showLayer('s', 0)">Dreieck</button>
+                    <button class="nav-toggle" id="btn-s-1" onclick="showLayer('s', 1)">Seitenmitten</button>
+                    <button class="nav-toggle" id="btn-s-2" onclick="showLayer('s', 2)">Schwerlinien & S</button>
+                </div>
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <svg viewBox="0 0 300 220" width="100%" height="200">
+                        <polygon points="20,180 260,180 120,40" fill="#fff7ed" stroke="var(--primary)" stroke-width="2" />
+                        <text x="5" y="195" font-weight="bold">A</text><text x="265" y="195" font-weight="bold">B</text><text x="115" y="30" font-weight="bold">C</text>
+                        
+                        <g id="s-layer1" style="display: none;">
+                            <circle cx="140" cy="180" r="3" fill="#64748b" />
+                            <circle cx="190" cy="110" r="3" fill="#64748b" />
+                            <circle cx="70" cy="110" r="3" fill="#64748b" />
+                        </g>
+                        <g id="s-layer2" style="display: none;">
+                            <line x1="120" y1="40" x2="140" y2="180" stroke="var(--html-orange)" stroke-width="2" />
+                            <line x1="20" y1="180" x2="190" y2="110" stroke="var(--html-orange)" stroke-width="2" />
+                            <line x1="260" y1="180" x2="70" y2="110" stroke="var(--html-orange)" stroke-width="2" />
+                            <circle cx="133.3" cy="133.3" r="5" fill="var(--html-orange)" />
+                            <text x="145" y="130" font-weight="bold" fill="var(--html-orange)">S</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="subject-group" id="hoehen">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 8.4</span>
+            <h2 style="margin: 0; color: var(--primary);">4. Der Höhenschnittpunkt ($H$)</h2>
+        </div>
+        
+        
+
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+            <div style="flex: 1; min-width: 300px;">
+                <p>Ein Dreieck hat nicht nur eine "Höhe", sondern gleich drei! Die Höhen geben den kürzesten, senkrechten Abstand von einer Ecke zur gegenüberliegenden Seite an.</p>
+                <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--pdf-red); padding: 1.5rem; border-radius: 12px;">
+                    <h4 style="margin-top: 0; color: var(--pdf-red);">Konstruktion:</h4>
+                    <ol style="line-height: 1.8;">
+                        <li>Zeichne die drei <strong>Höhen</strong> ($h_a, h_b, h_c$). Lege dazu die Mittellinie deines Geodreiecks genau auf eine Seite und fahre bis zur gegenüberliegenden Ecke.</li>
+                        <li>Zeichne die Normale (den rechten Winkel) durch die Ecke.</li>
+                        <li>Der Punkt, an dem sich alle drei Höhenlinien schneiden, ist der Höhenschnittpunkt $H$.</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div style="flex: 1; min-width: 300px; background: var(--bg); padding: 1.5rem; border-radius: 12px; border: 2px solid var(--pdf-red); text-align: center;">
+                <h4 style="margin-top:0;">Simulator: Höhenschnittpunkt ($H$)</h4>
+                <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                    <button class="nav-toggle active" id="btn-h-0" onclick="showLayer('h', 0)">Dreieck</button>
+                    <button class="nav-toggle" id="btn-h-1" onclick="showLayer('h', 1)">Höhen einzeichnen</button>
+                    <button class="nav-toggle" id="btn-h-2" onclick="showLayer('h', 2)">Schnittpunkt H</button>
+                </div>
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <svg viewBox="0 0 300 220" width="100%" height="200">
+                        <polygon points="20,180 260,180 120,40" fill="#fef2f2" stroke="var(--primary)" stroke-width="2" />
+                        <text x="5" y="195" font-weight="bold">A</text><text x="265" y="195" font-weight="bold">B</text><text x="115" y="30" font-weight="bold">C</text>
+                        
+                        <g id="h-layer1" style="display: none;">
+                            <line x1="120" y1="40" x2="120" y2="180" stroke="var(--pdf-red)" stroke-dasharray="4,4" stroke-width="2" />
+                            <line x1="20" y1="180" x2="180" y2="20" stroke="var(--pdf-red)" stroke-dasharray="4,4" stroke-width="2" />
+                            <line x1="260" y1="180" x2="50" y2="30" stroke="var(--pdf-red)" stroke-dasharray="4,4" stroke-width="2" />
+                        </g>
+                        <g id="h-layer2" style="display: none;">
+                            <circle cx="120" cy="80" r="5" fill="var(--pdf-red)" />
+                            <text x="130" y="85" font-weight="bold" fill="var(--pdf-red)">H</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Mathematik verstehen 2 | Geometrie - Besondere Punkte im Dreieck</p>
+</footer>
+
+<script>
+    function showLayer(type, level) {
+        document.getElementById(`btn-${type}-0`).classList.remove('active');
+        document.getElementById(`btn-${type}-1`).classList.remove('active');
+        document.getElementById(`btn-${type}-2`).classList.remove('active');
+        
+        document.getElementById(`btn-${type}-${level}`).classList.add('active');
+
+        let l1 = document.getElementById(`${type}-layer1`);
+        let l2 = document.getElementById(`${type}-layer2`);
+
+        if(level === 0) {
+            l1.style.display = 'none';
+            l2.style.display = 'none';
+        } else if (level === 1) {
+            l1.style.display = 'block';
+            l2.style.display = 'none';
+        } else {
+            l1.style.display = 'block';
+            l2.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>

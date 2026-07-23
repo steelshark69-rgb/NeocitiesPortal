@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.1 Die Menge der ganzen Zahlen | Eigenstudium</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .intro-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid var(--math-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2.5rem;
+        }
+        .highlight-zahl {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+            background: var(--bg);
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+        }
+        .interactive-section {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .scenario-btn {
+            background: var(--bg);
+            border: 1px solid #cbd5e1;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.2s;
+            font-weight: 600;
+        }
+        .scenario-btn:hover {
+            border-color: var(--primary);
+            background: #f1f5f9;
+        }
+        .quiz-option {
+            display: block;
+            background: var(--bg);
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .quiz-option:hover {
+            border-color: var(--primary);
+        }
+        .correct {
+            background: #f0fdf4 !important;
+            border-color: #10b981 !important;
+            color: #15803d;
+            font-weight: bold;
+        }
+        .wrong {
+            background: #fef2f2 !important;
+            border-color: #ef4444 !important;
+            color: #b91c1c;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>1.1 Die Menge der ganzen Zahlen</h1>
+    <p>Mathe-Portal | Selbststudium für die 3L</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">⬅ Zurück zur Übersicht</a>
+    </div>
+</header>
+
+<main>
+    <div class="intro-box">
+        <h3 style="margin-top: 0; color: var(--text-main);">Warum reichen die normalen Zahlen nicht mehr?</h3>
+        <p style="margin-bottom: 0; line-height: 1.6;">
+            Bisher hast du in Mathe meistens mit den <strong>natürlichen Zahlen</strong> (0, 1, 2, 3, 4...) gearbeitet. Aber im echten Leben stoßen wir ständig an Grenzen. Wie beschreibt man das Guthaben auf einer Gaming-Card, wenn man im Minus ist? Wie misst man Temperaturen im tiefsten Winter in den Alpen? Genau dafür brauchen wir die <strong>ganzen Zahlen</strong> (Symbol: <strong>ℤ</strong>).
+        </p>
+    </div>
+
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Check das aus</span>
+            <h2 style="margin: 0; color: var(--primary);">Ganze Zahlen in deiner Welt</h2>
+        </div>
+        
+        <div class="resource-grid">
+            <div class="resource-card">
+                <h4>📱 Smartphone & Taschengeld</h4>
+                <p>Du möchtest dir In-App-Käufe oder einen coolen Skin für <span class="highlight-zahl">8 €</span> holen, hast aber nur noch <span class="highlight-zahl">5 €</span> auf der Karte. Deine Eltern leihen dir den Rest. Du bist also im Minus! Dein neuer Kontostand beträgt exakt: <strong>−3 €</strong>.</p>
+            </div>
+
+            <div class="resource-card">
+                <h4>🎮 Gaming (Highscores & Strafen)</h4>
+                <p>In einem Online-Match läuft es richtig gut, du sammelst Punkte. Doch plötzlich erwischt dich eine Falle und dir werden Punkte abgezogen. Ein Punkteverlust wird in der Spiel-Engine intern als negative Zahl wie <strong>−50 Punkte</strong> berechnet.</p>
+            </div>
+
+            <div class="resource-card">
+                <h4>🏔️ Natur & Wetter</h4>
+                <p>Wenn es im Sommer in Linz <span class="highlight-zahl">25 °C</span> hat, ist das eine positive Zahl. Gefriert im Winter das Wasser zu Eis, sinkt die Temperatur unter den Nullpunkt. Bei knackiger Kälte am Berg hat es dann oft <strong>−10 °C</strong>.</p>
+            </div>
+
+            <div class="resource-card">
+                <h4>🏢 Lift fahren</h4>
+                <p>Du bist im Einkaufszentrum im Erdgeschoß (Stockwerk <span class="highlight-zahl">0</span>). Ihr wollt zum Auto, das ganz unten in der Tiefgarage steht. Ihr steigt in den Aufzug und drückt auf den Knopf für das 2. Untergeschoß: Stockwerk <strong>−2</strong>.</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="background: #f8fafc; border: 2px solid var(--primary); padding: 1.5rem; border-radius: 12px; margin-top: 2.5rem;">
+        <h3 style="margin-top: 0; color: var(--primary);">💡 Das musst du dir merken!</h3>
+        <p style="margin-bottom: 0.5rem;">Die Menge der <strong>ganzen Zahlen</strong> (abgekürzt mit dem Buchstaben <strong>ℤ</strong>) besteht aus:</p>
+        <ul style="margin-top: 0; padding-left: 20px; line-height: 1.7;">
+            <li>Den <strong>negativen ganzen Zahlen</strong> (..., −3, −2, −1) &minus; sie liegen auf der Zahlengeraden <em>links</em> von der Null.</li>
+            <li>Der Zahl <strong>0</strong> (die weder positiv noch negativ ist).</li>
+            <li>Den <strong>positiven ganzen Zahlen</strong> (1, 2, 3, ...), welche den natürlichen Zahlen entsprechen &minus; sie liegen <em>rechts</em> von der Null.</li>
+        </ul>
+    </div>
+
+    <div class="interactive-section">
+        <h3 style="margin-top: 0; color: var(--text-main);">🕹️ Interaktiver Übersetzer: Alltag zu Mathe</h3>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Klicke auf ein Ereignis, um zu sehen, wie die Mathematik dieses Erlebnis als ganze Zahl aufschreibt!</p>
+        
+        <div class="resource-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+            <button class="scenario-btn" onclick="showTranslation(this, '−15')">🌊 Ein Taucher sinkt 15 Meter tief</button>
+            <button class="scenario-btn" onclick="showTranslation(this, '+250')">💰 Oma schenkt dir 250 €</button>
+            <button class="scenario-btn" onclick="showTranslation(this, '−5')">📉 Dein Handy-Akku verliert 5 %</button>
+            <button class="scenario-btn" onclick="showTranslation(this, '+3798')">⛰️ Der Großglockner ist 3798 m hoch</button>
+        </div>
+        
+        <div id="translation-output" style="margin-top: 1.5rem; font-size: 1.2rem; font-weight: bold; text-align: center; color: var(--primary); min-height: 1.8rem;"></div>
+    </div>
+
+    <div class="interactive-section" style="border-top: 4px solid var(--info-color);">
+        <h3 style="margin-top: 0; color: var(--text-main);">📝 Schnell-Check: Hast du es durchschaut?</h3>
+        <p style="color: var(--text-muted);">Teste dein Wissen direkt. Klicke einfach auf die richtige Antwort.</p>
+        
+        <div style="margin-top: 1.5rem;">
+            <p><strong>Frage: Welche Aussage über die Zahl 0 ist absolut richtig?</strong></p>
+            <div class="quiz-option" onclick="checkQuiz(this, false)">A) Sie ist eine negative ganze Zahl.</div>
+            <div class="quiz-option" onclick="checkQuiz(this, true)">B) Sie ist weder positiv noch negativ.</div>
+            <div class="quiz-option" onclick="checkQuiz(this, false)">C) Sie gehört nicht zur Menge der ganzen Zahlen (ℤ).</div>
+        </div>
+        
+        <div id="quiz-feedback" style="margin-top: 1rem; font-weight: bold; min-height: 1.5rem;"></div>
+    </div>
+</main>
+
+<script>
+    // Funktion für den interaktiven Übersetzer
+    function showTranslation(button, val) {
+        // Setze Text im Ausgabefeld
+        const output = document.getElementById('translation-output');
+        output.innerHTML = "Mathematische Darstellung: <span style='font-size: 1.5rem; background: #e0e7ff; padding: 0.2rem 0.6rem; border-radius: 6px;'>" + val + "</span>";
+        
+        // Optisches Feedback auf den Buttons zurücksetzen
+        document.querySelectorAll('.scenario-btn').forEach(btn => btn.style.borderColor = '#cbd5e1');
+        button.style.borderColor = 'var(--primary)';
+    }
+
+    // Funktion für das Quiz
+    function checkQuiz(element, isCorrect) {
+        const feedback = document.getElementById('quiz-feedback');
+        
+        // Setze alle Optionen zurück
+        document.querySelectorAll('.quiz-option').forEach(opt => {
+            opt.classList.remove('correct', 'wrong');
+        });
+
+        if (isCorrect) {
+            element.classList.add('correct');
+            feedback.innerHTML = "🎉 Ausgezeichnet! Die Null steht genau in der Mitte und hat kein Vorzeichen.";
+            feedback.style.color = "#15803d";
+        } else {
+            element.classList.add('wrong');
+            feedback.innerHTML = "❌ Schade, knifflig! Überlege noch einmal. Die Null trennt die positiven von den negativen Zahlen.";
+            feedback.style.color = "#b91c1c";
+        }
+    }
+</script>
+
+<footer style="margin-top: 5rem; padding: 2rem 1rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.9rem; text-align: center;">
+    &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Digitale Grundbildung
+</footer>
+
+</body>
+</html>

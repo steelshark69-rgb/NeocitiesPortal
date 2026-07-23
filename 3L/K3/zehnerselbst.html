@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission: Zehnerpotenzen | 100 Minuten</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        :root {
+            --math-primary: #3b82f6;
+            --math-dark: #1e3a8a;
+            --step-color: #0ea5e9;
+        }
+
+        body { counter-reset: step-counter; }
+
+        .mission-step {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem 2rem 2rem 4rem;
+            margin: 3rem 0;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .mission-step::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: -20px;
+            top: 20px;
+            background: var(--step-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3);
+            border: 4px solid white;
+        }
+
+        /* Labor Styles */
+        .lab-container { background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 1.5rem; text-align: center; margin-top: 1.5rem; }
+        .number-input { font-size: 1.2rem; padding: 10px; border: 2px solid #cbd5e1; border-radius: 6px; width: 150px; text-align: center; outline: none; }
+        .komma-slider { width: 100%; max-width: 300px; accent-color: var(--math-primary); cursor: pointer; margin: 15px 0; }
+        .result-display { font-size: 2rem; font-family: monospace; font-weight: bold; color: var(--math-dark); margin: 1rem 0; }
+        .status-badge { display: inline-block; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; }
+        .status-normal { background: #e2e8f0; color: #475569; }
+        .status-normiert { background: #10b981; color: white; }
+
+        /* Quiz Styles */
+        .quiz-question { background: #f1f5f9; padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid var(--math-primary); }
+        .quiz-input { padding: 10px; font-size: 1.1rem; border: 2px solid #cbd5e1; border-radius: 4px; width: 120px; text-align: center; }
+        .btn-check { background: var(--math-primary); color: white; border: none; padding: 10px 20px; font-size: 1rem; font-weight: bold; border-radius: 4px; cursor: pointer; margin-top: 10px; }
+        .btn-check:hover { background: var(--math-dark); }
+        
+        .feedback { display: none; font-weight: bold; margin-top: 10px; padding: 10px; border-radius: 4px; }
+        .fb-correct { background: #d1fae5; color: #065f46; border: 1px solid #10b981; }
+        .fb-wrong { background: #fee2e2; color: #991b1b; border: 1px solid #ef4444; }
+
+        /* Ticket Styles */
+        .ticket-container {
+            display: none;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 3rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 2rem;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .ticket-watermark { position: absolute; top: -20px; right: -20px; font-size: 8rem; opacity: 0.1; transform: rotate(15deg); }
+        .ticket-score { font-size: 4rem; font-weight: bold; margin: 1rem 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .ticket-details { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; font-family: monospace; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+
+<header style="background-color: var(--math-primary);">
+    <h1>Mission: Zehnerpotenzen</h1>
+    <p>Selbstständiges Arbeiten (Dauer: ca. 100 Minuten)</p>
+</header>
+
+<main style="max-width: 900px; margin: 0 auto; padding: 0 1.5rem;">
+
+    <div style="background: #fffbeb; border-left: 4px solid #f59e0b; padding: 1.5rem; border-radius: 4px; margin-top: 2rem;">
+        <strong>🎯 Dein Arbeitsauftrag für diese Doppelstunde:</strong>
+        <p style="margin-bottom: 0;">Arbeite die folgenden 4 Schritte sorgfältig in deinem eigenen Tempo durch. Für Schritt 2 brauchst du dein Schulübungsheft. Am Ende absolvierst du den digitalen Abschluss-Test. <strong>Zeige Prof. Schweitzer am Ende der Stunde dein generiertes Ticket am Bildschirm!</strong></p>
+    </div>
+
+    <div class="mission-step">
+        <h2 style="margin-top: 0; color: var(--math-dark);">Theorie & Basics verstehen (20 Min.)</h2>
+        <p>Gigantische Zahlen (wie die Entfernung zur Sonne) oder winzige Zahlen (wie die Größe eines Virus) sprengen das Display eines Taschenrechners. Deshalb nutzen Wissenschaftler die <strong>Gleitkommadarstellung</strong>.</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+            <div style="background: #f8fafc; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 8px;">
+                <h4 style="margin-top:0; color:#334155;">1. Festkomma</h4>
+                <p style="font-size:0.9rem;">Die normale Zahl aus dem Alltag.</p>
+                <div style="font-family: monospace; font-size: 1.2rem; text-align: center; color: var(--math-primary);">45 000</div>
+            </div>
+            <div style="background: #f8fafc; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 8px;">
+                <h4 style="margin-top:0; color:#334155;">2. Gleitkomma</h4>
+                <p style="font-size:0.9rem;">Das Komma "gleitet", dafür wird mit $10^k$ multipliziert.</p>
+                <div style="font-family: monospace; font-size: 1.2rem; text-align: center; color: var(--math-primary);">450 &middot; 10&sup2;</div>
+            </div>
+            <div style="background: #f0fdf4; padding: 1rem; border: 1px solid #10b981; border-radius: 8px;">
+                <h4 style="margin-top:0; color:#065f46;">3. Normiert! 👑</h4>
+                <p style="font-size:0.9rem;"><strong>Genau eine Ziffer</strong> (nicht 0) steht vor dem Komma!</p>
+                <div style="font-family: monospace; font-size: 1.2rem; text-align: center; color: #10b981; font-weight: bold;">4,5 &middot; 10&#8308;</div>
+            </div>
+        </div>
+
+        <p style="margin-top: 1.5rem;"><strong>Die Goldene Regel:</strong><br>
+        Verschiebst du das Komma nach <strong>links</strong> ⬅️, wird die Zahl kleiner $\rightarrow$ der Exponent muss als Ausgleich <strong>größer</strong> werden (+).<br>
+        Verschiebst du das Komma nach <strong>rechts</strong> ➡️, wird die Zahl größer $\rightarrow$ der Exponent muss als Ausgleich <strong>kleiner</strong> werden (-).</p>
+    </div>
+
+    <div class="mission-step">
+        <h2 style="margin-top: 0; color: var(--math-dark);">Labor & Heftarbeit (30 Min.)</h2>
+        <p>Schreibe die Überschrift <em>"Zehnerpotenzen - Normierte Darstellung"</em> in dein Heft. <br>Nutze den Komma-Schieber unten, um für die folgenden 5 Zahlen die <strong>normierte Gleitkommadarstellung</strong> zu finden. Schreibe die Angabe und die richtige Lösung in dein Heft!</p>
+        
+        <ul style="font-family: monospace; font-size: 1.1rem; background: #fef2f2; border: 1px solid #fca5a5; padding: 15px 15px 15px 40px; border-radius: 4px; color: #991b1b; margin-bottom: 2rem;">
+            <li>a) 14 500</li>
+            <li>b) 0,000 78</li>
+            <li>c) 3 500 000</li>
+            <li>d) 0,02</li>
+            <li>e) 890,5</li>
+        </ul>
+
+        <div class="lab-container">
+            <h3 style="margin-top:0;">Der Komma-Schieber</h3>
+            <label style="font-size: 0.9rem; color: #64748b;">Zahl eintippen:</label><br>
+            <input type="number" id="base-number" class="number-input" value="14500" step="any" oninput="updateLab()">
+            
+            <div style="margin: 20px 0;">
+                <label style="font-size: 0.9rem; color: #64748b;">Komma verschieben (Exponent $k$):</label><br>
+                <input type="range" id="exponent-slider" class="komma-slider" min="-10" max="10" value="0" oninput="updateLab()">
+                <div style="font-family: monospace; color: #3b82f6; font-weight: bold;">Exponent: <span id="exp-display">0</span></div>
+            </div>
+
+            <div id="result-math" class="result-display">14500 &middot; 10<sup>0</sup></div>
+            <div id="status-badge" class="status-badge status-normal">Festkomma</div>
+        </div>
+    </div>
+
+    <div class="mission-step">
+        <h2 style="margin-top: 0; color: var(--math-dark);">Das Abschluss-Assessment (30 Min.)</h2>
+        <p>Jetzt wird es ernst! Berechne die fehlenden Teile im Kopf oder auf einem Schmierzettel. Trage die Ergebnisse unten ein und klicke auf "Prüfen". <strong>Achtung: Du musst alle 5 Fragen richtig haben, um dein Ticket zu erhalten!</strong></p>
+
+        <div class="quiz-question" id="q1-box">
+            <p><strong>1.</strong> Wandle in die normierte Darstellung um: <strong>$56\,000 = 5{,}6 \cdot 10^k$</strong></p>
+            <label>Exponent $k$ = </label>
+            <input type="number" id="q1-ans" class="quiz-input" placeholder="z.B. 3">
+            <button class="btn-check" onclick="checkAnswer(1, 4)">Prüfen</button>
+            <div id="q1-feedback" class="feedback"></div>
+        </div>
+
+        <div class="quiz-question" id="q2-box">
+            <p><strong>2.</strong> Wandle in die normierte Darstellung um: <strong>$0{,}0034 = 3{,}4 \cdot 10^k$</strong></p>
+            <label>Exponent $k$ = </label>
+            <input type="number" id="q2-ans" class="quiz-input" placeholder="z.B. -2">
+            <button class="btn-check" onclick="checkAnswer(2, -3)">Prüfen</button>
+            <div id="q2-feedback" class="feedback"></div>
+        </div>
+
+        <div class="quiz-question" id="q3-box">
+            <p><strong>3.</strong> Welcher Faktor (Mantisse) fehlt hier? <strong>$720\,000 = a \cdot 10^5$</strong></p>
+            <label>Mantisse $a$ = </label>
+            <input type="number" id="q3-ans" class="quiz-input" step="0.1" placeholder="z.B. 1.5"> <span style="font-size:0.8rem; color:#64748b;">(Nutze einen Punkt statt Komma!)</span>
+            <button class="btn-check" onclick="checkAnswer(3, 7.2)">Prüfen</button>
+            <div id="q3-feedback" class="feedback"></div>
+        </div>
+
+        <div class="quiz-question" id="q4-box">
+            <p><strong>4.</strong> Zurück ins Festkomma: Welche normale Zahl ist <strong>$4{,}1 \cdot 10^3$</strong>?</p>
+            <label>Festkommazahl = </label>
+            <input type="number" id="q4-ans" class="quiz-input" placeholder="z.B. 410">
+            <button class="btn-check" onclick="checkAnswer(4, 4100)">Prüfen</button>
+            <div id="q4-feedback" class="feedback"></div>
+        </div>
+
+        <div class="quiz-question" id="q5-box">
+            <p><strong>5.</strong> Textaufgabe: Die Lichtgeschwindigkeit beträgt ca. $300\,000 \text{ km/s}$. Wie lautet das normiert?</p>
+            <label>Mantisse: </label><input type="number" id="q5-a" class="quiz-input" style="width:70px;"> &middot; 10 ^ 
+            <label>Exponent: </label><input type="number" id="q5-k" class="quiz-input" style="width:70px;">
+            <br>
+            <button class="btn-check" onclick="checkAnswerMulti(5, 3, 5)">Prüfen</button>
+            <div id="q5-feedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <div class="mission-step" id="ticket-generator-section" style="border-color: #10b981; background: #f0fdf4;">
+        <h2 style="margin-top: 0; color: #065f46;">Missions-Abschluss (10 Min.)</h2>
+        <p>Hast du alle 5 Boxen oben grün gefärbt? Dann generiere jetzt dein digitales Ticket für Prof. Schweitzer!</p>
+        
+        <input type="text" id="student-name" class="quiz-input" style="width: 250px;" placeholder="Vorname + Nachname">
+        <button class="btn-check" style="background: #10b981;" onclick="generateTicket()">Ticket erstellen</button>
+        <p id="ticket-error" style="color: #ef4444; font-weight: bold; display: none; margin-top: 10px;">Du hast noch nicht alle Aufgaben oben richtig gelöst oder keinen Namen eingegeben!</p>
+
+        <div id="certificate" class="ticket-container">
+            <div class="ticket-watermark">✓</div>
+            <h2 style="margin: 0; color: #93c5fd;">MISSION ERFOLGREICH</h2>
+            <div class="ticket-score">100 %</div>
+            <div class="ticket-details">
+                Schüler/in: <span id="cert-name" style="color: #fcd34d;"></span><br>
+                Modul: Zehnerpotenzen<br>
+                Datum: <span id="cert-date"></span><br>
+                Prüfcode: <span id="cert-hash" style="color: #93c5fd; font-size: 0.9rem;"></span>
+            </div>
+            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8;">Bitte zeige diesen Bildschirm jetzt der Lehrkraft.</p>
+        </div>
+    </div>
+
+</main>
+
+<footer style="margin-top: 5rem; padding: 2rem 1rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.9rem;">
+    <div style="text-align: center; font-weight: bold;">
+        &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+    </div>
+</footer>
+
+<script>
+    // --- Labor Logik ---
+    function updateLab() {
+        let baseInput = document.getElementById('base-number').value;
+        let exponent = parseInt(document.getElementById('exponent-slider').value);
+        let number = parseFloat(baseInput.replace(',', '.'));
+        
+        const resultDisplay = document.getElementById('result-math');
+        const badge = document.getElementById('status-badge');
+        document.getElementById('exp-display').innerText = exponent;
+
+        if (isNaN(number)) { resultDisplay.innerHTML = "Warte auf Zahl..."; badge.className = "status-badge status-normal"; badge.innerText = "Ungültig"; return; }
+        if (number === 0) { resultDisplay.innerHTML = `0 &middot; 10<sup>${exponent}</sup>`; badge.className = "status-badge status-normal"; badge.innerText = "Sonderfall Null"; return; }
+
+        let mantissa = number / Math.pow(10, exponent);
+        let formattedMantissa = parseFloat(mantissa.toFixed(6)).toString();
+        let displayMantissa = formattedMantissa.replace('.', ',');
+
+        resultDisplay.innerHTML = `${displayMantissa} &middot; 10<sup>${exponent}</sup>`;
+
+        let absMantissa = Math.abs(mantissa);
+        if (absMantissa >= 1 && absMantissa < 9.999999) {
+            badge.className = "status-badge status-normiert"; badge.innerText = "✅ Normiert!";
+            resultDisplay.style.color = "#047857";
+        } else {
+            badge.className = "status-badge status-normal";
+            badge.innerText = exponent === 0 ? "Festkomma" : "Gleitkomma";
+            resultDisplay.style.color = "var(--math-dark)";
+        }
+    }
+    window.onload = updateLab;
+
+    // --- Quiz Logik ---
+    let solvedQuestions = { 1: false, 2: false, 3: false, 4: false, 5: false };
+
+    function checkAnswer(qNum, correctVal) {
+        let inputVal = parseFloat(document.getElementById('q' + qNum + '-ans').value.replace(',', '.'));
+        let feedback = document.getElementById('q' + qNum + '-feedback');
+        let box = document.getElementById('q' + qNum + '-box');
+
+        if (inputVal === correctVal) {
+            feedback.innerHTML = "✅ Richtig!";
+            feedback.className = "feedback fb-correct";
+            feedback.style.display = "block";
+            box.style.borderLeftColor = "#10b981";
+            solvedQuestions[qNum] = true;
+        } else {
+            feedback.innerHTML = "❌ Leider falsch. Denk an die goldene Regel!";
+            feedback.className = "feedback fb-wrong";
+            feedback.style.display = "block";
+            box.style.borderLeftColor = "#ef4444";
+            solvedQuestions[qNum] = false;
+        }
+    }
+
+    function checkAnswerMulti(qNum, correctA, correctK) {
+        let inputA = parseFloat(document.getElementById('q' + qNum + '-a').value.replace(',', '.'));
+        let inputK = parseInt(document.getElementById('q' + qNum + '-k').value);
+        let feedback = document.getElementById('q' + qNum + '-feedback');
+        let box = document.getElementById('q' + qNum + '-box');
+
+        if (inputA === correctA && inputK === correctK) {
+            feedback.innerHTML = "✅ Perfekt!";
+            feedback.className = "feedback fb-correct";
+            feedback.style.display = "block";
+            box.style.borderLeftColor = "#10b981";
+            solvedQuestions[qNum] = true;
+        } else {
+            feedback.innerHTML = "❌ Das stimmt noch nicht ganz.";
+            feedback.className = "feedback fb-wrong";
+            feedback.style.display = "block";
+            box.style.borderLeftColor = "#ef4444";
+            solvedQuestions[qNum] = false;
+        }
+    }
+
+    // --- Ticket Generator ---
+    function generateTicket() {
+        let name = document.getElementById('student-name').value.trim();
+        let errorMsg = document.getElementById('ticket-error');
+        
+        // Check if all 5 questions are true
+        let allSolved = solvedQuestions[1] && solvedQuestions[2] && solvedQuestions[3] && solvedQuestions[4] && solvedQuestions[5];
+
+        if (!allSolved || name === "") {
+            errorMsg.style.display = "block";
+            return;
+        }
+
+        errorMsg.style.display = "none";
+        
+        // Fülle Ticket
+        document.getElementById('cert-name').innerText = name;
+        
+        let now = new Date();
+        let timeString = now.toLocaleDateString('de-AT') + " | " + now.toLocaleTimeString('de-AT');
+        document.getElementById('cert-date').innerText = timeString;
+
+        // Erstelle einfachen Hash zur Fälschungssicherheit (Name Länge + Stunden + Minuten)
+        let hash = "CHK-" + (name.length * 7) + "-" + now.getHours() + now.getMinutes() + "-OK";
+        document.getElementById('cert-hash').innerText = hash;
+
+        // Zeige Ticket
+        document.getElementById('certificate').style.display = "block";
+        
+        // Scrolle zum Ticket
+        document.getElementById('certificate').scrolltoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

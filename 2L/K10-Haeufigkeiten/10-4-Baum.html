@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10.4 Mehrstufige Situationen - AHS 2. Klasse</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <style>
+        :root {
+            --math-primary: #ea580c; /* Orange für Statistik & Daten */
+            --math-dark: #c2410c;
+            --math-light: #ffedd5;
+            --correct-bg: #d1fae5;
+            --correct-border: #10b981;
+            --incorrect-bg: #fee2e2;
+            --incorrect-border: #ef4444;
+        }
+
+        body { padding-bottom: 2rem; }
+
+        /* Custom Header Styling */
+        .page-header {
+            background-color: var(--math-primary);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        .page-header h1 { margin: 0; color: white; }
+        .page-header p { margin-top: 0.5rem; opacity: 0.9; color: white; }
+
+        /* Info & Theorie Boxen */
+        .theory-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            line-height: 1.6;
+        }
+        .theory-box h3 { color: var(--math-primary); margin-top: 0; font-size: 1.4rem; }
+        
+        .term-card {
+            background: #f8fafc;
+            border-left: 4px solid var(--math-primary);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .term-card strong { color: var(--math-dark); font-size: 1.1rem; }
+
+        /* Formel Box */
+        .formula-box {
+            background: white;
+            border: 2px dashed var(--math-primary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 1.5rem 0;
+            background-color: #fff7ed;
+        }
+
+        /* Interaktives Tool */
+        .interactive-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            background: var(--math-light);
+            border: 2px solid #fdba74;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+            align-items: flex-start;
+        }
+        
+        .interactive-controls {
+            flex: 1;
+            min-width: 250px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .slider-group {
+            margin-bottom: 1.5rem;
+        }
+        .slider-group label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #334155;
+        }
+        input[type=range] {
+            width: 100%;
+            accent-color: var(--math-primary);
+        }
+        
+        .interactive-graph {
+            flex: 2;
+            min-width: 300px;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        canvas {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+        }
+
+        /* Tab-Navigation Styling */
+        .tab-nav-container {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 2rem;
+            background: white;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            color: #64748b;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+        .tab-btn:hover { background: #f8fafc; color: #334155; }
+        .tab-active { border-bottom: 4px solid var(--math-primary); color: var(--math-dark); background: #ffedd5; }
+
+        /* Aufgaben-Karten Styling */
+        .task-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            transition: border-color 0.2s;
+        }
+        @media(min-width: 768px) {
+            .task-card { flex-direction: row; justify-content: space-between; align-items: flex-start; }
+        }
+        
+        .task-content { flex: 1; padding-right: 1rem; }
+        .task-badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--math-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .task-text { font-size: 1.1rem; color: #334155; line-height: 1.5; margin: 0; }
+        
+        /* Lösungsbox */
+        .solution-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f8fafc;
+            border-left: 4px solid var(--math-primary);
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+            color: #475569;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Eingabefelder und Buttons */
+        .task-action { display: flex; gap: 10px; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
+        .task-input {
+            padding: 10px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            width: 130px;
+            text-align: center;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.2s;
+        }
+        .task-input:focus { border-color: var(--math-primary); }
+        
+        .task-btn {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .task-btn:hover { background: #1e293b; }
+        .btn-solution { background: #e2e8f0; color: #475569; }
+        .btn-solution:hover { background: #cbd5e1; color: #1e293b; }
+    </style>
+</head>
+<body>
+
+<header class="page-header">
+    <h1>10.4 Mehrstufige Situationen</h1>
+    <p>Baumdiagramme und das Zählen von Kombinationsmöglichkeiten</p>
+</header>
+
+<div class="back-nav" style="display: flex; justify-content: center; margin-bottom: 2rem;">
+    <a href="../index.html" class="btn-back" style="padding: 0.6rem 1.2rem; border-radius: 10px; background: #f8fafc; border: 1px solid #e2e8f0; color: #1e293b; text-decoration: none; font-weight: 700;">← Zurück zur Übersicht</a>
+</div>
+
+<main style="max-width: 1000px; margin: 0 auto; padding: 0 1.5rem;">
+
+    <!-- THEORIE BEREICH -->
+    <section class="theory-box">
+        <h3>📚 Theorie: Kombinieren wie ein Profi</h3>
+        <p>Oft haben wir Situationen, die aus mehreren Stufen (Schritten) bestehen. Ein klassisches Beispiel ist das Zusammenstellen eines Menüs: Zuerst wählst du eine Vorspeise, dann eine Hauptspeise und am Ende ein Dessert.</p>
+        
+        <div class="term-card">
+            <strong>🌳 Das Baumdiagramm</strong><br>
+            Um alle möglichen Kombinationen übersichtlich darzustellen, zeichnet man ein Baumdiagramm. Von einem Startpunkt aus verzweigt sich der Baum in "Äste". Jeder Weg vom Start bis zum Ende heißt <strong>Pfad</strong>.
+        </div>
+
+        <p>Wenn du nur wissen möchtest, <strong>wie viele Möglichkeiten</strong> es insgesamt gibt (ohne sie alle aufzeichnen zu müssen), hilft dir das einfache Zählprinzip (die Multiplikationsregel):</p>
+
+        <div class="formula-box">
+            <strong>Das Zählprinzip (Produktregel)</strong><br>
+            <span style="font-size: 1.1rem; color: #475569; display: block; margin-top: 10px;">
+                Anzahl der Möglichkeiten (Stufe 1) &nbsp; <strong>×</strong> &nbsp; Möglichkeiten (Stufe 2) &nbsp; <strong>×</strong> &nbsp; ... &nbsp; <strong>= Gesamtanzahl</strong>
+            </span>
+        </div>
+        
+        <p><em>Beispiel Menü:</em> 3 Vorspeisen × 4 Hauptspeisen × 2 Desserts = <strong>24 verschiedene Menü-Kombinationen!</strong></p>
+    </section>
+
+    <!-- INTERAKTIVES LABOR -->
+    <section class="interactive-section">
+        <div class="interactive-controls">
+            <h3 style="margin-top: 0; color: var(--math-dark);">🔬 Menü-Labor</h3>
+            <p style="font-size: 0.95rem; color: #475569;">Stelle dein eigenes Restaurant-Angebot zusammen und beobachte das Baumdiagramm!</p>
+            
+            <div class="slider-group">
+                <label><span>🥗 Vorspeisen:</span> <span id="lbl-s1">3</span></label>
+                <input type="range" id="stage1" min="1" max="4" value="3" oninput="updateTree()">
+            </div>
+            
+            <div class="slider-group">
+                <label><span>🍝 Hauptspeisen:</span> <span id="lbl-s2">4</span></label>
+                <input type="range" id="stage2" min="1" max="4" value="4" oninput="updateTree()">
+            </div>
+            
+            <div class="slider-group">
+                <label><span>🍨 Desserts:</span> <span id="lbl-s3">2</span></label>
+                <input type="range" id="stage3" min="1" max="3" value="2" oninput="updateTree()">
+            </div>
+
+            <div style="background: var(--math-light); padding: 15px; border-radius: 8px; text-align: center; border: 2px solid #ea580c; margin-top: 20px;">
+                Mögliche Menüs (Pfade):<br>
+                <strong style="font-size: 2rem; color: var(--math-dark);" id="total-paths">24</strong>
+            </div>
+        </div>
+
+        <div class="interactive-graph">
+            <h4 style="margin-top: 0; color: #334155;">Das zugehörige Baumdiagramm</h4>
+            <canvas id="treeCanvas" width="600" height="400"></canvas>
+            <p style="font-size: 0.85rem; color: #64748b; margin-top: 10px;">Jeder Punkt am rechten Rand steht für genau ein fertig kombiniertes Menü!</p>
+        </div>
+    </section>
+
+    <!-- HINWEIS EINGABE -->
+    <div style="background: #fffbeb; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid #f59e0b;">
+        <strong>💡 Hinweis zur Eingabe:</strong>
+        <p style="margin-bottom: 0; margin-top: 5px;">Gefragt ist immer die <strong>Anzahl der möglichen Kombinationen</strong>. Tippe das Ergebnis einfach als Zahl (z.B. 24) in das Feld ein.</p>
+    </div>
+
+    <!-- ÜBUNGEN TABS -->
+    <div class="tab-nav-container">
+        <button onclick="showTab('leicht')" id="tab-leicht" class="tab-btn tab-active">🟢 Leicht (1-5)</button>
+        <button onclick="showTab('mittel')" id="tab-mittel" class="tab-btn">🟡 Mittel (6-10)</button>
+        <button onclick="showTab('schwer')" id="tab-schwer" class="tab-btn">🔴 Schwer (11-15)</button>
+    </div>
+
+    <div id="tasks-container">
+        <!-- Aufgaben werden hier per JS geladen -->
+    </div>
+
+</main>
+
+<footer style="margin-top: 5rem; padding: 2rem 1rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.9rem;">
+    <div style="max-width: 800px; margin: 0 auto 2rem auto; text-align: left; background: white; padding: 1.5rem; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <h4 style="margin-top: 0; color: #334155; font-size: 1.1rem;">Datenschutzhinweis (DSGVO)</h4>
+        <p style="margin-bottom: 0; line-height: 1.5;">Die Nutzung dieses Portals ist absolut datenschutzkonform. Es werden keine Eingaben an einen Server gesendet. Die Diagramm-Berechnungen passieren live in deinem eigenen Browser.</p>
+    </div>
+    <div style="text-align: center; font-weight: bold;">
+        &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+    </div>
+</footer>
+
+<script>
+    // --- BAUMDIAGRAMM GENERATOR LOGIK ---
+    function updateTree() {
+        const s1 = parseInt(document.getElementById('stage1').value);
+        const s2 = parseInt(document.getElementById('stage2').value);
+        const s3 = parseInt(document.getElementById('stage3').value);
+        
+        document.getElementById('lbl-s1').innerText = s1;
+        document.getElementById('lbl-s2').innerText = s2;
+        document.getElementById('lbl-s3').innerText = s3;
+
+        // Alle Stages > 0
+        const branches = [s1, s2, s3].filter(v => v > 0);
+        
+        let total = 1;
+        branches.forEach(b => total *= b);
+        document.getElementById('total-paths').innerText = total;
+
+        const canvas = document.getElementById('treeCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Datenstruktur: levels[stufe] = Array der {x, y} Koordinaten der Knoten
+        let levels = [];
+        let numLevels = branches.length;
+        
+        // Letzte Ebene (Blätter / Endpunkte des Baumes)
+        let leaves = [];
+        let paddingY = 20;
+        let availableH = canvas.height - 2 * paddingY;
+        let stepY = total > 1 ? availableH / (total - 1) : 0;
+
+        for (let i = 0; i < total; i++) {
+            leaves.push({
+                x: canvas.width - 50,
+                y: total === 1 ? canvas.height / 2 : paddingY + i * stepY
+            });
+        }
+        levels[numLevels] = leaves;
+
+        // Rückwärts hocharbeiten, um die Eltern-Knoten (Parents) exakt in der Mitte ihrer Kinder zu platzieren
+        let startX = 40;
+        let diffX = (canvas.width - 90) / numLevels;
+
+        for (let s = numLevels - 1; s >= 0; s--) {
+            let childLevel = levels[s + 1];
+            let numChildrenPerParent = branches[s];
+            let parents = [];
+            let currentX = startX + s * diffX;
+
+            for (let p = 0; p < childLevel.length / numChildrenPerParent; p++) {
+                let sumY = 0;
+                for (let c = 0; c < numChildrenPerParent; c++) {
+                    sumY += childLevel[p * numChildrenPerParent + c].y;
+                }
+                parents.push({
+                    x: currentX,
+                    y: sumY / numChildrenPerParent
+                });
+            }
+            levels[s] = parents;
+        }
+
+        // Linien (Äste) zeichnen
+        ctx.strokeStyle = '#fdba74';
+        ctx.lineWidth = 2;
+        for (let s = 0; s < numLevels; s++) {
+            let parents = levels[s];
+            let children = levels[s + 1];
+            let numChildrenPerParent = branches[s];
+
+            for (let p = 0; p < parents.length; p++) {
+                for (let c = 0; c < numChildrenPerParent; c++) {
+                    let child = children[p * numChildrenPerParent + c];
+                    ctx.beginPath();
+                    ctx.moveTo(parents[p].x, parents[p].y);
+                    ctx.lineTo(child.x, child.y);
+                    ctx.stroke();
+                }
+            }
+        }
+
+        // Knotenpunkte (Punkte) zeichnen
+        for (let s = 0; s <= numLevels; s++) {
+            for (let node of levels[s]) {
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, s === 0 ? 6 : 4, 0, Math.PI * 2);
+                ctx.fillStyle = s === 0 ? '#ea580c' : '#1e293b'; // Startknoten in Orange
+                ctx.fill();
+            }
+        }
+    }
+
+    window.addEventListener('load', updateTree);
+
+
+    // --- ÜBUNGSAUFGABEN LOGIK ---
+    const tasks = {
+        leicht: [
+            { id: 1, q: "Anna hat 3 verschiedene T-Shirts und 2 verschiedene Hosen. Wie viele unterschiedliche Outfits kann sie zusammenstellen?", a: "6", s: "Multiplikationsregel (Zählprinzip): 3 T-Shirts × 2 Hosen = 6 Outfits." },
+            { id: 2, q: "Du wirfst zuerst eine Münze (Kopf oder Zahl) und danach einen normalen Spielwürfel (Zahlen 1 bis 6). Wie viele mögliche Ergebnisse gibt es insgesamt?", a: "12", s: "Stufe 1 (Münze) hat 2 Möglichkeiten. Stufe 2 (Würfel) hat 6 Möglichkeiten. 2 × 6 = 12." },
+            { id: 3, q: "In einer Pizzeria gibt es 4 verschiedene Vorspeisen und 5 verschiedene Pizzen. Wie viele Menüs (Vorspeise + Pizza) sind möglich?", a: "20", s: "4 Vorspeisen × 5 Pizzen = 20 verschiedene Menüs." },
+            { id: 4, q: "Ein Baumdiagramm hat in der 1. Stufe genau 3 Äste. In der 2. Stufe verzweigt sich JEDER dieser Äste noch einmal in 3 Äste. Wie viele Enden (Pfade) hat das Diagramm?", a: "9", s: "3 Äste in der ersten Stufe. Jeder davon bekommt 3 weitere. 3 × 3 = 9 Pfade." },
+            { id: 5, q: "Ein einfaches Zahlenschloss hat nur 2 Ringe. Auf jedem Ring stehen die Ziffern 0 bis 9 (also 10 Ziffern). Wie viele Kombinationen gibt es?", a: "100", s: "Stufe 1: 10 Möglichkeiten. Stufe 2: 10 Möglichkeiten. 10 × 10 = 100 Kombinationen (von 00 bis 99)." }
+        ],
+        mittel: [
+            { id: 6, q: "Ein Restaurant bietet 3 Vorspeisen, 4 Hauptspeisen und 2 Desserts an. Wie viele komplette Menüs können bestellt werden?", a: "24", s: "Hier haben wir ein 3-stufiges Problem: 3 × 4 × 2 = 24 Möglichkeiten." },
+            { id: 7, q: "Autokauf: Ein Modell gibt es in 4 Farben, mit 3 verschiedenen Motoren und in 2 Ausstattungslinien. Wie viele verschiedene Autos kann man konfigurieren?", a: "24", s: "Einfach die Möglichkeiten aller Stufen multiplizieren: 4 Farben × 3 Motoren × 2 Ausstattungen = 24 Autos." },
+            { id: 8, q: "Du wirfst eine Münze (Kopf/Zahl) dreimal hintereinander. Wie viele Pfade hat das dazugehörige Baumdiagramm?", a: "8", s: "Wurf 1: 2 Möglichkeiten. Wurf 2: 2 Möglichkeiten. Wurf 3: 2 Möglichkeiten. 2 × 2 × 2 = 8." },
+            { id: 9, q: "Wie viele 3-stellige PIN-Codes gibt es, wenn jede Ziffer von 0 bis 9 (also 10 Ziffern) gewählt werden darf?", a: "1000", s: "Stelle 1: 10 Ziffern. Stelle 2: 10 Ziffern. Stelle 3: 10 Ziffern. 10 × 10 × 10 = 1000 Codes." },
+            { id: 10, q: "Beim Tanzkurs sind 5 Mädchen und 4 Jungen. Wie viele verschiedene (gemischte) Tanzpaare können gebildet werden?", a: "20", s: "Jedes der 5 Mädchen kann theoretisch mit jedem der 4 Jungen tanzen. 5 × 4 = 20." }
+        ],
+        schwer: [
+            { id: 11, q: "Umkehraufgabe: Ein Restaurant bietet 60 verschiedene Menü-Kombinationen an. Es gibt 5 Vorspeisen und 4 Hauptspeisen. Wie viele Desserts stehen zur Auswahl?", a: "3", s: "Formel: Vorspeisen × Hauptspeisen × Desserts = 60.<br>5 × 4 × Desserts = 60.<br>20 × Desserts = 60.<br>60 / 20 = 3 Desserts." },
+            { id: 12, q: "Ein 4-stelliges Passwort darf nur aus den Ziffern 1, 2 und 3 bestehen. Wie viele verschiedene Passwörter kann man bilden?", a: "81", s: "Für jede der 4 Stellen gibt es genau 3 Möglichkeiten.<br>3 × 3 × 3 × 3 = 81." },
+            { id: 13, q: "Ein 4-stelliges Zahlenschloss (Ziffern 0-9) soll geknackt werden. Du weißt aber, dass die LETZTE Ziffer fix eine 0 ist. Wie viele Kombinationen musst du maximal durchprobieren?", a: "1000", s: "Stelle 1: 10 Ziffern. Stelle 2: 10 Ziffern. Stelle 3: 10 Ziffern. Stelle 4: Nur 1 Möglichkeit (die 0).<br>10 × 10 × 10 × 1 = 1000." },
+            { id: 14, q: "Lisa hat 5 Pullis und einige Hosen. Daraus kann sie 15 verschiedene Outfits kombinieren. Gestern hat sie 2 neue Hosen gekauft. Wie viele Outfits kann sie JETZT kombinieren?", a: "25", s: "Zuerst rechnen wir aus, wie viele Hosen sie vorher hatte: 5 Pullis × ? Hosen = 15 Outfits. Sie hatte 3 Hosen.<br>Jetzt hat sie 2 neue, also 5 Hosen insgesamt.<br>Neue Rechnung: 5 Pullis × 5 Hosen = 25 Outfits." },
+            { id: 15, q: "Zwei normale Würfel (1 bis 6) werden gleichzeitig geworfen. Wie viele Pfade im Baumdiagramm führen zu einem Ergebnis, bei dem BEIDE Würfel exakt die GLEICHE Zahl zeigen (ein 'Pasch')?", a: "6", s: "Insgesamt gibt es 6 × 6 = 36 Pfade. Ein Pasch bedeutet (1|1), (2|2), (3|3), (4|4), (5|5) oder (6|6). Das sind genau 6 günstige Pfade!" }
+        ]
+    };
+
+    let currentTab = 'leicht';
+
+    function showTab(tabName) {
+        currentTab = tabName;
+        
+        ['leicht', 'mittel', 'schwer'].forEach(t => {
+            document.getElementById('tab-' + t).classList.remove('tab-active');
+        });
+        document.getElementById('tab-' + tabName).classList.add('tab-active');
+
+        renderTasks();
+    }
+
+    function renderTasks() {
+        const container = document.getElementById('tasks-container');
+        container.innerHTML = '';
+
+        tasks[currentTab].forEach(task => {
+            const div = document.createElement('div');
+            div.className = "task-card";
+            div.innerHTML = `
+                <div class="task-content">
+                    <div class="task-badge">Aufgabe ${task.id}</div>
+                    <p class="task-text">${task.q}</p>
+                    <div id="solution-${task.id}" class="solution-box">
+                        <strong>💡 Lösungsweg:</strong><br> ${task.s}
+                    </div>
+                </div>
+                <div class="task-action">
+                    <input type="text" id="input-${task.id}" placeholder="Ergebnis" class="task-input">
+                    <button onclick="checkAnswer(${task.id}, '${task.a}')" class="task-btn">Prüfen</button>
+                    <button onclick="toggleSolution(${task.id})" class="task-btn btn-solution">Lösungsweg</button>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function checkAnswer(id, correct) {
+        const input = document.getElementById('input-' + id);
+        let userVal = input.value.trim().toLowerCase();
+        let targetVal = correct.toLowerCase();
+
+        if (userVal === targetVal) {
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
+        } else {
+            input.classList.remove('correct');
+            input.classList.add('incorrect');
+        }
+    }
+
+    function toggleSolution(id) {
+        const solBox = document.getElementById('solution-' + id);
+        if (solBox.style.display === "block") {
+            solBox.style.display = "none";
+        } else {
+            solBox.style.display = "block";
+        }
+    }
+
+    // Initialize Tasks
+    window.addEventListener('load', () => showTab('leicht'));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet-Detektive | 1T</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <style>
+        .detective-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid #475569;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        .akte-box {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-left: 5px solid #3b82f6;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            position: relative;
+        }
+        .akte-title {
+            color: #1e293b;
+            margin-top: 0;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .detektiv-input {
+            flex-grow: 1;
+            padding: 0.75rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        .check-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .check-btn:hover { background: #2563eb; }
+        
+        .secret-fact {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #dcfce7;
+            border: 1px solid #22c55e;
+            border-radius: 8px;
+            color: #166534;
+            animation: fadeIn 0.5s ease;
+        }
+        .secret-fact strong { color: #15803d; }
+        
+        .timestamp {
+            display: inline-block;
+            margin-top: 0.75rem;
+            font-family: monospace;
+            background: #bbf7d0;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            color: #166534;
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .code-clue {
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            font-family: monospace;
+            font-size: 1.1rem;
+            border: 1px dashed #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .code-digits {
+            font-weight: bold;
+            font-size: 1.3rem;
+            letter-spacing: 5px;
+            color: var(--primary);
+        }
+
+        /* Styles für den Sieger-Bildschirm */
+        .victory-screen {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            border: 4px solid #22c55e;
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.2);
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        .time-list-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🕵️‍♂️ Die Internet-Detektive</h1>
+    <p>Geheime Akten, Logik und mathematische Kuriositäten</p>
+</header>
+
+<div class="back-nav">
+    <a href="index.html" class="btn-back">← Zurück zur Rallye-Übersicht</a>
+</div>
+
+<main>
+    <div id="questionsContainer" class="detective-container">
+        <p style="font-size: 1.1rem; line-height: 1.8; text-align: center; margin-bottom: 2rem;">
+            Willkommen im Hauptquartier! Hier geht es nicht um Schularbeiten-Stoff, sondern um euer Gespür als Detektive. 
+            Nutzt eure iPads zur Recherche, denkt um die Ecke und knackt die geheimen Akten. 
+            Wenn ihr alle 11 Akten gelöst habt, wird euer finales Detektiv-Protokoll erstellt!
+        </p>
+
+        <div class="akte-box" id="box-1">
+            <h3 class="akte-title">📁 Akte 1: Der gigantische Name</h3>
+            <p>Wie nennt man in der Mathematik eine Eins mit genau 100 Nullen? <br><em>(Tipp: Eine der berühmtesten Internet-Suchmaschinen der Welt wurde fast exakt so benannt!)</em></p>
+            <div class="input-group">
+                <input type="text" id="input-1" class="detektiv-input" placeholder="Lösungswort eingeben..." autocomplete="off">
+                <button class="check-btn" onclick="checkAnswer(1)">Prüfen</button>
+            </div>
+            <div class="secret-fact" id="fact-1">
+                <strong>🔓 Akte geknackt!</strong> Richtig, es ist das Wort "Googol". Die Gründer von Google wollten ihre Suchmaschine eigentlich "Googol" nennen, weil sie so unendlich viele Informationen finden sollte. Sie haben sich bei der Anmeldung der Internetseite aber schlichtweg vertippt!<br>
+                <span class="timestamp" id="time-1"></span>
+            </div>
+        </div>
+
+        <div class="akte-box" id="box-2">
+            <h3 class="akte-title">📁 Akte 2: Das faule Zeichen</h3>
+            <p>Im Jahr 1557 erfand ein walisischer Mathematiker namens Robert Recorde ein berühmtes mathematisches Zeichen. Er erfand es, weil er es leid war, immer wieder denselben Text zu schreiben. Welches Zeichen ist gemeint?</p>
+            <div class="input-group">
+                <input type="text" id="input-2" class="detektiv-input" placeholder="Zeichen oder Wort eingeben..." autocomplete="off">
+                <button class="check-btn" onclick="checkAnswer(2)">Prüfen</button>
+            </div>
+            <div class="secret-fact" id="fact-2">
+                <strong>🔓 Akte geknackt!</strong> Exakt! Es ist das Gleichheitszeichen (=). Recorde wählte zwei exakt parallele Striche, weil für ihn "keine zwei Dinge auf der Welt gleicher sein können als zwei parallele Linien".<br>
+                <span class="timestamp" id="time-2"></span>
+            </div>
+        </div>
+
+        <div class="akte-box" id="box-3">
+            <h3 class="akte-title">📁 Akte 3: Tierische Geometrie</h3>
+            <p>Welches Tier ist ein Meister der Geometrie und baut seine Behausung aus hunderten perfekten Sechsecken (Hexagonen), weil diese Form den Platz optimal ausnutzt?</p>
+            <div class="input-group">
+                <input type="text" id="input-3" class="detektiv-input" placeholder="Welches Tier?..." autocomplete="off">
+                <button class="check-btn" onclick="checkAnswer(3)">Prüfen</button>
+            </div>
+            <div class="secret-fact" id="fact-3">
+                <strong>🔓 Akte geknackt!</strong> Die Biene! Mathematiker haben bewiesen, dass das Sechseck die mathematisch absolut beste Form ist, um mit möglichst wenig Wachs den meisten Honig lückenlos zu lagern. Das nennt man die berühmte "Honigwaben-Vermutung".<br>
+                <span class="timestamp" id="time-3"></span>
+            </div>
+        </div>
+
+        <div class="akte-box" id="box-4">
+            <h3 class="akte-title">📁 Akte 4: Die fiese Logikfalle</h3>
+            <p>Ein Bauer hat 17 Schafe. Ein Wolf heult und alle bis auf 9 laufen panisch davon. Wie viele Schafe hat der Bauer jetzt noch?</p>
+            <div class="input-group">
+                <input type="text" id="input-4" class="detektiv-input" placeholder="Anzahl..." autocomplete="off">
+                <button class="check-btn" onclick="checkAnswer(4)">Prüfen</button>
+            </div>
+            <div class="secret-fact" id="fact-4">
+                <strong>🔓 Akte geknackt!</strong> Reingefallen? Wenn ALLE BIS AUF NEUN weglaufen, dann bleiben logischerweise genau diese 9 übrig! In der Mathematik ist genaues Lesen oft wichtiger als wildes Rechnen.<br>
+                <span class="timestamp" id="time-4"></span>
+            </div>
+        </div>
+
+        <div class="akte-box" id="box-5">
+            <h3 class="akte-title">📁 Akte 5: Die Maschinensprache</h3>
+            <p>Wir Menschen rechnen meistens im Zehnersystem (Ziffern 0 bis 9). Euer iPad kann das aber im Hintergrund nicht. Wie heißt das Zahlensystem, das ausschließlich aus den Ziffern 0 und 1 besteht?</p>
+            <div class="input-group">
+                <input type="text" id="input-5" class="detektiv-input" placeholder="Name des Systems..." autocomplete="off">
+                <button class="check-btn" onclick="checkAnswer(5)">Prüfen</button>
+            </div>
+            <div class="secret-fact" id="fact-5">
+                <strong>🔓 Akte geknackt!</strong> Das Binärsystem (oder Dualsystem). Für den Computer bedeutet eine 1 "Strom an" und eine 0 "Strom aus". Alles, was ihr am Bildschirm seht (Videos, Spiele, Texte), besteht tief im Prozessor nur aus Nullen und Einsen!<br>
+                <span class="timestamp" id="time-5"></span>
+            </div>
+        </div>
+
+        <div class="akte-box" id="box-6">
+            <h3 class="akte-title">📁 Akte 6: Der Schläger und der Ball</h3>
+            <p>Ein Baseballschläger und ein Ball kosten zusammen genau 1,10 &euro;. Der Schläger kostet genau 1,00 &euro; <strong>mehr</strong> als der Ball. Wie viel Cent kostet der Ball allein?</p>
+            <div class="input-group">
+                <input type="text" id="input-6" class="detektiv-input" placeholder="Zahl in Cent..." autocomplete="off">
+                <button class="check-btn" onclick="checkAnswer(6)">Prüfen</button>
+            </div>
+            <div class="secret-fact" id="fact-6">
+                <strong>🔓 Akte geknackt!</strong> 5 Cent! (0,05 &euro;). Fast jeder Mensch tippt im ersten Moment instinktiv auf 10 Cent. Aber wenn der Ball 10 Cent kosten würde, würde der Schläger 1,10 &euro; kosten – und zusammen wären das 1,20 &euro;! (Probe: 1,05 &euro; + 0,05 &euro; = 1,10 &euro;).<br>
+                <span class="timestamp" id="time-6"></span>
+            </div>
+        </div>
+
+        <div class="akte-box" id="box-7">
+            <h3 class="akte-title">📁 Akte 7: Das Rätsel der Natur</h3>
+            <p>Schau dir diese Zahlenfolge an: <strong>1, 1, 2, 3, 5, 8, 13 ...</strong> <br>Wie lautet die nächste Zahl, wenn du das Muster erkennst?</p>
+            <div class="input-group">
+                <input type="text" id="input-7" class="detektiv-input" placeholder="Nächste Zahl..." autocomplete="off">
+                <button class="check-btn" onclick="checkAnswer(7)">Prüfen</button>
+            </div>
+            <div class="secret-fact" id="fact-7">
+                <strong>🔓 Akte geknackt!</strong> 21. Man muss immer die beiden vorherigen Zahlen addieren, um die nächste zu erhalten (8 + 13 = 21). Das ist die berühmte "Fibonacci-Folge". Man findet dieses Zahlenmuster überall in der Natur, zum Beispiel bei der Anordnung von Sonnenblumenkernen oder Tannenzapfen!<br>
+                <span class="timestamp" id="time-7"></span>
+            </div>
+        </div>
+
+        <div class="akte-box" id="box-8">
+            <h3 class="akte-title">📁 Akte 8: Die Computer-Reihe</h3>
+            <p>Finde die nächste Zahl in dieser Reihe: <strong>2, 4, 8, 16, 32, 64 ...</strong></p>
+            <div class="input-group">
+                <input type="text" id="input-8" class="detektiv-input" placeholder="Nächste Zahl..." autocomplete="off">
+                <button class="check-btn" onclick="checkAnswer(8)">Prüfen</button>
+            </div>
+            <div class="secret-fact" id="fact-8">
+                <strong>🔓 Akte geknackt!</strong> 128. Die Zahl verdoppelt sich bei jedem Schritt. Da Computer im Binärsystem arbeiten, bauen sie auf diesen "Zweierpotenzen" auf. Deswegen haben Speicherkarten oder Handys oft 64 GB, 128 GB oder 256 GB Speicherplatz!<br>
+                <span class="timestamp" id="time-8"></span>
+            </div>
+        </div>
+
+        <div class="akte-box" id="box-9">
+            <h3 class="akte-title">📁 Akte 9: Der Tanz der Zahlen</h3>
+            <p>Hier hüpfen die Zahlen wild umher. Erkennst du trotzdem das System? <br><strong>10, 15, 13, 18, 16, 21 ...</strong> <br>Wie lautet die nächste Zahl?</p>
+            <div class="input-group">
+                <input type="text" id="input-9" class="detektiv-input" placeholder="Nächste Zahl..." autocomplete="off">
+                <button class="check-btn" onclick="checkAnswer(9)">Prüfen</button>
+            </div>
+            <div class="secret-fact" id="fact-9">
+                <strong>🔓 Akte geknackt!</strong> 19. Das Muster ist immer abwechselnd: Zuerst +5 rechnen, dann wieder -2 rechnen. 21 minus 2 ergibt 19!<br>
+                <span class="timestamp" id="time-9"></span>
+            </div>
+        </div>
+
+        <div class="akte-box" id="box-10">
+            <h3 class="akte-title">📁 Akte 10: Die perfekten Vierecke</h3>
+            <p>Finde das Geheimnis dieser Folge heraus: <strong>1, 4, 9, 16, 25, 36 ...</strong> <br>Welche Zahl kommt als nächstes?</p>
+            <div class="input-group">
+                <input type="text" id="input-10" class="detektiv-input" placeholder="Nächste Zahl..." autocomplete="off">
+                <button class="check-btn" onclick="checkAnswer(10)">Prüfen</button>
+            </div>
+            <div class="secret-fact" id="fact-10">
+                <strong>🔓 Akte geknackt!</strong> 49. Das sind die berühmten Quadratzahlen! Man rechnet 1&middot;1, 2&middot;2, 3&middot;3, 4&middot;4, 5&middot;5, 6&middot;6 und schließlich 7&middot;7 = 49. Wenn man exakt so viele Münzen hat, kann man sie immer in Form eines perfekten Quadrats auflegen!<br>
+                <span class="timestamp" id="time-10"></span>
+            </div>
+        </div>
+
+        <div class="akte-box" id="box-11" style="border-left-color: #ca8a04;">
+            <h3 class="akte-title" style="color: #ca8a04;">📁 Akte 11: CRACK THE CODE (Meister-Level)</h3>
+            <p>Ein Tresor ist mit einem 3-stelligen Zifferncode gesichert. Nutzt eure reine Logik, um die drei richtigen Ziffern in der richtigen Reihenfolge zu finden. Hier sind die Hinweise:</p>
+            
+            <div style="background: #e2e8f0; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                <div class="code-clue"><span class="code-digits">6 8 2</span> <span>Eine Ziffer ist richtig <strong>und</strong> am richtigen Platz.</span></div>
+                <div class="code-clue"><span class="code-digits">6 1 4</span> <span>Eine Ziffer ist richtig, aber am <strong>falschen</strong> Platz.</span></div>
+                <div class="code-clue"><span class="code-digits">2 0 6</span> <span>Zwei Ziffern sind richtig, aber <strong>beide</strong> am falschen Platz.</span></div>
+                <div class="code-clue"><span class="code-digits">7 3 8</span> <span>Keine einzige Ziffer ist richtig (alles falsch!).</span></div>
+                <div class="code-clue"><span class="code-digits">7 8 0</span> <span>Eine Ziffer ist richtig, aber am <strong>falschen</strong> Platz.</span></div>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="input-11" class="detektiv-input" placeholder="3-stelliger Code..." autocomplete="off" style="font-size: 1.5rem; letter-spacing: 5px; text-align: center; width: 150px; flex-grow: 0;">
+                <button class="check-btn" onclick="checkAnswer(11)" style="background: #ca8a04;">Tresor knacken</button>
+            </div>
+            <div class="secret-fact" id="fact-11" style="background: #fefce8; border-color: #ca8a04; color: #a16207;">
+                <strong>🔓 MASTER-AKTE GEKNACKT!</strong> Ihr seid geniale Logiker! <br>
+                <em>Erklärung:</em> Da 7, 3 und 8 komplett falsch sind, scheiden sie aus. Aus dem letzten Hinweis (7 8 0) bleibt also nur die 0 übrig, die an den falschen Platz gesetzt wurde. Aus (2 0 6) wissen wir, dass 6 falsch ist (siehe Hinweis 2, das widerspricht sich sonst) und 0 an erster Stelle stehen muss. Die 4 aus dem zweiten Hinweis gehört in die Mitte und die 2 aus dem ersten Hinweis steht perfekt an dritter Stelle. <strong>Code: 0 4 2</strong><br>
+                <span class="timestamp" id="time-11" style="background: #fef08a; color: #854d0e;"></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="victoryScreen" class="victory-screen">
+        <h1 style="font-size: 4rem; margin: 0;">🏅</h1>
+        <h2 style="color: #15803d; margin-top: 0; font-size: 2.5rem;">MISSION ERFÜLLT!</h2>
+        
+        <p style="font-size: 1.2rem; font-weight: bold; color: #b91c1c; border: 3px dashed #b91c1c; padding: 1.5rem; border-radius: 8px; background: #fef2f2; margin: 2rem 0;">
+            ⚠️ NICHT WEGKLICKEN!<br>
+            Nimm dein iPad und zeige diesen Bildschirm jetzt sofort Mag. Schweitzer.
+        </p>
+        
+        <h3 style="color: #1e293b; margin-top: 2rem;">Offizielles Detektiv-Protokoll</h3>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Datum: <span id="currentDate"></span></p>
+        
+        <div id="timesListContainer" style="max-width: 500px; margin: 0 auto; text-align: left;">
+            </div>
+    </div>
+</main>
+
+<footer style="margin-top: 3rem; text-align: center; font-weight: bold; color: var(--text-muted); padding-bottom: 2rem;">
+    &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+</footer>
+
+<script>
+    const answers = {
+        1: ["googol", "google"],
+        2: ["=", "gleich", "gleichheitszeichen", "ist gleich", "ist-gleich"],
+        3: ["biene", "bienen", "honigbiene", "bienenwabe"],
+        4: ["9", "neun"],
+        5: ["binärsystem", "binär", "dualsystem", "zweiersystem"],
+        6: ["5", "fünf", "5 cent", "0,05", "5cent"],
+        7: ["21", "einundzwanzig"],
+        8: ["128", "hundertachtundzwanzig"],
+        9: ["19", "neunzehn"],
+        10: ["49", "neunundvierzig"],
+        11: ["042", "0 4 2"]
+    };
+
+    let solvedCount = 0;
+    const solvedTimes = {};
+
+    function checkAnswer(boxNumber) {
+        const inputElement = document.getElementById('input-' + boxNumber);
+        const userInput = inputElement.value.trim().toLowerCase();
+        const validAnswers = answers[boxNumber];
+
+        if (validAnswers.includes(userInput) && !inputElement.disabled) {
+            // Zeitstempel erfassen
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('de-AT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            solvedTimes[boxNumber] = timeString;
+
+            // UI anpassen
+            inputElement.disabled = true;
+            inputElement.style.backgroundColor = "#dcfce7";
+            inputElement.style.borderColor = "#22c55e";
+            inputElement.style.color = "#15803d";
+            inputElement.style.fontWeight = "bold";
+            
+            document.getElementById('fact-' + boxNumber).style.display = "block";
+            document.getElementById('time-' + boxNumber).innerText = "⏱️ Gelöst um: " + timeString + " Uhr";
+            
+            const btn = inputElement.nextElementSibling;
+            btn.innerHTML = "✓ Gelöst";
+            btn.style.backgroundColor = "#22c55e";
+            btn.disabled = true;
+
+            // Zähler erhöhen und prüfen, ob alle fertig sind
+            solvedCount++;
+            if (solvedCount === 11) {
+                setTimeout(() => {
+                    showVictoryScreen();
+                }, 1000);
+            }
+
+        } else if (!inputElement.disabled) {
+            // Fehlereingabe Animation
+            inputElement.style.borderColor = "#ef4444";
+            inputElement.style.transform = "translateX(-5px)";
+            setTimeout(() => inputElement.style.transform = "translateX(5px)", 100);
+            setTimeout(() => inputElement.style.transform = "translateX(-5px)", 200);
+            setTimeout(() => {
+                inputElement.style.transform = "translateX(0)";
+                inputElement.style.borderColor = "#cbd5e1";
+            }, 300);
+        }
+    }
+
+    // Zeigt den finalen Ausweis an
+    function showVictoryScreen() {
+        // Aktuelles Datum setzen
+        const today = new Date().toLocaleDateString('de-AT');
+        document.getElementById('currentDate').innerText = today;
+
+        // Container mit den Fragen ausblenden
+        document.getElementById('questionsContainer').style.display = 'none';
+
+        // Liste mit Zeiten generieren
+        let timesHTML = '';
+        for (let i = 1; i <= 11; i++) {
+            let label = i < 10 ? 'Akte 0' + i : 'Akte ' + i;
+            let bgColor = '#f8fafc';
+            let textColor = '#1e293b';
+            
+            // Hervorhebung für Akte 11
+            if (i === 11) {
+                label = 'Akte 11 (MASTER)';
+                bgColor = '#fefce8';
+                textColor = '#a16207';
+            }
+            
+            timesHTML += `
+                <div class="time-list-item" style="background-color: ${bgColor}; color: ${textColor};">
+                    <strong>${label}:</strong>
+                    <span>${solvedTimes[i]} Uhr</span>
+                </div>
+            `;
+        }
+        document.getElementById('timesListContainer').innerHTML = timesHTML;
+
+        // Siegerbildschirm einblenden und ganz nach oben scrollen
+        document.getElementById('victoryScreen').style.display = 'block';
+        window.scrollTo(0, 0);
+    }
+
+    // Enter-Taste aktivieren
+    for (let i = 1; i <= 11; i++) {
+        const inputField = document.getElementById('input-' + i);
+        if (inputField) {
+            inputField.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    checkAnswer(i);
+                }
+            });
+        }
+    }
+</script>
+
+</body>
+</html>

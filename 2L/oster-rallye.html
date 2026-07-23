@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathe Oster-Rallye 2L | Prof. Schweitzer</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body style="position: relative; min-height: 100vh;">
+
+<header>
+    <h1>Große Mathe-Oster-Rallye der 2L</h1>
+    <p>Mathe & Geometrie Rätsel vor den Ferien</p>
+    <div class="back-nav">
+        <a href="index.html" class="btn-back">⬅ Zurück zur Klassenübersicht</a>
+    </div>
+</header>
+
+<main style="max-width: 900px; padding-bottom: 5rem; margin: 2rem auto;">
+    
+    <div id="intro-screen" class="subject-group" style="background: white; border: 1px solid #e2e8f0; padding: 3rem 2rem; border-radius: 12px; text-align: center; max-width: 500px; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <h2 style="color: var(--primary); margin-top: 0; font-size: 2rem;">Willkommen! 🐰</h2>
+        <p style="font-size: 1.1rem; margin-bottom: 2rem;">Ihr dürft diese Rätsel-Rallye heute <strong>zu zweit</strong> lösen. Bitte gebt euren Teamnamen ein, um die Suche zu starten:</p>
+        <input type="text" id="team-name-input" class="input-field" placeholder="Euer kreativer Teamname" style="margin-bottom: 1.5rem; text-align: center;">
+        <br>
+        <button onclick="startRallye()" class="class-pill" style="background-color: var(--primary); color: white; font-size: 1.2rem; border: none; padding: 1rem 2rem; cursor: pointer;">Rallye starten 🚀</button>
+        <p id="intro-error" style="color: var(--pdf-red); display: none; margin-top: 1rem; font-weight: bold;">Bitte gebt einen Teamnamen ein, bevor es losgeht!</p>
+    </div>
+
+    <div id="game-area" style="display: none;">
+        <div style="background: white; border: 2px solid var(--math-color); border-radius: 12px; padding: 1.5rem; text-align: center; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <h3 style="margin-top: 0; color: var(--math-color);">🧺 Euer Ostereier-Sammelkorb</h3>
+            <div id="egg-basket" style="font-size: 3rem; display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; min-height: 60px;">
+                </div>
+            <p style="margin-bottom: 0;">Sammelt alle 6 Eier, um zur finalen Befreiung zu gelangen!</p>
+        </div>
+
+        <div id="quiz-container">
+            </div>
+    </div>
+
+    <div id="success-screen" style="display: none; text-align: center; background: white; border-radius: 12px; padding: 3rem; border: 4px solid var(--info-color); animation: fadeIn 0.8s;">
+        <h1 style="color: var(--primary); font-size: 2.5rem; margin-top: 0;">🏆 Oster-Zertifikat 🏆</h1>
+        <p style="font-size: 1.2rem; color: var(--text-muted);">Dieses Zertifikat bestätigt, dass das Team</p>
+        
+        <h2 id="cert-team-name" style="font-size: 2.5rem; color: var(--dgb-color); margin: 1rem 0; text-transform: uppercase;"></h2>
+        
+        <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 2rem auto;">alle mathematischen Rätsel bravourös gelöst und den Osterhasen durch die exakte Konstruktion des Schwerpunktes S erfolgreich befreit hat!</p>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" style="max-width: 300px; margin: 0 auto 2rem auto; display: block; overflow: visible;">
+            <line x1="10" y1="80" x2="95" y2="80" stroke="#94a3b8" stroke-width="1.5" />
+            <line x1="20" y1="90" x2="20" y2="5" stroke="#94a3b8" stroke-width="1.5" />
+            <polygon points="95,78 100,80 95,82" fill="#94a3b8" />
+            <polygon points="18,5 20,0 22,5" fill="#94a3b8" />
+            
+            <polygon points="20,80 80,80 50,20" fill="none" stroke="#4f46e5" stroke-width="2" />
+            
+            <line x1="20" y1="80" x2="65" y2="50" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="80" y1="80" x2="35" y2="50" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,2" />
+            <line x1="50" y1="20" x2="50" y2="80" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2,2" />
+
+            <circle cx="20" cy="80" r="1.5" fill="#1e293b" />
+            <text x="10" y="88" font-size="4.5" fill="#1e293b" font-family="sans-serif">A(0|0)</text>
+            <circle cx="80" cy="80" r="1.5" fill="#1e293b" />
+            <text x="75" y="88" font-size="4.5" fill="#1e293b" font-family="sans-serif">B(6|0)</text>
+            <circle cx="50" cy="20" r="1.5" fill="#1e293b" />
+            <text x="53" y="20" font-size="4.5" fill="#1e293b" font-family="sans-serif">C(3|9)</text>
+            
+            <circle cx="50" cy="60" r="2.5" fill="#10b981" />
+            <text x="54" y="62" font-size="5" fill="#10b981" font-weight="bold" font-family="sans-serif">S(3|3)</text>
+            <text x="45" y="62" font-size="9">🐰</text>
+        </svg>
+        
+        <div style="background: #f0fdf4; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+            <p style="font-size: 1.4rem; font-weight: bold; margin: 0; color: #047857;">🐰 Ihr seid hiermit offiziell in die Osterferien entlassen! ✈️</p>
+        </div>
+        
+        <p style="font-size: 1rem; color: var(--text-muted); margin-bottom: 2rem;"><em>Zeigt dieses Zertifikat Prof. Schweitzer vor.</em></p>
+        
+        <a href="index.html" class="class-pill" style="font-size: 1.1rem; padding: 1rem 2rem;">Zurück zur Klassenübersicht</a>
+    </div>
+</main>
+
+<footer>
+    <div style="text-align: center; font-weight: bold;">
+        &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+    </div>
+    <p style="margin-top: 1rem; font-size: 0.8rem; color: #64748b;">(Diese Übung läuft komplett lokal im Browser. Es werden keine Daten gespeichert.)</p>
+</footer>
+
+<script>
+    let teamName = "";
+    let currentPuzzleIndex = 0;
+    const collectedEggs = [];
+
+    // Die Rätsel-Konfiguration (Exakt 6 Stationen)
+    const puzzles = [
+        {
+            title: "Station 1: Das Prozent-Ei 🥚",
+            story: "Der Osterhase hat bereits 120 Eier bemalt. Das sind genau 30 % seines Tagesziels.",
+            question: "Wie viele Eier will er heute insgesamt bemalen?",
+            inputType: "number",
+            correctAnswer: 400
+        },
+        {
+            title: "Station 2: Das Konstruktions-Ei 🥚",
+            story: "Ein Hasengehege soll in Form eines Dreiecks gebaut werden. Bekannt sind die Länge von zwei Zäunen (Seite a und Seite b) und der Winkel, den diese beiden Zäune einschließen (Winkel γ).",
+            question: "Welcher Kongruenzsatz wird hier angewendet? (Gib die drei Buchstaben ein, z.B. WSW)",
+            inputType: "text",
+            correctAnswer: "sws"
+        },
+        {
+            title: "Station 3: Das Rabatt-Ei 🥚",
+            story: "Ein riesiger Schokohase kostet normalerweise 5,00 €. Heute gibt es eine Oster-Aktion mit 15 % Rabatt.",
+            question: "Wie viel Euro kostet der Schokohase jetzt? (Schreibe das Ergebnis mit Komma, z.B. 3,50)",
+            inputType: "text",
+            correctAnswer: "4,25"
+        },
+        {
+            title: "Station 4: Das Winkel-Ei 🥚",
+            story: "Ein dreieckiges Osternest ist rechtwinkelig. Einer der spitzen Winkel misst exakt 38°.",
+            question: "Wie viel Grad hat der andere spitze Winkel? (Gib nur die Zahl ein)",
+            inputType: "number",
+            correctAnswer: 52
+        },
+        {
+            title: "Station 5: Das Geometrie-Ei 🥚",
+            story: "Der Osterhase möchte einen runden Schokotaler exakt so auf ein dreieckiges Podest legen, dass der Taler alle drei Seiten des Dreiecks von innen berührt.",
+            question: "Welchen besonderen Punkt des Dreiecks muss er dafür konstruieren? (Schreibe das Wort auf)",
+            inputType: "text",
+            correctAnswer: "inkreis" // Prüft auf Teil-Übereinstimmung
+        },
+        {
+            title: "Finale Station 6: Die Befreiung 🐰",
+            story: "Oh nein! Der Osterhase hat sich im Koordinatensystem verirrt und sitzt in der Falle! Um ihn zu befreien und in die Ferien zu starten, müsst ihr ihn exakt auf den Schwerpunkt S des Dreiecks ABC setzen: A(0|0), B(6|0), C(3|9). Konstruiert den Schwerpunkt auf eurem Zettel!",
+            question: "Auf welche Koordinaten müsst ihr den Osterhasen setzen?",
+            inputType: "coords" 
+        }
+    ];
+
+    // Funktionen für die UI
+    const introScreen = document.getElementById('intro-screen');
+    const gameArea = document.getElementById('game-area');
+    const quizContainer = document.getElementById('quiz-container');
+    const eggBasket = document.getElementById('egg-basket');
+    const successScreen = document.getElementById('success-screen');
+
+    function startRallye() {
+        const input = document.getElementById('team-name-input').value.trim();
+        if (input === "") {
+            document.getElementById('intro-error').style.display = 'block';
+            return;
+        }
+        teamName = input;
+        introScreen.style.display = 'none';
+        gameArea.style.display = 'block';
+        renderPuzzle(0);
+    }
+
+    function renderPuzzle(index) {
+        if (index >= puzzles.length) {
+            renderSuccess();
+            return;
+        }
+
+        const puzzle = puzzles[index];
+        quizContainer.innerHTML = ''; // Leeren
+
+        const card = document.createElement('div');
+        card.className = 'subject-group';
+        card.style.background = 'white';
+        card.style.border = '1px solid #e2e8f0';
+        card.style.padding = '2.5rem';
+        card.style.borderRadius = '12px';
+        card.style.boxShadow = '0 2px 4px rgba(0,0,0,0.02)';
+        card.style.animation = 'fadeIn 0.4s';
+
+        let inputHtml = '';
+        if (puzzle.inputType === 'coords') {
+            inputHtml = `
+                <div style="display: flex; align-items: center; gap: 1rem; justify-content: center; font-size: 1.2rem; font-weight: bold;">
+                    <span>S(</span>
+                    <input type="number" id="x-input" placeholder="x" class="input-field" style="width: 70px; text-align: center; margin-bottom: 0;">
+                    <span>|</span>
+                    <input type="number" id="y-input" placeholder="y" class="input-field" style="width: 70px; text-align: center; margin-bottom: 0;">
+                    <span>)</span>
+                </div>
+            `;
+        } else {
+            inputHtml = `<input type="${puzzle.inputType}" id="answer-input" placeholder="Eure Antwort" class="input-field">`;
+        }
+
+        card.innerHTML = `
+            <div class="subject-header" style="justify-content: center;">
+                <h3 style="margin: 0; color: var(--primary); font-size: 1.5rem;">${puzzle.title}</h3>
+            </div>
+            <p style="text-align: center; font-weight: 500; font-size: 1.1rem; line-height: 1.6;">${puzzle.story}</p>
+            <p style="text-align: center; font-size: 1.2rem; border-bottom: 2px solid #f0f3f6; padding-bottom: 1.5rem; margin-bottom: 1.5rem; color: var(--primary-dark); font-weight: bold;">${puzzle.question}</p>
+            <div style="text-align: center; margin-top: 1.5rem;">
+                ${inputHtml}
+                <br><br>
+                <button onclick="checkAnswer()" class="class-pill bg-math" style="font-size: 1.1rem; padding: 0.8rem 2rem; border: none; cursor: pointer; color: white; background-color: var(--math-color);">Antwort prüfen</button>
+                <p id="error-message" style="color: var(--pdf-red); display: none; font-weight: bold; margin-top: 1rem;"></p>
+            </div>
+        `;
+        quizContainer.appendChild(card);
+    }
+
+    function checkAnswer() {
+        const puzzle = puzzles[currentPuzzleIndex];
+        let isCorrect = false;
+
+        if (puzzle.inputType === 'coords') {
+            const xVal = parseInt(document.getElementById('x-input').value);
+            const yVal = parseInt(document.getElementById('y-input').value);
+            
+            // Die Koordinaten A(0|0), B(6|0), C(3|9) ergeben Schwerpunkt S(3|3)
+            if (xVal === 3 && yVal === 3) {
+                isCorrect = true;
+            } else {
+                showError("Der Osterhase steckt noch fest! Überprüft eure Konstruktion noch einmal.");
+                return;
+            }
+        } else {
+            const userInput = document.getElementById('answer-input').value;
+
+            if (puzzle.inputType === 'text') {
+                if (userInput.toLowerCase().includes(puzzle.correctAnswer)) {
+                    isCorrect = true;
+                }
+            } else { 
+                if (parseInt(userInput) === puzzle.correctAnswer) {
+                    isCorrect = true;
+                }
+            }
+
+            if (!isCorrect) {
+                showError("Das stimmt leider nicht ganz. Versucht es noch einmal!");
+                return;
+            }
+        }
+
+        if (isCorrect) {
+            document.getElementById('error-message').style.display = 'none';
+            collectedEggs.push("🥚");
+            updateEggDisplay();
+            currentPuzzleIndex++;
+            renderPuzzle(currentPuzzleIndex);
+        }
+    }
+
+    function updateEggDisplay() {
+        eggBasket.innerText = collectedEggs.join(' ');
+    }
+
+    function showError(message) {
+        const errorField = document.getElementById('error-message');
+        errorField.innerText = message;
+        errorField.style.display = 'block';
+    }
+
+    function renderSuccess() {
+        gameArea.style.display = 'none';
+        document.getElementById('cert-team-name').innerText = teamName;
+        successScreen.style.display = 'block';
+    }
+
+    // Zusätzliche Styles für die Input-Felder
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .input-field {
+            padding: 0.8rem 1.2rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+            width: 100%;
+            max-width: 300px;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        .input-field:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+    `;
+    document.head.appendChild(style);
+
+</script>
+
+</body>
+</html>

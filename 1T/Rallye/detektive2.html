@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logik-Meister | 1T</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <style>
+        .detective-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid #334155;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        .akte-box {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        /* Verschiedene Farben für die Rätseltypen */
+        .border-blue { border-left: 5px solid #3b82f6; }
+        .border-purple { border-left: 5px solid #8b5cf6; }
+        .border-orange { border-left: 5px solid #f59e0b; }
+        .border-red { border-left: 5px solid #ef4444; }
+
+        .akte-title {
+            color: #1e293b;
+            margin-top: 0;
+            font-size: 1.2rem;
+        }
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .detektiv-input {
+            flex-grow: 1;
+            padding: 0.75rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        .check-btn {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .check-btn:hover { background: #0f172a; }
+        
+        .secret-fact {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #dcfce7;
+            border: 1px solid #22c55e;
+            border-radius: 8px;
+            color: #166534;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .timestamp {
+            display: inline-block;
+            margin-top: 0.75rem;
+            font-family: monospace;
+            background: #bbf7d0;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            color: #166534;
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .code-clue {
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            font-family: monospace;
+            font-size: 1.05rem;
+            border: 1px dashed #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .code-digits {
+            font-weight: bold;
+            font-size: 1.3rem;
+            letter-spacing: 5px;
+            color: #334155;
+        }
+
+        /* Styles für den Sieger-Bildschirm */
+        .victory-screen {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            border: 4px solid #22c55e;
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.2);
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        .time-list-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🧠 Die Logik-Meister</h1>
+    <p>Zahlenreihen, Muster und Tresore knacken</p>
+</header>
+
+<div class="back-nav">
+    <a href="index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main>
+    <div id="questionsContainer" class="detective-container">
+        <p style="font-size: 1.1rem; line-height: 1.8; text-align: center; margin-bottom: 2rem;">
+            Willkommen im Trainingslager für Logiker! Hier gibt es keine normalen Rechnungen, sondern versteckte Muster und geheime Codes. 
+            Löst alle 8 Level, um am Ende das offizielle Zertifikat zu erhalten, das ihr Mag. Schweitzer zeigen müsst.
+        </p>
+
+        <div class="akte-box border-blue" id="box-1">
+            <h3 class="akte-title">Level 1: Die wachsende Lücke</h3>
+            <p>Finde das Muster heraus. Wie lautet die nächste Zahl? <br><strong style="font-size: 1.3rem; letter-spacing: 2px;">2, 5, 10, 17, 26, ...</strong></p>
+            <div class="input-group">
+                <input type="text" id="input-1" class="detektiv-input" placeholder="Nächste Zahl..." autocomplete="off">
+                <button class="check-btn" onclick="checkAnswer(1)">Prüfen</button>
+            </div>
+            <div class="secret-fact" id="fact-1">
+                <strong>🔓 Gelöst!</strong> Das Muster ist: +3, +5, +7, +9 und schließlich +11. Die Lösung ist 37!<br>
+                <span class="timestamp" id="time-1"></span>
+            </div>
+        </div>
+
+        <div class="akte-box border-orange" id="box-2">
+            <h3 class="akte-title">Level 2: Der Bronze-Tresor</h3>
+            <p>Finde den 3-stelligen Code durch reine Logik heraus:</p>
+            <div style="background: #e2e8f0; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                <div class="code-clue"><span class="code-digits">8 3 1</span> <span>Zwei Ziffern sind richtig, aber <strong>beide am falschen Platz</strong>.</span></div>
+                <div class="code-clue"><span class="code-digits">1 5 2</span> <span>Eine Ziffer ist richtig <strong>UND am richtigen Platz</strong>.</span></div>
+                <div class="code-clue"><span class="code-digits">4 9 8</span> <span>Eine Ziffer ist richtig <strong>UND am richtigen Platz</strong>.</span></div>
+                <div class="code-clue"><span class="code-digits">7 6 0</span> <span>Keine einzige Ziffer ist richtig.</span></div>
+                <div class="code-clue"><span class="code-digits">5 8 4</span> <span>Zwei Ziffern sind richtig, aber <strong>beide am falschen Platz</strong>.</span></div>
+            </div>
+            <div class="input-group">
+                <input type="text" id="input-2" class="detektiv-input" placeholder="3-stelliger Code..." autocomplete="off" style="font-size: 1.5rem; letter-spacing: 5px; text-align: center; width: 150px; flex-grow: 0;">
+                <button class="check-btn" onclick="checkAnswer(2)">Knacken</button>
+            </div>
+            <div class="secret-fact" id="fact-2">
+                <strong>🔓 Tresor offen!</strong> Der Code ist <strong>3 5 8</strong>.<br>
+                <span class="timestamp" id="time-2"></span>
+            </div>
+        </div>
+
+        <div class="akte-box border-blue" id="box-3">
+            <h3 class="akte-title">Level 3: Verdoppeln und Abziehen</h3>
+            <p>Was passiert hier mit jeder Zahl? Wie lautet die nächste? <br><strong style="font-size: 1.3rem; letter-spacing: 2px;">3, 5, 9, 17, 33, ...</strong></p>
+            <div class="input-group">
+                <input type="text" id="input-3" class="detektiv-input" placeholder="Nächste Zahl..." autocomplete="off">
+                <button class="check-btn" onclick="checkAnswer(3)">Prüfen</button>
+            </div>
+            <div class="secret-fact" id="fact-3">
+                <strong>🔓 Gelöst!</strong> Man nimmt die Zahl immer mal 2 und zieht dann 1 ab (z.B. 17 * 2 = 34. 34 - 1 = 33). Die nächste Zahl ist 65!<br>
+                <span class="timestamp" id="time-3"></span>
+            </div>
+        </div>
+
+        <div class="akte-box border-purple" id="box-4">
+            <h3 class="akte-title">Level 4: Die Unteilbaren</h3>
+            <p>Diese Zahlen haben eine ganz besondere mathematische Eigenschaft gemeinsam. Wer folgt als nächstes? <br><strong style="font-size: 1.3rem; letter-spacing: 2px;">2, 3, 5, 7, 11, 13, 17, ...</strong></p>
+            <div class="input-group">
+                <input type="text" id="input-4" class="detektiv-input" placeholder="Nächste Zahl..." autocomplete="off">
+                <button class="check-btn" onclick="checkAnswer(4)">Prüfen</button>
+            </div>
+            <div class="secret-fact" id="fact-4">
+                <strong>🔓 Gelöst!</strong> 19! Das ist die Reihe der Primzahlen. Sie lassen sich nur durch 1 und durch sich selbst ohne Rest teilen.<br>
+                <span class="timestamp" id="time-4"></span>
+            </div>
+        </div>
+
+        <div class="akte-box border-orange" id="box-5">
+            <h3 class="akte-title">Level 5: Der Silber-Tresor</h3>
+            <p>Finde den 3-stelligen Code heraus:</p>
+            <div style="background: #e2e8f0; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                <div class="code-clue"><span class="code-digits">6 8 2</span> <span>Keine einzige Ziffer ist richtig.</span></div>
+                <div class="code-clue"><span class="code-digits">6 1 4</span> <span>Eine Ziffer ist richtig <strong>UND am richtigen Platz</strong>.</span></div>
+                <div class="code-clue"><span class="code-digits">2 0 6</span> <span>Eine Ziffer ist richtig <strong>UND am richtigen Platz</strong>.</span></div>
+                <div class="code-clue"><span class="code-digits">3 7 8</span> <span>Eine Ziffer ist richtig, aber am <strong>falschen Platz</strong>.</span></div>
+                <div class="code-clue"><span class="code-digits">4 8 0</span> <span>Zwei Ziffern sind richtig, aber <strong>beide am falschen Platz</strong>.</span></div>
+            </div>
+            <div class="input-group">
+                <input type="text" id="input-5" class="detektiv-input" placeholder="3-stelliger Code..." autocomplete="off" style="font-size: 1.5rem; letter-spacing: 5px; text-align: center; width: 150px; flex-grow: 0;">
+                <button class="check-btn" onclick="checkAnswer(5)">Knacken</button>
+            </div>
+            <div class="secret-fact" id="fact-5">
+                <strong>🔓 Tresor offen!</strong> Der Code ist <strong>7 0 4</strong>.<br>
+                <span class="timestamp" id="time-5"></span>
+            </div>
+        </div>
+
+        <div class="akte-box border-blue" id="box-6">
+            <h3 class="akte-title">Level 6: Die Dreier-Summe</h3>
+            <p>Dieses Muster erfordert einen Blick nach hinten. <br><strong style="font-size: 1.3rem; letter-spacing: 2px;">1, 2, 3, 6, 11, 20, 37, ...</strong></p>
+            <div class="input-group">
+                <input type="text" id="input-6" class="detektiv-input" placeholder="Nächste Zahl..." autocomplete="off">
+                <button class="check-btn" onclick="checkAnswer(6)">Prüfen</button>
+            </div>
+            <div class="secret-fact" id="fact-6">
+                <strong>🔓 Gelöst!</strong> Man muss immer die letzten DREI Zahlen zusammenzählen, um die nächste zu erhalten (11 + 20 + 37 = 68).<br>
+                <span class="timestamp" id="time-6"></span>
+            </div>
+        </div>
+
+        <div class="akte-box border-purple" id="box-7">
+            <h3 class="akte-title">Level 7: Die Bauklötze</h3>
+            <p>Stell dir vor, du baust Würfel aus kleinen Holzblöcken. Wie viele Blöcke brauchst du für den nächsten Würfel? <br><strong style="font-size: 1.3rem; letter-spacing: 2px;">1, 8, 27, 64, 125, ...</strong></p>
+            <div class="input-group">
+                <input type="text" id="input-7" class="detektiv-input" placeholder="Nächste Zahl..." autocomplete="off">
+                <button class="check-btn" onclick="checkAnswer(7)">Prüfen</button>
+            </div>
+            <div class="secret-fact" id="fact-7">
+                <strong>🔓 Gelöst!</strong> 216! Das sind die Kubikzahlen (Länge * Breite * Höhe). 1x1x1, 2x2x2, 3x3x3... und als letztes 6x6x6 = 216.<br>
+                <span class="timestamp" id="time-7"></span>
+            </div>
+        </div>
+
+        <div class="akte-box border-red" id="box-8" style="border-width: 2px; border-color: #ef4444;">
+            <h3 class="akte-title" style="color: #ef4444;">Level 8: DER TITAN-TRESOR (Meisterstufe)</h3>
+            <p>Achtung: Dieser Tresor hat <strong>VIER</strong> Ziffern! Ein einziger Fehler und der Alarm geht los.</p>
+            
+            <div style="background: #fee2e2; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #fca5a5;">
+                <div class="code-clue"><span class="code-digits" style="color: #ef4444;">1 9 0 8</span> <span>Zwei Ziffern sind richtig, <strong>beide am falschen Platz</strong>.</span></div>
+                <div class="code-clue"><span class="code-digits" style="color: #ef4444;">5 2 9 1</span> <span>Zwei Ziffern richtig: <strong>Eine am richtigen, eine am falschen Platz</strong>.</span></div>
+                <div class="code-clue"><span class="code-digits" style="color: #ef4444;">5 4 8 7</span> <span>Zwei Ziffern sind richtig, <strong>beide am richtigen Platz</strong>.</span></div>
+                <div class="code-clue"><span class="code-digits" style="color: #ef4444;">3 1 2 4</span> <span>Zwei Ziffern richtig: <strong>Eine am richtigen, eine am falschen Platz</strong>.</span></div>
+                <div class="code-clue"><span class="code-digits" style="color: #ef4444;">6 7 0 9</span> <span>Keine einzige Ziffer ist richtig.</span></div>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="input-8" class="detektiv-input" placeholder="4-stelliger Code..." autocomplete="off" style="font-size: 1.5rem; letter-spacing: 5px; text-align: center; width: 180px; flex-grow: 0; border-color: #ef4444;">
+                <button class="check-btn" onclick="checkAnswer(8)" style="background: #ef4444;">Titan-Tresor knacken</button>
+            </div>
+            <div class="secret-fact" id="fact-8" style="background: #fef2f2; border-color: #ef4444; color: #b91c1c;">
+                <strong>🔓 MEISTERSTUFE GESCHAFFT!</strong> Der Code ist <strong>5 1 8 3</strong>! Ihr seid echte Logik-Genies.<br>
+                <span class="timestamp" id="time-8" style="background: #fca5a5; color: #7f1d1d;"></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="victoryScreen" class="victory-screen">
+        <h1 style="font-size: 4rem; margin: 0;">🎓</h1>
+        <h2 style="color: #15803d; margin-top: 0; font-size: 2.5rem;">LOGIK-TRAINING BESTANDEN!</h2>
+        
+        <p style="font-size: 1.2rem; font-weight: bold; color: #b91c1c; border: 3px dashed #b91c1c; padding: 1.5rem; border-radius: 8px; background: #fef2f2; margin: 2rem 0;">
+            ⚠️ NICHT WEGKLICKEN!<br>
+            Nimm dein iPad und zeige diesen Bildschirm jetzt sofort Mag. Schweitzer.
+        </p>
+        
+        <h3 style="color: #1e293b; margin-top: 2rem;">Offizielles Zertifikat</h3>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Datum: <span id="currentDate"></span></p>
+        
+        <div id="timesListContainer" style="max-width: 500px; margin: 0 auto; text-align: left;">
+            </div>
+    </div>
+</main>
+
+<footer style="margin-top: 3rem; text-align: center; font-weight: bold; color: var(--text-muted); padding-bottom: 2rem;">
+    &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+</footer>
+
+<script>
+    const answers = {
+        1: ["37"],
+        2: ["358", "3 5 8"],
+        3: ["65"],
+        4: ["19"],
+        5: ["704", "7 0 4"],
+        6: ["68"],
+        7: ["216"],
+        8: ["5183", "5 1 8 3"]
+    };
+
+    let solvedCount = 0;
+    const solvedTimes = {};
+
+    function checkAnswer(boxNumber) {
+        const inputElement = document.getElementById('input-' + boxNumber);
+        const userInput = inputElement.value.trim().toLowerCase();
+        const validAnswers = answers[boxNumber];
+
+        if (validAnswers.includes(userInput) && !inputElement.disabled) {
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('de-AT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            solvedTimes[boxNumber] = timeString;
+
+            inputElement.disabled = true;
+            inputElement.style.backgroundColor = "#dcfce7";
+            inputElement.style.borderColor = "#22c55e";
+            inputElement.style.color = "#15803d";
+            inputElement.style.fontWeight = "bold";
+            
+            document.getElementById('fact-' + boxNumber).style.display = "block";
+            document.getElementById('time-' + boxNumber).innerText = "⏱️ Gelöst um: " + timeString + " Uhr";
+            
+            const btn = inputElement.nextElementSibling;
+            btn.innerHTML = "✓ Gelöst";
+            btn.style.backgroundColor = "#22c55e";
+            btn.disabled = true;
+
+            solvedCount++;
+            if (solvedCount === 8) {
+                setTimeout(() => {
+                    showVictoryScreen();
+                }, 1000);
+            }
+
+        } else if (!inputElement.disabled) {
+            inputElement.style.borderColor = "#ef4444";
+            inputElement.style.transform = "translateX(-5px)";
+            setTimeout(() => inputElement.style.transform = "translateX(5px)", 100);
+            setTimeout(() => inputElement.style.transform = "translateX(-5px)", 200);
+            setTimeout(() => {
+                inputElement.style.transform = "translateX(0)";
+                inputElement.style.borderColor = "#cbd5e1";
+            }, 300);
+        }
+    }
+
+    function showVictoryScreen() {
+        const today = new Date().toLocaleDateString('de-AT');
+        document.getElementById('currentDate').innerText = today;
+
+        document.getElementById('questionsContainer').style.display = 'none';
+
+        let timesHTML = '';
+        for (let i = 1; i <= 8; i++) {
+            let label = 'Level ' + i;
+            let bgColor = '#f8fafc';
+            let textColor = '#1e293b';
+            
+            if (i === 8) {
+                label = 'Level 8 (TITAN-TRESOR)';
+                bgColor = '#fee2e2';
+                textColor = '#991b1b';
+            }
+            
+            timesHTML += `
+                <div class="time-list-item" style="background-color: ${bgColor}; color: ${textColor};">
+                    <strong>${label}:</strong>
+                    <span>${solvedTimes[i]} Uhr</span>
+                </div>
+            `;
+        }
+        document.getElementById('timesListContainer').innerHTML = timesHTML;
+
+        document.getElementById('victoryScreen').style.display = 'block';
+        window.scrollTo(0, 0);
+    }
+
+    for (let i = 1; i <= 8; i++) {
+        const inputField = document.getElementById('input-' + i);
+        if (inputField) {
+            inputField.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    checkAnswer(i);
+                }
+            });
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.4 Binomische Formeln | Prof. Schweitzer</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .content-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .content-box h3 {
+            color: var(--primary);
+            margin-top: 0;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 0.5rem;
+        }
+        .formula-highlight {
+            background: #e0e7ff;
+            border: 2px solid var(--primary);
+            padding: 1.5rem;
+            text-align: center;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+        .example-box {
+            background: #f0fdf4;
+            border-left: 4px solid var(--info-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        .math-text {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        .alert-box {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        
+        /* Quiz Styles */
+        .quiz-container {
+            background: #f8fafc;
+            border: 2px solid var(--primary);
+            padding: 2rem 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .quiz-question {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+        }
+        .quiz-options {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .quiz-btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+            color: var(--text-main);
+            min-width: 180px;
+        }
+        .quiz-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .quiz-btn.correct { background: #10b981; color: white; border-color: #10b981; }
+        .quiz-btn.wrong { background: #ef4444; color: white; border-color: #ef4444; }
+        .quiz-feedback { margin-top: 1.5rem; font-weight: bold; font-size: 1.1rem; min-height: 28px; }
+        #next-btn {
+            display: none; margin: 1.5rem auto 0; background: var(--primary); color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1rem;
+        }
+        #next-btn:hover { background: var(--primary-dark); }
+        .score-display { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Kapitel 4.4: Binomische Formeln</h1>
+    <p>Die drei Abkürzungen der Mathematik</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">⬅ Zurück zur Klasse 3L</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Mathematik</span>
+            <h2>Warum brauchen wir Binomische Formeln?</h2>
+        </div>
+
+        <div class="content-box">
+            <p>Wenn du einen Term wie <span class="math-text">(a + b)<sup>2</sup></span> siehst, weißt du bereits, dass das eigentlich <span class="math-text">(a + b) &middot; (a + b)</span> bedeutet. Du könntest das nun mühsam mit der "Jedes-mit-Jedem"-Regel ausmultiplizieren. Das dauert aber lang und ist fehleranfällig.</p>
+            <p><strong>Die Binomischen Formeln sind Abkürzungen!</strong> Wenn du sie auswendig kannst, sparst du dir extrem viel Zeit und Rechenarbeit.</p>
+        </div>
+
+        <div class="content-box">
+            <h3>1. Binomische Formel (Die Plus-Formel)</h3>
+            <div class="formula-highlight">
+                <span class="math-text">(a + b)<sup>2</sup> = a<sup>2</sup> + 2ab + b<sup>2</sup></span>
+            </div>
+            
+            
+            <p><strong>Die Herleitung (Warum ist das so?):</strong><br>
+            <span class="math-text">(a + b)(a + b) = a&middot;a + a&middot;b + b&middot;a + b&middot;b = a<sup>2</sup> + ab + ab + b<sup>2</sup> = a<sup>2</sup> + 2ab + b<sup>2</sup></span></p>
+            
+            <div class="example-box">
+                <strong>Beispiel 1:</strong><br>
+                <span class="math-text">(x + 3)<sup>2</sup></span><br>
+                Unser <em>a</em> ist das <strong>x</strong>, unser <em>b</em> ist die <strong>3</strong>.<br>
+                = <span class="math-text">x<sup>2</sup> + 2&middot;x&middot;3 + 3<sup>2</sup></span><br>
+                = <strong><span class="math-text">x<sup>2</sup> + 6x + 9</span></strong>
+            </div>
+            
+            <div class="example-box" style="background: #fffbeb; border-left-color: #f59e0b;">
+                <strong>Beispiel 2 (Profiklasse mit Zahlen und Variablen):</strong><br>
+                <span class="math-text">(2y + 5x)<sup>2</sup></span><br>
+                = <span class="math-text">(2y)<sup>2</sup> + 2&middot;(2y)&middot;(5x) + (5x)<sup>2</sup></span><br>
+                = <strong><span class="math-text">4y<sup>2</sup> + 20xy + 25x<sup>2</sup></span></strong>
+            </div>
+            
+            <div class="alert-box">
+                <strong>Häufigster Fehler:</strong> <span class="math-text">(a + b)<sup>2</sup></span> ist NICHT einfach nur <span class="math-text">a<sup>2</sup> + b<sup>2</sup></span>! Das Mittelstück (<span class="math-text">2ab</span>) darf niemals vergessen werden!
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h3>2. Binomische Formel (Die Minus-Formel)</h3>
+            <div class="formula-highlight">
+                <span class="math-text">(a - b)<sup>2</sup> = a<sup>2</sup> - 2ab + b<sup>2</sup></span>
+            </div>
+            
+            
+            <p>Sie funktioniert exakt wie die erste Formel, nur dass das Vorzeichen beim Mittelstück ein Minus ist. Das letzte Zeichen bleibt ein Plus (denn Minus mal Minus ergibt Plus!).</p>
+            
+            <div class="example-box">
+                <strong>Beispiel:</strong><br>
+                <span class="math-text">(m - 4)<sup>2</sup></span><br>
+                = <span class="math-text">m<sup>2</sup> - 2&middot;m&middot;4 + 4<sup>2</sup></span><br>
+                = <strong><span class="math-text">m<sup>2</sup> - 8m + 16</span></strong>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h3>3. Binomische Formel (Die Plus-Minus-Formel)</h3>
+            <div class="formula-highlight">
+                <span class="math-text">(a + b)(a - b) = a<sup>2</sup> - b<sup>2</sup></span>
+            </div>
+            
+            
+            <p>Das ist die einfachste Formel! Wenn die Klammern exakt gleich aussehen und sich NUR durch das Rechenzeichen in der Mitte unterscheiden, fällt das Mittelstück beim Rechnen komplett weg (+ab und -ab heben sich auf).</p>
+            
+            <div class="example-box">
+                <strong>Beispiel:</strong><br>
+                <span class="math-text">(z + 7)(z - 7)</span><br>
+                = <span class="math-text">z<sup>2</sup> - 7<sup>2</sup></span><br>
+                = <strong><span class="math-text">z<sup>2</sup> - 49</span></strong>
+            </div>
+        </div>
+
+        <div class="quiz-container">
+            <h3 style="margin-top: 0; color: var(--primary);">Der Binomische Endgegner 🏁</h3>
+            <p>Wende die Formeln richtig an. Pass auf die Mittelstücke auf!</p>
+            <div class="score-display">Frage <span id="current-q">1</span> von <span id="total-q">5</span></div>
+            
+            <div id="quiz-content">
+                <div class="quiz-question math-text" id="question-text">Lade Frage...</div>
+                <div class="quiz-options" id="options-container">
+                    </div>
+                <div class="quiz-feedback" id="feedback-text"></div>
+                <button id="next-btn" onclick="nextQuestion()">Nächste Frage ➡</button>
+            </div>
+            
+            <div id="quiz-result" style="display: none;">
+                <div class="quiz-question">Quiz beendet! 🌟</div>
+                <p id="final-score" style="font-size: 1.2rem; margin-bottom: 1.5rem;"></p>
+                <button class="quiz-btn" onclick="location.reload()" style="border-color: var(--primary);">Noch ein Durchgang</button>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+</footer>
+
+<script>
+    const questions = [
+        { q: "(x + 5)²", options: ["x² + 25", "x² + 10x + 25", "x² + 5x + 25"], correct: 1 },
+        { q: "(y - 3)²", options: ["y² - 6y + 9", "y² - 9", "y² - 3y + 9"], correct: 0 },
+        { q: "(a + 6)(a - 6)", options: ["a² + 12a - 36", "a² + 36", "a² - 36"], correct: 2 },
+        { q: "(2x + 1)²", options: ["4x² + 4x + 1", "2x² + 4x + 1", "4x² + 1"], correct: 0 },
+        { q: "(m - 2n)²", options: ["m² - 4mn + 4n²", "m² - 4mn - 4n²", "m² - 2mn + 4n²"], correct: 0 }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    const questionText = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const feedbackText = document.getElementById('feedback-text');
+    const nextBtn = document.getElementById('next-btn');
+    const currentQSpan = document.getElementById('current-q');
+    const totalQSpan = document.getElementById('total-q');
+    
+    totalQSpan.innerText = questions.length;
+
+    function loadQuestion() {
+        answered = false;
+        feedbackText.innerText = "";
+        nextBtn.style.display = "none";
+        currentQSpan.innerText = currentQuestionIndex + 1;
+        
+        const currentQ = questions[currentQuestionIndex];
+        questionText.innerHTML = currentQ.q.replace(/²/g, '<sup>2</sup>');
+        optionsContainer.innerHTML = "";
+
+        currentQ.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.innerHTML = opt.replace(/²/g, '<sup>2</sup>');
+            btn.className = 'quiz-btn math-text';
+            btn.onclick = () => checkAnswer(index, btn);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selectedIndex, btnElement) {
+        if (answered) return;
+        answered = true;
+
+        const correctIndex = questions[currentQuestionIndex].correct;
+        const allButtons = optionsContainer.children;
+
+        if (selectedIndex === correctIndex) {
+            btnElement.classList.add('correct');
+            feedbackText.innerText = "Korrekt! Die Formel sitzt. ✅";
+            feedbackText.style.color = "#10b981";
+            score++;
+        } else {
+            btnElement.classList.add('wrong');
+            allButtons[correctIndex].classList.add('correct');
+            feedbackText.innerText = "Achtung! Hast du das Mittelstück oder die Vorzeichen beachtet?";
+            feedbackText.style.color = "#ef4444";
+        }
+
+        for (let btn of allButtons) {
+            btn.style.cursor = "default";
+        }
+
+        nextBtn.style.display = "block";
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        document.getElementById('quiz-content').style.display = "none";
+        const resultDiv = document.getElementById('quiz-result');
+        resultDiv.style.display = "block";
+        document.getElementById('final-score').innerText = `Du hast ${score} von ${questions.length} Binomen richtig aufgelöst!`;
+    }
+
+    window.onload = loadQuestion;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prozentrechnen Basics</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* Minimales Hilfs-CSS für Animationen und das Raster, passend zum Haupt-Design */
+        .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .grid-square { transition: all 0.2s; border-radius: 2px; }
+        .grid-square:hover { transform: scale(1.15); box-shadow: 0 0 5px rgba(0,0,0,0.3); z-index: 10; position: relative; }
+        
+        /* Formular-Elemente im Rechner */
+        .calc-input {
+            width: 100%;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 1.1rem;
+            outline: none;
+            transition: 0.2s;
+            box-sizing: border-box;
+        }
+        .calc-input:focus { border-color: var(--primary); }
+        .input-wrapper { position: relative; margin-top: 0.5rem; }
+        .input-suffix { position: absolute; right: 15px; top: 12px; font-weight: bold; color: #94a3b8; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Prozentrechnung Interaktiv</h1>
+    <p>Grundlagen, Berechnungen, Vermehren/Vermindern und Brutto/Netto</p>
+</header>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main>
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; background: var(--card-bg); padding: 1rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        <button class="nav-toggle active" id="btn-grundlagen" onclick="switchTab('grundlagen')">📖 Was ist Prozent?</button>
+        <button class="nav-toggle" id="btn-rechnen" onclick="switchTab('rechnen')">🧮 Das gesuchte Berechnen</button>
+        <button class="nav-toggle" id="btn-vermehren" onclick="switchTab('vermehren')">📈 Vermehren & Vermindern</button>
+        <button class="nav-toggle" id="btn-brutto" onclick="switchTab('brutto')">🧾 Brutto, Netto & MwSt</button>
+    </div>
+
+    <section id="grundlagen" class="tab-content active">
+        <div class="subject-group">
+            <div class="subject-header">
+                <span class="subject-badge bg-math">Kapitel 3</span>
+                <h2 style="margin: 0; color: var(--primary);">Was heißt eigentlich "Prozent"?</h2>
+            </div>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+                <div style="flex: 1; min-width: 300px;">
+                    <p>Das Wort <strong>Prozent</strong> kommt aus dem Italienischen ("per cento") oder Lateinischen ("pro centum") und bedeutet wörtlich übersetzt: <strong style="color: var(--primary);">von Hundert</strong>.</p>
+                    
+                    <div style="background: var(--card-bg); border-left: 5px solid var(--primary); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 1.1rem;">
+                        Ein Prozent (1 %) ist also nichts anderes als <strong>ein Hundertstel</strong> eines Ganzen.<br><br>
+                        Als Bruch: $1\,\% = \frac{1}{100}$<br>
+                        Als Dezimalzahl: $1\,\% = 0,01$
+                    </div>
+                    
+                    <p>Stell dir vor, du hast eine Tafel Schokolade mit 100 gleich großen Stückchen. <strong>Ein Stückchen davon ist genau 1 % der Tafel.</strong> Isst du 20 Stückchen, hast du 20 % der Schokolade gegessen.</p>
+                    
+                    <h3 style="color: var(--primary); margin-top: 2rem;">Die 3 wichtigen Grundbegriffe</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="background: #f0f9ff; border: 1px solid #bae6fd; padding: 1rem; border-radius: 8px;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: var(--doc-blue);">1. Grundbetrag (G)</h4>
+                            <p style="margin: 0; font-size: 0.95rem;">Das ist das <strong>Ganze</strong>. Alles, was da ist. Der Grundbetrag entspricht immer genau <strong>100 %</strong>. <br><em style="color: var(--text-muted);">Beispiel: Alle 25 Schüler deiner Klasse.</em></p>
+                        </div>
+                        <div style="background: #fffbeb; border: 1px solid #fde68a; padding: 1rem; border-radius: 8px;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: var(--html-orange);">2. Anteil (A)</h4>
+                            <p style="margin: 0; font-size: 0.95rem;">Das ist ein <strong>Teil vom Ganzen</strong>. Er wird oft als absolute Zahl (Stück, Euro, etc.) angegeben. <br><em style="color: var(--text-muted);">Beispiel: 5 Schüler, die heute krank sind.</em></p>
+                        </div>
+                        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 1rem; border-radius: 8px;">
+                            <h4 style="margin: 0 0 0.5rem 0; color: var(--xls-green);">3. Prozentsatz (p %)</h4>
+                            <p style="margin: 0; font-size: 0.95rem;">Gibt an, wie groß der Anteil im Verhältnis zum Ganzen in <strong>Hundertsteln</strong> ist (mit %-Zeichen). <br><em style="color: var(--text-muted);">Beispiel: 20 % der Klasse sind krank.</em></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="flex: 1; min-width: 300px; background: white; padding: 2rem; border-radius: 12px; border: 2px solid var(--primary); text-align: center; display: flex; flex-direction: column; align-items: center;">
+                    <h3 style="margin-top: 0; color: var(--text-main);">Interaktive Prozent-Tafel</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">Bewege den Schieberegler, um zu sehen, wie viele Kästchen (von 100) eingefärbt werden.</p>
+                    
+                    <div id="percent-grid" style="display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px; width: 100%; max-width: 300px; aspect-ratio: 1; margin-bottom: 2rem;">
+                        </div>
+
+                    <div style="width: 100%; max-width: 300px;">
+                        <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 10px;">
+                            <span>0%</span>
+                            <span id="grid-percent-display" style="color: var(--primary); font-size: 1.5rem;">25%</span>
+                            <span>100%</span>
+                        </div>
+                        <input type="range" id="grid-slider" min="0" max="100" value="25" style="width: 100%; cursor: pointer;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="rechnen" class="tab-content">
+        <div class="subject-group">
+            <div class="subject-header">
+                <span class="subject-badge bg-math">Kapitel 3</span>
+                <h2 style="margin: 0; color: var(--primary);">Das gesuchte Berechnen</h2>
+            </div>
+            
+            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden;">
+                
+                <div style="display: flex; flex-wrap: wrap; background: var(--bg); border-bottom: 1px solid #e2e8f0;">
+                    <button onclick="setCalcMode('anteil')" id="mode-anteil" style="flex: 1; padding: 1rem; border: none; background: white; font-weight: bold; color: var(--primary); border-bottom: 3px solid var(--primary); cursor: pointer; font-size: 1.1rem;">Anteil (A) suchen</button>
+                    <button onclick="setCalcMode('prozent')" id="mode-prozent" style="flex: 1; padding: 1rem; border: none; background: transparent; font-weight: bold; color: var(--text-muted); border-bottom: 3px solid transparent; cursor: pointer; font-size: 1.1rem;">Prozentsatz (p) suchen</button>
+                    <button onclick="setCalcMode('grundbetrag')" id="mode-grundbetrag" style="flex: 1; padding: 1rem; border: none; background: transparent; font-weight: bold; color: var(--text-muted); border-bottom: 3px solid transparent; cursor: pointer; font-size: 1.1rem;">Grundbetrag (G) suchen</button>
+                </div>
+
+                <div style="display: flex; flex-wrap: wrap; gap: 2rem; padding: 2rem;">
+                    <div style="flex: 1; min-width: 250px;">
+                        <h3 id="calc-title" style="margin-top: 0;">Ich suche den Anteil (A)</h3>
+                        <p id="calc-desc" style="color: var(--text-muted); margin-bottom: 1.5rem;">Du kennst das Ganze (G) und den Prozentsatz (p).</p>
+                        
+                        <div id="input-group-g" style="margin-bottom: 1.5rem;">
+                            <label style="font-weight: bold; color: var(--doc-blue);">Grundbetrag (G) <span style="font-weight: normal; font-size: 0.85rem; color: var(--text-muted);">(Das Ganze, 100%)</span></label>
+                            <div class="input-wrapper">
+                                <input type="number" id="input-g" class="calc-input" placeholder="z.B. 200" oninput="calculate()">
+                                <span class="input-suffix">€ / Stk</span>
+                            </div>
+                        </div>
+
+                        <div id="input-group-p" style="margin-bottom: 1.5rem;">
+                            <label style="font-weight: bold; color: var(--xls-green);">Prozentsatz (p) <span style="font-weight: normal; font-size: 0.85rem; color: var(--text-muted);">(Der Anteil in %)</span></label>
+                            <div class="input-wrapper">
+                                <input type="number" id="input-p" class="calc-input" placeholder="z.B. 15" oninput="calculate()">
+                                <span class="input-suffix">%</span>
+                            </div>
+                        </div>
+
+                        <div id="input-group-a" style="display: none; margin-bottom: 1.5rem;">
+                            <label style="font-weight: bold; color: var(--html-orange);">Anteil (A) <span style="font-weight: normal; font-size: 0.85rem; color: var(--text-muted);">(Der Teil vom Ganzen)</span></label>
+                            <div class="input-wrapper">
+                                <input type="number" id="input-a" class="calc-input" placeholder="z.B. 30" oninput="calculate()">
+                                <span class="input-suffix">€ / Stk</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="flex: 1; min-width: 250px; background: var(--bg); border: 1px solid #e2e8f0; border-radius: 8px; padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <span style="font-weight: bold; color: var(--text-muted); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 1rem;">Lösungsweg & Formel</span>
+                        
+                        <div id="formula-display" style="font-size: 1.3rem; margin-bottom: 2rem;">
+                            </div>
+                        
+                        <div id="calculation-steps" style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; width: 100%; text-align: center; font-family: monospace; opacity: 0.5; margin-bottom: 1.5rem;">
+                            Bitte gib Werte ein...
+                        </div>
+
+                        <div id="final-result" style="display: none; font-size: 1.8rem; font-weight: bold; color: var(--primary); text-align: center;">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="vermehren" class="tab-content">
+        <div class="subject-group">
+            <div class="subject-header">
+                <span class="subject-badge bg-math">Kapitel 3</span>
+                <h2 style="margin: 0; color: var(--primary);">Vermehren und Vermindern</h2>
+            </div>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+                <div style="flex: 1; min-width: 300px;">
+                    <p>Oft bleibt ein Wert nicht gleich. Preise steigen (Inflation, Aufschlag) oder fallen (Rabatt, Ausverkauf). Der alte Preis ist dabei immer unser <strong>Ausgangswert (100 %)</strong>.</p>
+                    
+                    <div style="background: #f0fdf4; border-left: 5px solid var(--xls-green); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                        <h4 style="margin-top: 0; color: var(--xls-green);">📈 Vermehren (Plus rechnen)</h4>
+                        <p>Wenn etwas teurer wird. Zum Beispiel <strong>15 % Preiserhöhung</strong>.</p>
+                        <strong>Der clevere Weg:</strong>
+                        <ul style="margin-top: 0.5rem; line-height: 1.6;">
+                            <li>Alter Preis = 100 %</li>
+                            <li>Neuer Preis = 100 % + 15 % = <strong style="font-size: 1.1rem;">115 %</strong></li>
+                        </ul>
+                        <p style="margin-bottom: 0; font-size: 0.9rem;"><em>Du kannst direkt 115 % vom alten Preis berechnen, statt erst 15 % auszurechnen und dann zu addieren!</em></p>
+                    </div>
+
+                    <div style="background: #fef2f2; border-left: 5px solid var(--pdf-red); padding: 1.5rem; border-radius: 8px;">
+                        <h4 style="margin-top: 0; color: var(--pdf-red);">📉 Vermindern (Minus rechnen)</h4>
+                        <p>Wenn es einen Rabatt gibt. Zum Beispiel <strong>20 % Rabatt</strong>.</p>
+                        <strong>Der clevere Weg:</strong>
+                        <ul style="margin-top: 0.5rem; line-height: 1.6;">
+                            <li>Alter Preis = 100 %</li>
+                            <li>Du zahlst nur noch: 100 % - 20 % = <strong style="font-size: 1.1rem;">80 %</strong></li>
+                        </ul>
+                        <p style="margin-bottom: 0; font-size: 0.9rem;"><em>Du musst also nur noch 80 % vom alten Preis berechnen!</em></p>
+                    </div>
+                </div>
+
+                <div style="flex: 1; min-width: 300px; background: white; border: 2px solid var(--primary); border-radius: 12px; padding: 2rem; display: flex; flex-direction: column;">
+                    <h3 style="text-align: center; margin-top: 0;">Probiere es aus!</h3>
+                    
+                    <label style="font-weight: bold; margin-bottom: 0.5rem; display: block; text-align: center;">Grundbetrag (Startwert in €):</label>
+                    <input type="number" id="vv-start" value="100" style="width: 150px; margin: 0 auto 2rem auto; display: block; text-align: center; font-size: 1.5rem; font-weight: bold; padding: 0.5rem; border: 2px solid #e2e8f0; border-radius: 8px;" oninput="updateVV()">
+                    
+                    <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 10px;">
+                        <span style="color: var(--pdf-red);">-50% (Rabatt)</span>
+                        <span id="vv-percent-display" style="background: var(--bg); padding: 5px 10px; border-radius: 4px;">0%</span>
+                        <span style="color: var(--xls-green);">+50% (Aufschlag)</span>
+                    </div>
+                    <input type="range" id="vv-slider" min="-50" max="50" value="0" style="width: 100%; cursor: pointer; margin-bottom: 2rem;" oninput="updateVV()">
+
+                    <div id="vv-bg-cue" style="flex-grow: 1; background: var(--text-main); border-radius: 8px; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; transition: background-color 0.3s;">
+                        <span style="text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; opacity: 0.8;">Neuer Wert</span>
+                        <div id="vv-result" style="font-size: 3rem; font-weight: bold; margin: 1rem 0;">100,00 €</div>
+                        <div id="vv-calculation" style="text-align: center; font-family: monospace; opacity: 0.8;">
+                            100% + 0% = 100%<br>
+                            100 € · 1,00
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="brutto" class="tab-content">
+        <div class="subject-group">
+            <div class="subject-header">
+                <span class="subject-badge bg-math">Kapitel 3</span>
+                <h2 style="margin: 0; color: var(--primary);">Brutto, Netto & Mehrwertsteuer (MwSt)</h2>
+            </div>
+            
+            <p style="text-align: center; font-size: 1.1rem; max-width: 800px; margin: 0 auto 2rem auto;">In Österreich (und fast überall auf der Welt) muss man beim Einkaufen Steuern an den Staat zahlen. Diese Steuer heißt <strong>Mehrwertsteuer (MwSt)</strong>.</p>
+            
+            
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+                <div style="background: white; border-top: 5px solid var(--doc-blue); border-radius: 8px; padding: 1.5rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <h3 style="margin-top: 0;">Netto</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Der reine Preis der Ware. <strong>Ohne</strong> Steuern.</p>
+                    <span style="background: #f1f5f9; padding: 5px 10px; border-radius: 4px; font-weight: bold; color: var(--doc-blue);">Entspricht 100 %</span>
+                    <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 1rem; font-style: italic;">Eselsbrücke: <strong>N</strong>etto = <strong>N</strong>ackt</p>
+                </div>
+
+                <div style="background: white; border-top: 5px solid var(--html-orange); border-radius: 8px; padding: 1.5rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <h3 style="margin-top: 0;">MwSt</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Die Steuer. In Österreich meistens <strong>20 %</strong> (Normal) oder <strong>10 %</strong> (Lebensmittel).</p>
+                    <span style="background: #f1f5f9; padding: 5px 10px; border-radius: 4px; font-weight: bold; color: var(--html-orange);">z.B. + 20 %</span>
+                </div>
+
+                <div style="background: white; border-top: 5px solid var(--xls-green); border-radius: 8px; padding: 1.5rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <h3 style="margin-top: 0;">Brutto</h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Der Preis an der Kassa. <strong>Mit</strong> Steuern. Das, was du zahlst.</p>
+                    <span style="background: #f1f5f9; padding: 5px 10px; border-radius: 4px; font-weight: bold; color: var(--xls-green);">Meistens 120 %</span>
+                    <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 1rem; font-style: italic;">Eselsbrücke: <strong>B</strong>rutto = <strong>B</strong>rutal viel</p>
+                </div>
+            </div>
+
+            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; max-width: 800px; margin: 0 auto; display: flex; flex-wrap: wrap;">
+                
+                <div style="flex: 1; min-width: 300px; padding: 2rem; border-right: 1px solid #e2e8f0;">
+                    <h3 style="margin-top: 0;">Kassenzettel-Rechner</h3>
+                    
+                    <label style="font-weight: bold; display: block; margin-bottom: 0.5rem; margin-top: 1.5rem;">Nettopreis (100%)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="receipt-netto" value="50" class="calc-input" oninput="updateReceipt()">
+                        <span class="input-suffix">€</span>
+                    </div>
+
+                    <label style="font-weight: bold; display: block; margin-bottom: 0.5rem; margin-top: 1.5rem;">Welche Ware?</label>
+                    <select id="receipt-tax" class="calc-input" onchange="updateReceipt()">
+                        <option value="20">Normaler Artikel (20% MwSt)</option>
+                        <option value="10">Lebensmittel / Bücher (10% MwSt)</option>
+                    </select>
+
+                    <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px dashed #cbd5e1; font-size: 0.9rem; color: var(--text-muted);">
+                        <strong>Tipp:</strong> Bruttobetrag = Nettobetrag &middot; 1,20 (bei 20%)
+                    </div>
+                </div>
+
+                <div style="flex: 1; min-width: 250px; background: #f8fafc; padding: 2rem; font-family: monospace; border-left: 4px dashed #cbd5e1;">
+                    <div style="text-align: center; font-size: 1.2rem; font-weight: bold; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #cbd5e1;">SUPERMARKT</div>
+                    
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 1.1rem;">
+                        <span>Ware (Netto)</span>
+                        <span id="out-netto">50,00 €</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--text-muted);">
+                        <span>+ MwSt (<span id="out-tax-percent">20</span>%)</span>
+                        <span id="out-tax-val">10,00 €</span>
+                    </div>
+                    
+                    <div style="border-top: 2px dashed black; padding-top: 1rem; display: flex; justify-content: space-between; font-weight: bold; font-size: 1.3rem;">
+                        <span>ZU ZAHLEN</span>
+                        <span id="out-brutto">60,00 €</span>
+                    </div>
+                    <div style="text-align: right; font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem;">
+                        (= <span id="out-brutto-percent">120</span>% vom Netto)
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 3rem; font-size: 0.85rem; color: #94a3b8;">
+                        VIELEN DANK FUER IHREN EINKAUF
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Mathematik verstehen 2 | Relative Anteile - Prozentrechnen</p>
+</footer>
+
+<script>
+    /* =========================================
+       TAB NAVIGATION LOGIC
+       ========================================= */
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => {
+            el.style.display = 'none';
+        });
+        document.querySelectorAll('.nav-toggle').forEach(el => {
+            el.classList.remove('active');
+        });
+
+        document.getElementById(tabId).style.display = 'block';
+        document.getElementById('btn-' + tabId).classList.add('active');
+
+        if(tabId === 'rechnen' && window.MathJax) {
+            renderMath();
+        }
+    }
+
+    /* =========================================
+       TAB 1: PERCENT GRID VISUALIZER
+       ========================================= */
+    const grid = document.getElementById('percent-grid');
+    const gridSlider = document.getElementById('grid-slider');
+    const gridDisplay = document.getElementById('grid-percent-display');
+
+    // 100 Quadrate generieren
+    for (let i = 0; i < 100; i++) {
+        const square = document.createElement('div');
+        square.className = 'grid-square';
+        square.style.backgroundColor = '#e2e8f0';
+        grid.appendChild(square);
+    }
+
+    function updateGrid() {
+        const val = parseInt(gridSlider.value);
+        gridDisplay.innerText = val + '%';
+        
+        const squares = grid.children;
+        for (let i = 0; i < 100; i++) {
+            if (i < val) {
+                squares[i].style.backgroundColor = 'var(--primary)';
+            } else {
+                squares[i].style.backgroundColor = '#e2e8f0';
+            }
+        }
+    }
+
+    gridSlider.addEventListener('input', updateGrid);
+    updateGrid(); 
+
+
+    /* =========================================
+       TAB 2: CALCULATOR LOGIC
+       ========================================= */
+    let currentCalcMode = 'anteil'; 
+
+    function setCalcMode(mode) {
+        currentCalcMode = mode;
+        
+        // Buttons umfärben
+        ['anteil', 'prozent', 'grundbetrag'].forEach(m => {
+            const btn = document.getElementById('mode-' + m);
+            if(m === mode) {
+                btn.style.backgroundColor = 'white';
+                btn.style.color = 'var(--primary)';
+                btn.style.borderBottomColor = 'var(--primary)';
+            } else {
+                btn.style.backgroundColor = 'transparent';
+                btn.style.color = 'var(--text-muted)';
+                btn.style.borderBottomColor = 'transparent';
+            }
+        });
+
+        // Alle Inputs verstecken
+        document.getElementById('input-group-g').style.display = 'none';
+        document.getElementById('input-group-p').style.display = 'none';
+        document.getElementById('input-group-a').style.display = 'none';
+
+        const title = document.getElementById('calc-title');
+        const desc = document.getElementById('calc-desc');
+        const formulaDiv = document.getElementById('formula-display');
+
+        if (mode === 'anteil') {
+            title.innerText = 'Ich suche den Anteil (A)';
+            desc.innerText = 'Du kennst das Ganze (G) und den Prozentsatz (p).';
+            document.getElementById('input-group-g').style.display = 'block';
+            document.getElementById('input-group-p').style.display = 'block';
+            formulaDiv.innerHTML = '\\( A = G \\cdot \\frac{p}{100} \\)';
+        } else if (mode === 'prozent') {
+            title.innerText = 'Ich suche den Prozentsatz (p)';
+            desc.innerText = 'Du kennst das Ganze (G) und den Teil (A).';
+            document.getElementById('input-group-g').style.display = 'block';
+            document.getElementById('input-group-a').style.display = 'block';
+            formulaDiv.innerHTML = '\\( p = \\frac{A}{G} \\cdot 100 \\)';
+        } else if (mode === 'grundbetrag') {
+            title.innerText = 'Ich suche den Grundbetrag (G)';
+            desc.innerText = 'Du kennst den Teil (A) und wie viel Prozent das sind (p).';
+            document.getElementById('input-group-a').style.display = 'block';
+            document.getElementById('input-group-p').style.display = 'block';
+            formulaDiv.innerHTML = '\\( G = \\frac{A}{p} \\cdot 100 \\)';
+        }
+
+        document.getElementById('input-g').value = '';
+        document.getElementById('input-p').value = '';
+        document.getElementById('input-a').value = '';
+        
+        resetCalculationDisplay();
+        renderMath();
+    }
+
+    function resetCalculationDisplay() {
+        const steps = document.getElementById('calculation-steps');
+        steps.innerHTML = 'Bitte gib Werte ein...';
+        steps.style.opacity = '0.5';
+        document.getElementById('final-result').style.display = 'none';
+    }
+
+    function calculate() {
+        const valG = parseFloat(document.getElementById('input-g').value);
+        const valP = parseFloat(document.getElementById('input-p').value);
+        const valA = parseFloat(document.getElementById('input-a').value);
+
+        const stepsDiv = document.getElementById('calculation-steps');
+        const resultDiv = document.getElementById('final-result');
+
+        if (currentCalcMode === 'anteil') {
+            if (isNaN(valG) || isNaN(valP)) { resetCalculationDisplay(); return; }
+            const result = valG * (valP / 100);
+            stepsDiv.style.opacity = '1';
+            stepsDiv.innerHTML = `A = ${valG} &middot; (${valP} / 100)<br>A = ${valG} &middot; ${valP/100}`;
+            resultDiv.innerHTML = `A = ${result.toLocaleString('de-DE')} <span style="font-size:1.2rem; color:var(--text-main);">Einheiten</span>`;
+            resultDiv.style.display = 'block';
+        } 
+        else if (currentCalcMode === 'prozent') {
+            if (isNaN(valG) || isNaN(valA)) { resetCalculationDisplay(); return; }
+            if (valG === 0) { stepsDiv.innerHTML = 'Teilen durch 0 nicht möglich!'; return; }
+            const result = (valA / valG) * 100;
+            stepsDiv.style.opacity = '1';
+            stepsDiv.innerHTML = `p = (${valA} / ${valG}) &middot; 100<br>p = ${(valA/valG).toFixed(4)} &middot; 100`;
+            const formattedResult = Number.isInteger(result) ? result : result.toFixed(2).replace('.', ',');
+            resultDiv.innerHTML = `p = ${formattedResult} %`;
+            resultDiv.style.display = 'block';
+        }
+        else if (currentCalcMode === 'grundbetrag') {
+            if (isNaN(valA) || isNaN(valP)) { resetCalculationDisplay(); return; }
+            if (valP === 0) { stepsDiv.innerHTML = 'Teilen durch 0 nicht möglich!'; return; }
+            const result = (valA / valP) * 100;
+            stepsDiv.style.opacity = '1';
+            stepsDiv.innerHTML = `G = (${valA} / ${valP}) &middot; 100`;
+            const formattedResult = Number.isInteger(result) ? result : result.toFixed(2).replace('.', ',');
+            resultDiv.innerHTML = `G = ${formattedResult} <span style="font-size:1.2rem; color:var(--text-main);">Einheiten</span>`;
+            resultDiv.style.display = 'block';
+        }
+    }
+
+    function renderMath() {
+        if (window.MathJax) {
+            MathJax.typesetPromise([document.getElementById('formula-display')]);
+        }
+    }
+    
+    window.addEventListener('load', () => {
+        setCalcMode('anteil');
+    });
+
+
+    /* =========================================
+       TAB 3: VERMEHREN & VERMINDERN LOGIC
+       ========================================= */
+    function updateVV() {
+        let startVal = parseFloat(document.getElementById('vv-start').value);
+        if(isNaN(startVal)) startVal = 0;
+        const percentChange = parseInt(document.getElementById('vv-slider').value);
+        
+        const displaySpan = document.getElementById('vv-percent-display');
+        const bgCue = document.getElementById('vv-bg-cue');
+        
+        let sign = '';
+        if (percentChange > 0) {
+            sign = '+';
+            displaySpan.style.color = 'var(--xls-green)';
+            bgCue.style.backgroundColor = 'var(--xls-green)';
+        } else if (percentChange < 0) {
+            displaySpan.style.color = 'var(--pdf-red)';
+            bgCue.style.backgroundColor = 'var(--pdf-red)';
+        } else {
+            displaySpan.style.color = 'var(--text-main)';
+            bgCue.style.backgroundColor = 'var(--text-main)';
+        }
+        displaySpan.innerText = sign + percentChange + '%';
+
+        const newPercent = 100 + percentChange;
+        const result = startVal * (newPercent / 100);
+        
+        document.getElementById('vv-result').innerText = result.toLocaleString('de-AT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €';
+        document.getElementById('vv-calculation').innerHTML = `100% ${sign} ${Math.abs(percentChange)}% = <strong>${newPercent}%</strong><br>${startVal} € &middot; ${newPercent/100}`;
+    }
+    updateVV();
+
+
+    /* =========================================
+       TAB 4: BRUTTO/NETTO LOGIC
+       ========================================= */
+    function updateReceipt() {
+        let netto = parseFloat(document.getElementById('receipt-netto').value);
+        if(isNaN(netto)) netto = 0;
+        const taxRate = parseInt(document.getElementById('receipt-tax').value);
+
+        const taxAmount = netto * (taxRate / 100);
+        const brutto = netto + taxAmount;
+
+        const formatCurr = (num) => num.toLocaleString('de-AT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €';
+
+        document.getElementById('out-netto').innerText = formatCurr(netto);
+        document.getElementById('out-tax-percent').innerText = taxRate;
+        document.getElementById('out-tax-val').innerText = formatCurr(taxAmount);
+        document.getElementById('out-brutto').innerText = formatCurr(brutto);
+        document.getElementById('out-brutto-percent').innerText = 100 + taxRate;
+    }
+    updateReceipt();
+
+</script>
+</body>
+</html>

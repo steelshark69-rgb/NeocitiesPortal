@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktiver Dreiecks-Konstrukteur</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --geo-primary: #8b5cf6;
+            --geo-dark: #4c1d95;
+            --geo-side: #0ea5e9;
+            --geo-angle: #f59e0b;
+            --geo-special: #ec4899; /* Pink für besondere Punkte */
+        }
+
+        .constructor-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Eingabebereich */
+        .input-panel {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border: 2px solid var(--geo-primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .side-label { color: var(--geo-side); }
+        .angle-label { color: var(--geo-angle); }
+
+        .geo-input {
+            padding: 10px;
+            font-size: 1.1rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            outline: none;
+            transition: 0.2s;
+        }
+        .geo-input:focus { border-color: var(--geo-primary); }
+
+        /* Button & Feedback */
+        .btn-calc {
+            width: 100%;
+            background: var(--geo-primary);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-calc:hover { background: var(--geo-dark); transform: translateY(-2px); }
+        
+        .btn-clear {
+            width: 100%;
+            background: #f1f5f9;
+            color: var(--text-muted);
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .feedback-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+            line-height: 1.5;
+        }
+        .feedback-success { background: #f0fdf4; border: 2px solid #10b981; color: #047857; }
+        .feedback-error { background: #fef2f2; border: 2px solid #ef4444; color: #b91c1c; }
+
+        /* Besondere Punkte Steuerung */
+        .special-points-panel {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed #cbd5e1;
+        }
+        .special-points-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .btn-special {
+            background: white;
+            border: 2px solid #cbd5e1;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: 0.2s;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .btn-special.active-mode {
+            border-color: var(--geo-special);
+            background: #fdf2f8;
+            color: var(--geo-special);
+        }
+        .btn-special.enabled {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .btn-special.enabled:hover:not(.active-mode) {
+            border-color: var(--geo-primary);
+            background: #f8fafc;
+        }
+
+        /* Zeichenfläche (Canvas) */
+        .canvas-panel {
+            flex: 2;
+            min-width: 300px;
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        /* SVG Elemente */
+        .draw-side { stroke: var(--geo-primary); stroke-linecap: round; stroke-linejoin: round; fill: rgba(139, 92, 246, 0.1); }
+        .draw-point { fill: #1e293b; font-family: sans-serif; font-weight: bold; }
+        .draw-label { fill: var(--geo-side); font-family: 'Times New Roman', serif; font-style: italic; font-weight: bold; }
+        .draw-special-point { fill: var(--geo-special); }
+        .draw-special-line { stroke: var(--geo-special); stroke-dasharray: 4,4; opacity: 0.7; }
+        .draw-special-circle { stroke: var(--geo-special); fill: transparent; opacity: 0.8; }
+        .draw-special-text { fill: var(--geo-special); font-family: sans-serif; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<header style="background-color: var(--geo-primary);">
+    <h1>Intelligenter Dreiecks-Konstrukteur</h1>
+    <p>Prüfe Kongruenzsätze und konstruiere besondere Punkte des Dreiecks!</p>
+</header>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main>
+    <div class="constructor-layout">
+        
+        <div class="input-panel">
+            <p style="margin-top: 0; color: var(--text-muted); font-size: 0.9rem;">Gib exakt <strong>3 Werte</strong> ein (z.B. in cm und Grad):</p>
+            
+            <div class="input-grid">
+                <div class="input-group">
+                    <label class="side-label">Seite a <span>(cm)</span></label>
+                    <input type="number" id="in-a" class="geo-input" min="0.1" step="0.1" placeholder="z.B. 5">
+                </div>
+                <div class="input-group">
+                    <label class="angle-label">Winkel &alpha; <span>(&deg;)</span></label>
+                    <input type="number" id="in-alpha" class="geo-input" min="1" max="179" step="0.1" placeholder="z.B. 60">
+                </div>
+                <div class="input-group">
+                    <label class="side-label">Seite b <span>(cm)</span></label>
+                    <input type="number" id="in-b" class="geo-input" min="0.1" step="0.1" placeholder="z.B. 4">
+                </div>
+                <div class="input-group">
+                    <label class="angle-label">Winkel &beta; <span>(&deg;)</span></label>
+                    <input type="number" id="in-beta" class="geo-input" min="1" max="179" step="0.1" placeholder="z.B. 40">
+                </div>
+                <div class="input-group">
+                    <label class="side-label">Seite c <span>(cm)</span></label>
+                    <input type="number" id="in-c" class="geo-input" min="0.1" step="0.1" placeholder="z.B. 6">
+                </div>
+                <div class="input-group">
+                    <label class="angle-label">Winkel &gamma; <span>(&deg;)</span></label>
+                    <input type="number" id="in-gamma" class="geo-input" min="1" max="179" step="0.1" placeholder="z.B. 80">
+                </div>
+            </div>
+
+            <button class="btn-calc" onclick="processTriangle()">Prüfen & Zeichnen</button>
+            <button class="btn-clear" onclick="clearInputs()">Alles löschen</button>
+
+            <div id="feedback" class="feedback-box"></div>
+
+            <div class="special-points-panel">
+                <label style="font-weight: bold; color: var(--text-main); font-size: 0.95rem;">Zusatzkonstruktionen:</label>
+                <div class="special-points-grid">
+                    <button class="btn-special" id="btn-none" onclick="setSpecialMode('none')">Standard-Ansicht</button>
+                    <button class="btn-special" id="btn-umkreis" onclick="setSpecialMode('umkreis')">Umkreismittelpunkt (U)</button>
+                    <button class="btn-special" id="btn-inkreis" onclick="setSpecialMode('inkreis')">Inkreismittelpunkt (I)</button>
+                    <button class="btn-special" id="btn-schwerpunkt" onclick="setSpecialMode('schwerpunkt')">Schwerpunkt (S)</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="canvas-panel" id="canvas-container">
+            <span style="color: #94a3b8; font-weight: bold; font-size: 1.2rem;" id="placeholder-text">Warte auf korrekte Eingabe...</span>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <p>Mathematik verstehen | Kongruenzsätze & Dreieckskonstruktion</p>
+</footer>
+
+<script>
+    const d2r = (deg) => deg * Math.PI / 180;
+    const r2d = (rad) => rad * 180 / Math.PI;
+    const safeAcos = (val) => Math.acos(Math.max(-1, Math.min(1, val)));
+
+    let currentTriangle = null; // Speichert das berechnete Dreieck global
+    let currentSpecialMode = 'none';
+
+    function clearInputs() {
+        document.querySelectorAll('.geo-input').forEach(input => input.value = '');
+        currentTriangle = null;
+        setSpecialMode('none');
+        toggleSpecialButtons(false);
+        hideCanvas();
+        showFeedback('', 'none');
+    }
+
+    function hideCanvas() {
+        document.getElementById('canvas-container').innerHTML = '<span style="color: #94a3b8; font-weight: bold; font-size: 1.2rem;" id="placeholder-text">Warte auf korrekte Eingabe...</span>';
+    }
+
+    function showFeedback(msg, type) {
+        const fb = document.getElementById('feedback');
+        fb.className = 'feedback-box';
+        if (type === 'none') { fb.style.display = 'none'; return; }
+        fb.classList.add('feedback-' + type);
+        fb.innerHTML = msg;
+        fb.style.display = 'block';
+    }
+
+    function toggleSpecialButtons(enable) {
+        const buttons = document.querySelectorAll('.btn-special');
+        buttons.forEach(btn => {
+            if(enable) btn.classList.add('enabled');
+            else btn.classList.remove('enabled');
+        });
+        if(enable) document.getElementById('btn-none').classList.add('active-mode');
+    }
+
+    function setSpecialMode(mode) {
+        currentSpecialMode = mode;
+        document.querySelectorAll('.btn-special').forEach(btn => btn.classList.remove('active-mode'));
+        if(currentTriangle) {
+            document.getElementById('btn-' + mode).classList.add('active-mode');
+            drawSVG(currentTriangle, mode);
+        }
+    }
+
+    // --- Haupt-Logik ---
+    function processTriangle() {
+        let a = parseFloat(document.getElementById('in-a').value) || 0;
+        let b = parseFloat(document.getElementById('in-b').value) || 0;
+        let c = parseFloat(document.getElementById('in-c').value) || 0;
+        let A = parseFloat(document.getElementById('in-alpha').value) || 0;
+        let B = parseFloat(document.getElementById('in-beta').value) || 0;
+        let C = parseFloat(document.getElementById('in-gamma').value) || 0;
+
+        let inputs = [a, b, c, A, B, C].filter(v => v > 0).length;
+        if (inputs !== 3) {
+            showFeedback(`Fehler: Du musst genau 3 Werte eingeben!`, 'error');
+            clearTriangleState();
+            return;
+        }
+
+        let anglesGiven = [A, B, C].filter(v => v > 0).length;
+        if (anglesGiven >= 2) {
+            if (A > 0 && B > 0 && C === 0) C = 180 - A - B;
+            if (A > 0 && C > 0 && B === 0) B = 180 - A - C;
+            if (B > 0 && C > 0 && A === 0) A = 180 - B - C;
+            if (A <= 0 || B <= 0 || C <= 0 || (Math.round(A+B+C) !== 180)) {
+                showFeedback(`Fehler: Die Winkelsumme im Dreieck muss exakt 180° sein!`, 'error');
+                clearTriangleState();
+                return;
+            }
+        }
+
+        let sidesGiven = [a, b, c].filter(v => v > 0).length;
+        let ruleUsed = "";
+
+        try {
+            if (sidesGiven === 0) throw new Error("WWW-Satz: Kein eindeutiges Dreieck.");
+            else if (sidesGiven === 3) {
+                ruleUsed = "SSS-Satz";
+                if (a+b<=c || a+c<=b || b+c<=a) throw new Error("Dreiecksungleichung verletzt!");
+                A = r2d(safeAcos((b*b + c*c - a*a) / (2*b*c)));
+                B = r2d(safeAcos((a*a + c*c - b*b) / (2*a*c)));
+                C = 180 - A - B;
+            }
+            else if (sidesGiven === 2) {
+                if (a > 0 && b > 0) {
+                    if (C > 0) { ruleUsed = "SWS-Satz"; c = Math.sqrt(a*a + b*b - 2*a*b*Math.cos(d2r(C))); } 
+                    else if (A > 0) { ruleUsed = solveSSA(a, b, A, "a", "b", "α"); c = Math.sin(d2r(180-A-B)) * a / Math.sin(d2r(A)); }
+                    else if (B > 0) { ruleUsed = solveSSA(b, a, B, "b", "a", "β"); c = Math.sin(d2r(180-A-B)) * b / Math.sin(d2r(B)); }
+                }
+                else if (a > 0 && c > 0) {
+                    if (B > 0) { ruleUsed = "SWS-Satz"; b = Math.sqrt(a*a + c*c - 2*a*c*Math.cos(d2r(B))); }
+                    else if (A > 0) { ruleUsed = solveSSA(a, c, A, "a", "c", "α"); b = Math.sin(d2r(180-A-C)) * a / Math.sin(d2r(A)); }
+                    else if (C > 0) { ruleUsed = solveSSA(c, a, C, "c", "a", "γ"); b = Math.sin(d2r(180-A-C)) * c / Math.sin(d2r(C)); }
+                }
+                else if (b > 0 && c > 0) {
+                    if (A > 0) { ruleUsed = "SWS-Satz"; a = Math.sqrt(b*b + c*c - 2*b*c*Math.cos(d2r(A))); }
+                    else if (B > 0) { ruleUsed = solveSSA(b, c, B, "b", "c", "β"); a = Math.sin(d2r(180-B-C)) * b / Math.sin(d2r(B)); }
+                    else if (C > 0) { ruleUsed = solveSSA(c, b, C, "c", "b", "γ"); a = Math.sin(d2r(180-B-C)) * c / Math.sin(d2r(C)); }
+                }
+                
+                if (ruleUsed === "SWS-Satz") {
+                    if (A===0) A = r2d(safeAcos((b*b + c*c - a*a) / (2*b*c)));
+                    if (B===0) B = r2d(safeAcos((a*a + c*c - b*b) / (2*a*c)));
+                    if (C===0) C = 180 - A - B;
+                }
+            }
+            else if (sidesGiven === 1) {
+                ruleUsed = "WSW / SWW-Satz";
+                if (a > 0) { b = a * Math.sin(d2r(B)) / Math.sin(d2r(A)); c = a * Math.sin(d2r(C)) / Math.sin(d2r(A)); }
+                else if (b > 0) { a = b * Math.sin(d2r(A)) / Math.sin(d2r(B)); c = b * Math.sin(d2r(C)) / Math.sin(d2r(B)); }
+                else if (c > 0) { a = c * Math.sin(d2r(A)) / Math.sin(d2r(C)); b = c * Math.sin(d2r(B)) / Math.sin(d2r(C)); }
+            }
+
+            // Erfolg
+            showFeedback(`✅ <strong>Konstruierbar nach ${ruleUsed}!</strong><br>a = ${a.toFixed(2)}, b = ${b.toFixed(2)}, c = ${c.toFixed(2)}<br>&alpha; = ${A.toFixed(1)}&deg;, &beta; = ${B.toFixed(1)}&deg;, &gamma; = ${C.toFixed(1)}&deg;`, 'success');
+            
+            // Speichern und zeichnen
+            currentTriangle = { a, b, c, A, B, C };
+            toggleSpecialButtons(true);
+            setSpecialMode('none');
+
+        } catch (err) {
+            showFeedback(`❌ ${err.message}`, 'error');
+            clearTriangleState();
+        }
+
+        function solveSSA(s1, s2, ang1, n1, n2, nAng1) {
+            if (s1 < s2) {
+                let h = s2 * Math.sin(d2r(ang1));
+                if (s1 < h) throw new Error(`Kein Dreieck möglich! Die Seite ${n1} ist zu kurz.`);
+                throw new Error(`⚠️ <strong>Nicht eindeutig (sSW-Fall)!</strong><br>Der Winkel liegt der <strong>kürzeren</strong> Seite gegenüber.`);
+            }
+            let sinAng2 = (s2 * Math.sin(d2r(ang1))) / s1;
+            let ang2 = r2d(Math.asin(sinAng2));
+            
+            if(n2 === "a") A = ang2; else if (n2 === "b") B = ang2; else C = ang2;
+            let ang3 = 180 - ang1 - ang2;
+            if(n1 !== "a" && n2 !== "a") A = ang3;
+            if(n1 !== "b" && n2 !== "b") B = ang3;
+            if(n1 !== "c" && n2 !== "c") C = ang3;
+            
+            return "SsW-Satz";
+        }
+    }
+
+    function clearTriangleState() {
+        currentTriangle = null;
+        toggleSpecialButtons(false);
+        hideCanvas();
+    }
+
+    // --- Dynamische SVG Zeichen-Logik ---
+    function drawSVG(tri, mode) {
+        let ptA = {x: 0, y: 0};
+        let ptB = {x: tri.c, y: 0};
+        let ptC = {x: tri.b * Math.cos(d2r(tri.A)), y: -tri.b * Math.sin(d2r(tri.A))};
+
+        // Bounding Box des reinen Dreiecks
+        let minX = Math.min(ptA.x, ptB.x, ptC.x);
+        let maxX = Math.max(ptA.x, ptB.x, ptC.x);
+        let minY = Math.min(ptA.y, ptB.y, ptC.y);
+        let maxY = Math.max(ptA.y, ptB.y, ptC.y);
+
+        let specialGraphics = "";
+
+        // Berechnung der besonderen Punkte
+        if (mode === 'schwerpunkt') {
+            let Sx = (ptA.x + ptB.x + ptC.x) / 3;
+            let Sy = (ptA.y + ptB.y + ptC.y) / 3;
+            let mAB = { x: (ptA.x + ptB.x)/2, y: (ptA.y + ptB.y)/2 };
+            let mBC = { x: (ptB.x + ptC.x)/2, y: (ptB.y + ptC.y)/2 };
+            let mCA = { x: (ptC.x + ptA.x)/2, y: (ptC.y + ptA.y)/2 };
+            
+            specialGraphics = `
+                <line x1="${ptC.x}" y1="${ptC.y}" x2="${mAB.x}" y2="${mAB.y}" class="draw-special-line" />
+                <line x1="${ptA.x}" y1="${ptA.y}" x2="${mBC.x}" y2="${mBC.y}" class="draw-special-line" />
+                <line x1="${ptB.x}" y1="${ptB.y}" x2="${mCA.x}" y2="${mCA.y}" class="draw-special-line" />
+                <circle cx="${Sx}" cy="${Sy}" r="SPECIAL_RADIUS" class="draw-special-point" />
+                <text x="${Sx + 0.5}" y="${Sy - 0.5}" class="draw-special-text" style="font-size: SPECIAL_FONTpx;">S</text>
+            `;
+        } 
+        else if (mode === 'inkreis') {
+            let p = tri.a + tri.b + tri.c;
+            let Ix = (tri.a * ptA.x + tri.b * ptB.x + tri.c * ptC.x) / p;
+            let Iy = (tri.a * ptA.y + tri.b * ptB.y + tri.c * ptC.y) / p;
+            
+            let s = p / 2;
+            let area = Math.sqrt(s * (s - tri.a) * (s - tri.b) * (s - tri.c)); // Heron
+            let r = area / s;
+
+            specialGraphics = `
+                <line x1="${ptA.x}" y1="${ptA.y}" x2="${Ix}" y2="${Iy}" class="draw-special-line" />
+                <line x1="${ptB.x}" y1="${ptB.y}" x2="${Ix}" y2="${Iy}" class="draw-special-line" />
+                <line x1="${ptC.x}" y1="${ptC.y}" x2="${Ix}" y2="${Iy}" class="draw-special-line" />
+                <circle cx="${Ix}" cy="${Iy}" r="${r}" class="draw-special-circle" style="stroke-width: SPECIAL_STROKE;" />
+                <circle cx="${Ix}" cy="${Iy}" r="SPECIAL_RADIUS" class="draw-special-point" />
+                <text x="${Ix + 0.5}" y="${Iy - 0.5}" class="draw-special-text" style="font-size: SPECIAL_FONTpx;">I</text>
+            `;
+        }
+        else if (mode === 'umkreis') {
+            let Ux = tri.c / 2;
+            // Umkreismittelpunkt Y-Koordinate (Schnittpunkt Streckensymmetralen)
+            let Uy = (ptC.y / 2) + (ptC.x / ptC.y) * (ptC.x / 2 - tri.c / 2); 
+            
+            // Wenn das Dreieck rechtwinklig ist, kann ptC.y extrem klein (nahe 0) werden. Absicherung:
+            if (Math.abs(ptC.y) < 0.001) Uy = 0; 
+            
+            let R = Math.hypot(Ux - ptA.x, Uy - ptA.y);
+
+            // Bounding Box anpassen, falls der Umkreis größer ist als das Dreieck
+            minX = Math.min(minX, Ux - R);
+            maxX = Math.max(maxX, Ux + R);
+            minY = Math.min(minY, Uy - R);
+            maxY = Math.max(maxY, Uy + R);
+
+            let mAB = { x: tri.c/2, y: 0 };
+            let mCA = { x: ptC.x/2, y: ptC.y/2 };
+            let mBC = { x: (ptB.x + ptC.x)/2, y: (ptB.y + ptC.y)/2 };
+
+            specialGraphics = `
+                <line x1="${mAB.x}" y1="${mAB.y}" x2="${Ux}" y2="${Uy}" class="draw-special-line" />
+                <line x1="${mCA.x}" y1="${mCA.y}" x2="${Ux}" y2="${Uy}" class="draw-special-line" />
+                <line x1="${mBC.x}" y1="${mBC.y}" x2="${Ux}" y2="${Uy}" class="draw-special-line" />
+                <circle cx="${Ux}" cy="${Uy}" r="${R}" class="draw-special-circle" style="stroke-width: SPECIAL_STROKE;" />
+                <circle cx="${Ux}" cy="${Uy}" r="SPECIAL_RADIUS" class="draw-special-point" />
+                <text x="${Ux + 0.5}" y="${Uy - 0.5}" class="draw-special-text" style="font-size: SPECIAL_FONTpx;">U</text>
+            `;
+        }
+
+        // Finales Setup für die Zeichenfläche
+        let width = maxX - minX;
+        let height = maxY - minY;
+        let maxDim = Math.max(width, height);
+        
+        // Dynamische Skalierungsfaktoren für Liniendicken und Schriften
+        let sWidth = maxDim * 0.012; 
+        let sSpecialLine = maxDim * 0.008;
+        let rSpecialPt = maxDim * 0.015;
+        let fSizePt = maxDim * 0.06;  
+        let fSizeLbl = maxDim * 0.05; 
+        
+        let paddingX = Math.max(width * 0.15, maxDim * 0.1);
+        let paddingY = Math.max(height * 0.15, maxDim * 0.1);
+
+        // Ersetze die Platzhalter in den generierten Spezial-Grafiken
+        specialGraphics = specialGraphics.replace(/SPECIAL_RADIUS/g, rSpecialPt);
+        specialGraphics = specialGraphics.replace(/SPECIAL_STROKE/g, sSpecialLine);
+        specialGraphics = specialGraphics.replace(/SPECIAL_FONT/g, fSizePt);
+        specialGraphics = specialGraphics.replace(/draw-special-line/g, `draw-special-line" style="stroke-width: ${sSpecialLine};`);
+
+        const svgHTML = `
+            <svg viewBox="${minX - paddingX} ${minY - paddingY} ${width + paddingX*2} ${height + paddingY*2}" style="width: 100%; height: 100%;">
+                
+                <polygon points="${ptA.x},${ptA.y} ${ptB.x},${ptB.y} ${ptC.x},${ptC.y}" class="draw-side" style="stroke-width: ${sWidth};" />
+                
+                ${specialGraphics}
+                
+                <text x="${ptA.x - maxDim*0.03}" y="${ptA.y + maxDim*0.03}" class="draw-point" style="font-size: ${fSizePt}px;" text-anchor="end">A</text>
+                <text x="${ptB.x + maxDim*0.03}" y="${ptB.y + maxDim*0.03}" class="draw-point" style="font-size: ${fSizePt}px;">B</text>
+                <text x="${ptC.x}" y="${ptC.y - maxDim*0.03}" class="draw-point" style="font-size: ${fSizePt}px;" text-anchor="middle">C</text>
+
+                ${mode === 'none' ? `
+                <text x="${(ptA.x + ptB.x)/2}" y="${ptA.y + maxDim*0.05}" class="draw-label" style="font-size: ${fSizeLbl}px;" text-anchor="middle">c</text>
+                <text x="${(ptB.x + ptC.x)/2 + maxDim*0.02}" y="${(ptB.y + ptC.y)/2}" class="draw-label" style="font-size: ${fSizeLbl}px;">a</text>
+                <text x="${(ptA.x + ptC.x)/2 - maxDim*0.02}" y="${(ptA.y + ptC.y)/2}" class="draw-label" style="font-size: ${fSizeLbl}px;" text-anchor="end">b</text>
+                ` : ''}
+            </svg>
+        `;
+        
+        document.getElementById('canvas-container').innerHTML = svgHTML;
+    }
+</script>
+
+</body>
+</html>

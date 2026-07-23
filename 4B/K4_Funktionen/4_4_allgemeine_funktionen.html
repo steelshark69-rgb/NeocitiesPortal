@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.4 Allgemeine lineare Funktionen | Prof. Schweitzer</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .explanation-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary, #2563eb);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .highlight-box {
+            background: #fffbeb;
+            border: 1px solid #fef3c7;
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .example-box {
+            background: white;
+            border: 1px solid #cbd5e1;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        /* Container für Interaktive Tools */
+        .interactive-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #cbd5e1;
+        }
+        .controls {
+            flex: 1;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .canvas-container {
+            flex: 1.5;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        canvas {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            max-width: 100%;
+        }
+        
+        .slider-group {
+            background: #f8fafc;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+        }
+        .slider-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+        
+        .equation-display {
+            text-align: center;
+            font-size: 1.5rem;
+            font-family: monospace;
+            background: #eff6ff;
+            color: var(--primary, #2563eb);
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px dashed #93c5fd;
+        }
+        
+        .property-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        .badge-steigend { background: #dcfce7; color: #166534; }
+        .badge-fallend { background: #fee2e2; color: #991b1b; }
+        .badge-konstant { background: #f1f5f9; color: #475569; }
+        .badge-prop { background: #fef08a; color: #854d0e; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Kapitel 4.4</h1>
+    <p>Allgemeine lineare Funktionen</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">⬅ Zurück zur Übersicht</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Theorie</span>
+            <h2 style="margin: 0; color: var(--primary);">Der Startwert kommt dazu</h2>
+        </div>
+
+        <div class="explanation-box">
+            <p>Erinnerst du dich an die direkte Proportionalität? Dort startete der Graph immer genau im Nullpunkt (0|0). Aber was passiert, wenn wir schon einen gewissen <strong>Startwert</strong> haben, bevor überhaupt etwas passiert?</p>
+            <p>Denk an die Fritteuse aus Aufgabe 4.47: Bevor die Maschine eingeschaltet wird (zum Zeitpunkt <i>t = 0</i>), sind bereits <strong>1,5 Liter</strong> Öl in der Wanne. Dieser Startwert verschiebt unseren gesamten Graphen auf der y-Achse nach oben!</p>
+        </div>
+
+        <div class="example-box">
+            <h4 style="margin-top: 0; color: #334155;">Beispiel: Die Fritteuse</h4>
+            <p>Startwert: 1,5 Liter.<br>Zuwachs pro Minute: 0,4 Liter.</p>
+            <p style="font-family: monospace; font-size: 1.2rem; color: var(--primary);">
+                <i>V(t)</i> = 0,4 &middot; <i>t</i> + 1,5
+            </p>
+            <p style="margin-bottom: 0;">Nach 7 Minuten sind also: 0,4 &middot; 7 + 1,5 = 2,8 + 1,5 = <strong>4,3 Liter</strong> im Behälter.</p>
+        </div>
+
+        <div class="highlight-box">
+            <h4 style="margin-top: 0; color: #b45309;">⚠️ Die allgemeine lineare Funktion</h4>
+            <p style="margin-bottom: 0;">
+                Ist <i>f</i> eine reelle Funktion mit <strong><i>f(x) = k &middot; x + d</i></strong>, so nennt man <i>f</i> eine <strong>allgemeine lineare Funktion</strong>.<br><br>
+                &bull; <strong><i>k</i></strong> ist die <strong>Steigung</strong> der Funktion.<br>
+                &bull; <strong><i>d</i></strong> ist der <strong>Funktionswert an der Stelle 0</strong> (also <i>f(0) = d</i>). Man nennt ihn auch y-Achsenabschnitt.<br><br>
+                Ist <i>k &gt; 0</i>, steigt die Gerade. Ist <i>k &lt; 0</i>, fällt sie. Ist <i>k = 0</i>, ist sie parallel zur x-Achse (konstante Funktion).
+            </p>
+        </div>
+    </div>
+
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Interaktiv</span>
+            <h2 style="margin: 0; color: var(--primary);">Funktions-Explorer: Parameter k und d</h2>
+        </div>
+        
+        <p>Verändere die Steigung <i>k</i> und den Startwert <i>d</i>. Beobachte, wie sich die Funktionsgleichung verändert, wie sich der Graph im Koordinatensystem bewegt und welche Eigenschaften (steigend/fallend/konstant) die Funktion annimmt!</p>
+
+        <div class="interactive-container">
+            <div class="controls">
+                
+                <div class="equation-display">
+                    <i>f(x)</i> = <span id="eqDisplay">1<i>x</i> + 2</span>
+                </div>
+                
+                <div id="propertyContainer" style="text-align: center; margin-bottom: 10px;">
+                    </div>
+
+                <div class="slider-group">
+                    <label for="sliderK">
+                        Steigung <i>k</i> = <span id="valK" style="color: var(--primary);">1</span>
+                    </label>
+                    <input type="range" id="sliderK" min="-4" max="4" step="0.5" value="1">
+                    <small style="color: #64748b;">(Verändert die Steilheit der Geraden)</small>
+                </div>
+
+                <div class="slider-group">
+                    <label for="sliderD">
+                        Startwert <i>d</i> = <span id="valD" style="color: #b45309;">2</span>
+                    </label>
+                    <input type="range" id="sliderD" min="-5" max="5" step="0.5" value="2">
+                    <small style="color: #64748b;">(Verschiebt den Graphen nach oben/unten)</small>
+                </div>
+                
+                <div style="background: #fef8f2; padding: 10px; border-radius: 4px; border-left: 3px solid #b45309; font-size: 0.9rem;">
+                    <strong>Tipp:</strong> Achte auf den farbigen Punkt auf der y-Achse! Er zeigt dir genau den Wert für <i>d</i> bei <i>x = 0</i> an.
+                </div>
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="mathCanvas" width="450" height="450"></canvas>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const canvas = document.getElementById("mathCanvas");
+        const ctx = canvas.getContext("2d");
+        
+        const sliderK = document.getElementById("sliderK");
+        const sliderD = document.getElementById("sliderD");
+        const valK = document.getElementById("valK");
+        const valD = document.getElementById("valD");
+        
+        const eqDisplay = document.getElementById("eqDisplay");
+        const propertyContainer = document.getElementById("propertyContainer");
+
+        const scale = 35; // Pixel pro Einheit (Gitter von ca. -6 bis +6)
+        const width = canvas.width;
+        const height = canvas.height;
+        const originX = width / 2;
+        const originY = height / 2;
+
+        function drawGridAndAxes() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Raster zeichnen (mit Bezug zum Ursprungspunkt)
+            ctx.beginPath();
+            ctx.strokeStyle = "#e2e8f0";
+            ctx.lineWidth = 1;
+            // Vertikale Linien
+            for (let x = -10; x <= 10; x++) {
+                ctx.moveTo(originX + x * scale, 0); ctx.lineTo(originX + x * scale, height);
+            }
+            // Horizontale Linien
+            for (let y = -10; y <= 10; y++) {
+                ctx.moveTo(0, originY + y * scale); ctx.lineTo(width, originY + y * scale);
+            }
+            ctx.stroke();
+
+            // Achsen zeichnen
+            ctx.beginPath();
+            ctx.strokeStyle = "#334155";
+            ctx.lineWidth = 2;
+            ctx.moveTo(0, originY); ctx.lineTo(width, originY); // X-Achse
+            ctx.moveTo(originX, 0); ctx.lineTo(originX, height); // Y-Achse
+            ctx.stroke();
+
+            // Achsenbeschriftung
+            ctx.fillStyle = "#334155";
+            ctx.font = "14px sans-serif";
+            ctx.fillText("x", width - 15, originY - 10);
+            ctx.fillText("f(x)", originX + 10, 15);
+            
+            // Zahlen auf den Achsen (alle 2 Einheiten zur Übersichtlichkeit)
+            ctx.font = "12px sans-serif";
+            ctx.textAlign = "center";
+            for(let x = -6; x <= 6; x+=2) {
+                if(x !== 0) {
+                    // X-Werte
+                    ctx.fillText(x, originX + x * scale, originY + 18);
+                    ctx.beginPath(); ctx.moveTo(originX + x * scale, originY - 3); ctx.lineTo(originX + x * scale, originY + 3); ctx.stroke();
+                    // Y-Werte
+                    ctx.fillText(-x, originX - 12, originY + x * scale + 4);
+                    ctx.beginPath(); ctx.moveTo(originX - 3, originY + x * scale); ctx.lineTo(originX + 3, originY + x * scale); ctx.stroke();
+                }
+            }
+            // Nullpunkt
+            ctx.fillText("0", originX - 12, originY + 15);
+        }
+
+        function formatNumber(num) {
+            return num.toString().replace('.', ',');
+        }
+
+        function updateExplorer() {
+            const k = parseFloat(sliderK.value);
+            const d = parseFloat(sliderD.value);
+            
+            // UI Text updaten
+            valK.textContent = formatNumber(k);
+            valD.textContent = formatNumber(d);
+            
+            // Gleichung formatieren
+            let eqHTML = "";
+            
+            // k Teil
+            if (k === 0) {
+                // k ist 0, x fällt weg
+            } else if (k === 1) {
+                eqHTML += "<i>x</i>";
+            } else if (k === -1) {
+                eqHTML += "-<i>x</i>";
+            } else {
+                eqHTML += `${formatNumber(k)}<i>x</i>`;
+            }
+            
+            // d Teil
+            if (d > 0) {
+                eqHTML += (k === 0) ? `${formatNumber(d)}` : ` + ${formatNumber(d)}`;
+            } else if (d < 0) {
+                eqHTML += (k === 0) ? `${formatNumber(d)}` : ` - ${formatNumber(Math.abs(d))}`;
+            } else {
+                if (k === 0) eqHTML += "0";
+            }
+            
+            eqDisplay.innerHTML = eqHTML;
+
+            // Eigenschaften Badges (Aufgabe 4.51 Logik)
+            propertyContainer.innerHTML = "";
+            
+            if (k > 0) {
+                propertyContainer.innerHTML += `<span class="property-badge badge-steigend">📈 Steigende Gerade</span> `;
+            } else if (k < 0) {
+                propertyContainer.innerHTML += `<span class="property-badge badge-fallend">📉 Fallende Gerade</span> `;
+            } else {
+                propertyContainer.innerHTML += `<span class="property-badge badge-konstant">➖ Konstante Funktion</span> `;
+            }
+            
+            if (d === 0 && k !== 0) {
+                propertyContainer.innerHTML += `<span class="property-badge badge-prop">🎯 Direkte Proportionalität</span>`;
+            }
+
+            // Gitter & Achsen zeichnen
+            drawGridAndAxes();
+            
+            // Funktionsgraph zeichnen
+            ctx.beginPath();
+            ctx.strokeStyle = "#2563eb"; // var(--primary)
+            ctx.lineWidth = 3;
+            
+            // Von linken Rand (x=-7) bis rechten Rand (x=7)
+            const x1 = -7;
+            const y1 = k * x1 + d;
+            const x2 = 7;
+            const y2 = k * x2 + d;
+            
+            ctx.moveTo(originX + x1 * scale, originY - y1 * scale);
+            ctx.lineTo(originX + x2 * scale, originY - y2 * scale);
+            ctx.stroke();
+            
+            // Den Startwert d (y-Achsenabschnitt) markieren
+            const py = originY - d * scale;
+            
+            ctx.beginPath();
+            ctx.fillStyle = "#b45309"; // Passend zum Label
+            ctx.arc(originX, py, 6, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = "white";
+            ctx.font = "bold 10px sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("d", originX, py);
+        }
+
+        // Event Listener an Slider binden
+        sliderK.addEventListener("input", updateExplorer);
+        sliderD.addEventListener("input", updateExplorer);
+
+        // Initiale Zeichnung
+        updateExplorer();
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Übungsblatt: Prozentrechnen - AHS 2. Klasse</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <style>
+        :root {
+            --math-primary: #3b82f6; 
+            --math-dark: #1e40af;
+            --correct-bg: #d1fae5;
+            --correct-border: #10b981;
+            --incorrect-bg: #fee2e2;
+            --incorrect-border: #ef4444;
+        }
+
+        /* Tab-Navigation Styling */
+        .tab-nav-container {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 2rem;
+            background: white;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            color: #64748b;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+        .tab-btn:hover { background: #f8fafc; color: #334155; }
+        .tab-active { border-bottom: 4px solid var(--math-primary); color: var(--math-dark); background: #eff6ff; }
+
+        /* Aufgaben-Karten Styling */
+        .task-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            transition: border-color 0.2s;
+        }
+        @media(min-width: 768px) {
+            .task-card { flex-direction: row; justify-content: space-between; align-items: flex-start; }
+        }
+        
+        .task-content { flex: 1; padding-right: 1rem; }
+        .task-badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--math-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .task-text { font-size: 1.1rem; color: #334155; line-height: 1.5; margin: 0; }
+        
+        /* Lösungsbox (Aufklappbar) */
+        .solution-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f8fafc;
+            border-left: 4px solid var(--math-primary);
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+            color: #475569;
+            display: none; /* Standardmäßig versteckt */
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Eingabefelder und Buttons */
+        .task-action { display: flex; gap: 10px; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
+        .task-input {
+            padding: 10px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            width: 130px;
+            text-align: center;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.2s;
+        }
+        .task-input:focus { border-color: var(--math-primary); }
+        
+        .task-btn {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .task-btn:hover { background: #1e293b; }
+        
+        /* Button für Lösungsanzeige */
+        .btn-solution {
+            background: #e2e8f0;
+            color: #475569;
+        }
+        .btn-solution:hover {
+            background: #cbd5e1;
+            color: #1e293b;
+        }
+
+        /* Status Klassen für JS */
+        .correct { border-color: var(--correct-border) !important; background-color: var(--correct-bg) !important; color: #065f46; font-weight: bold; }
+        .incorrect { border-color: var(--incorrect-border) !important; background-color: var(--incorrect-bg) !important; color: #991b1b; }
+    </style>
+</head>
+<body>
+
+<header style="background-color: var(--math-primary); padding: 2.5rem 1rem; text-align: center; color: white;">
+    <h1 style="margin: 0; color: white;">Prozentrechnen & Finanzmathematik</h1>
+    <p style="margin-top: 0.5rem; opacity: 0.9;">Rabatt, Skonto, MwSt, Brutto/Netto & Prozentpunkte (AHS 2. Klasse)</p>
+</header>
+
+<div class="back-nav" style="display: flex; justify-content: center; margin-top: 1.5rem;">
+    <a href="../index.html" class="btn-back" style="padding: 0.6rem 1.2rem; border-radius: 10px; background: #f8fafc; border: 1px solid #e2e8f0; color: #1e293b; text-decoration: none; font-weight: 700;">← Zurück zur Übersicht</a>
+</div>
+
+<main style="max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem;">
+
+    <div style="background: #fffbeb; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid #f59e0b;">
+        <strong>💡 Hinweis zur Eingabe:</strong>
+        <p style="margin-bottom: 0; margin-top: 5px;">Einheiten wie € oder % müssen nicht in das Feld eingetippt werden. Verwende bei Dezimalzahlen immer ein Komma (keinen Punkt). Falls du nicht weiterkommst, kannst du dir den <strong>Lösungsweg</strong> anzeigen lassen!</p>
+    </div>
+
+    <div class="tab-nav-container">
+        <button onclick="showTab('leicht')" id="tab-leicht" class="tab-btn tab-active">🟢 Leicht (1-10)</button>
+        <button onclick="showTab('mittel')" id="tab-mittel" class="tab-btn">🟡 Mittel (11-20)</button>
+        <button onclick="showTab('schwer')" id="tab-schwer" class="tab-btn">🔴 Schwer (21-30)</button>
+    </div>
+
+    <div id="tasks-container">
+        </div>
+
+</main>
+
+<footer style="margin-top: 5rem; padding: 2rem 1rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.9rem;">
+    <div style="max-width: 800px; margin: 0 auto 2rem auto; text-align: left; background: white; padding: 1.5rem; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <h4 style="margin-top: 0; color: #334155; font-size: 1.1rem;">Datenschutzhinweis (DSGVO)</h4>
+        <p style="margin-bottom: 10px; line-height: 1.5;">Die Nutzung dieses Portals ist absolut datenschutzkonform. Es werden keine Eingaben an einen Server gesendet. Die Auswertung der Antworten erfolgt lokal im Browser. Es sind keine externen Tracker oder Design-Frameworks (wie Tailwind) eingebunden.</p>
+    </div>
+    <div style="text-align: center; font-weight: bold;">
+        &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+    </div>
+</footer>
+
+<script>
+    const tasks = {
+        leicht: [
+            { id: 1, q: "Wandle die folgenden Brüche in Prozentangaben um: 1/2, 1/4, 3/10 und 1/5. Gib die Werte durch Kommas getrennt ein (z. B. 50, 25, ...).", a: "50, 25, 30, 20", s: "1/2 = 50 %, 1/4 = 25 %, 3/10 = 30 % (da 1/10 = 10 %), 1/5 = 20 % (da 1/5 = 2/10)." },
+            { id: 2, q: "Berechne den Prozentwert: Wie viel Euro sind 10 % von einem Grundwert von 450 €?", a: "45", s: "10 % entsprechen genau einem Zehntel. 450 / 10 = 45 €." },
+            { id: 3, q: "Ein T-Shirt kostet 20 €. Du erhältst einen Rabatt von 50 %. Wie viel Euro sparst du dir bei diesem Einkauf?", a: "10", s: "50 % entsprechen der exakten Hälfte des Preises. Die Hälfte von 20 € sind 10 €." },
+            { id: 4, q: "Entscheide, ob die Aussage richtig ist: Der Begriff 'Netto' bezeichnet den Preis einer Ware ohne die gesetzliche Mehrwertsteuer. (Antwort: Wahr oder Falsch)", a: "Wahr", s: "Richtig! 'Netto' ist der Betrag ohne Steuern. 'Brutto' ist der Betrag inklusive Steuern." },
+            { id: 5, q: "In einer Klasse mit 25 Schülerinnen und Schülern fehlen heute 5 Kinder wegen Krankheit. Wie viel Prozent der Klasse sind das?", a: "20", s: "5 von 25 Kindern fehlen. Das ist der Bruch 5/25. Gekürzt ist das 1/5. Erweitert auf Hundertstel (mal 20) ergibt das 20/100, also 20 %." },
+            { id: 6, q: "Berechne das Gewicht: Wie viel Kilogramm entsprechen einem Anteil von 2 % bei einer Gesamtmasse von 800 kg?", a: "16", s: "1 % von 800 kg sind 8 kg (einfach durch 100 dividieren). 2 % sind das Doppelte, also 16 kg." },
+            { id: 7, q: "Ergänze die Lücke: Die Dezimalzahl 0,35 entspricht einem Prozentsatz von wie viel Prozent?", a: "35", s: "Man verschiebt das Komma einfach um zwei Stellen nach rechts (mal 100). 0,35 * 100 = 35 %." },
+            { id: 8, q: "Ein Preis steigt von 100 € auf 105 €. Um wie viele Prozentpunkte ist der Preis in diesem Fall gestiegen?", a: "5", s: "Die einfache Differenz zwischen zwei Prozentwerten (hier repräsentiert durch die 100 als Basis) nennt man Prozentpunkte. 105 - 100 = 5." },
+            { id: 9, q: "Berechne den Grundwert G: Wenn 25 % eines Geldbetrages genau 30 € ausmachen, wie hoch ist dann der Gesamtbetrag?", a: "120", s: "25 % entsprechen einem Viertel. Wenn ein Viertel 30 € sind, ist das Ganze (mal 4) genau 120 €." },
+            { id: 10, q: "Welcher Wert ist größer? 15 % von 180 (Antwort: A) oder 20 % von 150 (Antwort: B)?", a: "B", s: "A: 10 % von 180 = 18. 5 % = 9. Zusammen sind 15 % also 27.<br>B: 10 % von 150 = 15. 20 % sind 30.<br>Da 30 größer als 27 ist, ist B die richtige Antwort." }
+        ],
+        mittel: [
+            { id: 11, q: "Ein Laptop hat einen Nettopreis von 800 €. Wie hoch ist der Bruttopreis, wenn 20 % MwSt hinzugefügt werden?", a: "960", s: "10 % von 800 € sind 80 €. 20 % sind 160 €. 800 € + 160 € = 960 €. (Alternativ: 800 * 1,2 = 960)." },
+            { id: 12, q: "Ein Fahrrad kostet 450 €. Der Händler gewährt einen Rabatt von 12 %. Wie viel Euro kostet das Fahrrad nach dem Abzug?", a: "396", s: "10 % von 450 € = 45 €. 1 % = 4,50 €. 2 % = 9 €. Also sind 12 % Rabatt genau 54 €. 450 € - 54 € = 396 €." },
+            { id: 13, q: "Auf einer Rechnung über 1.200 € wird ein Skonto von 2 % bei schneller Zahlung gewährt. Wie hoch ist der Abzug in Euro?", a: "24", s: "1 % von 1.200 € = 12 €. 2 % sind somit einfach das Doppelte: 24 €." },
+            { id: 14, q: "Der Stimmenanteil einer Partei steigt von 12 % auf 15 %. Um wie viel Prozent (relativ zum alten Wert) ist der Anteil gestiegen?", a: "25", s: "Der Anteil steigt absolut um 3 Prozentpunkte. Der alte Grundwert war 12 %. 3 von 12 ist der Bruch 3/12. Gekürzt 1/4, also 25 %." },
+            { id: 15, q: "Ein Paar Schuhe wurde um 20 % reduziert und kostet jetzt 64 €. Wie hoch war der ursprüngliche Preis vor der Reduktion?", a: "80", s: "Nach 20 % Rabatt kostet der Schuh noch 80 % des Ursprungspreises. 80 % = 64 €. 10 % = 8 €. 100 % = 80 €." },
+            { id: 16, q: "Ein Produkt kostet brutto 150 € (inkl. 20 % MwSt). Berechne den darin enthaltenen Betrag der Mehrwertsteuer in Euro.", a: "25", s: "Der Bruttopreis entspricht 120 % (100 % Netto + 20 % MwSt). 120 % = 150 €. Wir teilen durch 6, um 20 % zu erhalten: 150 / 6 = 25 €. Die enthaltene Steuer beträgt also 25 €." },
+            { id: 17, q: "Eine Müsli-Packung enthält 15 % mehr Inhalt als früher. Jetzt sind 575 g darin. Wie viel Gramm waren in der alten Packung?", a: "500", s: "575 g entsprechen 115 % des alten Inhalts (vermehrter Grundwert). 1 % = 575 / 115 = 5. 100 % = 500 g." },
+            { id: 18, q: "Möbel kosten brutto 3.500 €. Der Kunde erhält 5 % Rabatt und auf den Restbetrag 2 % Skonto. Wie viel muss er am Ende bezahlen?", a: "3258,50", s: "Zuerst 5 % Rabatt von 3.500 € = 175 € Abzug. Neuer Preis: 3.325 €. Dann 2 % Skonto von 3.325 € = 66,50 € Abzug. 3.325 € - 66,50 € = 3.258,50 €. (Wichtig: Skonto wird vom bereits rabattierten Preis berechnet)." },
+            { id: 19, q: "Drücke das Verhältnis als Prozentsatz aus: Wie viel Prozent sind 18 von insgesamt 24 Einheiten?", a: "75", s: "18 von 24 ist der Bruch 18/24. Durch 6 gekürzt ergibt das 3/4. 3/4 sind 75 %." },
+            { id: 20, q: "In einer Klasse mit 24 Kindern haben 25 % die Note 'Sehr gut'. Wie viele Kinder sind das?", a: "6", s: "25 % entsprechen exakt einem Viertel der Klasse. 24 dividiert durch 4 = 6 Kinder." }
+        ],
+        schwer: [
+            { id: 21, q: "Ein Händler kauft Ware für 2.000 € netto. Er schlägt 30 % Gewinn auf und rechnet dann 20 % MwSt dazu. Wie hoch ist der Bruttopreis?", a: "3120", s: "+30 % Gewinn auf 2.000 €: 10 % = 200 €, 30 % = 600 €. Neuer Nettopreis = 2.600 €.<br>+20 % MwSt auf 2.600 €: 10 % = 260 €, 20 % = 520 €. Bruttopreis = 2.600 € + 520 € = 3.120 €." },
+            { id: 22, q: "Eine Aktie verliert 10 % an Wert und steigt am nächsten Tag wieder um 10 % (vom neuen Wert). Ist der Kurs wieder wie am Anfang? (Ja/Nein)", a: "Nein", s: "Beispiel: Eine Aktie kostet 100 €. Sie verliert 10 % und fällt auf 90 €. Nun steigt sie um 10 %. 10 % von 90 € sind 9 €. Neuer Kurs: 99 €. Der Wert ist also geringer als am Anfang!" },
+            { id: 23, q: "Ein Bruttobetrag (inkl. 20 % MwSt) ist 234 €. Der Kunde zieht fälschlich 3 % Skonto direkt vom Brutto ab. Wie viel Euro spart er?", a: "7,02", s: "3 % von 234 €. 1 % = 2,34 €. 2,34 * 3 = 7,02 €. Der absolute Abzug beträgt 7,02 €." },
+            { id: 24, q: "Die Zustimmung für ein Projekt steigt von 40 % auf 50 %. Um wie viel Prozent ist die Zustimmung insgesamt gewachsen?", a: "25", s: "Die Zustimmung wächst absolut um 10 Prozentpunkte (von 40 auf 50). Der Startwert (Grundwert) war 40. 10 von 40 entspricht dem Bruch 1/4, also ist sie um 25 % gewachsen." },
+            { id: 25, q: "Ein Auto verliert im ersten Jahr 25 % an Wert, im zweiten Jahr 15 % vom Restwert. Wie viel Prozent des Neuwertes ist es noch wert?", a: "63,75", s: "Auto kostet anfangs 100 %. Jahr 1: 25 % Verlust -> Restwert 75 %. Jahr 2: 15 % Verlust von 75 %. 10 % von 75 = 7,5. 5 % = 3,75. Zusammen 11,25 %. 75 % - 11,25 % = 63,75 %. (Oder: 0,75 * 0,85 = 0,6375)." },
+            { id: 26, q: "Ein Gerät kostet 1.200 € netto. Es gibt 15 % Rabatt und 3 % Skonto. Berechne den Endpreis inklusive 20 % MwSt.", a: "1187,28", s: "Netto minus 15 % Rabatt (1.200 * 0,85) = 1.020 €.<br>Minus 3 % Skonto (1.020 * 0,97) = 989,40 € (rabattierter Nettopreis).<br>Plus 20 % MwSt (989,40 * 1,2) = 1.187,28 €." },
+            { id: 27, q: "Ein Zinssatz wird von 1,2 % auf 1,5 % erhöht. Berechne die prozentuale Steigerung des Zinssatzes.", a: "25", s: "Absolute Differenz: 1,5 - 1,2 = 0,3. Grundwert ist 1,2. 0,3 von 1,2 ist der Bruch 0,3/1,2 = 3/12 = 1/4. Das entspricht 25 % Steigerung." },
+            { id: 28, q: "Bei einer Handwerkerrechnung beträgt die MwSt (20 %) genau 45 €. Wie hoch ist der gesamte Bruttobetrag der Rechnung?", a: "270", s: "Wenn 20 % genau 45 € sind, dann ist der Nettobetrag (100 %) fünfmal so hoch: 45 * 5 = 225 €. Der Bruttobetrag (Netto + MwSt) ist 225 € + 45 € = 270 €." },
+            { id: 29, q: "Eine Mischung besteht aus 400 ml Wasser und 50 ml Konzentrat. Wie viel Prozent Konzentrat sind in der Gesamtmischung enthalten?", a: "11,1", s: "Achtung: Die Gesamtmenge ist 400 ml + 50 ml = 450 ml! 50 ml Konzentrat von 450 ml gesamt entspricht 50/450 = 1/9. 1 geteilt durch 9 ergibt 0,1111... was gerundet 11,1 % sind." },
+            { id: 30, q: "Ein Preis wurde um 20 % gesenkt. Um wie viel Prozent müsste er wieder erhöht werden, um den Originalpreis zu erreichen?", a: "25", s: "Ein Preis sinkt auf 80 %. Um wieder auf 100 % (den Originalpreis) zu kommen, müssen 20 Einheiten wieder dazugerechnet werden. Diese 20 Einheiten berechnen sich jetzt aber vom neuen Grundwert (den 80 %). 20 von 80 entspricht 20/80 = 1/4. Der Preis muss also um 25 % angehoben werden." }
+        ]
+    };
+
+    let currentTab = 'leicht';
+
+    function showTab(tabName) {
+        currentTab = tabName;
+        
+        // Update UI Tabs
+        ['leicht', 'mittel', 'schwer'].forEach(t => {
+            document.getElementById('tab-' + t).classList.remove('tab-active');
+        });
+        document.getElementById('tab-' + tabName).classList.add('tab-active');
+
+        renderTasks();
+    }
+
+    function renderTasks() {
+        const container = document.getElementById('tasks-container');
+        container.innerHTML = '';
+
+        tasks[currentTab].forEach(task => {
+            const div = document.createElement('div');
+            div.className = "task-card";
+            div.innerHTML = `
+                <div class="task-content">
+                    <div class="task-badge">Aufgabe ${task.id}</div>
+                    <p class="task-text">${task.q}</p>
+                    <div id="solution-${task.id}" class="solution-box">
+                        <strong>💡 Lösungsweg:</strong><br> ${task.s}
+                    </div>
+                </div>
+                <div class="task-action">
+                    <input type="text" id="input-${task.id}" placeholder="Ergebnis" class="task-input">
+                    <button onclick="checkAnswer(${task.id}, '${task.a}')" class="task-btn">Prüfen</button>
+                    <button onclick="toggleSolution(${task.id})" class="task-btn btn-solution">Lösungsweg</button>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function checkAnswer(id, correct) {
+        const input = document.getElementById('input-' + id);
+        let userVal = input.value.trim().replace(',', '.').toLowerCase();
+        let targetVal = correct.replace(',', '.').toLowerCase();
+
+        // Überprüfung für Mehrfachantworten (Aufgabe 1)
+        if (correct.includes(',')) {
+            let userParts = userVal.split(/[ ,]+/).filter(x => x).map(x => parseFloat(x).toFixed(0));
+            let targetParts = targetVal.split(/[ ,]+/).filter(x => x).map(x => parseFloat(x).toFixed(0));
+            
+            if (JSON.stringify(userParts) === JSON.stringify(targetParts)) {
+                input.classList.remove('incorrect');
+                input.classList.add('correct');
+                return;
+            }
+        }
+
+        // Spezialüberprüfung für Aufgabe 29 (Rundung)
+        if (id === 29) {
+            if (Math.abs(parseFloat(userVal) - parseFloat(targetVal)) < 0.2) {
+                userVal = targetVal;
+            }
+        }
+
+        if (userVal === targetVal) {
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
+        } else {
+            input.classList.remove('correct');
+            input.classList.add('incorrect');
+        }
+    }
+
+    function toggleSolution(id) {
+        const solBox = document.getElementById('solution-' + id);
+        if (solBox.style.display === "block") {
+            solBox.style.display = "none";
+        } else {
+            solBox.style.display = "block";
+        }
+    }
+
+    // Initialize
+    window.onload = () => showTab('leicht');
+</script>
+
+</body>
+</html>

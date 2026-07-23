@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brüche: Teile des Ganzen</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Teile des Ganzen</h1>
+    <p>Zähler, Nenner und echte sowie unechte Brüche</p>
+</header>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main>
+    <div style="background: var(--bg); border-left: 4px solid var(--primary); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+        <p style="margin: 0;">Im Alltag begegnen uns Brüche ständig: Eine "viertel" Stunde, eine "halbe" Pizza oder ein "dreiviertel" Liter Saft. Ein Bruch zeigt uns immer an, dass wir etwas Ganzes in gleich große Stücke geteilt haben.</p>
+    </div>
+
+    <section class="subject-group" id="echte-brueche">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 5</span>
+            <h2 style="margin: 0; color: var(--primary);">1. Teile des Ganzen (Echte Brüche)</h2>
+        </div>
+        <p>Ein Bruch besteht immer aus drei wichtigen Bausteinen: Dem Zähler, dem Bruchstich und dem Nenner.</p>
+        
+        
+
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; margin-bottom: 1.5rem;">
+            <div style="background: white; border: 2px solid #e2e8f0; padding: 2rem; border-radius: 12px; display: inline-flex; flex-direction: column; align-items: center; font-size: 2.5rem; min-width: 150px; text-align: center;">
+                <span style="color: var(--doc-blue); font-weight: bold; border-bottom: 4px solid var(--text-main); padding: 0 15px 5px 15px; width: 100%;">$3$</span>
+                <span style="color: var(--pdf-red); font-weight: bold; padding-top: 5px;">$8$</span>
+            </div>
+            
+            <div style="flex: 1; min-width: 250px;">
+                <ul style="line-height: 2; font-size: 1.1rem;">
+                    <li><strong style="color: var(--doc-blue);">Der Zähler (oben):</strong> Er zählt, wie viele Stücke wir gerade nehmen (z.B. 3 Stücke Pizza).</li>
+                    <li><strong>Der Bruchstich (Mitte):</strong> Er bedeutet so viel wie "geteilt durch".</li>
+                    <li><strong style="color: var(--pdf-red);">Der Nenner (unten):</strong> Er gibt dem Bruch seinen "Namen". Er sagt uns, in wie viele gleich große Stücke das Ganze geteilt wurde (z.B. in 8 Stücke = Achtel).</li>
+                </ul>
+            </div>
+        </div>
+        <div style="background: var(--card-bg); border-left: 5px solid var(--doc-blue); padding: 1rem; border-radius: 8px;">
+            <strong>Merke:</strong> Ist der Zähler kleiner als der Nenner (z.B. $\frac{3}{8}$), nennt man das einen <strong>echten Bruch</strong>. Er ist immer kleiner als ein Ganzes.
+        </div>
+    </section>
+
+    <section class="subject-group" id="ein-ganzes">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 5</span>
+            <h2 style="margin: 0; color: var(--primary);">2. Genau ein Ganzes</h2>
+        </div>
+        <p>Was passiert, wenn du eine Pizza in 4 Stücke schneidest und danach alle 4 Stücke aufisst?</p>
+        
+        
+
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--xls-green); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 15px; font-size: 1.5rem; margin-bottom: 1rem;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <span style="border-bottom: 2px solid var(--text-main); padding: 0 5px;">$4$</span>
+                    <span>$4$</span>
+                </div>
+                <span>$=$</span>
+                <strong style="color: var(--xls-green); font-size: 2rem;">$1$ Ganzes</strong>
+            </div>
+            <p style="margin: 0;"><strong>Merke:</strong> Wenn der Zähler und der Nenner genau die gleiche Zahl sind, ist der Bruch <strong>genau ein Ganzes</strong> ($1$). Auch $\frac{10}{10}$ oder $\frac{100}{100}$ sind einfach nur $1$.</p>
+        </div>
+    </section>
+
+    <section class="subject-group" id="mehr-als-ein-ganzes">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 5</span>
+            <h2 style="margin: 0; color: var(--primary);">3. Mehr als ein Ganzes (Unechte Brüche)</h2>
+        </div>
+        <p>Manchmal hat man großen Hunger und isst mehr als nur eine ganze Pizza. Stell dir vor, du isst 5 Viertel-Stücke ($\frac{5}{4}$). Da eine Pizza nur 4 Viertel hat, musst du eine zweite Pizza anbrechen!</p>
+        
+        
+
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--html-orange); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <p style="margin-top: 0;"><strong>Merke:</strong> Ist der Zähler größer als der Nenner (z.B. $\frac{5}{4}$), nennt man das einen <strong>unechten Bruch</strong>. Er ist größer als ein Ganzes.</p>
+            
+            <h4 style="color: var(--html-orange); margin-bottom: 0.5rem;">Die gemischte Zahl</h4>
+            <p style="margin-top: 0;">Weil $\frac{5}{4}$ schwer vorzustellen ist, schreiben wir solche Brüche oft um. $\frac{5}{4}$ ist genau eine ganze Pizza ($\frac{4}{4}$) plus ein weiteres Viertel ($\frac{1}{4}$).</p>
+            
+            <div style="display: flex; align-items: center; gap: 15px; font-size: 1.5rem;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <span style="border-bottom: 2px solid var(--text-main); padding: 0 5px;">$5$</span>
+                    <span>$4$</span>
+                </div>
+                <span>$=$</span>
+                <div style="display: flex; align-items: center;">
+                    <strong style="font-size: 2rem; margin-right: 5px;">$1$</strong>
+                    <div style="display: flex; flex-direction: column; align-items: center; font-size: 1.2rem;">
+                        <span style="border-bottom: 2px solid var(--text-main); padding: 0 5px;">$1$</span>
+                        <span>$4$</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="subject-group" id="labor">
+        <div class="subject-header">
+            <span class="subject-badge bg-info">Labor</span>
+            <h2 style="margin: 0; color: var(--primary);">Der interaktive Pizza-Bäcker</h2>
+        </div>
+        <p>Verändere den Zähler (die Stücke, die du bestellst) und den Nenner (in wie viele Stücke jede Pizza geteilt wird). Beobachte, wie sich der Bruch und die Pizza-Grafiken verändern!</p>
+        
+        <div style="background: white; border: 2px solid var(--primary); padding: 1.5rem; border-radius: 12px;">
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start;">
+                <div style="flex: 1; min-width: 250px; background: var(--bg); padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center;">
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <p style="margin: 0 0 10px 0; font-weight: bold; color: var(--doc-blue);">Zähler (Bestellte Stücke)</p>
+                        <button class="nav-toggle" onclick="changeZ(-1)" style="padding: 5px 15px; font-size: 1.2rem;">-</button>
+                        <span id="displayZ" style="font-size: 1.8rem; font-weight: bold; margin: 0 15px; display: inline-block; width: 40px;">3</span>
+                        <button class="nav-toggle" onclick="changeZ(1)" style="padding: 5px 15px; font-size: 1.2rem;">+</button>
+                    </div>
+
+                    <div style="width: 80%; height: 4px; background: var(--text-main); margin: 15px auto;"></div>
+
+                    <div>
+                        <p style="margin: 0 0 10px 0; font-weight: bold; color: var(--pdf-red);">Nenner (Teilung der Pizza)</p>
+                        <button class="nav-toggle" onclick="changeN(-1)" style="padding: 5px 15px; font-size: 1.2rem;">-</button>
+                        <span id="displayN" style="font-size: 1.8rem; font-weight: bold; margin: 0 15px; display: inline-block; width: 40px;">8</span>
+                        <button class="nav-toggle" onclick="changeN(1)" style="padding: 5px 15px; font-size: 1.2rem;">+</button>
+                    </div>
+
+                    <div id="fractionAnalysis" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #cbd5e1;">
+                        </div>
+                </div>
+
+                <div style="flex: 2; min-width: 300px; display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; align-items: center; min-height: 200px;" id="pizzaContainer">
+                    </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Mathematik verstehen 1 | Zahlen in Bruchdarstellung</p>
+</footer>
+
+<script>
+    let currentZ = 3;
+    let currentN = 8;
+
+    function changeZ(delta) {
+        if(currentZ + delta >= 0) {
+            currentZ += delta;
+            updateLab();
+        }
+    }
+
+    function changeN(delta) {
+        if(currentN + delta >= 1 && currentN + delta <= 20) {
+            currentN += delta;
+            updateLab();
+        }
+    }
+
+    // Hilfsfunktion zum Zeichnen von Pizza-Stücken (SVG Paths)
+    function createSlice(cx, cy, r, startAngle, endAngle, isFilled) {
+        const fill = isFilled ? "var(--html-orange)" : "#f1f5f9"; // Orange wenn markiert, sonst grau
+        
+        // Ganzer Kreis (Sonderfall)
+        if(Math.abs(endAngle - startAngle) >= 360) {
+            let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute("cx", cx);
+            circle.setAttribute("cy", cy);
+            circle.setAttribute("r", r);
+            circle.setAttribute("fill", fill);
+            circle.setAttribute("stroke", "white");
+            circle.setAttribute("stroke-width", "2");
+            return circle;
+        }
+
+        // Kuchenstück (Path)
+        let startRad = (startAngle - 90) * Math.PI / 180.0;
+        let endRad = (endAngle - 90) * Math.PI / 180.0;
+        
+        let x1 = cx + r * Math.cos(startRad);
+        let y1 = cy + r * Math.sin(startRad);
+        let x2 = cx + r * Math.cos(endRad);
+        let y2 = cy + r * Math.sin(endRad);
+        
+        let largeArc = (endAngle - startAngle > 180) ? 1 : 0;
+        
+        let pathStr = `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2} Z`;
+        
+        let path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", pathStr);
+        path.setAttribute("fill", fill);
+        path.setAttribute("stroke", "white");
+        path.setAttribute("stroke-width", "2");
+        return path;
+    }
+
+    function updateLab() {
+        document.getElementById('displayZ').innerText = currentZ;
+        document.getElementById('displayN').innerText = currentN;
+
+        const analysisBox = document.getElementById('fractionAnalysis');
+        const pizzaBox = document.getElementById('pizzaContainer');
+        pizzaBox.innerHTML = ''; // Box leeren
+
+        // 1. Text & Analyse updaten
+        if (currentZ === 0) {
+            analysisBox.innerHTML = `<strong>0 Stücke.</strong> Wir haben gar nichts.`;
+        } else if (currentZ < currentN) {
+            analysisBox.innerHTML = `<span style="color: var(--doc-blue); font-weight: bold; font-size: 1.2rem;">Echter Bruch</span><br>Wir haben weniger als ein Ganzes.`;
+        } else if (currentZ === currentN) {
+            analysisBox.innerHTML = `<span style="color: var(--xls-green); font-weight: bold; font-size: 1.2rem;">Genau 1 Ganzes</span><br>Wir haben eine komplette Pizza.`;
+        } else {
+            let ganzen = Math.floor(currentZ / currentN);
+            let rest = currentZ % currentN;
+            let restHtml = rest > 0 ? ` und <span style="border-bottom: 1px solid; padding: 0 2px;">${rest}</span> / ${currentN}` : ``;
+            
+            analysisBox.innerHTML = `
+                <span style="color: var(--pdf-red); font-weight: bold; font-size: 1.2rem;">Unechter Bruch</span><br>
+                Das sind mehr als 1 Ganzes!<br>
+                <div style="font-size: 1.3rem; margin-top: 10px; font-weight: bold;">Gemischte Zahl: ${ganzen} ${restHtml}</div>
+            `;
+        }
+
+        // 2. Pizzas zeichnen
+        const totalPizzas = Math.max(1, Math.ceil(currentZ / currentN));
+        let piecesDrawn = 0;
+        const anglePerPiece = 360 / currentN;
+
+        for (let p = 0; p < totalPizzas; p++) {
+            let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("viewBox", "0 0 100 100");
+            svg.setAttribute("width", "120");
+            svg.setAttribute("height", "120");
+            svg.style.filter = "drop-shadow(0px 4px 6px rgba(0,0,0,0.1))";
+
+            // Kreis als Untergrund
+            let base = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            base.setAttribute("cx", "50");
+            base.setAttribute("cy", "50");
+            base.setAttribute("r", "48");
+            base.setAttribute("fill", "#e2e8f0");
+            svg.appendChild(base);
+
+            // Stücke zeichnen
+            for (let i = 0; i < currentN; i++) {
+                let startAngle = i * anglePerPiece;
+                let endAngle = (i + 1) * anglePerPiece;
+                let isFilled = piecesDrawn < currentZ;
+                
+                let slice = createSlice(50, 50, 48, startAngle, endAngle, isFilled);
+                svg.appendChild(slice);
+                
+                piecesDrawn++;
+            }
+            pizzaBox.appendChild(svg);
+        }
+
+        if (typeof MathJax !== 'undefined') {
+            MathJax.typesetPromise ? MathJax.typesetPromise() : MathJax.typeset();
+        }
+    }
+
+    // Init beim Laden
+    window.onload = updateLab;
+</script>
+
+</body>
+</html>

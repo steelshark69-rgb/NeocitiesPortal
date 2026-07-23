@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Übung: Bruchrechnen mit Variablen im Zähler</title>
+    <!-- Verweis auf die zentrale CSS-Datei im Hauptordner -->
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Spezifische Stile für diese Übungsseite */
+        .exercise-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .exercise-section h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .exercise-section h3 {
+            color: var(--accent-color);
+            margin-top: 30px;
+        }
+
+        .exercise {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .problem {
+            font-size: 1.2em;
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .solution {
+            display: none;
+            background-color: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid var(--primary-color);
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+
+        .toggle-solution-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.2s;
+        }
+
+        .toggle-solution-btn:hover {
+            background-color: #001a33;
+        }
+
+        /* Einfache Bruch-Darstellung */
+        .frac {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 5px;
+            vertical-align: middle;
+        }
+        .frac > span {
+            padding: 0 5px;
+        }
+        .frac .frac-bar {
+            border-top: 2px solid #333;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Übung: Bruchrechnen mit Variablen im Zähler</h1>
+    <p>Auf dieser Seite findest du Übungsaufgaben zum Rechnen mit Brüchen, die Variablen im Zähler enthalten. Klicke auf "Lösung anzeigen", um den Rechenweg zu sehen.</p>
+
+    <!-- ########## Schwierigkeitsstufe: Leicht ########## -->
+    <div class="exercise-section">
+        <h2>Schwierigkeitsstufe: Leicht</h2>
+
+        <h3>Addition & Subtraktion (Gleicher Nenner)</h3>
+        <div class="exercise">
+            <div class="problem">1. <div class="frac"><span>3x</span><span class="frac-bar"></span><span>7</span></div> + <div class="frac"><span>2x</span><span class="frac-bar"></span><span>7</span></div></div>
+            <button class="toggle-solution-btn" onclick="toggleSolution(this)">Lösung anzeigen</button>
+            <div class="solution">Die Nenner sind gleich, also können die Zähler direkt addiert werden.<br>= (3x + 2x) / 7<br>= 5x / 7</div>
+        </div>
+        <div class="exercise">
+            <div class="problem">2. <div class="frac"><span>7a</span><span class="frac-bar"></span><span>5</span></div> - <div class="frac"><span>2a</span><span class="frac-bar"></span><span>5</span></div></div>
+            <button class="toggle-solution-btn" onclick="toggleSolution(this)">Lösung anzeigen</button>
+            <div class="solution">Die Nenner sind gleich, also können die Zähler direkt subtrahiert werden.<br>= (7a - 2a) / 5<br>= 5a / 5<br>= a</div>
+        </div>
+
+        <h3>Multiplikation</h3>
+        <div class="exercise">
+            <div class="problem">3. <div class="frac"><span>2x</span><span class="frac-bar"></span><span>3</span></div> * <div class="frac"><span>4</span><span class="frac-bar"></span><span>5</span></div></div>
+            <button class="toggle-solution-btn" onclick="toggleSolution(this)">Lösung anzeigen</button>
+            <div class="solution">"Zähler mal Zähler" und "Nenner mal Nenner".<br>= (2x * 4) / (3 * 5)<br>= 8x / 15</div>
+        </div>
+
+        <h3>Division</h3>
+        <div class="exercise">
+            <div class="problem">4. <div class="frac"><span>4a</span><span class="frac-bar"></span><span>5</span></div> : <div class="frac"><span>2</span><span class="frac-bar"></span><span>3</span></div></div>
+            <button class="toggle-solution-btn" onclick="toggleSolution(this)">Lösung anzeigen</button>
+            <div class="solution">Mit dem Kehrwert des zweiten Bruchs multiplizieren.<br>= (4a / 5) * (3 / 2)<br>= 12a / 10<br>= 6a / 5 (Kürzen durch 2)</div>
+        </div>
+    </div>
+
+    <!-- ########## Schwierigkeitsstufe: Mittel ########## -->
+    <div class="exercise-section">
+        <h2>Schwierigkeitsstufe: Mittel</h2>
+
+        <h3>Addition & Subtraktion (Ungleiche Nenner)</h3>
+        <div class="exercise">
+            <div class="problem">1. <div class="frac"><span>x</span><span class="frac-bar"></span><span>3</span></div> + <div class="frac"><span>x</span><span class="frac-bar"></span><span>6</span></div></div>
+            <button class="toggle-solution-btn" onclick="toggleSolution(this)">Lösung anzeigen</button>
+            <div class="solution">Hauptnenner ist 6. Der erste Bruch muss mit 2 erweitert werden.<br>= (2x / 6) + (x / 6)<br>= 3x / 6<br>= x / 2 (Kürzen durch 3)</div>
+        </div>
+        <div class="exercise">
+            <div class="problem">2. <div class="frac"><span>5a</span><span class="frac-bar"></span><span>2</span></div> - <div class="frac"><span>a</span><span class="frac-bar"></span><span>4</span></div></div>
+            <button class="toggle-solution-btn" onclick="toggleSolution(this)">Lösung anzeigen</button>
+            <div class="solution">Hauptnenner ist 4. Erweitere den ersten Bruch mit 2.<br>= (10a / 4) - (a / 4)<br>= 9a / 4</div>
+        </div>
+
+        <h3>Multiplikation & Kürzen</h3>
+        <div class="exercise">
+            <div class="problem">3. <div class="frac"><span>5x</span><span class="frac-bar"></span><span>7</span></div> * <div class="frac"><span>14</span><span class="frac-bar"></span><span>10x</span></div></div>
+            <button class="toggle-solution-btn" onclick="toggleSolution(this)">Lösung anzeigen</button>
+            <div class="solution">Alles auf einen Bruchstrich schreiben und dann kürzen.<br>= (5x * 14) / (7 * 10x)<br>Kürze '5x' mit '10x' (ergibt 2 im Nenner).<br>Kürze '14' mit '7' (ergibt 2 im Zähler).<br>= 2 / 2<br>= 1</div>
+        </div>
+
+        <h3>Kombinierte Aufgaben</h3>
+        <div class="exercise">
+            <div class="problem">4. (<div class="frac"><span>x</span><span class="frac-bar"></span><span>2</span></div> + <div class="frac"><span>y</span><span class="frac-bar"></span><span>3</span></div>) * 6</div>
+            <button class="toggle-solution-btn" onclick="toggleSolution(this)">Lösung anzeigen</button>
+            <div class="solution">Zuerst die Klammer auf den Hauptnenner '6' bringen.<br>= ((3x/6) + (2y/6)) * 6<br>= ((3x + 2y) / 6) * 6<br>Jetzt '6' kürzen.<br>= 3x + 2y</div>
+        </div>
+    </div>
+
+    <!-- ########## Schwierigkeitsstufe: Schwer ########## -->
+    <div class="exercise-section">
+        <h2>Schwierigkeitsstufe: Schwer</h2>
+
+        <h3>Addition & Subtraktion (Binomische Formeln im Zähler)</h3>
+        <div class="exercise">
+            <div class="problem">1. <div class="frac"><span>(x+1)²</span><span class="frac-bar"></span><span>2</span></div> - <div class="frac"><span>(x-1)²</span><span class="frac-bar"></span><span>2</span></div></div>
+            <button class="toggle-solution-btn" onclick="toggleSolution(this)">Lösung anzeigen</button>
+            <div class="solution">Die Nenner sind gleich. Zähler subtrahieren und binomische Formeln auflösen.<br>= ((x² + 2x + 1) - (x² - 2x + 1)) / 2<br>Achtung auf das Minus vor der Klammer!<br>= (x² + 2x + 1 - x² + 2x - 1) / 2<br>= 4x / 2<br>= 2x</div>
+        </div>
+        <div class="exercise">
+            <div class="problem">2. <div class="frac"><span>x²-4</span><span class="frac-bar"></span><span>5</span></div> + <div class="frac"><span>x+2</span><span class="frac-bar"></span><span>5</span></div></div>
+            <button class="toggle-solution-btn" onclick="toggleSolution(this)">Lösung anzeigen</button>
+            <div class="solution">Die Nenner sind gleich. Zähler addieren.<br>= (x² - 4 + x + 2) / 5<br>= (x² + x - 2) / 5<br>Optional kann man den Zähler faktorisieren: ((x+2)(x-1)) / 5</div>
+        </div>
+
+        <h3>Multiplikation & Division mit Faktorisieren</h3>
+        <div class="exercise">
+            <div class="problem">3. <div class="frac"><span>x² - 1</span><span class="frac-bar"></span><span>3</span></div> * <div class="frac"><span>6</span><span class="frac-bar"></span><span>x+1</span></div></div>
+            <button class="toggle-solution-btn" onclick="toggleSolution(this)">Lösung anzeigen</button>
+            <div class="solution">Den Zähler x²-1 als (x-1)(x+1) faktorisieren (3. binomische Formel).<br>= (((x-1)(x+1)) / 3) * (6 / (x+1))<br>Jetzt (x+1) kürzen und 6 durch 3 kürzen.<br>= (x-1) * 2<br>= 2x - 2</div>
+        </div>
+
+        <h3>Kombinierte Aufgaben (Doppelbrüche)</h3>
+        <div class="exercise">
+            <div class="problem">4. <div class="frac"><span><div class="frac"><span>x</span><span class="frac-bar"></span><span>2</span></div> + 1</span><span class="frac-bar"></span><span>3</span></div></div>
+            <button class="toggle-solution-btn" onclick="toggleSolution(this)">Lösung anzeigen</button>
+            <div class="solution">Zuerst den Zähler des Doppelbruchs auf einen gemeinsamen Nenner bringen.<br>1 = 2/2<br>Zähler: (x/2) + (2/2) = (x+2)/2<br><br>Der Bruch ist jetzt:<br>((x+2)/2) / 3<br><br>Das ist dasselbe wie ((x+2)/2) * (1/3).<br>= (x+2) / 6</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    /**
+     * Funktion zum Ein- und Ausblenden des Lösungs-Containers.
+     * Sie navigiert vom geklickten Button zum nächsten Geschwister-Element mit der Klasse 'solution'.
+     * @param {HTMLElement} button - Der Button, der geklickt wurde.
+     */
+    function toggleSolution(button) {
+        // Finde das nächste Element nach dem Button, das die Klasse 'solution' hat.
+        const solutionDiv = button.nextElementSibling;
+
+        if (solutionDiv && solutionDiv.classList.contains('solution')) {
+            // Überprüfe den aktuellen Zustand und schalte ihn um.
+            if (solutionDiv.style.display === 'none' || solutionDiv.style.display === '') {
+                solutionDiv.style.display = 'block';
+                button.textContent = 'Lösung ausblenden';
+            } else {
+                solutionDiv.style.display = 'none';
+                button.textContent = 'Lösung anzeigen';
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

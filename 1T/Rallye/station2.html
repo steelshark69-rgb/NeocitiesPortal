@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station 2: Die Vermessung der Brücke | Rallye 1T</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <style>
+        .rallye-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .code-input {
+            font-size: 1.5rem;
+            padding: 0.75rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            width: 200px;
+            text-align: center;
+            letter-spacing: 2px;
+            font-family: monospace;
+            margin-bottom: 1rem;
+        }
+        .check-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .check-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        .riddle-box {
+            background: #f8fafc;
+            border-left: 4px solid var(--info-color);
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            text-align: left;
+            font-size: 1.1rem;
+        }
+        .task-number {
+            font-weight: 800;
+            color: var(--info-color);
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🌉 Station 2: Die Vermessung der Brücke</h1>
+    <p>Die Jagd nach dem goldenen Zirkel - Dezimalzahlen & Maße</p>
+</header>
+
+<main>
+    <div class="rallye-container">
+        <h2 style="color: var(--primary); margin-top: 0; text-align: center;">Die Schlucht der Einheiten</h2>
+        <p style="font-size: 1.1rem; line-height: 1.8; text-align: center;">
+            Ihr steht vor einer alten Hängebrücke. Um sicher auf die andere Seite zu gelangen, müsst ihr die Stabilität der fünf Brückenpfeiler überprüfen. Löst die Aufgaben – achtet genau auf Kommastellen und Einheiten!
+        </p>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Pfeiler 1:</span> Addition und Subtraktion mit ungleichen Kommastellen (Kla-Pu-Stri beachten!).<br>
+            125,4 - 38,15 + 12,75 = <strong>A</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Pfeiler 2:</span> Division und Addition.<br>
+            144,6 : 6 + 15,9 = <strong>B</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Pfeiler 3:</span> Längenmaße umwandeln. Berechne das Ergebnis in Metern (m)!<br>
+            1,2 km - 840 m + 4500 dm = <strong>C</strong> m</p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Pfeiler 4:</span> Massenmaße umwandeln. Berechne das Ergebnis in Kilogramm (kg)!<br>
+            3,5 t - 1250 kg + 85000 dag = <strong>D</strong> kg</p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Pfeiler 5:</span> Die Materialkosten (Textaufgabe).<br>
+            Für die Reparatur der Brücke werden 15 dicke Stahlseile benötigt. Ein Meter dieses Stahlseils kostet 4,50 &euro;. Jedes der 15 Seile muss genau 12,4 m lang sein.<br>
+            <em>Wie viel Euro kosten alle Seile zusammen?</em><br>
+            Lösung = <strong>E</strong></p>
+        </div>
+
+        <div style="background: #eff6ff; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; border: 2px dashed #3b82f6; text-align: center;">
+            <h3 style="margin-top: 0; color: #1e3a8a;">🔑 Euer Geheimcode</h3>
+            <p>Bildet die <strong>Summe aller fünf Ergebnisse</strong> (A + B + C + D + E). Das Ergebnis ist euer Code für Station 3!</p>
+            
+            <input type="text" id="codeInput" class="code-input" placeholder="CODE..." autocomplete="off">
+            <br>
+            <button class="check-btn" onclick="checkCode()">Brücke überqueren 🌉</button>
+            <p id="errorMsg" style="color: var(--pdf-red); font-weight: bold; display: none;">Die Brücke wackelt! Euer Code ist falsch. (Habt ihr bei den Einheiten aufgepasst?)</p>
+        </div>
+    </div>
+</main>
+
+<footer style="margin-top: 3rem; text-align: center; font-weight: bold; color: var(--text-muted);">
+    &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+</footer>
+
+<script>
+    function checkCode() {
+        const input = document.getElementById('codeInput').value.trim();
+        const errorMsg = document.getElementById('errorMsg');
+        
+        /* Lösungen für die Lehrkraft:
+           A: 125,40 - 38,15 = 87,25.  87,25 + 12,75 = 100
+           B: 144,6 : 6 = 24,1.  24,1 + 15,9 = 40
+           C: 1200 m - 840 m + 450 m = 360 m + 450 m = 810 (m)
+           D: 3500 kg - 1250 kg + 850 kg = 2250 kg + 850 kg = 3100 (kg)
+           E: 15 * 12,4 m = 186 m.  186 * 4,50 € = 837 €
+           Summe: 100 + 40 + 810 + 3100 + 837 = 4887
+        */
+        
+        if (input === "4887") {
+            document.body.style.backgroundColor = "#dcfce7";
+            errorMsg.style.display = "none";
+            setTimeout(() => {
+                window.location.href = 'station3.html'; 
+            }, 800);
+        } else {
+            errorMsg.style.display = "block";
+            const inputField = document.getElementById('codeInput');
+            inputField.style.transform = "translateX(-10px)";
+            setTimeout(() => inputField.style.transform = "translateX(10px)", 100);
+            setTimeout(() => inputField.style.transform = "translateX(-10px)", 200);
+            setTimeout(() => inputField.style.transform = "translateX(0)", 300);
+        }
+    }
+
+    document.getElementById('codeInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            checkCode();
+        }
+    });
+</script>
+
+</body>
+</html>

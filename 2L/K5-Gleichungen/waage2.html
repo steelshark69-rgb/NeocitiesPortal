@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gleichungen interaktiv lösen</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* Spezifische Klassen für den interaktiven Waage-Simulator */
+        .weight-ball { fill: var(--doc-blue); stroke: white; stroke-width: 2px; }
+        .weight-ball-neg { fill: var(--pdf-red); stroke: white; stroke-width: 2px; }
+        .weight-x { fill: var(--html-orange); stroke: white; stroke-width: 2px; }
+        .weight-x-neg { fill: transparent; stroke: var(--pdf-red); stroke-width: 3px; stroke-dasharray: 4; }
+        
+        .scale-beam { stroke: #64748b; stroke-width: 8px; stroke-linecap: round; transform-origin: 250px 70px; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .scale-plate { fill: #e2e8f0; stroke: #94a3b8; stroke-width: 3px; }
+        .scale-base { fill: #475569; }
+        
+        /* Steuerung & Inputs */
+        .eq-input {
+            width: 60px; font-size: 1.2rem; text-align: center; font-weight: bold;
+            border: 2px solid #cbd5e1; border-radius: 6px; padding: 5px; outline: none;
+        }
+        .eq-input:focus { border-color: var(--primary); }
+        
+        /* Lösungsprotokoll im Heft-Stil */
+        .protocol-sheet {
+            background-color: white;
+            background-image: linear-gradient(#f1f5f9 1px, transparent 1px);
+            background-size: 100% 2rem;
+            border: 1px solid #cbd5e1;
+            border-left: 30px solid #f87171; /* Roter Rand wie beim Schulheft */
+            border-radius: 4px;
+            padding: 1rem 1rem 1rem 2rem;
+            min-height: 200px;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif; /* "Handschriftlich" */
+            font-size: 1.2rem;
+            line-height: 2rem;
+        }
+        .protocol-row { display: flex; justify-content: space-between; }
+        .protocol-op { color: var(--pdf-red); font-weight: bold; font-family: 'Segoe UI', sans-serif;}
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Das Gleichungs-Labor</h1>
+    <p>Baue deine eigenen Gleichungen und löse sie Schritt für Schritt!</p>
+</header>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main>
+    <section class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Schritt 1</span>
+            <h2 style="margin: 0; color: var(--primary);">Belaade die Waage</h2>
+        </div>
+        <p>Trage hier ein, wie viele <strong>$x$-Boxen</strong> und wie viele <strong>Zahlen-Kugeln</strong> auf der linken und rechten Seite der Waage liegen sollen.</p>
+        
+        <div style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: center;">
+            
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #cbd5e1; text-align: center;">
+                <div style="font-weight: bold; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.85rem;">Linke Waagschale</div>
+                <input type="number" id="setup-lx" class="eq-input" value="2"> <span style="font-size: 1.2rem; font-weight: bold;">x</span>
+                <span style="font-size: 1.2rem; font-weight: bold; margin: 0 10px;">+</span>
+                <input type="number" id="setup-lc" class="eq-input" value="4">
+            </div>
+
+            <div style="font-size: 2.5rem; font-weight: bold; color: var(--primary);"> = </div>
+
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #cbd5e1; text-align: center;">
+                <div style="font-weight: bold; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase; font-size: 0.85rem;">Rechte Waagschale</div>
+                <input type="number" id="setup-rx" class="eq-input" value="0"> <span style="font-size: 1.2rem; font-weight: bold;">x</span>
+                <span style="font-size: 1.2rem; font-weight: bold; margin: 0 10px;">+</span>
+                <input type="number" id="setup-rc" class="eq-input" value="10">
+            </div>
+
+            <button class="nav-toggle active" onclick="loadCustomEquation()" style="border: none; font-size: 1.2rem;">Waage beladen!</button>
+        </div>
+    </section>
+
+    <section class="subject-group" id="labor">
+        <div class="subject-header">
+            <span class="subject-badge bg-info">Schritt 2</span>
+            <h2 style="margin: 0; color: var(--primary);">Gleichung lösen</h2>
+        </div>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+            
+            <div style="flex: 2; min-width: 300px;">
+                <div style="background: white; border: 2px solid var(--primary); border-radius: 12px; padding: 1.5rem; text-align: center; position: relative;">
+                    
+                    <div id="eqDisplay" style="font-size: 2rem; font-weight: bold; color: var(--text-main); margin-bottom: 1rem; font-family: 'Times New Roman', serif; letter-spacing: 2px;">
+                        </div>
+
+                    <div style="width: 100%; max-width: 500px; height: 260px; margin: 0 auto;">
+                        <svg viewBox="0 0 600 280" width="100%" height="100%">
+                            <polygon points="260,260 340,260 300,180" class="scale-base" />
+                            <rect x="290" y="70" width="20" height="190" class="scale-base" rx="5" />
+                            
+                            <g id="scale-group" class="scale-beam">
+                                <line x1="100" y1="70" x2="500" y2="70" />
+                                
+                                <g id="left-plate-group">
+                                    <line x1="100" y1="70" x2="100" y2="200" stroke="#94a3b8" stroke-width="3" />
+                                    <path d="M 40 200 Q 100 230 160 200 Z" class="scale-plate" />
+                                    <g id="left-items"></g>
+                                </g>
+
+                                <g id="right-plate-group">
+                                    <line x1="500" y1="70" x2="500" y2="200" stroke="#94a3b8" stroke-width="3" />
+                                    <path d="M 440 200 Q 500 230 560 200 Z" class="scale-plate" />
+                                    <g id="right-items"></g>
+                                </g>
+                            </g>
+                            <circle cx="300" cy="70" r="10" fill="#cbd5e1" stroke="#475569" stroke-width="3" />
+                        </svg>
+                    </div>
+
+                    <div id="controls" style="background: var(--bg); padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0; margin-top: 1rem;">
+                        <div style="font-weight: bold; margin-bottom: 10px; color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase;">Äquivalenzumformung (Was tust du auf beiden Seiten?)</div>
+                        
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <span style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">|</span>
+                            
+                            <select id="op-select" style="font-size: 1.2rem; padding: 5px; border-radius: 4px; border: 2px solid #cbd5e1; outline: none;">
+                                <option value="+">+</option>
+                                <option value="-">-</option>
+                                <option value="*">&middot;</option>
+                                <option value="/">:</option>
+                            </select>
+                            
+                            <input type="number" id="op-val" value="2" style="font-size: 1.2rem; padding: 5px; width: 60px; text-align: center; border-radius: 4px; border: 2px solid #cbd5e1; outline: none;">
+                            
+                            <select id="op-type" style="font-size: 1.2rem; padding: 5px; border-radius: 4px; border: 2px solid #cbd5e1; outline: none;">
+                                <option value="c">Zahl</option>
+                                <option value="x">x</option>
+                            </select>
+
+                            <button onclick="applyOperation()" style="background: var(--primary); color: white; border: none; padding: 8px 15px; font-size: 1.1rem; font-weight: bold; border-radius: 6px; cursor: pointer; margin-left: 10px;">Rechnen</button>
+                        </div>
+                    </div>
+
+                    <div id="successMsg" style="display: none; background: var(--xls-green); color: white; padding: 1rem; border-radius: 8px; margin-top: 1rem; font-size: 1.2rem; font-weight: bold;">
+                        🎉 Perfekt gelöst!
+                    </div>
+                    <div id="errorMsg" style="display: none; background: var(--pdf-red); color: white; padding: 1rem; border-radius: 8px; margin-top: 1rem; font-weight: bold;">
+                        Achtung: Die Waage kippt! Oder du hast dich in eine Sackgasse gerechnet. Mache den Schritt rückgängig!
+                    </div>
+
+                </div>
+            </div>
+
+            <div style="flex: 1; min-width: 250px;">
+                <h3 style="margin-top: 0; display: flex; justify-content: space-between; align-items: center;">
+                    Dein Heft
+                    <button onclick="undoLastStep()" style="font-size: 0.9rem; padding: 5px 10px; background: #e2e8f0; border: none; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                        <span>↩</span> Schritt zurück
+                    </button>
+                </h3>
+                
+                <div class="protocol-sheet" id="protocol">
+                    </div>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Mathematik verstehen 2 | Algebra - Gleichungen selbst lösen</p>
+</footer>
+
+<script>
+    // Systemzustand
+    let state = { lx: 0, lc: 0, rx: 0, rc: 0 };
+    let history = []; // Speichert alte Zustände für "Undo"
+
+    // Formatiert die mathematische Ausgabe (z.B. 1x -> x, -1x -> -x, 0x -> verschwindet)
+    function formatEquationPart(x, c) {
+        let str = "";
+        
+        // X-Teil behandeln
+        if (x !== 0) {
+            if (x === 1) str += "x";
+            else if (x === -1) str += "-x";
+            else if (x % 1 !== 0) str += parseFloat(x.toFixed(2)) + "x"; // Kommazahlen runden
+            else str += x + "x";
+        }
+
+        // Konstanten-Teil behandeln
+        if (c !== 0) {
+            if (str === "") {
+                str += c;
+            } else {
+                str += (c > 0) ? " + " + c : " - " + Math.abs(c);
+            }
+        }
+        
+        // Wenn beide 0 sind
+        if (x === 0 && c === 0) str = "0";
+        
+        return str;
+    }
+
+    // Lädt die Werte aus dem Setup-Bereich in die Waage
+    function loadCustomEquation() {
+        const lx = parseFloat(document.getElementById('setup-lx').value) || 0;
+        const lc = parseFloat(document.getElementById('setup-lc').value) || 0;
+        const rx = parseFloat(document.getElementById('setup-rx').value) || 0;
+        const rc = parseFloat(document.getElementById('setup-rc').value) || 0;
+
+        state = { lx, lc, rx, rc };
+        history = []; // Reset Historie
+        
+        document.getElementById('controls').style.display = 'block';
+        document.getElementById('successMsg').style.display = 'none';
+        document.getElementById('errorMsg').style.display = 'none';
+
+        updateVisuals();
+        renderProtocol();
+    }
+
+    // Führt die Rechenoperation aus
+    function applyOperation() {
+        const op = document.getElementById('op-select').value;
+        const val = parseFloat(document.getElementById('op-val').value);
+        const type = document.getElementById('op-type').value; // 'c' (Zahl) oder 'x'
+
+        if (isNaN(val)) return;
+
+        // Zustand sichern vor Änderung
+        let opString = `| ${op} ${val}${type === 'x' ? 'x' : ''}`;
+        if(op === '*' || op === '/') opString = `| ${op} ${val}`; // Mal/Geteilt durch x lassen wir hier didaktisch weg!
+
+        history.push({
+            prevState: { ...state },
+            actionStr: opString
+        });
+
+        // Berechnen
+        if (type === 'c') {
+            if (op === '+') { state.lc += val; state.rc += val; }
+            if (op === '-') { state.lc -= val; state.rc -= val; }
+            if (op === '*') { state.lx *= val; state.lc *= val; state.rx *= val; state.rc *= val; }
+            if (op === '/') { state.lx /= val; state.lc /= val; state.rx /= val; state.rc /= val; }
+        } else if (type === 'x') {
+            // Addition/Subtraktion von x-Variablen
+            if (op === '+') { state.lx += val; state.rx += val; }
+            if (op === '-') { state.lx -= val; state.rx -= val; }
+            if (op === '*' || op === '/') {
+                // In der 2. Klasse multipliziert/dividiert man nicht mit x (führt zu quadratischen Gleichungen)
+                alert("Multiplizieren oder Dividieren mit 'x' machen wir in der 2. Klasse noch nicht!");
+                history.pop();
+                return;
+            }
+        }
+
+        updateVisuals();
+        renderProtocol();
+        checkWinCondition();
+    }
+
+    // Macht den letzten Schritt rückgängig
+    function undoLastStep() {
+        if (history.length > 0) {
+            let lastRecord = history.pop();
+            state = { ...lastRecord.prevState };
+            
+            document.getElementById('controls').style.display = 'block';
+            document.getElementById('successMsg').style.display = 'none';
+            document.getElementById('errorMsg').style.display = 'none';
+            
+            updateVisuals();
+            renderProtocol();
+        }
+    }
+
+    // Aktualisiert die Anzeige und die Waage
+    function updateVisuals() {
+        let leftText = formatEquationPart(state.lx, state.lc);
+        let rightText = formatEquationPart(state.rx, state.rc);
+        document.getElementById('eqDisplay').innerText = `${leftText} = ${rightText}`;
+
+        // Waage zeichnen
+        drawItems('left-items', state.lx, state.lc, 100);
+        drawItems('right-items', state.rx, state.rc, 500);
+        
+        // Wackel-Animation für Interaktion
+        const beam = document.getElementById('scale-group');
+        beam.style.transform = "rotate(-2deg)";
+        setTimeout(() => { beam.style.transform = "rotate(2deg)"; }, 150);
+        setTimeout(() => { beam.style.transform = "rotate(0deg)"; }, 300);
+    }
+
+    // Füllt das Schulheft-Protokoll
+    function renderProtocol() {
+        const prot = document.getElementById('protocol');
+        prot.innerHTML = ''; // Leeren
+
+        // Startgleichung (Index 0)
+        let firstState = history.length > 0 ? history[0].prevState : state;
+        let html = `<div class="protocol-row"><span>${formatEquationPart(firstState.lx, firstState.lc)} = ${formatEquationPart(firstState.rx, firstState.rc)}</span></div>`;
+        
+        // Alle weiteren Schritte anhängen
+        for (let i = 0; i < history.length; i++) {
+            let s = history[i];
+            let nextState = (i + 1 < history.length) ? history[i+1].prevState : state;
+            
+            // Füge die Operation rechts an die VORHERIGE Zeile an
+            html = html.replace('</div>$', `<span class="protocol-op">${s.actionStr}</span></div>`);
+            
+            // Neue Zeile für das Ergebnis
+            html += `<div class="protocol-row"><span>${formatEquationPart(nextState.lx, nextState.lc)} = ${formatEquationPart(nextState.rx, nextState.rc)}</span></div>`;
+        }
+
+        prot.innerHTML = html;
+        // Runterscrollen
+        prot.scrollTop = prot.scrollHeight;
+    }
+
+    // Zeichnet Boxen und Kugeln auf die Waagschalen
+    function drawItems(containerId, xCount, cCount, centerX) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        
+        let yBase = 190;
+
+        // X-BOXEN
+        let absX = Math.abs(xCount);
+        let isXNeg = xCount < 0;
+        
+        // Wenn es zu viele x sind, zeichnen wir einen "Sammelblock"
+        if (absX > 6) {
+            let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            rect.setAttribute("x", centerX - 30); rect.setAttribute("y", yBase - 50);
+            rect.setAttribute("width", "60"); rect.setAttribute("height", "50");
+            rect.setAttribute("class", isXNeg ? "weight-x-neg" : "weight-x"); rect.setAttribute("rx", "4");
+            container.appendChild(rect);
+            addText(container, (isXNeg?"-":"") + absX + "x", centerX, yBase - 20, "20", isXNeg ? "var(--pdf-red)" : "white");
+            yBase -= 55;
+        } else {
+            // Einzelne Boxen stapeln
+            for (let i = 0; i < absX; i++) {
+                let bx = centerX - 15 + ((i%2) * 35 - 17.5); // Versetzt
+                if(absX === 1) bx = centerX - 15;
+                let by = yBase - 30 - Math.floor(i/2)*35;
+                
+                let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                rect.setAttribute("x", bx); rect.setAttribute("y", by);
+                rect.setAttribute("width", "30"); rect.setAttribute("height", "30");
+                rect.setAttribute("class", isXNeg ? "weight-x-neg" : "weight-x"); rect.setAttribute("rx", "4");
+                container.appendChild(rect);
+                addText(container, isXNeg ? "-x" : "x", bx + 15, by + 20, "16", isXNeg ? "var(--pdf-red)" : "white");
+            }
+            if(absX > 0) yBase -= 35 + Math.floor((absX-1)/2)*35;
+        }
+
+        // KUGELN (Zahlen)
+        let absC = Math.abs(cCount);
+        let isCNeg = cCount < 0;
+        
+        // Wenn es zu viele Kugeln sind, zeichnen wir einen "Sammelblock"
+        if (absC > 15) {
+            let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            rect.setAttribute("x", centerX - 25); rect.setAttribute("y", yBase - 30);
+            rect.setAttribute("width", "50"); rect.setAttribute("height", "30");
+            rect.setAttribute("fill", isCNeg ? "var(--pdf-red)" : "var(--doc-blue)");
+            rect.setAttribute("rx", "15");
+            container.appendChild(rect);
+            addText(container, (isCNeg?"-":"+") + absC, centerX, yBase - 10, "16", "white");
+        } else {
+            // Einzelne Kugeln stapeln
+            for (let i = 0; i < absC; i++) {
+                let row = Math.floor((-1 + Math.sqrt(1 + 8*i))/2);
+                let indexInRow = i - (row*(row+1))/2;
+                let cx = centerX + (indexInRow - row/2) * 20;
+                let cy = yBase - 10 - row*18;
+                
+                let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle.setAttribute("cx", cx); circle.setAttribute("cy", cy);
+                circle.setAttribute("r", "9"); circle.setAttribute("class", isCNeg ? "weight-ball-neg" : "weight-ball");
+                container.appendChild(circle);
+                
+                if(isCNeg) {
+                    let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                    line.setAttribute("x1", cx - 5); line.setAttribute("y1", cy);
+                    line.setAttribute("x2", cx + 5); line.setAttribute("y2", cy);
+                    line.setAttribute("stroke", "white"); line.setAttribute("stroke-width", "2");
+                    container.appendChild(line);
+                }
+            }
+        }
+    }
+
+    function addText(container, text, x, y, size, color) {
+        let t = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        t.setAttribute("x", x); t.setAttribute("y", y);
+        t.setAttribute("fill", color); t.setAttribute("font-size", size);
+        t.setAttribute("font-weight", "bold"); t.setAttribute("text-anchor", "middle");
+        t.setAttribute("font-family", "sans-serif");
+        t.textContent = text;
+        container.appendChild(t);
+    }
+
+    function checkWinCondition() {
+        const controls = document.getElementById('controls');
+        
+        // Gewonnen: x = Zahl
+        if (state.lx === 1 && state.lc === 0 && state.rx === 0) {
+            controls.style.display = 'none';
+            document.getElementById('successMsg').style.display = 'block';
+        }
+        // Gewonnen andersrum: Zahl = x
+        else if (state.rx === 1 && state.rc === 0 && state.lx === 0) {
+            controls.style.display = 'none';
+            document.getElementById('successMsg').style.display = 'block';
+        }
+        // Falsche Aussage (z.B. 0 = 5) oder X vernichtet
+        else if (state.lx === state.rx && state.lc !== state.rc) {
+            controls.style.display = 'none';
+            document.getElementById('errorMsg').style.display = 'block';
+        }
+    }
+
+    // Start
+    window.onload = loadCustomEquation;
+</script>
+
+</body>
+</html>

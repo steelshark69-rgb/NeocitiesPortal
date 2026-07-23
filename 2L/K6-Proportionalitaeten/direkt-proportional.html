@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direkte Proportionalität - AHS 2. Klasse</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <style>
+        :root {
+            --math-primary: #8b5cf6; /* Violett für Proportionalitäten */
+            --math-dark: #6d28d9;
+            --correct-bg: #d1fae5;
+            --correct-border: #10b981;
+            --incorrect-bg: #fee2e2;
+            --incorrect-border: #ef4444;
+        }
+
+        body { padding-bottom: 2rem; }
+
+        /* Custom Header Styling */
+        .page-header {
+            background-color: var(--math-primary);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        .page-header h1 { margin: 0; color: white; }
+        .page-header p { margin-top: 0.5rem; opacity: 0.9; color: white; }
+
+        /* Info & Theorie Boxen */
+        .theory-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            line-height: 1.6;
+        }
+        .theory-box h3 { color: var(--math-primary); margin-top: 0; font-size: 1.4rem; }
+        
+        .calculation-step {
+            background: #f8fafc;
+            border-left: 4px solid var(--math-primary);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Interaktives Tool */
+        .interactive-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            background: #f0fdf4;
+            border: 2px solid #bbf7d0;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+        }
+        .interactive-controls { flex: 1; min-width: 250px; }
+        .interactive-graph { flex: 1; min-width: 300px; text-align: center; }
+        
+        input[type=range] { width: 100%; margin: 15px 0; accent-color: var(--math-primary); }
+
+        /* Tab-Navigation Styling */
+        .tab-nav-container {
+            display: flex;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 2rem;
+            background: white;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            color: #64748b;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+        .tab-btn:hover { background: #f8fafc; color: #334155; }
+        .tab-active { border-bottom: 4px solid var(--math-primary); color: var(--math-dark); background: #f3e8ff; }
+
+        /* Aufgaben-Karten Styling */
+        .task-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            transition: border-color 0.2s;
+        }
+        @media(min-width: 768px) {
+            .task-card { flex-direction: row; justify-content: space-between; align-items: flex-start; }
+        }
+        
+        .task-content { flex: 1; padding-right: 1rem; }
+        .task-badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--math-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .task-text { font-size: 1.1rem; color: #334155; line-height: 1.5; margin: 0; }
+        
+        /* Lösungsbox (Aufklappbar) */
+        .solution-box {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f8fafc;
+            border-left: 4px solid var(--math-primary);
+            border-radius: 0 8px 8px 0;
+            font-size: 0.95rem;
+            color: #475569;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Eingabefelder und Buttons */
+        .task-action { display: flex; gap: 10px; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
+        .task-input {
+            padding: 10px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            width: 130px;
+            text-align: center;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.2s;
+        }
+        .task-input:focus { border-color: var(--math-primary); }
+        
+        .task-btn {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .task-btn:hover { background: #1e293b; }
+        .btn-solution { background: #e2e8f0; color: #475569; }
+        .btn-solution:hover { background: #cbd5e1; color: #1e293b; }
+
+        /* Status Klassen für JS */
+        .correct { border-color: var(--correct-border) !important; background-color: var(--correct-bg) !important; color: #065f46; font-weight: bold; }
+        .incorrect { border-color: var(--incorrect-border) !important; background-color: var(--incorrect-bg) !important; color: #991b1b; }
+    </style>
+</head>
+<body>
+
+<header class="page-header">
+    <h1>Direkte Proportionalität</h1>
+    <p>Je mehr, desto mehr! Schlussrechnungen verstehen und anwenden (Kapitel 6)</p>
+</header>
+
+<div class="back-nav" style="display: flex; justify-content: center; margin-bottom: 2rem;">
+    <a href="../index.html" class="btn-back" style="padding: 0.6rem 1.2rem; border-radius: 10px; background: #f8fafc; border: 1px solid #e2e8f0; color: #1e293b; text-decoration: none; font-weight: 700;">← Zurück zur Übersicht</a>
+</div>
+
+<main style="max-width: 1000px; margin: 0 auto; padding: 0 1.5rem;">
+
+    <!-- THEORIE BEREICH -->
+    <section class="theory-box">
+        <h3>📚 Theorie: Was ist direkte Proportionalität?</h3>
+        <p>Zwei Größen sind zueinander direkt proportional, wenn gilt: <strong>Je mehr von der einen Größe, desto mehr von der anderen Größe.</strong> Verdoppelt sich der eine Wert, so verdoppelt sich auch der andere. Halbiert sich der eine, halbiert sich der andere.</p>
+        
+        <p><strong>Die Schlussrechnung (Dreisatz) funktioniert in zwei Schritten:</strong></p>
+        
+        <div class="calculation-step">
+            <strong>Schritt 1: Schluss auf die Einheit (Das Einfache ermitteln)</strong><br>
+            Du rechnest aus, wie viel <strong>1 Stück</strong> (oder 1 kg, 1 Liter, ...) kostet. Dazu musst du <strong>dividieren</strong>.<br>
+            <em>Beispiel:</em> 4 Eiskugeln kosten 8 €. ➔ 1 Eiskugel kostet: 8 € : 4 = <strong>2 €</strong>.
+        </div>
+        
+        <div class="calculation-step">
+            <strong>Schritt 2: Schluss auf die Mehrheit (Das Mehrfache ermitteln)</strong><br>
+            Du rechnest aus, wie viel die gesuchte Menge kostet. Dazu musst du mit dem Ergebnis aus Schritt 1 <strong>multiplizieren</strong>.<br>
+            <em>Beispiel:</em> Du möchtest 3 Eiskugeln kaufen. ➔ 3 Kugeln kosten: 3 · 2 € = <strong>6 €</strong>.
+        </div>
+    </section>
+
+    <!-- INTERAKTIVES TOOL -->
+    <section class="interactive-section">
+        <div class="interactive-controls">
+            <h3 style="margin-top: 0; color: #166534;">🍎 Das Äpfel-Labor (Interaktiv)</h3>
+            <p>1 Kilogramm Äpfel kostet <strong>2,50 €</strong>.</p>
+            <p>Bewege den Regler, um die Menge zu verändern. Beobachte, wie der Preis steigt und wie sich der Graph entwickelt!</p>
+            
+            <label for="apple-slider" style="font-weight: bold; display: block; margin-top: 1.5rem;">Menge: <span id="apple-amount">4</span> kg</label>
+            <input type="range" id="apple-slider" min="0" max="10" step="1" value="4">
+            
+            <div style="background: white; padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px solid #bbf7d0; font-size: 1.2rem;">
+                Gesamtpreis: <strong style="color: var(--math-primary);" id="apple-price">10,00 €</strong>
+            </div>
+        </div>
+        <div class="interactive-graph">
+            <canvas id="propChart" width="400" height="300" style="background: white; border-radius: 8px; border: 1px solid #cbd5e1; max-width: 100%; height: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.05);"></canvas>
+            <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.5rem;">Der Graph einer direkten Proportionalität ist immer eine Gerade durch den Ursprung (0|0)!</p>
+        </div>
+    </section>
+
+    <!-- HINWEIS EINGABE -->
+    <div style="background: #fffbeb; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid #f59e0b;">
+        <strong>💡 Hinweis zur Eingabe:</strong>
+        <p style="margin-bottom: 0; margin-top: 5px;">Einheiten wie €, kg oder km müssen nicht in das Feld eingetippt werden. Verwende bei Dezimalzahlen immer ein Komma (keinen Punkt). Falls du nicht weiterkommst, klicke auf <strong>Lösungsweg</strong>!</p>
+    </div>
+
+    <!-- ÜBUNGEN TABS -->
+    <div class="tab-nav-container">
+        <button onclick="showTab('leicht')" id="tab-leicht" class="tab-btn tab-active">🟢 Leicht (1-5)</button>
+        <button onclick="showTab('mittel')" id="tab-mittel" class="tab-btn">🟡 Mittel (6-10)</button>
+        <button onclick="showTab('schwer')" id="tab-schwer" class="tab-btn">🔴 Schwer (11-15)</button>
+    </div>
+
+    <div id="tasks-container">
+        <!-- Aufgaben werden hier per JS geladen -->
+    </div>
+
+</main>
+
+<footer style="margin-top: 5rem; padding: 2rem 1rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.9rem;">
+    <div style="max-width: 800px; margin: 0 auto 2rem auto; text-align: left; background: white; padding: 1.5rem; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <h4 style="margin-top: 0; color: #334155; font-size: 1.1rem;">Datenschutzhinweis (DSGVO)</h4>
+        <p style="margin-bottom: 0; line-height: 1.5;">Die Nutzung dieses Portals ist absolut datenschutzkonform. Es werden keine Eingaben an einen Server gesendet. Die Auswertung der Antworten sowie das interaktive Diagramm werden lokal im Browser berechnet.</p>
+    </div>
+    <div style="text-align: center; font-weight: bold;">
+        &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+    </div>
+</footer>
+
+<script>
+    // --- INTERAKTIVER GRAPH LOGIK ---
+    const slider = document.getElementById('apple-slider');
+    const amountSpan = document.getElementById('apple-amount');
+    const priceSpan = document.getElementById('apple-price');
+    const canvas = document.getElementById('propChart');
+    const ctx = canvas.getContext('2d');
+    
+    const PRICE_PER_KG = 2.50;
+
+    function drawChart() {
+        const amount = parseInt(slider.value);
+        const price = amount * PRICE_PER_KG;
+        
+        // Update Text
+        amountSpan.innerText = amount;
+        priceSpan.innerText = price.toFixed(2).replace('.', ',') + " €";
+
+        // Canvas Setup
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const padding = 40;
+        const width = canvas.width - padding * 2;
+        const height = canvas.height - padding * 2;
+        const startX = padding;
+        const startY = canvas.height - padding;
+
+        // Draw Grid
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        for(let i=0; i<=10; i+=2) {
+            // Y Grid
+            let y = startY - (i/10) * height;
+            ctx.beginPath(); ctx.moveTo(startX, y); ctx.lineTo(startX + width, y); ctx.stroke();
+            // Y Labels (Preis bis 25€)
+            ctx.fillStyle = '#64748b';
+            ctx.font = '12px sans-serif';
+            ctx.textAlign = 'right';
+            ctx.fillText((i*2.5).toFixed(0) + '€', startX - 5, y + 4);
+            
+            // X Grid & Labels (Menge bis 10kg)
+            let x = startX + (i/10) * width;
+            ctx.beginPath(); ctx.moveTo(x, startY); ctx.lineTo(x, startY - height); ctx.stroke();
+            ctx.textAlign = 'center';
+            ctx.fillText(i + 'kg', x, startY + 15);
+        }
+
+        // Draw Axes
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(startX, padding); ctx.lineTo(startX, startY); // Y Axis
+        ctx.lineTo(startX + width, startY); // X Axis
+        ctx.stroke();
+
+        // Draw the Proportionality Line (0,0 to 10,25)
+        ctx.strokeStyle = '#cbd5e1';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(startX + width, startY - height);
+        ctx.stroke();
+
+        // Draw current Point & Line
+        const currentX = startX + (amount / 10) * width;
+        const currentY = startY - (price / 25) * height;
+
+        ctx.strokeStyle = '#8b5cf6';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(currentX, currentY);
+        ctx.stroke();
+
+        ctx.fillStyle = '#8b5cf6';
+        ctx.beginPath();
+        ctx.arc(currentX, currentY, 6, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    slider.addEventListener('input', drawChart);
+    // Initial draw
+    window.addEventListener('load', drawChart);
+
+
+    // --- ÜBUNGSAUFGABEN LOGIK ---
+    const tasks = {
+        leicht: [
+            { id: 1, q: "3 Schokoladentafeln kosten 6 €. Was kosten 5 Tafeln?", a: "10", s: "Schluss auf die Einheit: 1 Tafel kostet 6 € : 3 = 2 €.<br>Schluss auf das Mehrfache: 5 Tafeln kosten 5 · 2 € = 10 €." },
+            { id: 2, q: "Für 4 kg Kartoffeln zahlt man 8 €. Wie viel kostet 1 kg?", a: "2", s: "Hier ist nur der erste Schritt nötig: Schluss auf die Einheit. 8 € : 4 kg = 2 €." },
+            { id: 3, q: "Ein Auto fährt bei gleichbleibender Geschwindigkeit in 2 Stunden 100 km. Wie weit kommt es in 3 Stunden?", a: "150", s: "In 1 Stunde: 100 km : 2 = 50 km.<br>In 3 Stunden: 3 · 50 km = 150 km." },
+            { id: 4, q: "5 Eiskugeln kosten 7,50 €. Was kosten 2 Kugeln?", a: "3", s: "1 Kugel: 7,50 € : 5 = 1,50 €.<br>2 Kugeln: 2 · 1,50 € = 3,00 €." },
+            { id: 5, q: "10 Liter Wandfarbe reichen für 50 m². Wie viele Liter benötigt man für 20 m²?", a: "4", s: "Für 1 m² braucht man: 10 L : 50 = 0,2 Liter.<br>Für 20 m²: 20 · 0,2 = 4 Liter.<br><i>Oder schlauer:</i> 50 m² sind 10 L. Zehntel: 5 m² brauchen 1 L. Mal 4: 20 m² brauchen 4 L." }
+        ],
+        mittel: [
+            { id: 6, q: "2,5 kg Bananen kosten 5 €. Was kosten 4 kg?", a: "8", s: "1 kg kostet: 5 € : 2,5 = 2 €.<br>4 kg kosten: 4 · 2 € = 8 €." },
+            { id: 7, q: "Eine Maschine produziert in 15 Minuten 300 Schrauben. Wie viele Schrauben produziert sie in 45 Minuten?", a: "900", s: "Du kannst über 1 Minute rechnen (300 : 15 = 20; 20 · 45 = 900).<br>Oder kürzer: 45 Minuten ist genau das Dreifache von 15 Minuten. Also: 3 · 300 = 900 Schrauben." },
+            { id: 8, q: "Ein Pizzateig-Rezept für 4 Personen benötigt 200 g Mehl. Wie viel Mehl benötigt man für 6 Personen?", a: "300", s: "Für 1 Person: 200 g : 4 = 50 g Mehl.<br>Für 6 Personen: 6 · 50 g = 300 g." },
+            { id: 9, q: "3 Meter Stoff kosten 18,60 €. Was kosten 5 Meter dieses Stoffes?", a: "31", s: "1 Meter kostet: 18,60 € : 3 = 6,20 €.<br>5 Meter kosten: 5 · 6,20 € = 31,00 €." },
+            { id: 10, q: "Ein Ferialpraktikant verdient in 8 Stunden 120 €. Wie viel verdient er in einer 35-Stunden-Woche?", a: "525", s: "Stundenlohn (1 Stunde): 120 € : 8 = 15 €.<br>Wochenlohn (35 Stunden): 35 · 15 € = 525 €." }
+        ],
+        schwer: [
+            { id: 11, q: "12 Flaschen Mineralwasser kosten 7,20 €. Was kosten 5 Flaschen?", a: "3", s: "1 Flasche kostet: 7,20 € : 12 = 0,60 €.<br>5 Flaschen kosten: 5 · 0,60 € = 3,00 €." },
+            { id: 12, q: "Ein Auto verbraucht 6,4 Liter Benzin auf 100 km. Wie viele Liter verbraucht es auf einer Strecke von 250 km?", a: "16", s: "Verbrauch für 1 km: 6,4 : 100 = 0,064 Liter.<br>Für 250 km: 250 · 0,064 = 16 Liter.<br><i>Oder:</i> 100 km = 6,4 L. 50 km = 3,2 L. 200 km = 12,8 L. (12,8 + 3,2 = 16 L)." },
+            { id: 13, q: "Umkehraufgabe: Für 450 Flugkilometer bezahlt man 90 €. Wie viele Kilometer kann man fliegen, wenn man 150 € zur Verfügung hat?", a: "750", s: "Wir suchen Kilometer! <br>Für 1 € fliegt man: 450 km : 90 = 5 km.<br>Für 150 € fliegt man: 150 · 5 km = 750 km." },
+            { id: 14, q: "Eine Wasserpumpe fördert in 12 Minuten 4800 Liter Wasser. Wie lange (in Minuten) braucht sie, um einen 10000 Liter Pool zu füllen?", a: "25", s: "Wir suchen die Zeit!<br>Für 1 Liter braucht sie: 12 min : 4800 = 0,0025 min.<br>Für 10000 Liter: 10000 · 0,0025 = 25 Minuten.<br><i>Oder Leistung berechnen:</i> 4800 : 12 = 400 Liter pro Minute. 10000 : 400 = 25 min." },
+            { id: 15, q: "150 g Edamer-Käse kosten 2,70 €. Wie viel bezahlt man für 250 g?", a: "4,50", s: "1 g kostet: 2,70 € : 150 = 0,018 €.<br>250 g kosten: 250 · 0,018 € = 4,50 €.<br><i>Kürzer über 50g-Schritte:</i> 50 g kosten (2,70 : 3) = 0,90 €. 250 g sind 5 mal 50 g. 5 · 0,90 € = 4,50 €." }
+        ]
+    };
+
+    let currentTab = 'leicht';
+
+    function showTab(tabName) {
+        currentTab = tabName;
+        
+        // Update UI Tabs
+        ['leicht', 'mittel', 'schwer'].forEach(t => {
+            document.getElementById('tab-' + t).classList.remove('tab-active');
+        });
+        document.getElementById('tab-' + tabName).classList.add('tab-active');
+
+        renderTasks();
+    }
+
+    function renderTasks() {
+        const container = document.getElementById('tasks-container');
+        container.innerHTML = '';
+
+        tasks[currentTab].forEach(task => {
+            const div = document.createElement('div');
+            div.className = "task-card";
+            div.innerHTML = `
+                <div class="task-content">
+                    <div class="task-badge">Aufgabe ${task.id}</div>
+                    <p class="task-text">${task.q}</p>
+                    <div id="solution-${task.id}" class="solution-box">
+                        <strong>💡 Lösungsweg:</strong><br> ${task.s}
+                    </div>
+                </div>
+                <div class="task-action">
+                    <input type="text" id="input-${task.id}" placeholder="Ergebnis" class="task-input">
+                    <button onclick="checkAnswer(${task.id}, '${task.a}')" class="task-btn">Prüfen</button>
+                    <button onclick="toggleSolution(${task.id})" class="task-btn btn-solution">Lösungsweg</button>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function checkAnswer(id, correct) {
+        const input = document.getElementById('input-' + id);
+        let userVal = input.value.trim().replace(',', '.').toLowerCase();
+        let targetVal = correct.replace(',', '.').toLowerCase();
+
+        // Numerische Prüfung für Toleranz bei abschließenden Nullen (z.B. 4.5 = 4.50)
+        let numUser = parseFloat(userVal);
+        let numTarget = parseFloat(targetVal);
+
+        if (!isNaN(numUser) && !isNaN(numTarget) && numUser === numTarget) {
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
+        } else if (userVal === targetVal) {
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
+        } else {
+            input.classList.remove('correct');
+            input.classList.add('incorrect');
+        }
+    }
+
+    function toggleSolution(id) {
+        const solBox = document.getElementById('solution-' + id);
+        if (solBox.style.display === "block") {
+            solBox.style.display = "none";
+        } else {
+            solBox.style.display = "block";
+        }
+    }
+
+    // Initialize Tasks
+    window.addEventListener('load', () => showTab('leicht'));
+</script>
+
+</body>
+</html>

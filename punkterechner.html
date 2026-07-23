@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktiver Mehrkampf Rechner - Peuerbach Gymnasium</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; padding: 20px; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #2c3e50; margin-top: 0; font-size: 1.5rem; line-height: 1.4; }
+        
+        .input-group { background: #e8f4fd; padding: 20px; border-radius: 8px; border: 1px solid #d0e1f5; display: flex; flex-direction: column; gap: 10px; }
+        .input-row { display: flex; gap: 10px; }
+        .input-label { font-size: 0.9em; font-weight: bold; color: #2980b9; margin-bottom: 2px;}
+        
+        select, input { padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
+        select { flex: 2; }
+        input { flex: 1; }
+        
+        button#add-btn {
+            background-color: #27ae60; color: white; border: none; padding: 12px; 
+            border-radius: 6px; font-size: 1rem; cursor: pointer; font-weight: bold;
+            transition: background 0.2s;
+        }
+        button#add-btn:hover { background-color: #219150; }
+
+        .results-container { margin-top: 30px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; color: #7f8c8d; font-size: 0.85em; padding-bottom: 10px; border-bottom: 2px solid #eee; }
+        td { padding: 12px 5px; border-bottom: 1px solid #eee; }
+        .col-points { text-align: right; font-weight: bold; color: #2980b9; }
+        .col-action { text-align: right; width: 30px; }
+        
+        .delete-btn { background: none; border: none; color: #e74c3c; font-weight: bold; cursor: pointer; font-size: 1.2em; }
+        .delete-btn:hover { color: #c0392b; }
+
+        .total-box { 
+            margin-top: 20px; padding-top: 20px; border-top: 2px solid #333; 
+            display: flex; justify-content: space-between; align-items: center; 
+        }
+        .total-info { display: flex; flex-direction: column; }
+        .total-label { font-size: 1.2em; font-weight: bold; }
+        .grade-hint { font-size: 0.85em; color: #7f8c8d; }
+        
+        .total-value-group { text-align: right; }
+        .total-value { font-size: 1.8em; font-weight: bold; color: #e74c3c; display: block; }
+        .grade-badge { 
+            display: inline-block; margin-top: 5px; padding: 4px 12px; border-radius: 12px; 
+            background: #95a5a6; color: white; font-weight: bold; font-size: 1.1em; 
+        }
+
+        .empty-msg { text-align: center; color: #aaa; font-style: italic; margin-top: 20px; }
+
+        .grading-ref { margin-top: 25px; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #eee; }
+        .grading-ref h4 { margin: 0 0 10px 0; color: #555; font-size: 1rem; }
+        .ref-table { width: 100%; font-size: 0.9em; }
+        .ref-table td { border-bottom: 1px solid #ddd; padding: 6px 0; color: #555; }
+        .ref-table tr.active-grade { background-color: #d4edda; color: #155724; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Mehrkampf Punkterechner<br>Georg von Peuerbach Gymnasium</h1>
+
+    <div class="input-group">
+        <div class="input-row">
+            <div style="flex: 1;">
+                <div class="input-label">Schulstufe:</div>
+                <select id="grade-select" onchange="onConfigChange()" style="width:100%">
+                    <option value="1">1. Klasse</option>
+                    <option value="2">2. Klasse</option>
+                    <option value="3">3. Klasse</option>
+                    <option value="4">4. Klasse</option>
+                    <option value="5">5. Klasse</option>
+                    <option value="6">6. Klasse</option>
+                    <option value="7">7. Klasse</option>
+                </select>
+            </div>
+            <div style="flex: 1;">
+                <div class="input-label">Geschlecht:</div>
+                <select id="gender-select" onchange="onConfigChange()" style="width:100%">
+                    <option value="K">Knaben</option>
+                    <option value="M">Mädchen</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="border-top: 1px solid #d0e1f5; margin: 5px 0;"></div>
+
+        <div class="input-row">
+            <select id="discipline-select" onchange="updatePlaceholder()">
+                <option value="">-- Disziplin wählen --</option>
+            </select>
+        </div>
+        <div class="input-row">
+            <input type="number" id="performance-input" placeholder="Wert eingeben" step="0.01">
+            <button id="add-btn" onclick="addEntry()">Hinzufügen</button>
+        </div>
+    </div>
+
+    <div class="results-container">
+        <table id="result-table">
+            <thead>
+                <tr>
+                    <th>Disziplin</th>
+                    <th>Leistung</th>
+                    <th class="col-points">Punkte</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="result-body"></tbody>
+        </table>
+        
+        <div id="empty-msg" class="empty-msg">Noch keine Ergebnisse eingetragen.</div>
+
+        <div class="total-box">
+            <div class="total-info">
+                <span class="total-label">Gesamtpunkte:</span>
+                <span class="grade-hint" id="grade-level-text">(1. Klasse, Knaben)</span>
+            </div>
+            <div class="total-value-group">
+                <span class="total-value" id="total-score">0</span>
+                <span class="grade-badge" id="grade-badge">-</span>
+            </div>
+        </div>
+
+        <div class="grading-ref" id="grading-ref-box">
+            <h4>📊 Noten-Schwellenwerte</h4>
+            <table class="ref-table">
+                <tbody id="ref-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    const disciplines = {
+        "60m":          { a: 7.48676,  b: 1460,  c: 2.5,  type: 'track', unit: 's' },
+        "100m":         { a: 7.89305,  b: 2180,  c: 2.1,  type: 'track', unit: 's' },
+        "400m":         { a: 0.261208, b: 10454, c: 2.1,  type: 'track', unit: 's' },
+        "80m Hürden":   { a: 7.107482, b: 2171,  c: 2.1,  type: 'track', unit: 's' },
+        "100m Hürden":  { a: 4.674232, b: 2650,  c: 2.1,  type: 'track', unit: 's' },
+        "110m Hürden":  { a: 3.174673, b: 3003,  c: 2.1,  type: 'track', unit: 's' },
+        "800m":         { a: 0.04362,  b: 24531, c: 2.1,  type: 'track', unit: 's' },
+        "1500m":        { a: 0.002495, b: 53216, c: 2.3,  type: 'track', unit: 's' },
+        "Weitsprung":   { a: 171.9136, b: 125,   c: 1.1,  type: 'field', unit: 'm' },
+        "Hochsprung":   { a: 942.6551, b: 75,    c: 1.0,  type: 'field', unit: 'm' },
+        "Vortex":       { a: 28.05813, b: 360,   c: 0.9,  type: 'field', unit: 'm' },
+        "Speer":        { a: 28.05813, b: 360,   c: 0.9,  type: 'field', unit: 'm' },
+        "Kugel":        { a: 83.43537, b: 130,   c: 0.9,  type: 'field', unit: 'm' },
+        "Diskus":       { a: 27.92806, b: 362,   c: 0.9,  type: 'field', unit: 'm' }
+    };
+
+    const gradingScales = {
+        "1K": { 1: 1781, 2: 1540, 3: 1299, 4: 1058 },
+        "1M": { 1: 1399, 2: 1169, 3: 940,  4: 710  },
+        "2K": { 1: 1874, 2: 1652, 3: 1430, 4: 1207 },
+        "2M": { 1: 1555, 2: 1309, 3: 1063, 4: 816  },
+        "3K": { 1: 2523, 2: 2301, 3: 2079, 4: 1857 },
+        "3M": { 1: 2439, 2: 2013, 3: 1588, 4: 1163 },
+        "4K": { 1: 3930, 2: 3541, 3: 3152, 4: 2763 },
+        "4M": { 1: 3122, 2: 2714, 3: 2306, 4: 1897 },
+        "5K": { 1: 4218, 2: 3804, 3: 3391, 4: 2977 },
+        "5M": { 1: 3215, 2: 2807, 3: 2400, 4: 1993 },
+        "6K": { 1: 5626, 2: 5190, 3: 4753, 4: 4316 },
+        "6M": { 1: 3250, 2: 2870, 3: 2491, 4: 2111 },
+        "7K": { 1: 6070, 2: 5615, 3: 5160, 4: 4705 },
+        "7M": { 1: 3250, 2: 2870, 3: 2491, 4: 2111 }
+    };
+
+    let entries = [];
+
+    window.onload = function() {
+        const select = document.getElementById('discipline-select');
+        for (let key in disciplines) {
+            let opt = document.createElement('option');
+            opt.value = key;
+            opt.innerHTML = key;
+            select.appendChild(opt);
+        }
+        updateGradingUI();
+    };
+
+    function getScaleKey() {
+        return document.getElementById('grade-select').value + document.getElementById('gender-select').value;
+    }
+
+    function onConfigChange() {
+        renderList(); 
+        updateGradingUI();
+    }
+
+    function calculatePoints(key, performance) {
+        const d = disciplines[key];
+        const B_Base = d.b / 100; 
+        let points = 0;
+        if (d.type === 'track') {
+            if (B_Base < performance) return 0;
+            points = Math.floor(d.a * Math.pow((B_Base - performance), d.c));
+        } else {
+            if (performance < B_Base) return 0;
+            points = Math.floor(d.a * Math.pow((performance - B_Base), d.c));
+        }
+        return Math.max(0, points);
+    }
+
+    function calculateExactGrade(points) {
+        const scale = gradingScales[getScaleKey()];
+        if (!scale || points === 0) return "-";
+        if (points >= scale[1]) return "1,0";
+
+        if (points >= scale[4]) {
+            let n_start, n_end, p_high, p_low;
+            if (points >= scale[2]) { n_start = 1; n_end = 2; p_high = scale[1]; p_low = scale[2]; }
+            else if (points >= scale[3]) { n_start = 2; n_end = 3; p_high = scale[2]; p_low = scale[3]; }
+            else { n_start = 3; n_end = 4; p_high = scale[3]; p_low = scale[4]; }
+            let exact = n_start + (p_high - points) / (p_high - p_low);
+            return exact.toFixed(1).replace('.', ',');
+        }
+
+        let step = scale[3] - scale[4];
+        let exactFail = 4.0 + (scale[4] - points) / step;
+        return Math.min(5.0, exactFail).toFixed(1).replace('.', ',');
+    }
+
+    function addEntry() {
+        const select = document.getElementById('discipline-select');
+        const input = document.getElementById('performance-input');
+        const key = select.value;
+        if (!key || !input.value) return;
+        const performance = parseFloat(input.value.replace(',', '.'));
+        const points = calculatePoints(key, performance);
+        entries.push({ name: key, value: performance, unit: disciplines[key].unit, points: points });
+        input.value = "";
+        renderList();
+    }
+
+    function renderList() {
+        const tbody = document.getElementById('result-body');
+        const totalSpan = document.getElementById('total-score');
+        const gradeBadge = document.getElementById('grade-badge');
+        tbody.innerHTML = "";
+        let total = 0;
+        document.getElementById('empty-msg').style.display = entries.length === 0 ? "block" : "none";
+
+        entries.forEach((entry, index) => {
+            total += entry.points;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${entry.name}</td><td>${entry.value} ${entry.unit}</td><td class="col-points">${entry.points}</td><td class="col-action"><button class="delete-btn" onclick="deleteEntry(${index})">×</button></td>`;
+            tbody.appendChild(tr);
+        });
+
+        totalSpan.innerText = total;
+        const gradeString = calculateExactGrade(total);
+        gradeBadge.innerText = `Note: ${gradeString}`;
+        
+        const floatNote = gradeString === "-" ? 0 : parseFloat(gradeString.replace(',', '.'));
+        const mainNote = Math.round(floatNote);
+        const colors = { 1: "#27ae60", 2: "#2ecc71", 3: "#f1c40f", 4: "#e67e22", 5: "#e74c3c" };
+        gradeBadge.style.backgroundColor = colors[mainNote] || "#95a5a6";
+        gradeBadge.style.color = mainNote === 3 ? "black" : "white";
+
+        updateGradingUI(floatNote);
+    }
+
+    function updateGradingUI(currentFloatNote = null) {
+        const key = getScaleKey();
+        const gradeVal = document.getElementById('grade-select').value;
+        const genderVal = document.getElementById('gender-select').options[document.getElementById('gender-select').selectedIndex].text;
+        document.getElementById('grade-level-text').innerText = `(${gradeVal}. Klasse, ${genderVal})`;
+        
+        const tbody = document.getElementById('ref-table-body');
+        tbody.innerHTML = "";
+        const scale = gradingScales[key];
+        if(!scale) return;
+
+        // Berechnung der halben Notenschritte (Mittelwerte der Punkte)
+        const thresholds = {
+            "1,5": Math.round((scale[1] + scale[2]) / 2),
+            "2,5": Math.round((scale[2] + scale[3]) / 2),
+            "3,5": Math.round((scale[3] + scale[4]) / 2),
+            "4,5": Math.round(scale[4] - (scale[3] - scale[4]) / 2) // Extrapolation nach unten
+        };
+
+        const rows = [
+            { label: "Note 1,5", value: thresholds["1,5"], range: "1,5", min: 1.0, max: 1.5 },
+            { label: "Note 2,5", value: thresholds["2,5"], range: "2,5", min: 1.51, max: 2.5 },
+            { label: "Note 3,5", value: thresholds["3,5"], range: "3,5", min: 2.51, max: 3.5 },
+            { label: "Note 4,5", value: thresholds["4,5"], range: "4,5", min: 3.51, max: 4.5 }
+        ];
+
+        rows.forEach(r => {
+            const tr = document.createElement('tr');
+            // Markiere die Zeile, in deren Bereich die aktuelle Note liegt
+            if (currentFloatNote >= r.min && currentFloatNote <= r.max) {
+                tr.className = "active-grade";
+            }
+            tr.innerHTML = `<td><strong>${r.label}</strong></td><td>ab ${r.value} Pkt.</td>`;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function deleteEntry(index) { entries.splice(index, 1); renderList(); }
+    function updatePlaceholder() {
+        const key = document.getElementById('discipline-select').value;
+        document.getElementById('performance-input').placeholder = key ? `in ${disciplines[key].unit}` : "Wert eingeben";
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exponentielles Wachstum - Das Schachbrett</title>
+    <!-- Verweis auf die zentrale CSS-Datei (aus dem Kapitelordner zwei Ebenen hoch) -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        :root {
+            --primary-color: #003366;
+            --accent-color: #c4121a;
+            --bg-light: #f4f4f9;
+            --board-light: #eeeed2;
+            --board-dark: #769656;
+            --highlight: #f8e14b;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .dashboard {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .stat-box {
+            flex: 1;
+            min-width: 250px;
+            background: #e7f3ff;
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--accent-color);
+            word-break: break-all;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        button:hover { background-color: #001a33; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        .btn-accent { background-color: var(--accent-color); }
+        .btn-accent:hover { background-color: #900c12; }
+
+        .board-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            width: 100%;
+            max-width: 600px;
+            border: 4px solid #333;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .square {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-align: center;
+            padding: 2px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .light { background-color: var(--board-light); color: #333; }
+        .dark { background-color: var(--board-dark); color: white; }
+        .active-square {
+            background-color: var(--highlight) !important;
+            color: #333 !important;
+            transform: scale(1.05);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+
+        /* Responsive Anpassungen */
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            .square { font-size: 0.5em; }
+            .stat-value { font-size: 1.2em; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Die 1-Cent Schachbrett-Aufgabe</h1>
+    <p style="text-align: center;">Auf das erste Feld legen wir 1 Cent. Auf jedes weitere Feld legen wir genau <strong>doppelt so viel</strong> wie auf das vorherige. Was passiert?</p>
+
+    <div class="controls">
+        <button id="btn-next" onclick="nextSquare()">+ 1 Feld</button>
+        <button id="btn-next10" onclick="nextTenSquares()">+ 10 Felder</button>
+        <button id="btn-all" onclick="fillAll()">Alle 64 Felder</button>
+        <button id="btn-reset" class="btn-accent" onclick="resetBoard()">Zurücksetzen</button>
+    </div>
+
+    <div class="dashboard">
+        <div class="stat-box">
+            <div>Aktuelles Feld: <span id="current-field" style="font-weight: bold;">0 / 64</span></div>
+            <div style="margin-top: 10px;">Auf diesem Feld:</div>
+            <div class="stat-value" id="field-value">0,00 €</div>
+        </div>
+        <div class="stat-box" style="border-left-color: var(--accent-color);">
+            <div><strong>Gesamtsumme aller Felder:</strong></div>
+            <div class="stat-value" id="total-value" style="color: var(--primary-color);">0,00 €</div>
+        </div>
+    </div>
+
+    <div class="board-wrapper">
+        <div class="board" id="chessboard">
+            <!-- Die 64 Felder werden per JavaScript generiert -->
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentStep = 0;
+    let totalCents = 0n; // Wir verwenden BigInt (das 'n' am Ende), da die Zahlen zu groß für normales JS werden
+
+    // Das Schachbrett beim Laden der Seite aufbauen
+    function initBoard() {
+        const board = document.getElementById('chessboard');
+        board.innerHTML = '';
+        for (let i = 0; i < 64; i++) {
+            const square = document.createElement('div');
+            // Schachbrett-Muster berechnen (Reihe + Spalte)
+            const isLight = (Math.floor(i / 8) + (i % 8)) % 2 === 0;
+            square.className = `square ${isLight ? 'light' : 'dark'}`;
+            square.id = `square-${i}`;
+            board.appendChild(square);
+        }
+    }
+
+    // Formatierung für die großen Beträge (von Cent in Euro)
+    function formatEuro(centsBigInt) {
+        if (centsBigInt === 0n) return "0,00 €";
+        
+        const euros = centsBigInt / 100n;
+        const cents = centsBigInt % 100n;
+        const centStr = cents.toString().padStart(2, '0');
+        
+        // Fügt Tausendertrennzeichen hinzu (funktioniert auch mit BigInt in modernen Browsern)
+        const euroStr = euros.toLocaleString('de-DE');
+        
+        return `${euroStr},${centStr} €`;
+    }
+
+    // Verkürzte Darstellung für das kleine Schachbrett-Feld
+    function formatShort(centsBigInt) {
+        const euros = Number(centsBigInt / 100n);
+        if (euros < 10) return `${centsBigInt} ct`;
+        if (euros < 1000) return `${euros} €`;
+        if (euros < 1000000) return `${Math.floor(euros / 1000)}k €`;
+        if (euros < 1000000000) return `${Math.floor(euros / 1000000)}M €`;
+        return euros.toExponential(1) + " €";
+    }
+
+    function updateDashboard(fieldCents) {
+        document.getElementById('current-field').innerText = `${currentStep} / 64`;
+        document.getElementById('field-value').innerText = formatEuro(fieldCents);
+        document.getElementById('total-value').innerText = formatEuro(totalCents);
+    }
+
+    function nextSquare() {
+        if (currentStep >= 64) return;
+
+        // Alten "Active" Status entfernen
+        if (currentStep > 0) {
+            document.getElementById(`square-${currentStep - 1}`).classList.remove('active-square');
+        }
+
+        // Berechnung: 2^currentStep
+        // Bitshift (1n << BigInt(currentStep)) ist extrem schnell und exakt für Zweierpotenzen
+        const centsOnThisSquare = 1n << BigInt(currentStep); 
+        totalCents += centsOnThisSquare;
+
+        // Feld aktualisieren
+        const square = document.getElementById(`square-${currentStep}`);
+        square.classList.add('active-square');
+        square.innerText = formatShort(centsOnThisSquare);
+
+        currentStep++;
+        updateDashboard(centsOnThisSquare);
+
+        // Buttons deaktivieren, wenn fertig
+        if (currentStep >= 64) {
+            document.getElementById('btn-next').disabled = true;
+            document.getElementById('btn-next10').disabled = true;
+            document.getElementById('btn-all').disabled = true;
+        }
+    }
+
+    function nextTenSquares() {
+        const target = Math.min(currentStep + 10, 64);
+        // Timeout für einen kleinen Animations-Effekt
+        let i = currentStep;
+        function step() {
+            if (i < target) {
+                nextSquare();
+                i++;
+                setTimeout(step, 100); // 100ms Pause zwischen den Feldern
+            }
+        }
+        step();
+    }
+
+    function fillAll() {
+        while (currentStep < 64) {
+            nextSquare();
+        }
+    }
+
+    function resetBoard() {
+        currentStep = 0;
+        totalCents = 0n;
+        initBoard();
+        updateDashboard(0n);
+        
+        document.getElementById('btn-next').disabled = false;
+        document.getElementById('btn-next10').disabled = false;
+        document.getElementById('btn-all').disabled = false;
+    }
+
+    // Beim Start direkt das Brett initialisieren
+    initBoard();
+</script>
+
+</body>
+</html>

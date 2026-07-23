@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.1 Zuordnungen | Prof. Schweitzer</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .interactive-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 1rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #cbd5e1;
+        }
+        .task-section {
+            flex: 1;
+            min-width: 250px;
+        }
+        .canvas-section {
+            flex: 1.5;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f8fafc;
+            color: var(--primary, #2563eb);
+        }
+        input[type="text"] {
+            width: 60px;
+            padding: 5px;
+            text-align: center;
+            border: 1px solid #94a3b8;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        input.correct {
+            background-color: #dcfce7;
+            border-color: #22c55e;
+            color: #166534;
+            font-weight: bold;
+        }
+        canvas {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            max-width: 100%;
+            height: auto;
+        }
+        .info-box {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            border-radius: 4px;
+            color: #92400e;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Kapitel 4.1</h1>
+    <p>Zuordnungen und Abhängigkeiten</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">⬅ Zurück zur Übersicht</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Mathematik</span>
+            <h2 style="margin: 0; color: var(--primary);">Der Bananenpreis (Aufgabe 4.03)</h2>
+        </div>
+        
+        <p style="margin-bottom: 1.5rem; line-height: 1.6;">
+            Im Supermarkt kostet <strong>1 kg Bananen 1,50 €</strong>. Berechne den Preis für die gesuchten Massen und trage die Ergebnisse in die Tabelle ein! Sobald dein Ergebnis stimmt, wird der entsprechende Punkt automatisch in das Diagramm gezeichnet.
+        </p>
+
+        <div class="interactive-container">
+            <div class="task-section">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Masse x in kg</th>
+                            <th>Preis p in Euro</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        </tbody>
+                </table>
+                <div class="info-box">
+                    <strong>Merke:</strong> Jeder Masse x kann nur <strong>genau ein</strong> Preis p zugeordnet werden. Da jedem Ausgangswert genau ein Wert zugeordnet wird, handelt es sich um eine <strong>eindeutige Zuordnung (Funktion)</strong>.
+                </div>
+            </div>
+            
+            <div class="canvas-section">
+                <canvas id="graphCanvas" width="450" height="350"></canvas>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Datenbasis aus Aufgabe 4.03
+        const dataPoints = [
+            { mass: 0.8, price: 1.20 },
+            { mass: 1.2, price: 1.80 },
+            { mass: 1.6, price: 2.40 },
+            { mass: 2.4, price: 3.60 },
+            { mass: 2.8, price: 4.20 }
+        ];
+
+        const tableBody = document.getElementById("tableBody");
+        const canvas = document.getElementById("graphCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Canvas Setup
+        const width = canvas.width;
+        const height = canvas.height;
+        const paddingX = 40;
+        const paddingY = 40;
+        
+        // Skalierung: X (Masse) von 0 bis 3, Y (Preis) von 0 bis 5
+        const maxX = 3.2;
+        const maxY = 4.8;
+        const scaleX = (width - paddingX * 2) / maxX;
+        const scaleY = (height - paddingY * 2) / maxY;
+
+        // Tabelle aufbauen
+        dataPoints.forEach((point, index) => {
+            const row = document.createElement("tr");
+            
+            const cellMass = document.createElement("td");
+            cellMass.textContent = point.mass.toString().replace('.', ',');
+            
+            const cellPrice = document.createElement("td");
+            const input = document.createElement("input");
+            input.type = "text";
+            input.placeholder = "€";
+            input.dataset.index = index;
+            
+            input.addEventListener("input", function() {
+                checkInput(this, point.price, index);
+            });
+
+            cellPrice.appendChild(input);
+            row.appendChild(cellMass);
+            row.appendChild(cellPrice);
+            tableBody.appendChild(row);
+        });
+
+        function checkInput(inputElement, correctValue, index) {
+            // Komma durch Punkt ersetzen für interne Validierung
+            let userVal = parseFloat(inputElement.value.replace(',', '.'));
+            
+            // Toleranz für Eingabe (z.B. 1.2 oder 1.20)
+            if (Math.abs(userVal - correctValue) < 0.01) {
+                inputElement.classList.add("correct");
+                inputElement.disabled = true; // Sperren, wenn richtig
+                inputElement.value = correctValue.toFixed(2).replace('.', ','); // Schön formatieren
+                dataPoints[index].solved = true;
+                drawGraph();
+            }
+        }
+
+        function drawGraph() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Hintergrund-Gitter
+            ctx.beginPath();
+            ctx.strokeStyle = "#e2e8f0";
+            ctx.lineWidth = 1;
+            
+            // X-Gitterlinien (alle 0.2 kg)
+            for (let i = 0; i <= maxX; i += 0.2) {
+                let x = paddingX + i * scaleX;
+                ctx.moveTo(x, paddingY);
+                ctx.lineTo(x, height - paddingY);
+            }
+            // Y-Gitterlinien (alle 0.4 €)
+            for (let i = 0; i <= maxY; i += 0.4) {
+                let y = height - paddingY - i * scaleY;
+                ctx.moveTo(paddingX, y);
+                ctx.lineTo(width - paddingX, y);
+            }
+            ctx.stroke();
+
+            // Achsen
+            ctx.beginPath();
+            ctx.strokeStyle = "#334155";
+            ctx.lineWidth = 2;
+            ctx.moveTo(paddingX, paddingY);
+            ctx.lineTo(paddingX, height - paddingY + 5); // Y-Achse
+            ctx.moveTo(paddingX - 5, height - paddingY);
+            ctx.lineTo(width - paddingX, height - paddingY); // X-Achse
+            ctx.stroke();
+
+            // Achsenbeschriftung
+            ctx.fillStyle = "#334155";
+            ctx.font = "12px sans-serif";
+            ctx.fillText("Masse x (kg)", width - 100, height - paddingY + 30);
+            ctx.fillText("Preis p (€)", paddingX - 35, paddingY - 10);
+            
+            // Nullpunkt
+            ctx.fillText("0", paddingX - 15, height - paddingY + 15);
+
+            // X-Achsen Beschriftung (Ganze Zahlen)
+            for (let i = 1; i <= 3; i++) {
+                let x = paddingX + i * scaleX;
+                ctx.fillText(i.toString(), x - 4, height - paddingY + 15);
+                ctx.beginPath();
+                ctx.moveTo(x, height - paddingY - 3);
+                ctx.lineTo(x, height - paddingY + 3);
+                ctx.stroke();
+            }
+
+            // Y-Achsen Beschriftung (Ganze Zahlen)
+            for (let i = 1; i <= 4; i++) {
+                let y = height - paddingY - i * scaleY;
+                ctx.fillText(i.toString(), paddingX - 15, y + 4);
+                ctx.beginPath();
+                ctx.moveTo(paddingX - 3, y);
+                ctx.lineTo(paddingX + 3, y);
+                ctx.stroke();
+            }
+
+            // Gelöste Punkte zeichnen
+            dataPoints.forEach(point => {
+                if (point.solved) {
+                    let px = paddingX + point.mass * scaleX;
+                    let py = height - paddingY - point.price * scaleY;
+                    
+                    ctx.beginPath();
+                    ctx.fillStyle = "#2563eb"; // var(--primary)
+                    ctx.arc(px, py, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Hilfslinien zum Punkt (gestrichelt)
+                    ctx.beginPath();
+                    ctx.strokeStyle = "rgba(37, 99, 235, 0.3)";
+                    ctx.setLineDash([4, 4]);
+                    ctx.moveTo(px, height - paddingY);
+                    ctx.lineTo(px, py);
+                    ctx.lineTo(paddingX, py);
+                    ctx.stroke();
+                    ctx.setLineDash([]); // Reset dash
+                }
+            });
+        }
+
+        // Initiales Zeichnen (nur leeres Koordinatensystem)
+        drawGraph();
+    });
+</script>
+
+</body>
+</html>

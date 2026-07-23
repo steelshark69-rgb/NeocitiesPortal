@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemeinsame Faktoren herausheben | Prof. Schweitzer</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .content-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .content-box h3 {
+            color: var(--primary);
+            margin-top: 0;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 0.5rem;
+        }
+        .example-box {
+            background: #f0fdf4;
+            border-left: 4px solid var(--info-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        .alert-box {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        .math-text {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        .highlight-factor {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        /* Quiz Styles */
+        .quiz-container {
+            background: #f8fafc;
+            border: 2px solid var(--primary);
+            padding: 2rem 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .quiz-question {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+        }
+        .quiz-options {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .quiz-btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+            color: var(--text-main);
+            min-width: 150px;
+        }
+        .quiz-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .quiz-btn.correct { background: #10b981; color: white; border-color: #10b981; }
+        .quiz-btn.wrong { background: #ef4444; color: white; border-color: #ef4444; }
+        .quiz-feedback { margin-top: 1.5rem; font-weight: bold; font-size: 1.1rem; min-height: 28px; }
+        #next-btn {
+            display: none; margin: 1.5rem auto 0; background: var(--primary); color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1rem;
+        }
+        #next-btn:hover { background: var(--primary-dark); }
+        .score-display { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Faktoren herausheben</h1>
+    <p>Der Rückwärtsgang beim Rechnen mit Termen</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">⬅ Zurück zur Klasse 3L</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Mathematik</span>
+            <h2>Ausklammern / Herausheben</h2>
+        </div>
+
+        <div class="content-box">
+            <h3>Was bedeutet Herausheben?</h3>
+            <p>Erinnerst du dich an das Ausmultiplizieren einer Klammer? <br><span class="math-text">3 &middot; (x + 4) = 3x + 12</span></p>
+            <p>Beim <strong>Herausheben</strong> machen wir genau das Gegenteil! Wir suchen nach etwas, das in allen Gliedern eines Terms enthalten ist, und schreiben es <em>vor</em> eine Klammer.</p>
+            
+        </div>
+
+        <div class="content-box">
+            <h3>Die 3-Schritte-Methode</h3>
+            <ol>
+                <li><strong>Zahlen checken:</strong> Gibt es einen gemeinsamen Teiler (ggT) bei den Zahlen?</li>
+                <li><strong>Variablen checken:</strong> Kommt ein Buchstabe in <em>jedem</em> Glied vor? (Nimm die kleinste Hochzahl!)</li>
+                <li><strong>Klammer bilden:</strong> Schreibe den gemeinsamen Faktor vor die Klammer. Teile dann jedes ursprüngliche Glied durch diesen Faktor und schreibe den Rest in die Klammer.</li>
+            </ol>
+        </div>
+
+        <div class="content-box">
+            <h3>Beispiele: Von leicht bis Profi</h3>
+            
+            <div class="example-box">
+                <strong>Beispiel 1: Nur Zahlen herausheben</strong><br>
+                <span class="math-text">4x + 6</span><br>
+                <em>Beide Zahlen sind durch 2 teilbar. Die Variable x kommt nur vorne vor.</em><br>
+                = <span class="math-text"><span class="highlight-factor">2</span> &middot; 2x + <span class="highlight-factor">2</span> &middot; 3</span><br>
+                = <strong><span class="math-text">2(2x + 3)</span></strong>
+            </div>
+
+            <div class="example-box">
+                <strong>Beispiel 2: Nur Variablen herausheben</strong><br>
+                <span class="math-text">x<sup>2</sup> + 5x</span><br>
+                <em>Das x steckt in beiden Gliedern (denn x² ist ja x &middot; x).</em><br>
+                = <span class="math-text"><span class="highlight-factor">x</span> &middot; x + 5 &middot; <span class="highlight-factor">x</span></span><br>
+                = <strong><span class="math-text">x(x + 5)</span></strong>
+            </div>
+
+            <div class="example-box" style="background: #fffbeb; border-left-color: #f59e0b;">
+                <strong>Beispiel 3: Zahlen UND Variablen herausheben (Profi!)</strong><br>
+                <span class="math-text">12a<sup>2</sup>b - 8ab</span><br>
+                <em>Zahlen: Der ggT von 12 und 8 ist 4. <br>Variablen: 'a' und 'b' stecken in beiden (bei 'a' nehmen wir das normale a, weil es die kleinste Hochzahl ist).</em><br>
+                Gemeinsamer Faktor: <span class="highlight-factor">4ab</span><br>
+                = <span class="math-text"><span class="highlight-factor">4ab</span> &middot; 3a - <span class="highlight-factor">4ab</span> &middot; 2</span><br>
+                = <strong><span class="math-text">4ab(3a - 2)</span></strong>
+            </div>
+            
+            <div class="alert-box">
+                <strong>Der Kontroll-Trick:</strong> Du kannst dein Ergebnis ganz leicht selbst überprüfen! Multipliziere deine Klammer einfach im Kopf wieder aus. Kommt wieder der Start-Term heraus, hast du alles richtig gemacht!
+            </div>
+        </div>
+
+        <div class="quiz-container">
+            <h3 style="margin-top: 0; color: var(--primary);">Herausheben-Quiz 🧩</h3>
+            <p>Finde den größtmöglichen gemeinsamen Faktor und die richtige Klammer!</p>
+            <div class="score-display">Frage <span id="current-q">1</span> von <span id="total-q">5</span></div>
+            
+            <div id="quiz-content">
+                <div class="quiz-question math-text" id="question-text">Lade Frage...</div>
+                <div class="quiz-options" id="options-container">
+                    </div>
+                <div class="quiz-feedback" id="feedback-text"></div>
+                <button id="next-btn" onclick="nextQuestion()">Nächste Frage ➡</button>
+            </div>
+            
+            <div id="quiz-result" style="display: none;">
+                <div class="quiz-question">Super gemacht! 🏆</div>
+                <p id="final-score" style="font-size: 1.2rem; margin-bottom: 1.5rem;"></p>
+                <button class="quiz-btn" onclick="location.reload()" style="border-color: var(--primary);">Noch eine Runde</button>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+</footer>
+
+<script>
+    const questions = [
+        { q: "5x + 15", options: ["5(x + 3)", "5(x + 15)", "3(x + 5)"], correct: 0 },
+        { q: "a² + 4a", options: ["a(a² + 4)", "a(a + 4a)", "a(a + 4)"], correct: 2 },
+        { q: "6x - 9", options: ["2(3x - 4.5)", "3(2x - 3)", "3(x - 3)"], correct: 1 },
+        { q: "10y² - 5y", options: ["5y(2y - 1)", "5y(2y - 0)", "5(2y² - y)"], correct: 0 },
+        { q: "12ab + 8a", options: ["2a(6b + 4)", "4a(3b + 2a)", "4a(3b + 2)"], correct: 2 }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answered = false;
+
+    const questionText = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const feedbackText = document.getElementById('feedback-text');
+    const nextBtn = document.getElementById('next-btn');
+    const currentQSpan = document.getElementById('current-q');
+    const totalQSpan = document.getElementById('total-q');
+    
+    totalQSpan.innerText = questions.length;
+
+    function loadQuestion() {
+        answered = false;
+        feedbackText.innerText = "";
+        nextBtn.style.display = "none";
+        currentQSpan.innerText = currentQuestionIndex + 1;
+        
+        const currentQ = questions[currentQuestionIndex];
+        questionText.innerHTML = currentQ.q.replace(/²/g, '<sup>2</sup>');
+        optionsContainer.innerHTML = "";
+
+        currentQ.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.innerHTML = opt.replace(/²/g, '<sup>2</sup>');
+            btn.className = 'quiz-btn math-text';
+            btn.onclick = () => checkAnswer(index, btn);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selectedIndex, btnElement) {
+        if (answered) return;
+        answered = true;
+
+        const correctIndex = questions[currentQuestionIndex].correct;
+        const allButtons = optionsContainer.children;
+
+        if (selectedIndex === correctIndex) {
+            btnElement.classList.add('correct');
+            feedbackText.innerText = "Richtig herausgehoben! 🎯";
+            feedbackText.style.color = "#10b981";
+            score++;
+        } else {
+            btnElement.classList.add('wrong');
+            allButtons[correctIndex].classList.add('correct');
+            feedbackText.innerText = "Fast! Denke an die Probe: Multipliziere im Kopf nochmal aus.";
+            feedbackText.style.color = "#ef4444";
+        }
+
+        for (let btn of allButtons) {
+            btn.style.cursor = "default";
+        }
+
+        nextBtn.style.display = "block";
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        document.getElementById('quiz-content').style.display = "none";
+        const resultDiv = document.getElementById('quiz-result');
+        resultDiv.style.display = "block";
+        document.getElementById('final-score').innerText = `Du hast ${score} von ${questions.length} Termen richtig geknackt!`;
+    }
+
+    window.onload = loadQuestion;
+</script>
+
+</body>
+</html>

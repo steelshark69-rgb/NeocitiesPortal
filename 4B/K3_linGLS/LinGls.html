@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lernpfad: Lineare Gleichungssysteme | Prof. Schweitzer</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        /* Spezifische Styles nur für die interaktiven Elemente dieses Lernpfads */
+        .content-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .content-box h2 {
+            color: var(--primary);
+            margin-top: 0;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+        .content-box h3 {
+            color: var(--text-main);
+            margin-top: 1.5rem;
+        }
+        .theory-box {
+            background: #fffbeb;
+            border-left: 4px solid var(--dgb-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+            font-style: italic;
+        }
+        .example-box {
+            background: #f0fdf4;
+            border-left: 4px solid var(--info-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        .book-ref {
+            display: inline-block;
+            background: #e2e8f0;
+            padding: 0.2rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .interactive-area {
+            background: #f8fafc;
+            border: 2px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 12px;
+        }
+        .method-step {
+            display: none;
+            padding: 1.25rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            margin-top: 1rem;
+            border-radius: 8px;
+            animation: fadeIn 0.4s;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.2s;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .action-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .case-card {
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            background: white;
+        }
+        input[type="number"] {
+            width: 70px;
+            padding: 0.5rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            margin: 0 5px;
+            font-family: inherit;
+        }
+        .status-msg { margin-top: 1rem; font-weight: bold; }
+        .math-text { font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 1.1em; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Lineare Gleichungssysteme</h1>
+    <p>Interaktiver Lernpfad zu Kapitel 3</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">⬅ Zurück zur Klasse 4B</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Mathematik</span>
+            <h2>Gleichungen in zwei Variablen</h2>
+        </div>
+
+        <div class="content-box" id="intro">
+            <h2>1. Situationen mit zwei Unbekannten</h2>
+            <div class="book-ref">Buch S. 74, Aufgabe 3.01</div>
+            <p>In vielen Alltagsproblemen hängen zwei Größen voneinander ab. Das klassische Beispiel im Buch ist der Mathematikwettbewerb.</p>
+            
+            <div class="example-box">
+                <strong>Beispiel 3.01:</strong> 3-Punkte-Aufgaben (<i>x</i>) und 4-Punkte-Aufgaben (<i>y</i>). Insgesamt sollen 60 Punkte erreicht werden.<br>
+                Mathematisches Modell: <span class="math-text">3 &middot; x + 4 &middot; y = 60</span>
+            </div>
+
+            <div class="interactive-area">
+                <h3 style="margin-top:0; color: var(--primary);">Lösungs-Checker</h3>
+                <p>Finde ein Zahlenpaar (<i>x</i> | <i>y</i>), das die Gleichung <span class="math-text">3x + 4y = 60</span> erfüllt:</p>
+                <i>x</i> = <input type="number" id="check301x" placeholder="z.B. 4">
+                <i>y</i> = <input type="number" id="check301y" placeholder="z.B. 12">
+                <button class="action-btn" onclick="validate301()">Prüfen</button>
+                <div id="res301" class="status-msg"></div>
+            </div>
+        </div>
+
+        <div class="content-box" id="theory1">
+            <h2>2. Die lineare Gleichung</h2>
+            <div class="book-ref">Buch S. 75, Definition</div>
+            <div class="theory-box">
+                Eine Gleichung der Form <span class="math-text">a &middot; x + b &middot; y = c</span> nennt man eine <strong>lineare Gleichung</strong> in den Variablen <i>x</i> und <i>y</i>. Jedes Zahlenpaar (<i>x</i> | <i>y</i>), das die Gleichung erfüllt, heißt <strong>Lösung</strong>.
+            </div>
+
+            <h3>Geometrische Interpretation (S. 77)</h3>
+            <p>Jede Lösung entspricht einem Punkt im Koordinatensystem. Die Menge aller Lösungen bildet eine <strong>Gerade</strong>.</p>
+            
+            
+
+            <div class="case-grid">
+                <div class="case-card">
+                    <div class="book-ref">Fall 1: a = 0</div>
+                    <p class="math-text">b &middot; y = c &nbsp;&rarr;&nbsp; y = c/b</p>
+                    <strong>Waagrechte Gerade</strong><br><small>(Parallel zur 1. Achse)</small>
+                </div>
+                <div class="case-card">
+                    <div class="book-ref">Fall 2: b = 0</div>
+                    <p class="math-text">a &middot; x = c &nbsp;&rarr;&nbsp; x = c/a</p>
+                    <strong>Senkrechte Gerade</strong><br><small>(Parallel zur 2. Achse)</small>
+                </div>
+                <div class="case-card">
+                    <div class="book-ref">Fall 3: c = 0</div>
+                    <p class="math-text">a &middot; x + b &middot; y = 0</p>
+                    <strong>Ursprungsgerade</strong><br><small>(Geht durch den Ursprung)</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box" id="lgs">
+            <h2>3. Lineare Gleichungssysteme (LGS)</h2>
+            <div class="book-ref">Buch S. 80, Aufgabe 3.22</div>
+            <p>Ein LGS besteht aus zwei Gleichungen, die gleichzeitig erfüllt sein müssen.</p>
+
+            <div class="example-box">
+                <strong>Hotel-Beispiel (3.22):</strong><br>
+                20 Zimmer (<span class="math-text">e + d = 20</span>), 32 Betten (<span class="math-text">e + 2d = 32</span>).<br>
+                Grafisch suchen wir den <strong>Schnittpunkt</strong> der beiden Geraden.
+            </div>
+
+            
+
+            <div id="special" class="interactive-area">
+                <h3 style="margin-top:0; color: var(--primary);">Wie viele Lösungen gibt es?</h3>
+                <p>Klicke auf die Fälle, um die Theorie aus S. 80 zu sehen:</p>
+                <button class="action-btn" onclick="showCase(1)">Genau eine Lösung</button>
+                <button class="action-btn" onclick="showCase(2)">Keine Lösung</button>
+                <button class="action-btn" onclick="showCase(3)">Unendlich viele</button>
+
+                <div id="case1" class="method-step">
+                    <strong>Schnittpunkt:</strong> Die Geraden schneiden einander. Die Steigungen sind unterschiedlich.
+                </div>
+                <div id="case2" class="method-step">
+                    <strong>Parallele Geraden:</strong> Die Geraden haben die gleiche Steigung, aber unterschiedliche Achsenabschnitte. Sie treffen sich nie.
+                </div>
+                <div id="case3" class="method-step">
+                    <strong>Identische Geraden:</strong> Beide Gleichungen beschreiben dieselbe Gerade. Jeder Punkt der Geraden ist eine Lösung.
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box" id="calc">
+            <h2>4. Rechnerische Lösungsverfahren</h2>
+            <div class="book-ref">Buch S. 82-84</div>
+            
+            <div class="interactive-area">
+                <h3 style="margin-top:0; color: var(--primary);">Wähle ein Verfahren zur Demonstration:</h3>
+                <div>
+                    <button class="action-btn" onclick="showMethod('equal')">Gleichsetzungsverfahren</button>
+                    <button class="action-btn" onclick="showMethod('sub')">Einsetzungsverfahren</button>
+                    <button class="action-btn" onclick="showMethod('elim')">Eliminationsverfahren</button>
+                </div>
+
+                <div id="method-equal" class="method-step">
+                    <h4>Gleichsetzungsverfahren</h4>
+                    <p>Ideal, wenn beide Gleichungen bereits nach derselben Variablen (z.B. y) aufgelöst sind.</p>
+                    <p class="math-text">
+                        (I) y = 2x + 1<br>
+                        (II) y = -x + 4
+                    </p>
+                    <ol>
+                        <li>Gleichsetzen: <span class="math-text">2x + 1 = -x + 4</span></li>
+                        <li>Nach x auflösen: <span class="math-text">3x = 3 &nbsp;&rarr;&nbsp; x = 1</span></li>
+                        <li>x in (I) einsetzen: <span class="math-text">y = 2(1) + 1 &nbsp;&rarr;&nbsp; y = 3</span></li>
+                    </ol>
+                    <strong>Lösung: (1 | 3)</strong>
+                </div>
+
+                <div id="method-sub" class="method-step">
+                    <h4>Einsetzungsverfahren (Substitutionsmethode)</h4>
+                    <p class="math-text">
+                        (I) x - 5y = 17<br>
+                        (II) 2x + 3y = -5
+                    </p>
+                    <ol>
+                        <li>Variable isolieren: Aus (I) folgt <span class="math-text">x = 17 + 5y</span></li>
+                        <li>In (II) einsetzen: <span class="math-text">2(17 + 5y) + 3y = -5</span></li>
+                        <li>Klammer lösen: <span class="math-text">34 + 10y + 3y = -5</span></li>
+                        <li>Zusammenfassen: <span class="math-text">13y = -39 &nbsp;&rarr;&nbsp; y = -3</span></li>
+                        <li>y einsetzen: <span class="math-text">x = 17 + 5(-3) = 2</span></li>
+                    </ol>
+                    <strong>Lösung: (2 | -3)</strong>
+                </div>
+
+                <div id="method-elim" class="method-step">
+                    <h4>Eliminationsverfahren (Additionsmethode)</h4>
+                    <p class="math-text">
+                        (I) x - 5y = 17<br>
+                        (II) 2x + 3y = -5
+                    </p>
+                    <ol>
+                        <li>(I) mit -2 multiplizieren: <span class="math-text">-2x + 10y = -34</span></li>
+                        <li>Gleichungen addieren: <span class="math-text">(-2x + 10y) + (2x + 3y) = -34 + (-5)</span></li>
+                        <li>Variable x fällt weg: <span class="math-text">13y = -39 &nbsp;&rarr;&nbsp; y = -3</span></li>
+                        <li>y einsetzen in (I): <span class="math-text">x - 5(-3) = 17 &nbsp;&rarr;&nbsp; x = 2</span></li>
+                    </ol>
+                    <strong>Lösung: (2 | -3)</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box" id="params">
+            <h2>5. Diskussion von Parametern</h2>
+            <div class="book-ref">Buch S. 86, Aufgabe 3.45</div>
+            <p>Manchmal enthalten Gleichungen Platzhalter (Parameter wie <i>a</i> oder <i>b</i>). Wir untersuchen, wie diese Parameter die Lösung beeinflussen.</p>
+            
+            <div class="interactive-area" style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <div style="flex: 1; min-width: 250px;">
+                    <strong>Gleichungssystem:</strong><br>
+                    <span class="math-text">(I) -2x + <span id="val-a-display" style="color: #ef4444;">-3</span>y = 1</span><br>
+                    <span class="math-text">(II) 4x + 6y = <span id="val-b-display" style="color: #3b82f6;">-2</span></span>
+                    
+                    <div style="margin-top: 1.5rem; background: white; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                        <label style="display:block; margin-bottom: 10px; font-weight: bold;">
+                            Parameter a: <input type="range" id="param-a" min="-8" max="2" step="0.1" value="-3" style="width: 100%; margin-top: 5px;"> 
+                        </label> 
+                        <label style="display:block; font-weight: bold;">
+                            Parameter b: <input type="range" id="param-b" min="-10" max="6" step="0.1" value="-2" style="width: 100%; margin-top: 5px;"> 
+                        </label>
+                    </div>
+
+                    <div id="solution-status" style="margin-top: 15px; padding: 10px; border-radius: 4px; font-weight: bold;"></div>
+                    <div id="intersection-point" style="margin-top: 5px; font-style: italic; color: var(--text-muted);"></div>
+                </div>
+
+                <div style="flex: 1; min-width: 250px; text-align: center;">
+                    <canvas id="graphCanvas" width="300" height="300" style="background: white; border: 1px solid #e2e8f0; border-radius: 8px;"></canvas>
+                    <div style="font-size: 0.85em; color: var(--text-muted); margin-top: 8px;">
+                        <span style="color: #ef4444; font-weight: bold;">━</span> Gerade (I) &nbsp;&nbsp; <span style="color: #3b82f6; font-weight: bold;">━</span> Gerade (II)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+</footer>
+
+<script>
+    // Lösungs-Checker
+    function validate301() {
+        const x = parseInt(document.getElementById('check301x').value);
+        const y = parseInt(document.getElementById('check301y').value);
+        const res = document.getElementById('res301');
+
+        if (isNaN(x) || isNaN(y)) {
+            res.innerHTML = "Bitte gib beide Werte ein!";
+            res.style.color = "#ef4444";
+            return;
+        }
+
+        const sum = 3 * x + 4 * y;
+        if (sum === 60) {
+            res.innerHTML = "✅ Korrekt! 3&middot;" + x + " + 4&middot;" + y + " = 60.";
+            res.style.color = "#10b981";
+        } else {
+            res.innerHTML = "❌ Das ergibt " + sum + ", nicht 60. Versuch es nochmal!";
+            res.style.color = "#ef4444";
+        }
+    }
+
+    // Tabs für Fälle und Methoden
+    function showCase(n) {
+        document.querySelectorAll('#special .method-step').forEach(el => el.style.display = 'none');
+        document.getElementById('case' + n).style.display = 'block';
+    }
+
+    function showMethod(m) {
+        document.querySelectorAll('#calc .method-step').forEach(el => el.style.display = 'none');
+        document.getElementById('method-' + m).style.display = 'block';
+    }
+
+    // Canvas Graph Logik
+    const sliderA = document.getElementById('param-a');
+    const sliderB = document.getElementById('param-b');
+    const displayA = document.getElementById('val-a-display');
+    const displayB = document.getElementById('val-b-display');
+    const status = document.getElementById('solution-status');
+    const intersectDiv = document.getElementById('intersection-point');
+    const canvas = document.getElementById('graphCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const scale = 25;
+    const center = canvas.width / 2;
+
+    function drawGraph(a, b, intersect) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Koordinatengitter
+        ctx.strokeStyle = '#f1f5f9';
+        ctx.lineWidth = 1;
+        for(let i=0; i<=canvas.width; i+=scale) {
+            ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,canvas.height); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(0,i); ctx.lineTo(canvas.width,i); ctx.stroke();
+        }
+
+        // Achsen
+        ctx.strokeStyle = '#94a3b8';
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(0, center); ctx.lineTo(canvas.width, center); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(center, 0); ctx.lineTo(center, canvas.height); ctx.stroke();
+
+        // Gerade I: -2x + ay = 1 => y = (1 + 2x) / a
+        drawLine(x => (1 + 2 * x) / a, '#ef4444', 3, a === 0);
+        
+        // Gerade II: 4x + 6y = b => y = (b - 4x) / 6
+        drawLine(x => (b - 4 * x) / 6, '#3b82f6', 2, false);
+
+        // Schnittpunkt zeichnen
+        if (intersect) {
+            ctx.fillStyle = '#1e293b';
+            ctx.beginPath();
+            ctx.arc(center + intersect.x * scale, center - intersect.y * scale, 5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawLine(yFunc, color, width, isVertical) {
+            ctx.strokeStyle = color;
+            ctx.lineWidth = width;
+            ctx.beginPath();
+            if (isVertical) {
+                ctx.moveTo(center - 0.5 * scale, 0);
+                ctx.lineTo(center - 0.5 * scale, canvas.height);
+            } else {
+                let started = false;
+                for (let px = -center; px <= center; px++) {
+                    let x = px / scale;
+                    let y = yFunc(x);
+                    let canvasY = center - y * scale;
+                    if (!started) { ctx.moveTo(center + px, canvasY); started = true; }
+                    else { ctx.lineTo(center + px, canvasY); }
+                }
+            }
+            ctx.stroke();
+        }
+    }
+
+    function updateSystem() {
+        const a = parseFloat(sliderA.value);
+        const b = parseFloat(sliderB.value);
+        displayA.innerText = a.toFixed(1);
+        displayB.innerText = b.toFixed(1);
+
+        const det = -12 - (4 * a);
+        const detX = (1 * 6) - (b * a);
+        const detY = (-2 * b) - (4 * 1);
+
+        let intersect = null;
+
+        if (Math.abs(det) < 0.01) {
+            if (Math.abs(detX) < 0.1) {
+                status.innerHTML = "✅ Unendlich viele Lösungen";
+                status.style.backgroundColor = "#dcfce7";
+                status.style.color = "#166534";
+                intersectDiv.innerText = "Geraden sind identisch.";
+            } else {
+                status.innerHTML = "❌ Keine Lösung";
+                status.style.backgroundColor = "#fee2e2";
+                status.style.color = "#991b1b";
+                intersectDiv.innerText = "Geraden sind parallel.";
+            }
+        } else {
+            const x = detX / det;
+            const y = detY / det;
+            intersect = {x, y};
+            status.innerHTML = "🔍 Genau eine Lösung";
+            status.style.backgroundColor = "#e0f2fe";
+            status.style.color = "#075985";
+            intersectDiv.innerText = `Schnittpunkt S(${x.toFixed(2)} | ${y.toFixed(2)})`;
+        }
+        
+        drawGraph(a, b, intersect);
+    }
+
+    sliderA.oninput = updateSystem;
+    sliderB.oninput = updateSystem;
+    updateSystem();
+</script>
+
+</body>
+</html>

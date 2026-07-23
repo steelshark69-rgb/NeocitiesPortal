@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vorzeichen-Duell | Klasse 3L</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .arena-container {
+            background: #0f172a;
+            color: #f1f5f9;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            margin-top: 2rem;
+        }
+        .hud {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            gap: 1.5rem;
+        }
+        .character-status {
+            background: #1e293b;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            flex: 1;
+            border: 1px solid #334155;
+        }
+        .hp-bar-container {
+            background: #475569;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        .hp-bar {
+            height: 100%;
+            width: 100%;
+            transition: width 0.4s ease;
+        }
+        .player-hp { background: #10b981; }
+        .bug-hp { background: var(--pdf-red); }
+        
+        .battle-screen {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .question-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 1.5rem;
+            min-height: 3rem;
+        }
+        .battle-log {
+            background: #0f172a;
+            border: 1px solid #334155;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-top: 1rem;
+            min-height: 1.5rem;
+        }
+        /* Überschreiben der Toggles für Game-Buttons */
+        .game-btn {
+            background: #1e293b;
+            border: 2px solid #38bdf8;
+            color: #38bdf8;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .game-btn:hover {
+            background: #38bdf8;
+            color: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
+        }
+    </style>
+</head>
+<body style="background-color: var(--bg);">
+
+<header>
+    <h1>⚔️ Das Vorzeichen-Duell</h1>
+    <p>Besiege den Server-Bug mit deinem Wissen aus Kapitel 1!</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">⬅ Flucht (Zurück zur Übersicht)</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Lernspiel</span>
+            <h2 style="margin: 0; color: var(--primary);">Kapitel 1.1 & 1.2 interaktiv vertiefen</h2>
+        </div>
+
+        <div class="arena-container">
+            <div class="hud">
+                <div class="character-status">
+                    <div style="display: flex; justify-content: space-between; font-weight: bold;">
+                        <span>🧙‍♂️ Du (Klasse 3L)</span>
+                        <span id="player-hp-text">100 / 100 HP</span>
+                    </div>
+                    <div class="hp-bar-container">
+                        <div id="player-bar" class="hp-bar player-hp"></div>
+                    </div>
+                </div>
+                
+                <div class="character-status">
+                    <div style="display: flex; justify-content: space-between; font-weight: bold;">
+                        <span>👾 Server-Bug</span>
+                        <span id="bug-hp-text">100 / 100 HP</span>
+                    </div>
+                    <div class="hp-bar-container">
+                        <div id="bug-bar" class="hp-bar bug-hp"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="battle-screen" id="arena-surface">
+                <div id="question-category" style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05rem; color: var(--dgb-color); font-weight: bold; margin-bottom: 0.5rem;">Kategorie-Laden...</div>
+                <div class="question-text" id="question-field">Bereitmachen zum Duell...</div>
+                
+                <div class="resource-grid" id="options-field" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    </div>
+
+                <div class="battle-log" id="log-field">Klicke unten auf "Duell starten", um den Kampf zu beginnen!</div>
+            </div>
+
+            <div style="text-align: center;" id="control-area">
+                <button class="nav-toggle active" onclick="startGame()" style="font-size: 1.2rem; padding: 1rem 2.5rem;">🎮 Duell starten</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // 100% Client-Side Fragenpool (Vollständig ohne LaTeX, sauberes Unicode)
+    const database = [
+        { cat: "1.1 Ganze Zahlen im Alltag", q: "Ein Gamer-Konto hat 15 Euro Schulden. Welche ganze Zahl beschreibt diesen Kontostand?", a: ["−15", "+15", "0", "−15€"], right: 0 },
+        { cat: "1.2 Kontrolliertes Addieren", q: "Berechne den Wert des Ausdrucks: −8 + (−6)", a: ["−2", "+2", "−14", "+14"], right: 2 },
+        { cat: "1.1 Ganze Zahlen im Alltag", q: "Ein Tiefsee-Roboter operiert auf einer Tiefe von 450 Metern unter dem Meeresspiegel. Wie lautet die mathematische Zahl?", a: ["+450", "−450", "0", "−45"], right: 1 },
+        { cat: "1.2 Klammern auflösen", q: "Vereinfache die Zeichenfolge und berechne: 12 − (−8)", a: ["4", "20", "−4", "−20"], right: 1 },
+        { cat: "1.1 Ganze Zahlen im Alltag", q: "Der Lift fährt vom 2. Untergeschoß (−2) genau 5 Stockwerke nach oben. Wo kommt er an?", a: ["Stockwerk 3", "Stockwerk 7", "Stockwerk −7", "Stockwerk 2"], right: 0 },
+        { cat: "1.2 Kontrolliertes Subtrahieren", q: "Berechne den Wert des Ausdrucks: −10 − (+4)", a: ["−6", "+6", "−14", "+14"], right: 2 },
+        { cat: "1.2 Zeichen-Kombination", q: "Welches Rechenzeichen entsteht, wenn ein Plus und ein Minus direkt aufeinanderprallen? + (−x)", a: ["Plus (+)", "Minus (−)", "Es hebt sich auf", "Mal (·)"], right: 1 },
+        { cat: "1.2 Advanced AHS-Level", q: "Löse den Term schrittweise auf: −5 + (+12) − (−3)", a: ["+4", "+10", "+14", "−14"], right: 2 },
+        { cat: "1.1 Temperatur-Check", q: "In Schladming hat es am Morgen −6 Grad Celsius. Bis zum Mittag erwärmt es sich um 5 Grad. Wie viel Grad hat es?", a: ["−11 Grad", "1 Grad", "−1 Grad", "0 Grad"], right: 2 },
+        { cat: "1.2 Doppel-Minus", q: "Berechne das Ergebnis: −20 − (−20)", a: ["−40", "+40", "0", "−20"], right: 2 }
+    ];
+
+    let playerHp = 100;
+    let bugHp = 100;
+    let activePool = [];
+    let currentQuestion = null;
+
+    function startGame() {
+        playerHp = 100;
+        bugHp = 100;
+        activePool = [...database];
+        updateHud();
+        
+        document.getElementById('control-area').style.display = "none";
+        document.getElementById('log-field').innerHTML = "⚔️ Der Kampf hat begonnen! Wähle die richtige Antwort.";
+        
+        nextRound();
+    }
+
+    function updateHud() {
+        document.getElementById('player-hp-text').innerText = playerHp + " / 100 HP";
+        document.getElementById('player-bar').style.width = playerHp + "%";
+        document.getElementById('bug-hp-text').innerText = bugHp + " / 100 HP";
+        document.getElementById('bug-bar').style.width = bugHp + "%";
+    }
+
+    function nextRound() {
+        if (playerHp <= 0) {
+            endGame(false);
+            return;
+        }
+        if (bugHp <= 0) {
+            endGame(true);
+            return;
+        }
+        if (activePool.length === 0) {
+            // Pool neu auffüllen, falls der Kampf länger dauert
+            activePool = [...database];
+        }
+
+        // Zufällige Frage ziehen
+        const randomIndex = Math.floor(Math.random() * activePool.length);
+        currentQuestion = activePool.splice(randomIndex, 1)[0];
+
+        document.getElementById('question-category').innerText = currentQuestion.cat;
+        document.getElementById('question-field').innerText = currentQuestion.q;
+
+        const optionsField = document.getElementById('options-field');
+        optionsField.innerHTML = "";
+
+        currentQuestion.a.forEach((option, idx) => {
+            const btn = document.createElement('button');
+            btn.className = "game-btn";
+            btn.innerText = option;
+            btn.onclick = () => evaluateAnswer(idx);
+            optionsField.appendChild(btn);
+        });
+    }
+
+    function evaluateAnswer(selectedIdx) {
+        const log = document.getElementById('log-field');
+        
+        if (selectedIdx === currentQuestion.right) {
+            // Richtig! Schaden an Bug verteilen (mit Chance auf kritischen Treffer)
+            const isCrit = Math.random() > 0.7;
+            const dmg = isCrit ? 25 : 15;
+            bugHp = Math.max(0, bugHp - dmg);
+            log.innerHTML = isCrit 
+                ? `💥 KRITISCHER TREFFER! Du rechnest perfekt und ziehst dem Bug ${dmg} HP ab!` 
+                : `⚔️ Richtig! Dein Code-Angriff verursacht ${dmg} Schaden beim Bug.`;
+            log.style.color = "#10b981";
+        } else {
+            // Falsch! Spieler verliert HP
+            const penalty = 20;
+            playerHp = Math.max(0, playerHp - penalty);
+            log.innerHTML = `⚠️ Rechenfehler! Der Bug nutzt die Lücke und zieht dir ${penalty} HP ab. Richtige Antwort war: ${currentQuestion.a[currentQuestion.right]}`;
+            log.style.color = "var(--pdf-red)";
+        }
+
+        updateHud();
+        
+        // Kurze Verzögerung für den Spielfluss, dann nächste Frage
+        setTimeout(nextRound, 2000);
+    }
+
+    function endGame(playerWon) {
+        const arena = document.getElementById('arena-surface');
+        const controlArea = document.getElementById('control-area');
+        
+        document.getElementById('question-category').innerText = "Duell beendet";
+        document.getElementById('options-field').innerHTML = "";
+        controlArea.style.display = "block";
+        controlArea.innerHTML = `<button class="nav-toggle active" onclick="startGame()">🔄 Revanche fordern</button>`;
+
+        if (playerWon) {
+            arena.innerHTML = `
+                <h2 style="color: #10b981; font-size: 2.5rem; margin-top: 0;">🏆 SIEG! 🏆</h2>
+                <p style="font-size: 1.2rem;">Du hast den Server-Bug komplett eliminiert! Die Menge der ganzen Zahlen und das Addieren/Subtrahieren machen dir so schnell niemand mehr nach.</p>
+            `;
+        } else {
+            arena.innerHTML = `
+                <h2 style="color: var(--pdf-red); font-size: 2.5rem; margin-top: 0;">💀 GAME OVER 💀</h2>
+                <p style="font-size: 1.2rem;">Der Bug war diesmal stärker. Nutze die interaktiven Seiten zum Selbststudium im Portal und versuche es gleich noch einmal!</p>
+            `;
+        }
+    }
+</script>
+
+<footer style="margin-top: 5rem; padding: 2rem 1rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.9rem; text-align: center;">
+    &copy; 2026 | GvP | Mag. Schweitzer | Spielerisches Lernen im Matheunterricht
+</footer>
+
+</body>
+</html>

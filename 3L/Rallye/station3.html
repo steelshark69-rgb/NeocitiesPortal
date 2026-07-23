@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station 3: Potenzen und Wurzeln | Klasse 3L Rallye</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .code-input-container {
+            margin-top: 3rem;
+            padding: 2.5rem;
+            background: var(--bg);
+            border: 2px dashed var(--primary);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .code-input {
+            font-size: 1.8rem;
+            letter-spacing: 0.2rem;
+            padding: 0.75rem;
+            width: 150px;
+            text-align: center;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .code-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        .task-number {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: bold;
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Station 3: Energie-Zentrum</h1>
+    <p>Die große Jahresabschluss-Rallye der 3L</p>
+    <div class="back-nav">
+        <a href="index.html" class="btn-back">⬅ Zurück zum Start</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 3</span>
+            <h2 style="margin: 0; color: var(--primary);">Potenzen und Wurzeln</h2>
+        </div>
+        
+        <div style="background: white; border: 1px solid #e2e8f0; border-left: 4px solid var(--pdf-red); padding: 1.5rem; border-radius: 8px; margin-bottom: 2.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            <p style="margin-top: 0; font-size: 1.1rem; line-height: 1.6;"><strong>Energieversorgung instabil!</strong><br>
+            Um das System am Laufen zu halten, müssen die Energiezellen neu kalibriert werden. Löst die Aufgaben zu Potenzen und Wurzeln. <strong>Die Summe eurer 8 Ergebnisse</strong> ist der Code, um die Tür zu Station 4 zu öffnen!</p>
+        </div>
+
+        <div class="resource-grid">
+            
+            <div class="resource-card">
+                <h4><span class="task-number">1</span> Die Basis (Leicht)</h4>
+                <p>Berechne den Wert der Potenz:<br><br>
+                <strong>2<sup>4</sup></strong></p>
+            </div>
+            
+            <div class="resource-card">
+                <h4><span class="task-number">2</span> Der Millionen-Speicher (Leicht)</h4>
+                <p>Eine Million lässt sich als Zehnerpotenz in der Form <strong>10<sup>x</sup></strong> schreiben. Welchen Wert hat die Hochzahl (Exponent) x?</p>
+            </div>
+            
+            <div class="resource-card">
+                <h4><span class="task-number">3</span> Entwurzeln (Mittel)</h4>
+                <p>Berechne die Quadratwurzel aus 144:<br><br>
+                <strong>√144</strong></p>
+            </div>
+            
+            <div class="resource-card">
+                <h4><span class="task-number">4</span> Multiplikator (Mittel)</h4>
+                <p>Nutze die Rechenregeln für Potenzen! Wenn du <strong>3<sup>2</sup> · 3<sup>3</sup> = 3<sup>x</sup></strong> rechnest, welchen Wert hat dann x?</p>
+            </div>
+            
+            <div class="resource-card">
+                <h4><span class="task-number">5</span> Hybrid-Antrieb (Schwer)</h4>
+                <p>Subtrahiere die Wurzel vom Potenzwert. Berechne:<br><br>
+                <strong>5<sup>3</sup> − √400</strong></p>
+            </div>
+            
+            <div class="resource-card">
+                <h4><span class="task-number">6</span> Gleitkomma (Schwer)</h4>
+                <p>Die Zahl 4500 lässt sich in der genormten Gleitkommadarstellung als <strong>4,5 · 10<sup>x</sup></strong> schreiben. Wie lautet der Wert für x?</p>
+            </div>
+
+            <div class="resource-card">
+                <h4><span class="task-number">7</span> Potenz-Matrix (Sehr Schwer)</h4>
+                <p>Wende die Rechenregeln Schritt für Schritt an und berechne das Endergebnis:<br><br>
+                <strong>(2<sup>3</sup>)<sup>2</sup> : 2<sup>4</sup></strong></p>
+            </div>
+
+            <div class="resource-card">
+                <h4><span class="task-number">8</span> Pythagoras-Protokoll (Sehr Schwer)</h4>
+                <p>Beachte die Vorrangregeln! Berechne erst die Potenzen unter der Wurzel, dann subtrahiere, dann ziehe die Wurzel:<br><br>
+                <strong>√(10<sup>2</sup> − 8<sup>2</sup>)</strong></p>
+            </div>
+
+        </div>
+
+        <div class="code-input-container">
+            <h3 style="margin-top: 0; color: var(--primary); font-size: 1.5rem;">Zugangscode (Summe) eingeben</h3>
+            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem;">Addiert die Ergebnisse der Aufgaben 1 bis 8 und gebt die Summe hier ein.</p>
+            
+            <input type="number" id="mastercode" class="code-input" placeholder="000" autocomplete="off">
+            <br>
+            <button class="nav-toggle active" onclick="checkCode()" style="font-size: 1.1rem; padding: 1rem 2rem;">🔓 Code bestätigen</button>
+            
+            <div id="error-message" style="display: none; background: #fef2f2; border: 1px solid var(--pdf-red); color: var(--pdf-red); padding: 1rem; border-radius: 8px; margin-top: 1.5rem; font-weight: bold;">
+                ❌ Zugriff verweigert! Die Summe stimmt noch nicht. Überprüft eure Rechenregeln.
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Sicherheits-Check: War der User überhaupt in Station 2?
+    if (sessionStorage.getItem("rallye_station2_solved") !== "true") {
+        alert("Halt! Du musst zuerst Station 2 lösen.");
+        window.location.href = "station2.html";
+    }
+
+    // Lösungen zur Kontrolle:
+    // 1: 16 | 2: 6 | 3: 12 | 4: 5 | 5: 105 (125-20) | 6: 3 | 7: 4 (2^6 : 2^4 = 2^2) | 8: 6 (Wurzel aus 100-64 = Wurzel aus 36)
+    // Summe: 157
+
+    function checkCode() {
+        const codeInput = document.getElementById('mastercode').value;
+        const errorMsg = document.getElementById('error-message');
+        
+        if (codeInput === "157") {
+            errorMsg.style.display = "none";
+            
+            sessionStorage.setItem("rallye_station3_solved", "true");
+            
+            alert("✅ Energiezellen stabil! Die Berechnungen sind korrekt. Weiter geht es zu Station 4.");
+            window.location.href = "station4.html";
+        } else {
+            errorMsg.style.display = "block";
+            
+            const inputField = document.getElementById('mastercode');
+            inputField.style.transform = "translateX(-10px)";
+            setTimeout(() => inputField.style.transform = "translateX(10px)", 100);
+            setTimeout(() => inputField.style.transform = "translateX(-10px)", 200);
+            setTimeout(() => inputField.style.transform = "translateX(0)", 300);
+            
+            inputField.value = ""; 
+            inputField.focus(); 
+        }
+    }
+
+    document.getElementById('mastercode').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            checkCode();
+        }
+    });
+</script>
+
+</body>
+</html>

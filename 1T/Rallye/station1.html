@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station 1: Das Zahlenschloss | Rallye 1T</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <style>
+        .rallye-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .code-input {
+            font-size: 1.5rem;
+            padding: 0.75rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            width: 200px;
+            text-align: center;
+            letter-spacing: 2px;
+            font-family: monospace;
+            margin-bottom: 1rem;
+        }
+        .check-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .check-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        .riddle-box {
+            background: #f8fafc;
+            border-left: 4px solid var(--math-color);
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            text-align: left;
+            font-size: 1.1rem;
+        }
+        .task-number {
+            font-weight: 800;
+            color: var(--primary);
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🔢 Station 1: Das Zahlenschloss</h1>
+    <p>Die Jagd nach dem goldenen Zirkel - Natürliche Zahlen</p>
+</header>
+
+<main>
+    <div class="rallye-container">
+        <h2 style="color: var(--primary); margin-top: 0; text-align: center;">Die Halle der Grundrechenarten</h2>
+        <p style="font-size: 1.1rem; line-height: 1.8; text-align: center;">
+            Um das schwere Bronzetor zu Station 2 zu öffnen, müsst ihr die fünf Siegel brechen. Löst die Rechnungen – sie werden mit jedem Siegel kniffliger!
+        </p>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Siegel 1:</span> Berechne die Summe.<br>
+            245 + 137 = <strong>A</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Siegel 2:</span> Berechne den Quotienten.<br>
+            1024 : 8 = <strong>B</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Siegel 3:</span> Beachte die Vorrangregeln (Kla-Pu-Stri)!<br>
+            15 + 5 &middot; 4 = <strong>C</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Siegel 4:</span> Klammern zuerst!<br>
+            (42 - 12) &middot; 3 - 10 = <strong>D</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Siegel 5:</span> Die Meisterprüfung (Textaufgabe).<br>
+            Ein Kino hat 12 Reihen mit je 15 Plätzen. Für die nächste Vorstellung sind bereits 130 Karten verkauft worden. Wie viele Plätze sind noch frei?<br>
+            Lösung = <strong>E</strong></p>
+        </div>
+
+        <div style="background: #eff6ff; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; border: 2px dashed #3b82f6; text-align: center;">
+            <h3 style="margin-top: 0; color: #1e3a8a;">🔑 Euer Geheimcode</h3>
+            <p>Bildet die <strong>Summe aller fünf Ergebnisse</strong> (A + B + C + D + E). Das Ergebnis ist euer Code!</p>
+            
+            <input type="text" id="codeInput" class="code-input" placeholder="CODE..." autocomplete="off">
+            <br>
+            <button class="check-btn" onclick="checkCode()">Schloss überprüfen 🔓</button>
+            <p id="errorMsg" style="color: var(--pdf-red); font-weight: bold; display: none;">Das Schloss klemmt! Verrechnet? (Vorrangregeln beachtet?)</p>
+        </div>
+    </div>
+</main>
+
+<footer style="margin-top: 3rem; text-align: center; font-weight: bold; color: var(--text-muted);">
+    &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+</footer>
+
+<script>
+    function checkCode() {
+        const input = document.getElementById('codeInput').value.trim();
+        const errorMsg = document.getElementById('errorMsg');
+        
+        /* Lösungen für die Lehrkraft:
+           A: 245 + 137 = 382
+           B: 1024 / 8 = 128
+           C: 15 + 20 = 35
+           D: 30 * 3 - 10 = 90 - 10 = 80
+           E: 12 * 15 = 180; 180 - 130 = 50
+           Summe: 382 + 128 + 35 + 80 + 50 = 675
+        */
+        
+        if (input === "675") {
+            document.body.style.backgroundColor = "#dcfce7";
+            errorMsg.style.display = "none";
+            setTimeout(() => {
+                window.location.href = 'station2.html'; 
+            }, 800);
+        } else {
+            errorMsg.style.display = "block";
+            const inputField = document.getElementById('codeInput');
+            inputField.style.transform = "translateX(-10px)";
+            setTimeout(() => inputField.style.transform = "translateX(10px)", 100);
+            setTimeout(() => inputField.style.transform = "translateX(-10px)", 200);
+            setTimeout(() => inputField.style.transform = "translateX(0)", 300);
+        }
+    }
+
+    document.getElementById('codeInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            checkCode();
+        }
+    });
+</script>
+
+</body>
+</html>

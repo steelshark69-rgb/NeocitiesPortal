@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.2 Ganze Zahlen addieren und subtrahieren | Eigenstudium</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .intro-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid var(--math-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2.5rem;
+        }
+        .rule-card {
+            background: #fdf2f8;
+            border: 1px solid #fbcfe8;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .interactive-section {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .account-display {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 1.5rem 0;
+            font-family: monospace;
+        }
+        .action-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .action-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        .action-btn.danger {
+            background: var(--pdf-red);
+        }
+        .action-btn.danger:hover {
+            background: #b91c1c;
+        }
+        .quiz-option {
+            display: block;
+            background: var(--bg);
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .quiz-option:hover {
+            border-color: var(--primary);
+        }
+        .correct {
+            background: #f0fdf4 !important;
+            border-color: #10b981 !important;
+            color: #15803d;
+            font-weight: bold;
+        }
+        .wrong {
+            background: #fef2f2 !important;
+            border-color: #ef4444 !important;
+            color: #b91c1c;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>1.2 Ganze Zahlen addieren & subtrahieren</h1>
+    <p>Mathe-Portal | Selbststudium für die 3L</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">⬅ Zurück zur Übersicht</a>
+    </div>
+</header>
+
+<main>
+    <div class="intro-box">
+        <h3 style="margin-top: 0; color: var(--text-main);">Wie rechnet man mit Vorzeichen?</h3>
+        <p style="margin-bottom: 0; line-height: 1.6;">
+            Das Addieren (Plusrechnen) und Subtrahieren (Minusrechnen) von ganzen Zahlen ist wie eine Bewegung auf einer unendlichen Leiter: Positive Zahlen bringen dich nach <strong>oben (rechts)</strong>, negative Zahlen bringen dich nach <strong>unten (links)</strong>. Doch was passiert, wenn zwei Zeichen direkt aufeinanderpreallen? Das schauen wir uns jetzt an!
+        </p>
+    </div>
+
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Aus dem Leben</span>
+            <h2 style="margin: 0; color: var(--primary);">Die Vorzeichen-Logik im echten Leben</h2>
+        </div>
+        
+        <div class="resource-grid">
+            <div class="resource-card">
+                <h4>➕ Zahl addieren</h4>
+                <p>Du hast 5 € Guthaben auf deinem Account und bekommst 10 € Taschengeld dazu.<br><br>
+                <strong>5 + (+10) = 5 + 10 = 15 €</strong><br><br>
+                <em>Ergebnis: Mehr Guthaben!</em></p>
+            </div>
+
+            <div class="resource-card">
+                <h4>➕ Negative Zahl addieren</h4>
+                <p>Du hast 15 € Guthaben. Jetzt kommt eine automatische Abo-Abbuchung (Schulden) von 6 € dazu.<br><br>
+                <strong>15 + (−6) = 15 − 6 = 9 €</strong><br><br>
+                <em>Ergebnis: Dein Kontostand sinkt.</em></p>
+            </div>
+
+            <div class="resource-card">
+                <h4>Subtrahieren</h4>
+                <p>Du hast 9 € Guthaben und kaufst ein In-App-Paket für 12 €. Es wird Geld abgezogen.<br><br>
+                <strong>9 − (+12) = 9 − 12 = −3 €</strong><br><br>
+                <em>Ergebnis: Du rutschst ins Minus.</em></p>
+            </div>
+
+            <div class="resource-card">
+                <h4> Negative Zahl subtrahieren</h4>
+                <p>Du hast 3 € Schulden (−3). Ein Kumpel ist nett und erlässt dir (subtrahiert) die 3 € Schulden.<br><br>
+                <strong>−3 − (−3) = −3 + 3 = 0 €</strong><br><br>
+                <em>Ergebnis: Schulden weg = Gewinn!</em></p>
+            </div>
+        </div>
+    </div>
+
+    <div style="background: #f8fafc; border: 2px solid var(--primary); padding: 1.5rem; border-radius: 12px; margin-top: 2.5rem;">
+        <h3 style="margin-top: 0; color: var(--primary); text-align: center;">Klammerregeln auf einen Blick</h3>
+        <p style="text-align: center; margin-bottom: 1.5rem;">Treffen zwei Zeichen direkt aufeinander, kannst du sie vereinfachen:</p>
+        
+        <div class="resource-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+            <div class="rule-card" style="background: #f0fdf4; border-color: #bbf7d0; color: #166534;">+ (+ ) ergibt +</div>
+            <div class="rule-card" style="background: #fef2f2; border-color: #fecaca; color: #991b1b;">+ (− ) ergibt −</div>
+            <div class="rule-card" style="background: #fef2f2; border-color: #fecaca; color: #991b1b;">− (+ ) ergibt −</div>
+            <div class="rule-card" style="background: #f0fdf4; border-color: #bbf7d0; color: #166534;">− (− ) ergibt +</div>
+        </div>
+        <p style="font-size: 0.9rem; text-align: center; margin-top: 1rem; color: var(--text-muted);"><em>Kurzmerker: Gleiche Zeichen werden zu Plus, ungleiche Zeichen werden zu Minus!</em></p>
+    </div>
+
+    <div class="interactive-section">
+        <h3 style="margin-top: 0; color: var(--text-main);">🕹️ Interaktiver Kontostand-Simulator</h3>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Bewege das Konto durch deine Entscheidungen im Gamer-Alltag. Beobachte, wie sich der Kontostand verändert!</p>
+        
+        <div style="text-align: center; background: var(--bg); padding: 1.5rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <span style="font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05rem; color: var(--text-muted); font-weight: bold;">Dein aktuelles Guthaben:</span>
+            <div id="account-val" class="account-display">10 €</div>
+            <p id="log-output" style="color: var(--primary); font-weight: 600; min-height: 1.5rem; margin: 0;">Spiel gestartet. Du hast 10 € Startguthaben.</p>
+        </div>
+
+        <div class="resource-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+            <button class="action-btn" onclick="modifyAccount(15, 'Taschengeld bekommen: + (+15 €)')">💰 Taschengeld: + (+15 €)</button>
+            <button class="action-btn danger" onclick="modifyAccount(-20, 'Skin gekauft: − (+20 €)')">🎮 Skin kaufen: − (+20 €)</button>
+            <button class="action-btn danger" onclick="modifyAccount(-8, 'Abo-Gebühr kommt dazu: + (−8 €)')">📉 Abo-Abbruch: + (−8 €)</button>
+            <button class="action-btn" onclick="modifyAccount(5, 'Handy-Anbieter erlässt Strafe: − (−5 €)')">🛡️ Strafe erlassen: − (−5 €)</button>
+        </div>
+        <div style="text-align: center; margin-top: 1rem;">
+            <button class="btn-back" onclick="resetAccount()" style="font-size: 0.85rem; padding: 0.4rem 1rem;">🔄 Simulator zurücksetzen</button>
+        </div>
+    </div>
+
+    <div class="interactive-section" style="border-top: 4px solid var(--info-color);">
+        <h3 style="margin-top: 0; color: var(--text-main);">📝 Drei-Fragen-Blitzcheck</h3>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Klicke auf die richtige Lösung des Terms.</p>
+        
+        <div style="margin-bottom: 2rem;">
+            <p><strong>Frage 1: Berechne: −7 + (−5)</strong></p>
+            <div class="quiz-option" onclick="checkQuiz(this, 'q1', false)">A) −2</div>
+            <div class="quiz-option" onclick="checkQuiz(this, 'q1', true)">B) −12</div>
+            <div class="quiz-option" onclick="checkQuiz(this, 'q1', false)">C) +12</div>
+        </div>
+
+        <div style="margin-bottom: 2rem;">
+            <p><strong>Frage 2: Berechne: 12 − (−4)</strong></p>
+            <div class="quiz-option" onclick="checkQuiz(this, 'q2', false)">A) 8</div>
+            <div class="quiz-option" onclick="checkQuiz(this, 'q2', false)">B) −16</div>
+            <div class="quiz-option" onclick="checkQuiz(this, 'q2', true)">C) 16</div>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+            <p><strong>Frage 3: Ein Lift startet bei −2 (Tiefgarage) und fährt 5 Stockwerke nach oben. Wo steht er?</strong></p>
+            <div class="quiz-option" onclick="checkQuiz(this, 'q3', true)">A) im 3. Stock (+3)</div>
+            <div class="quiz-option" onclick="checkQuiz(this, 'q3', false)">B) im 7. Stock (+7)</div>
+            <div class="quiz-option" onclick="checkQuiz(this, 'q3', false)">C) im 2. Untergeschoß (−2)</div>
+        </div>
+        
+        <div id="quiz-feedback" style="margin-top: 1.5rem; font-weight: bold; text-align: center; min-height: 1.5rem;"></div>
+    </div>
+</main>
+
+<script>
+    // Logik für den Kontostand-Simulator
+    let currentBalance = 10;
+
+    function modifyAccount(amount, message) {
+        currentBalance += amount;
+        
+        const display = document.getElementById('account-val');
+        const log = document.getElementById('log-output');
+        
+        display.innerHTML = currentBalance + " €";
+        log.innerHTML = "Aktion: " + message + " | Neues Guthaben!";
+        
+        if (currentBalance < 0) {
+            display.style.color = "var(--pdf-red)";
+        } else {
+            display.style.color = "var(--text-main)";
+        }
+    }
+
+    function resetAccount() {
+        currentBalance = 10;
+        document.getElementById('account-val').innerHTML = "10 €";
+        document.getElementById('account-val').style.color = "var(--text-main)";
+        document.getElementById('log-output').innerHTML = "Simulator auf 10 € zurückgesetzt.";
+    }
+
+    // Logik für das Quiz
+    const score = { q1: false, q2: false, q3: false };
+
+    function checkQuiz(element, questionId, isCorrect) {
+        // Finde alle Optionen dieser Frage und setze sie zurück
+        const options = element.parentElement.querySelectorAll('.quiz-option');
+        options.forEach(opt => opt.classList.remove('correct', 'wrong'));
+
+        if (isCorrect) {
+            element.classList.add('correct');
+            score[questionId] = true;
+        } else {
+            element.classList.add('wrong');
+            score[questionId] = false;
+        }
+
+        // Gesamtauswertung anzeigen
+        const feedback = document.getElementById('quiz-feedback');
+        const total = Object.values(score).filter(Boolean).length;
+        
+        if (total === 3) {
+            feedback.innerHTML = "🎉 Großartig! Du hast alle 3 Aufgaben fehlerfrei gelöst. Du bist bereit für die Rallye!";
+            feedback.style.color = "#15803d";
+        } else {
+            feedback.innerHTML = "Aktueller Zwischenstand: " + total + " von 3 richtig gelöst.";
+            feedback.style.color = "var(--text-muted)";
+        }
+    }
+</script>
+
+<footer style="margin-top: 5rem; padding: 2rem 1rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.9rem; text-align: center;">
+    &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Digitale Grundbildung
+</footer>
+
+</body>
+</html>

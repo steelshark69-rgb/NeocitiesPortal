@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10.1 Daten darstellen - AHS 2. Klasse</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <style>
+        :root {
+            --math-primary: #ea580c; /* Orange für Statistik & Daten */
+            --math-dark: #c2410c;
+            --math-light: #ffedd5;
+            --bar-color: #fb923c;
+        }
+
+        body { padding-bottom: 2rem; }
+
+        /* Custom Header Styling */
+        .page-header {
+            background-color: var(--math-primary);
+            padding: 2.5rem 1rem;
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        .page-header h1 { margin: 0; color: white; }
+        .page-header p { margin-top: 0.5rem; opacity: 0.9; color: white; }
+
+        /* Info & Theorie Boxen */
+        .theory-box {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            line-height: 1.6;
+        }
+        .theory-box h3 { color: var(--math-primary); margin-top: 0; font-size: 1.4rem; }
+        
+        .term-card {
+            background: #f8fafc;
+            border-left: 4px solid var(--math-primary);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .term-card strong { color: var(--math-dark); font-size: 1.1rem; }
+
+        /* Interaktives Tool */
+        .interactive-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            background: var(--math-light);
+            border: 2px solid #fdba74;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+        }
+        
+        .input-area {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .data-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px;
+            font-size: 1.2rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .data-input:focus { border-color: var(--math-primary); }
+
+        .btn-analyze {
+            background-color: var(--math-primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn-analyze:hover { background-color: var(--math-dark); }
+
+        .results-area {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        @media(min-width: 768px) {
+            .results-area { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* Tabelle Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th { background-color: var(--math-primary); color: white; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background-color: #f8fafc; }
+        
+        .tally-marks {
+            font-family: monospace;
+            font-size: 1.2rem;
+            color: var(--math-dark);
+            letter-spacing: 2px;
+        }
+
+        /* Canvas Wrapper */
+        .canvas-container {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+<header class="page-header">
+    <h1>10.1 Daten darstellen</h1>
+    <p>Urlisten, Strichlisten und Diagramme (Kapitel 10)</p>
+</header>
+
+<div class="back-nav" style="display: flex; justify-content: center; margin-bottom: 2rem;">
+    <a href="../index.html" class="btn-back" style="padding: 0.6rem 1.2rem; border-radius: 10px; background: #f8fafc; border: 1px solid #e2e8f0; color: #1e293b; text-decoration: none; font-weight: 700;">← Zurück zur Übersicht</a>
+</div>
+
+<main style="max-width: 1000px; margin: 0 auto; padding: 0 1.5rem;">
+
+    <!-- THEORIE BEREICH -->
+    <section class="theory-box">
+        <h3>📚 Theorie: Wie ordnet man das Chaos?</h3>
+        <p>Wenn wir bei einer Umfrage Daten sammeln (z.B. Mathematik-Noten der 2L oder die Schuhgrößen), notieren wir sie oft einfach nacheinander. Um daraus etwas ablesen zu können, müssen wir die Daten ordnen und darstellen.</p>
+        
+        <div class="term-card">
+            <strong>📝 Die Urliste</strong><br>
+            Die völlig ungeordnete Sammlung von Daten, genauso wie sie aufgeschrieben wurde.<br>
+            <em>Beispiel Noten: 3, 1, 4, 2, 2, 5, 1, 3, 2, 1</em>
+        </div>
+
+        <div class="term-card">
+            <strong>📈 Die geordnete Liste</strong><br>
+            Wir sortieren die Urliste der Größe nach (meistens von klein nach groß).<br>
+            <em>Beispiel: 1, 1, 1, 2, 2, 2, 3, 3, 4, 5</em>
+        </div>
+
+        <div class="term-card">
+            <strong>📊 Strichliste und absolute Häufigkeit</strong><br>
+            Um nicht immer zählen zu müssen, machen wir für jeden Wert einen Strich. Der 5. Strich wird oft quer über die ersten 4 gemacht, um Päckchen zu bilden (卌). Die gezählte Anzahl an Strichen nennt man die <strong>absolute Häufigkeit</strong>.
+        </div>
+        
+        <p>Damit man das Ergebnis schnell auf einen Blick erfassen kann, zeichnet man Diagramme. Das bekannteste ist das <strong>Säulendiagramm</strong> (senkrechte Balken) oder das <strong>Balkendiagramm</strong> (waagrechte Balken).</p>
+    </section>
+
+    <!-- INTERAKTIVES LABOR -->
+    <section class="interactive-section">
+        <div style="text-align: center;">
+            <h3 style="margin-top: 0; color: var(--math-dark); font-size: 1.8rem;">🔬 Das Daten-Labor</h3>
+            <p style="margin-bottom: 0;">Gib eine eigene Urliste ein (Zahlen mit Beistrich getrennt) und klicke auf "Auswerten"!</p>
+        </div>
+
+        <div class="input-area">
+            <label for="dataInput" style="font-weight: bold; color: #475569;">Deine Urliste (z.B. Noten oder Würfelwürfe):</label><br>
+            <input type="text" id="dataInput" class="data-input" value="3, 1, 4, 2, 2, 5, 1, 3, 2, 1, 2, 3">
+            <br>
+            <button class="btn-analyze" onclick="analyzeData()">Daten auswerten 🚀</button>
+        </div>
+
+        <div class="results-area" id="resultsArea" style="display: none;">
+            <!-- Linke Spalte: Listen & Tabellen -->
+            <div>
+                <div style="background: white; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <strong style="color: var(--math-dark);">Geordnete Liste:</strong>
+                    <div id="orderedList" style="margin-top: 0.5rem; word-wrap: break-word; color: #334155;"></div>
+                </div>
+
+                <table id="frequencyTable">
+                    <thead>
+                        <tr>
+                            <th>Wert</th>
+                            <th>Strichliste</th>
+                            <th>Absolute Häufigkeit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Wird per JS gefüllt -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Rechte Spalte: Diagramm -->
+            <div class="canvas-container">
+                <div style="width: 100%;">
+                    <h4 style="text-align: center; margin-top: 0; color: var(--math-dark);">Säulendiagramm</h4>
+                    <canvas id="barChart" width="400" height="300" style="width: 100%; max-width: 400px; height: auto; display: block; margin: 0 auto;"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer style="margin-top: 5rem; padding: 2rem 1rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.9rem;">
+    <div style="max-width: 800px; margin: 0 auto 2rem auto; text-align: left; background: white; padding: 1.5rem; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <h4 style="margin-top: 0; color: #334155; font-size: 1.1rem;">Datenschutzhinweis (DSGVO)</h4>
+        <p style="margin-bottom: 0; line-height: 1.5;">Die Nutzung dieses Portals ist absolut datenschutzkonform. Es werden keine Eingaben an einen Server gesendet. Die Sortierung, Zählung und das Zeichnen der Diagramme passieren ausschließlich lokal in deinem Browser auf deinem Gerät.</p>
+    </div>
+    <div style="text-align: center; font-weight: bold;">
+        &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+    </div>
+</footer>
+
+<script>
+    // Hilfsfunktion zur Erstellung von "Strichlisten"
+    function getTallyMarks(count) {
+        let tally = "";
+        let fives = Math.floor(count / 5);
+        let remainder = count % 5;
+        
+        // Das Zeichen 卌 (U+534C) sieht aus wie ein 5er-Block in einer Strichliste
+        for(let i=0; i<fives; i++) {
+            tally += "卌 ";
+        }
+        for(let j=0; j<remainder; j++) {
+            tally += "|";
+        }
+        return tally;
+    }
+
+    function analyzeData() {
+        const inputStr = document.getElementById('dataInput').value;
+        const resultsArea = document.getElementById('resultsArea');
+        
+        // 1. Daten einlesen, säubern und in Array umwandeln
+        let rawData = inputStr.split(',').map(item => item.trim()).filter(item => item !== "");
+        
+        // Prüfen, ob es Zahlen sind, für die Sortierung
+        let isNumeric = rawData.every(item => !isNaN(Number(item)));
+        
+        if (isNumeric) {
+            rawData = rawData.map(Number);
+            rawData.sort((a, b) => a - b);
+        } else {
+            rawData.sort(); // Alphabetisch, falls Text eingegeben wurde
+        }
+
+        if (rawData.length === 0) {
+            alert("Bitte gib ein paar Zahlen ein (z.B. 1, 2, 3, 1).");
+            return;
+        }
+
+        // 2. Geordnete Liste anzeigen
+        document.getElementById('orderedList').innerText = rawData.join(', ');
+
+        // 3. Häufigkeiten zählen
+        const frequencies = {};
+        rawData.forEach(val => {
+            frequencies[val] = (frequencies[val] || 0) + 1;
+        });
+
+        // 4. Tabelle befüllen
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        
+        let maxFreq = 0;
+        const labels = [];
+        const dataValues = [];
+
+        for (const [val, count] of Object.entries(frequencies)) {
+            const tr = document.createElement('tr');
+            
+            const tdVal = document.createElement('td');
+            tdVal.innerText = val;
+            tdVal.style.fontWeight = 'bold';
+            
+            const tdTally = document.createElement('td');
+            tdTally.innerText = getTallyMarks(count);
+            tdTally.className = 'tally-marks';
+            
+            const tdCount = document.createElement('td');
+            tdCount.innerText = count;
+            
+            tr.appendChild(tdVal);
+            tr.appendChild(tdTally);
+            tr.appendChild(tdCount);
+            tbody.appendChild(tr);
+
+            // Für Diagramm speichern
+            labels.push(val);
+            dataValues.push(count);
+            if (count > maxFreq) maxFreq = count;
+        }
+
+        // Container einblenden
+        resultsArea.style.display = 'grid';
+
+        // 5. Diagramm zeichnen
+        drawBarChart(labels, dataValues, maxFreq);
+    }
+
+    function drawBarChart(labels, data, maxFreq) {
+        const canvas = document.getElementById('barChart');
+        const ctx = canvas.getContext('2d');
+        
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const padding = 40;
+        const width = canvas.width - padding * 2;
+        const height = canvas.height - padding * 2;
+        
+        const startX = padding;
+        const startY = canvas.height - padding;
+
+        // Y-Achse Einteilung
+        const yMax = maxFreq + 1; 
+        
+        // Gitterlinien (Y-Achse)
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#64748b';
+        ctx.font = '12px sans-serif';
+
+        for (let i = 0; i <= yMax; i++) {
+            let y = startY - (i / yMax) * height;
+            // Linie
+            ctx.beginPath();
+            ctx.moveTo(startX, y);
+            ctx.lineTo(startX + width, y);
+            ctx.stroke();
+            // Label
+            ctx.fillText(i, startX - 10, y);
+        }
+
+        // Achsen zeichnen
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(startX, padding - 10);
+        ctx.lineTo(startX, startY);
+        ctx.lineTo(startX + width + 10, startY);
+        ctx.stroke();
+
+        // Balken zeichnen
+        const barWidth = (width / labels.length) * 0.6; // 60% der verfügbaren Breite
+        const gap = (width / labels.length) * 0.4;
+        
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+
+        for (let i = 0; i < labels.length; i++) {
+            let val = data[i];
+            let barHeight = (val / yMax) * height;
+            
+            let x = startX + (i * (barWidth + gap)) + (gap / 2);
+            let y = startY - barHeight;
+
+            // Balken
+            ctx.fillStyle = 'var(--bar-color)';
+            ctx.fillRect(x, y, barWidth, barHeight);
+            
+            // Rahmen um Balken
+            ctx.strokeStyle = 'var(--math-dark)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(x, y, barWidth, barHeight);
+
+            // X-Achsen Beschriftung
+            ctx.fillStyle = '#334155';
+            ctx.font = 'bold 14px sans-serif';
+            ctx.fillText(labels[i], x + (barWidth / 2), startY + 10);
+            
+            // Wert über dem Balken
+            ctx.fillStyle = 'var(--math-dark)';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.fillText(val, x + (barWidth / 2), y - 15);
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Das Finale: Der ultimative Tresor | Rallye 1T</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <style>
+        .rallye-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid #ca8a04; /* Goldgelb für das Finale */
+            box-shadow: 0 4px 20px rgba(202, 138, 4, 0.2);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .code-input {
+            font-size: 1.5rem;
+            padding: 0.75rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            width: 200px;
+            text-align: center;
+            letter-spacing: 2px;
+            font-family: monospace;
+            margin-bottom: 1rem;
+        }
+        .check-btn {
+            background: #ca8a04;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .check-btn:hover {
+            background: #a16207;
+            transform: translateY(-2px);
+        }
+        .riddle-box {
+            background: #fefce8;
+            border-left: 4px solid #ca8a04;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            text-align: left;
+            font-size: 1.1rem;
+        }
+        .task-number {
+            font-weight: 800;
+            color: #b45309;
+            margin-right: 0.5rem;
+        }
+        /* Sieger-Animation */
+        @keyframes pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .victory-screen {
+            display: none;
+            text-align: center;
+            animation: pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🏆 Das Finale: Der ultimative Tresor</h1>
+    <p>Die Jagd nach dem goldenen Zirkel - Variablen & Terme</p>
+</header>
+
+<main>
+    <div class="rallye-container" id="mainContainer">
+        <h2 style="color: #ca8a04; margin-top: 0; text-align: center;">Das Schloss der 10 Riegel</h2>
+        <p style="font-size: 1.1rem; line-height: 1.8; text-align: center;">
+            Ihr steht vor dem massiven Tresor, in dem der goldene Zirkel ruht. Das Schloss besitzt 10 Riegel. Nur wer die Sprache der Mathematik fließend spricht, kann sie alle lösen. Viel Erfolg!
+        </p>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Riegel 1:</span> Das Dreifache einer Zahl.<br>
+            Multipliziere die Variable x mit 3. Berechne den Wert des Terms für <strong>x = 4</strong>.<br>
+            Lösung = <strong>A</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Riegel 2:</span> Text in einen Term übersetzen.<br>
+            "Addiere 8 zum Doppelten von y." Berechne den Wert dieses Terms für <strong>y = 5</strong>.<br>
+            Lösung = <strong>B</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Riegel 3:</span> Subtrahieren und Halbieren.<br>
+            "Subtrahiere z von 50 und halbiere danach das Ergebnis." Berechne den Wert für <strong>z = 10</strong>.<br>
+            Lösung = <strong>C</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Riegel 4:</span> Mehrere Variablen einsetzen.<br>
+            Gegeben ist der Term: 4 &middot; a + 3 &middot; b - c<br>
+            Setze ein: <strong>a = 5</strong>, <strong>b = 2</strong> und <strong>c = 6</strong>.<br>
+            Lösung = <strong>D</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Riegel 5:</span> Die unbekannte Zahl.<br>
+            Für welche Zahl k liefert der Term "5 &middot; k" genau den Wert 45? (Denke an die Umkehroperation).<br>
+            Lösung = <strong>E</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Riegel 6:</span> Das Altersrätsel.<br>
+            Anna ist x Jahre alt. Ihr Vater ist dreimal so alt wie Anna. <br>
+            <em>Wie alt sind beide zusammen, wenn <strong>x = 12</strong> ist?</em><br>
+            Lösung = <strong>F</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Riegel 7:</span> Klammern bei Termen.<br>
+            Gegeben ist der Term: 2 &middot; (p + 3) - 4<br>
+            Berechne den Wert des Terms für <strong>p = 7</strong>.<br>
+            Lösung = <strong>G</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Riegel 8:</span> Geometrie mit Variablen.<br>
+            Ein Rechteck hat die Länge a und die Breite b. Es gilt: a = 3 &middot; x und b = x + 2.<br>
+            <em>Berechne den <strong>Umfang</strong> dieses Rechtecks, wenn <strong>x = 4</strong> ist.</em><br>
+            Lösung = <strong>H</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Riegel 9:</span> Terme zusammenfassen.<br>
+            Fasse zusammen und setze dann ein: 5 &middot; m - 2 &middot; m + 4<br>
+            Berechne den Wert für <strong>m = 10</strong>.<br>
+            Lösung = <strong>I</strong></p>
+        </div>
+
+        <div class="riddle-box">
+            <p><span class="task-number">Riegel 10 (Meisterstufe):</span> Der Handyvertrag.<br>
+            Ein Handyvertrag kostet eine feste Grundgebühr von 15 &euro; im Monat. Zusätzlich zahlt man 2 &euro; pro verbrauchtem Gigabyte (Variable g). <br>
+            <em>Berechne die <strong>Gesamtkosten für ein ganzes Jahr</strong> (12 Monate), wenn in jedem Monat exakt <strong>g = 8</strong> verbraucht wird!</em><br>
+            Lösung = <strong>J</strong></p>
+        </div>
+
+        <div style="background: #fefce8; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; border: 2px dashed #ca8a04; text-align: center;" id="inputSection">
+            <h3 style="margin-top: 0; color: #a16207;">🔑 Der Master-Code</h3>
+            <p>Bildet die <strong>Summe aller 10 Ergebnisse</strong> (A bis J). Wenn der Code stimmt, öffnet sich der Tresor!</p>
+            
+            <input type="text" id="codeInput" class="code-input" placeholder="CODE..." autocomplete="off">
+            <br>
+            <button class="check-btn" onclick="checkCode()">Tresor öffnen 💰</button>
+            <p id="errorMsg" style="color: var(--pdf-red); font-weight: bold; display: none;">Die Sirenen heulen! Der Code ist falsch. Verrechnet?</p>
+        </div>
+        
+        <div id="victoryScreen" class="victory-screen">
+            <h1 style="font-size: 4rem; margin: 0;">🏆</h1>
+            <h2 style="color: #ca8a04; font-size: 2rem; margin-bottom: 0.5rem;">HERZLICHEN GLÜCKWUNSCH!</h2>
+            <h3 style="color: var(--text-main); margin-top: 0;">Ihr habt den goldenen Zirkel gefunden!</h3>
+            <p style="font-size: 1.2rem; line-height: 1.6; max-width: 600px; margin: 2rem auto;">
+                Ihr habt alle Aufgaben der Jahresabschluss-Rallye bravourös gemeistert, 
+                Gefahren getrotzt und euer mathematisches Wissen unter Beweis gestellt. <br><br>
+                <strong>Macht einen Screenshot von dieser Urkunde und zeigt ihn eurem Lehrer!</strong>
+            </p>
+            <div style="margin-top: 2rem; padding: 1rem; border: 2px solid #ca8a04; border-radius: 8px; display: inline-block; background: #fefce8;">
+                <p style="margin: 0; font-weight: bold; font-family: monospace; font-size: 1.2rem; color: #a16207;">
+                    ZERTIFIKAT-CODE: MATH-1T-MASTER-2026
+                </p>
+            </div>
+        </div>
+        
+    </div>
+</main>
+
+<footer style="margin-top: 3rem; text-align: center; font-weight: bold; color: var(--text-muted);">
+    &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+</footer>
+
+<script>
+    function checkCode() {
+        const input = document.getElementById('codeInput').value.trim();
+        const errorMsg = document.getElementById('errorMsg');
+        
+        /* Lösungen für die Lehrkraft:
+           A: 3 * 4 = 12
+           B: 2 * 5 + 8 = 18
+           C: (50 - 10) / 2 = 20
+           D: 4*5 + 3*2 - 6 = 20 + 6 - 6 = 20
+           E: 5 * k = 45 -> k = 9
+           F: 12 + (3 * 12) = 12 + 36 = 48
+           G: 2 * (7 + 3) - 4 = 2 * 10 - 4 = 16
+           H: a = 3*4 = 12; b = 4+2 = 6. u = 2 * (12 + 6) = 36
+           I: 5*10 - 2*10 + 4 = 30 + 4 = 34
+           J: Monat: 15 + (2 * 8) = 31 €. Jahr: 31 * 12 = 372 €
+           Summe: 12 + 18 + 20 + 20 + 9 + 48 + 16 + 36 + 34 + 372 = 585
+        */
+        
+        if (input === "585") {
+            // Verstecke alle Aufgaben und die Eingabe
+            const riddleBoxes = document.querySelectorAll('.riddle-box');
+            riddleBoxes.forEach(box => box.style.display = 'none');
+            document.getElementById('inputSection').style.display = 'none';
+            document.querySelector('#mainContainer h2').style.display = 'none';
+            document.querySelector('#mainContainer p').style.display = 'none';
+            
+            // Hintergrundfarbe der Seite ändern und Sieger-Screen anzeigen
+            document.body.style.backgroundColor = "#fefce8";
+            document.getElementById('victoryScreen').style.display = 'block';
+            
+        } else {
+            errorMsg.style.display = "block";
+            const inputField = document.getElementById('codeInput');
+            inputField.style.transform = "translateX(-10px)";
+            setTimeout(() => inputField.style.transform = "translateX(10px)", 100);
+            setTimeout(() => inputField.style.transform = "translateX(-10px)", 200);
+            setTimeout(() => inputField.style.transform = "translateX(0)", 300);
+        }
+    }
+
+    document.getElementById('codeInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            checkCode();
+        }
+    });
+</script>
+
+</body>
+</html>

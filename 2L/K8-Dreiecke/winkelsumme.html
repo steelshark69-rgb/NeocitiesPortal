@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreiecke: Winkelsumme und Einteilung</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Winkelsumme und Einteilung</h1>
+    <p>Die 180°-Regel und die Arten von Dreiecken</p>
+</header>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main>
+    <section class="subject-group" id="winkelsumme">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 8.2</span>
+            <h2 style="margin: 0; color: var(--primary);">1. Die Winkelsumme im Dreieck</h2>
+        </div>
+        <p>Egal wie spitz, flach, schief oder groß ein Dreieck ist – wenn du seine drei Innenwinkel zusammenzählst, kommt immer genau dieselbe Zahl heraus.</p>
+        
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--pdf-red); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <h4 style="margin-top: 0; color: var(--text-main);">Der Merksatz:</h4>
+            <p style="font-size: 1.05rem;">Die Summe der drei Innenwinkel in einem ebenen Dreieck beträgt <strong>immer $180^\circ$</strong>.</p>
+            <div style="text-align: center; font-size: 1.5rem; font-weight: bold; color: var(--pdf-red); margin-top: 1rem;">
+                $\alpha + \beta + \gamma = 180^\circ$
+            </div>
+        </div>
+
+        
+
+        <p><em>Tipp:</em> Wenn du die drei Ecken eines Dreiecks aus Papier abreißt und nebeneinanderlegst, bilden sie zusammen genau eine gerade Linie (einen gestreckten Winkel von $180^\circ$).</p>
+    </section>
+
+    <section class="subject-group" id="einteilung">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 8.2</span>
+            <h2 style="margin: 0; color: var(--primary);">2. Einteilung nach Winkeln</h2>
+        </div>
+        <p>Da die Winkelsumme auf $180^\circ$ begrenzt ist, kann ein Dreieck maximal <strong>einen</strong> Winkel haben, der $90^\circ$ oder größer ist. Je nach der Größe des größten Winkels geben wir den Dreiecken Namen:</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+            <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px;">
+                <h4 style="margin-top: 0; color: var(--doc-blue);">Spitzwinkeliges Dreieck</h4>
+                <p style="font-size: 0.95rem;"><strong>Alle drei Winkel</strong> sind kleiner als $90^\circ$ (also spitze Winkel).</p>
+                <div style="font-size: 0.9rem; color: var(--text-muted); text-align: center;">z.B. $\alpha=50^\circ, \beta=60^\circ, \gamma=70^\circ$</div>
+            </div>
+
+            <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px;">
+                <h4 style="margin-top: 0; color: var(--info-color);">Rechtwinkeliges Dreieck</h4>
+                <p style="font-size: 0.95rem;"><strong>Genau ein Winkel</strong> ist exakt $90^\circ$ groß (ein rechter Winkel).</p>
+                <div style="font-size: 0.9rem; color: var(--text-muted); text-align: center;">z.B. $\alpha=90^\circ, \beta=45^\circ, \gamma=45^\circ$</div>
+            </div>
+
+            <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px;">
+                <h4 style="margin-top: 0; color: var(--html-orange);">Stumpfwinkeliges Dreieck</h4>
+                <p style="font-size: 0.95rem;"><strong>Genau ein Winkel</strong> ist größer als $90^\circ$ (ein stumpfer Winkel).</p>
+                <div style="font-size: 0.9rem; color: var(--text-muted); text-align: center;">z.B. $\alpha=120^\circ, \beta=40^\circ, \gamma=20^\circ$</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="subject-group" id="labor">
+        <div class="subject-header">
+            <span class="subject-badge bg-info">Labor</span>
+            <h2 style="margin: 0; color: var(--primary);">Der automatische Dreiecks-Scanner</h2>
+        </div>
+        <p>Gib zwei Winkel deines Dreiecks ein. Das Skript berechnet sofort den dritten Winkel und sagt dir, wie das Dreieck heißt!</p>
+        
+        <div style="background: white; border: 2px solid var(--primary); padding: 1.5rem; border-radius: 12px;">
+            <div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center; margin-bottom: 1.5rem;">
+                <div>
+                    <label for="angA" style="font-size: 0.9rem; color: var(--text-muted);">Winkel $\alpha$ (Grad):</label><br>
+                    <input type="number" id="angA" value="45" min="1" max="178" step="any" style="width: 100px; padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+                <div>
+                    <label for="angB" style="font-size: 0.9rem; color: var(--text-muted);">Winkel $\beta$ (Grad):</label><br>
+                    <input type="number" id="angB" value="55" min="1" max="178" step="any" style="width: 100px; padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+                <div style="margin-top: 1.2rem;">
+                    <button class="nav-toggle active" onclick="analyzeTriangle()" style="border: none;">Dreieck scannen</button>
+                </div>
+            </div>
+
+            <div id="scanResult" style="display: none; background: var(--bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px;">
+                </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Mathematik verstehen 2 | Geometrie - Dreiecke</p>
+</footer>
+
+<script>
+    function analyzeTriangle() {
+        const alpha = parseFloat(document.getElementById('angA').value);
+        const beta = parseFloat(document.getElementById('angB').value);
+        
+        const resultBox = document.getElementById('scanResult');
+
+        if (isNaN(alpha) || isNaN(beta) || alpha <= 0 || beta <= 0) {
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = `<strong style="color: var(--pdf-red);">Bitte gib zwei gültige, positive Winkel ein!</strong>`;
+            return;
+        }
+
+        const sum = alpha + beta;
+
+        if (sum >= 180) {
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = `
+                <strong style="color: var(--pdf-red);">Fehler!</strong><br>
+                Zwei Winkel in einem Dreieck können zusammen nicht ${sum}° haben, da <strong>alle drei</strong> zusammen genau 180° ergeben müssen.
+            `;
+            return;
+        }
+
+        // Dritter Winkel
+        const gamma = 180 - sum;
+
+        // Klassifizierung
+        const maxAngle = Math.max(alpha, beta, gamma);
+        let typeName = "";
+        let typeColor = "";
+
+        if (maxAngle < 90) {
+            typeName = "Spitzwinkeliges Dreieck";
+            typeColor = "var(--doc-blue)";
+        } else if (maxAngle === 90) {
+            typeName = "Rechtwinkeliges Dreieck";
+            typeColor = "var(--info-color)";
+        } else {
+            typeName = "Stumpfwinkeliges Dreieck";
+            typeColor = "var(--html-orange)";
+        }
+
+        resultBox.style.display = 'block';
+        resultBox.innerHTML = `
+            <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: center;">
+                <div style="flex: 1; min-width: 200px;">
+                    <strong style="color: var(--text-muted);">Berechnung:</strong><br>
+                    $\\gamma = 180^\\circ - (${alpha}^\\circ + ${beta}^\\circ)$<br>
+                    <strong style="font-size: 1.8rem; color: var(--primary); display: block; margin-top: 0.5rem;">$\\gamma = ${gamma}^\\circ$</strong>
+                </div>
+                <div style="flex: 1; min-width: 200px; background: white; border-left: 5px solid ${typeColor}; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">Erkennung:</span><br>
+                    <strong style="color: ${typeColor}; font-size: 1.1rem;">${typeName}</strong><br>
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">Weil der größte Winkel ${maxAngle}° beträgt.</span>
+                </div>
+            </div>
+        `;
+
+        if (typeof MathJax !== 'undefined') {
+            MathJax.typesetPromise ? MathJax.typesetPromise() : MathJax.typeset();
+        }
+    }
+</script>
+
+</body>
+</html>

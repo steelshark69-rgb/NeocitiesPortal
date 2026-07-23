@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Das Große Finale | Klasse 3L Rallye</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .terminal-container {
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 2px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+        .terminal-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 1.25rem;
+            border-radius: 8px;
+            color: #f1f5f9;
+        }
+        .terminal-card h4 {
+            color: #38bdf8;
+            margin-top: 0;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 0.5rem;
+        }
+        .final-input-box {
+            background: #1e293b;
+            border: 2px solid #0ea5e9;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        .final-code {
+            font-size: 2.5rem;
+            letter-spacing: 0.5rem;
+            padding: 0.5rem;
+            width: 200px;
+            text-align: center;
+            background: #0f172a;
+            border: 2px solid #38bdf8;
+            color: #38bdf8;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        /* Vollbild-Erfolgs-Overlay */
+        #success-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 9999;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            animation: scaleIn 0.5s ease forward;
+        }
+        #confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body style="background-color: var(--bg);">
+
+<header>
+    <h1>🚨 Das große Finale: Showdown</h1>
+    <p>Die große Jahresabschluss-Rallye der 3L</p>
+</header>
+
+<main>
+    <div id="game-area">
+        <div class="subject-group">
+            <div class="subject-header">
+                <span class="subject-badge bg-math">Kapitel 6</span>
+                <h2 style="margin: 0; color: var(--primary);">Wachstums- und Abnahmemodelle</h2>
+            </div>
+            
+            <div style="background: white; border: 1px solid #e2e8f0; border-left: 4px solid var(--dgb-color); padding: 1.5rem; border-radius: 8px; margin-bottom: 2.5rem;">
+                <p style="margin-top: 0; font-size: 1.1rem; line-height: 1.6; color: var(--text-main);">
+                    <strong>Ihr habt es bis zum Hauptrechner geschafft!</strong><br>
+                    Der Virus versucht, die finalen Zeugnisdaten dauerhaft zu löschen. Analysiert die mathematischen Prozesse von Wachstum und Zerfall, um die Kernschmelze aufzuhalten. 
+                    <strong>Die Summe aller 6 Ergebnisse</strong> stoppt den Countdown dauerhaft!
+                </p>
+            </div>
+
+            <div class="terminal-container">
+                <div class="resource-grid">
+                    
+                    <div class="terminal-card">
+                        <h4>📈 1. Speicher-Ausbau</h4>
+                        <p>Die Backup-Kapazität startet bei 200 GB und wächst jeden Tag <strong>linear</strong> um konstant 15 GB. Wie viele GB Speicherplatz sind nach exakt 10 Tagen verfügbar?</p>
+                    </div>
+                    
+                    <div class="terminal-card">
+                        <h4>⚡ 2. Krypto-Sicherheit</h4>
+                        <p>Ein Sicherheits-Zertifikat im Wert von 100 € erfährt ein <strong>exponentielles Wachstum</strong> und steigt zwei Jahre lang um jeweils 10 % pro Jahr. Welchen Wert in Euro hat es danach?</p>
+                    </div>
+                    
+                    <div class="terminal-card">
+                        <h4>📉 3. Akku-Leck</h4>
+                        <p>Ein Notstrom-Aggregat verliert pro Stunde Laufzeit <strong>linear</strong> 12 % seiner Energie. Es startet voll geladen (100 %). Wie viel Prozent Ladung sind nach 6 Stunden Dauerbetrieb noch übrig?</p>
+                    </div>
+                    
+                    <div class="terminal-card">
+                        <h4>☣️ 4. Viren-Quarantäne</h4>
+                        <p>Ein infizierter Datenbestand von 800 MB wird isoliert und halbiert sich jede Stunde (<strong>exponentielle Abnahme</strong> um 50 %). Wie viele MB Datenmüll sind nach 4 Stunden noch übrig?</p>
+                    </div>
+                    
+                    <div class="terminal-card">
+                        <h4>👥 5. User-Zuwachs</h4>
+                        <p>Das Schulportal verzeichnete im Mai 400 Zugriffe. Im Juni stieg die Frequenz durch die Rallye um exakt 25 %. Wie viele Zugriffe gab es im Juni?</p>
+                    </div>
+                    
+                    <div class="terminal-card">
+                        <h4>🏦 6. Server-Leasing</h4>
+                        <p>Ein Guthaben von 2000 € wird für ein halbes Jahr (genau 6 Monate) zu einem einfachen jährlichen Zinssatz von 2 % angelegt. Wie viele Euro <strong>Zinsen</strong> werden nach diesem halben Jahr gutgeschrieben?</p>
+                    </div>
+
+                </div>
+
+                <div class="final-input-box">
+                    <h3 style="margin-top: 0; color: #38bdf8; font-size: 1.6rem;">🔐 MASTERCODE EINGEBEN</h3>
+                    <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 1.5rem;">Berechnet die Summe aller 6 finalen Ergebnisse, um den Virus zu eliminieren.</p>
+                    
+                    <input type="number" id="mastercode" class="final-code" placeholder="0000" autocomplete="off">
+                    <br><br>
+                    <button class="nav-toggle active" onclick="verifyFinalCode()" style="font-size: 1.2rem; padding: 1rem 3rem; background: #0ea5e9; border-color: #0ea5e9;">💥 System retten & Beenden</button>
+                    
+                    <p id="error-message" style="display: none; color: #f43f5e; margin-top: 1.5rem; font-weight: bold;">❌ SYSTEM-WARNUNG: Falscher Code! Der Löschvorgang läuft weiter.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="success-screen">
+        <canvas id="confetti-canvas"></canvas>
+        <h1 style="font-size: 4rem; color: var(--primary); margin-bottom: 0;">🎉 MISSION ERFÜLLT! 🎉</h1>
+        <h2 style="font-size: 2.2rem; color: var(--text-main); margin-top: 1rem;">Der Mastercode ist korrekt. Das Portal ist sicher!</h2>
+        
+        <div style="background: #f0fdf4; border: 2px solid #10b981; padding: 2.5rem; border-radius: 12px; max-width: 600px; margin: 2rem auto; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <h3 style="color: #15803d; margin-top: 0; font-size: 1.8rem;">☀️ Schöne Ferien, Klasse 3L! ☀️</h3>
+            <p style="font-size: 1.15rem; color: #1e293b; line-height: 1.6; margin-bottom: 0;">
+                Ihr habt bewiesen, dass ihr echte Mathe-Profis seid. Alle Stationen wurden fehlerfrei gelöst. Genießt den Sommer und die wohlverdiente schulfreie Zeit!
+            </p>
+        </div>
+        
+        <a href="../index.html" class="btn-back" style="font-size: 1.1rem; padding: 0.8rem 2rem; background: var(--primary); color: white; border: none;">🏫 Zurück zum Portal-Dashboard</a>
+    </div>
+</main>
+
+<script>
+    // Sicherheits-Check: War der User in Station 6?
+    if (sessionStorage.getItem("rallye_station6_solved") !== "true") {
+        alert("Halt! Du musst zuerst Station 6 lösen.");
+        window.location.href = "station6.html";
+    }
+
+    // Lösungen zur Kontrolle:
+    // 1: 350 (200 + 15 * 10)
+    // 2: 121 (100 * 1.1 * 1.1)
+    // 3: 28  (100 - 12 * 6)
+    // 4: 50  (800 / 16)
+    // 5: 500 (400 * 1.25)
+    // 6: 20  (2000 * 0.02 * 0.5)
+    // Summe: 1069
+
+    function verifyFinalCode() {
+        const input = document.getElementById('mastercode').value;
+        const errorMsg = document.getElementById('error-message');
+        
+        if (input === "1069") {
+            errorMsg.style.display = "none";
+            // Blende Spiel aus, zeige Erfolgsscreen
+            document.getElementById('game-area').style.display = "none";
+            const successScreen = document.getElementById('success-screen');
+            successScreen.style.display = "flex";
+            
+            // Starte das lokale Konfetti-Feuerwerk
+            initConfetti();
+        } else {
+            errorMsg.style.display = "block";
+            document.getElementById('mastercode').value = "";
+            document.getElementById('mastercode').focus();
+        }
+    }
+
+    // --- 100% Client-Side Vanilla JS Confetti Engine ---
+    function initConfetti() {
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const confettiCount = 150;
+        const confettiParticles = [];
+        const colors = ['#4f46e5', '#0ea5e9', '#f59e0b', '#10b981', '#ef4444', '#ec4899'];
+
+        for (let i = 0; i < confettiCount; i++) {
+            confettiParticles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                size: Math.random() * 8 + 5,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                speed: Math.random() * 3 + 2,
+                angle: Math.random() * 2 * Math.PI,
+                rotationSpeed: Math.random() * 0.2 - 0.1
+            });
+        }
+
+        function render() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            confettiParticles.forEach(p => {
+                p.y += p.speed;
+                p.angle += p.rotationSpeed;
+                
+                if (p.y > canvas.height) {
+                    p.y = -10;
+                    p.x = Math.random() * canvas.width;
+                }
+                
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.angle);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                ctx.restore();
+            });
+            
+            requestAnimationFrame(render);
+        }
+        
+        render();
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    }
+
+    document.getElementById('mastercode').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            verifyFinalCode();
+        }
+    });
+</script>
+
+</body>
+</html>

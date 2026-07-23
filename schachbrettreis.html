@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exponentielles Wachstum - Das Schachbrett</title>
+    <!-- Verweis auf die zentrale CSS-Datei (aus dem Kapitelordner zwei Ebenen hoch) -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        :root {
+            --primary-color: #003366;
+            --accent-color: #c4121a;
+            --bg-light: #f4f4f9;
+            --board-light: #eeeed2;
+            --board-dark: #769656;
+            --highlight: #f8e14b;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .dashboard {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .stat-box {
+            flex: 1;
+            min-width: 250px;
+            background: #e7f3ff;
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--accent-color);
+            word-break: break-all;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        button:hover { background-color: #001a33; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        .btn-accent { background-color: var(--accent-color); }
+        .btn-accent:hover { background-color: #900c12; }
+
+        .main-layout {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            margin-top: 30px;
+        }
+
+        .board-wrapper {
+            flex: 1.2;
+            display: flex;
+            justify-content: center;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            width: 100%;
+            max-width: 600px;
+            border: 4px solid #333;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .square {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-align: center;
+            padding: 2px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .light { background-color: var(--board-light); color: #333; }
+        .dark { background-color: var(--board-dark); color: white; }
+        .active-square {
+            background-color: var(--highlight) !important;
+            color: #333 !important;
+            transform: scale(1.05);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+
+        /* CSS-Klassen für die Vergleichsobjekte */
+        .comparison-section {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            min-width: 280px;
+        }
+        .comparison-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .milestone-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .milestone-item {
+            display: none;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: var(--bg-light);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 4px;
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        .milestone-item.revealed {
+            display: flex; /* Element sichtbar machen, sobald Gewicht erreicht ist */
+        }
+        .milestone-icon {
+            font-size: 2.2em;
+            margin-right: 15px;
+            min-width: 40px;
+            text-align: center;
+        }
+        .milestone-details {
+            flex: 1;
+        }
+        .milestone-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: var(--primary-color);
+        }
+        .milestone-weight {
+            color: #666;
+            font-size: 0.95em;
+        }
+        .empty-msg {
+            color: #888;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Responsive Anpassungen */
+        @media (max-width: 850px) {
+            .main-layout {
+                flex-direction: column;
+                align-items: center;
+            }
+            .comparison-section {
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .board-wrapper {
+                width: 100%;
+            }
+        }
+        @media (max-width: 600px) {
+            .container { padding: 15px; }
+            .square { font-size: 0.5em; }
+            .stat-value { font-size: 1.2em; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Die Reiskorn-Legende</h1>
+    <p style="text-align: center;">Auf das erste Feld legen wir 1 Reiskorn. Auf jedes weitere Feld legen wir genau <strong>doppelt so viele</strong> wie auf das vorherige. Was passiert?</p>
+
+    <div class="controls">
+        <button id="btn-next" onclick="nextSquare()">+ 1 Feld</button>
+        <button id="btn-next10" onclick="nextTenSquares()">+ 10 Felder</button>
+        <button id="btn-all" onclick="fillAll()">Alle 64 Felder</button>
+        <button id="btn-reset" class="btn-accent" onclick="resetBoard()">Zurücksetzen</button>
+    </div>
+
+    <div class="dashboard">
+        <div class="stat-box">
+            <div>Aktuelles Feld: <span id="current-field" style="font-weight: bold;">0 / 64</span></div>
+            <div style="margin-top: 10px;">Körner auf diesem Feld:</div>
+            <div class="stat-value" id="field-value">0</div>
+        </div>
+        <div class="stat-box" style="border-left-color: var(--accent-color);">
+            <div><strong>Gesamtzahl der Körner:</strong></div>
+            <div class="stat-value" id="total-value" style="color: var(--primary-color);">0</div>
+            <div style="margin-top: 10px;"><strong>Geschätztes Gewicht:</strong></div>
+            <div class="stat-value" id="weight-value" style="font-size: 1.2em; color: #555;">0 g</div>
+        </div>
+    </div>
+
+    <div class="main-layout">
+        <div class="board-wrapper">
+            <div class="board" id="chessboard">
+                <!-- Die 64 Felder werden per JavaScript generiert -->
+            </div>
+        </div>
+
+        <!-- Sektion für die Vergleiche -->
+        <div class="comparison-section">
+            <h2 class="comparison-title">Was wiegt so viel?</h2>
+            <div id="milestone-empty" class="empty-msg">
+                Lege mehr Reiskörner auf das Brett, um Vergleiche zu sehen...
+            </div>
+            <ul id="milestone-list" class="milestone-list">
+                <!-- Wird per JS dynamisch befüllt -->
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentStep = 0;
+    let totalGrains = 0n; // Wir verwenden BigInt für extrem große Zahlen
+
+    // Liste der Vergleichsobjekte (Gewicht intern in Gramm n angegeben)
+    const milestones = [
+        { name: "Tafel Schokolade", weight: 100n, unit: "100 g", icon: "🍫" },
+        { name: "Erwachsener Mann", weight: 80000n, unit: "80 kg", icon: "👨" },
+        { name: "Kuh", weight: 800000n, unit: "800 kg", icon: "🐄" },
+        { name: "Elefant", weight: 5000000n, unit: "5 t", icon: "🐘" },
+        { name: "Blauwal", weight: 140000000n, unit: "140 t", icon: "🐋" },
+        { name: "Eiffelturm", weight: 10100000000n, unit: "10.100 t", icon: "🗼" },
+        { name: "Titanic", weight: 46000000000n, unit: "46.000 t", icon: "🚢" },
+        { name: "Cheops-Pyramide", weight: 6000000000000n, unit: "6 Mio. t", icon: "🏜️" },
+        { name: "Alle Menschen der Erde", weight: 400000000000000n, unit: "400 Mio. t", icon: "🌍" },
+        { name: "Mount Everest", weight: 161000000000000000n, unit: "161 Mrd. t", icon: "🏔️" }
+    ];
+
+    // Vorbereitung der HTML-Elemente für die Liste
+    function initMilestones() {
+        const list = document.getElementById('milestone-list');
+        list.innerHTML = '';
+        milestones.forEach((m, i) => {
+            const li = document.createElement('li');
+            li.id = `milestone-${i}`;
+            li.className = 'milestone-item';
+            li.innerHTML = `
+                <div class="milestone-icon">${m.icon}</div>
+                <div class="milestone-details">
+                    <div class="milestone-name">${m.name}</div>
+                    <div class="milestone-weight">Gewicht: ${m.unit}</div>
+                </div>
+            `;
+            list.appendChild(li);
+        });
+    }
+
+    // Das Schachbrett beim Laden der Seite aufbauen
+    function initBoard() {
+        const board = document.getElementById('chessboard');
+        board.innerHTML = '';
+        for (let i = 0; i < 64; i++) {
+            const square = document.createElement('div');
+            // Schachbrett-Muster berechnen (Reihe + Spalte)
+            const isLight = (Math.floor(i / 8) + (i % 8)) % 2 === 0;
+            square.className = `square ${isLight ? 'light' : 'dark'}`;
+            square.id = `square-${i}`;
+            board.appendChild(square);
+        }
+    }
+
+    // Formatierung für die Anzahl der Körner
+    function formatGrains(grainsBigInt) {
+        if (grainsBigInt === 0n) return "0";
+        return grainsBigInt.toLocaleString('de-DE');
+    }
+
+    // Berechnung und Formatierung des Gewichts (Annahme: 1 Reiskorn = 0,025 Gramm)
+    function formatWeight(grainsBigInt) {
+        if (grainsBigInt === 0n) return "0 g";
+        
+        // Da die Körnerzahl gigantisch wird, wandeln wir sie in eine JavaScript-Standardzahl (Float) um
+        const weightGrams = Number(grainsBigInt) * 0.025;
+        
+        if (weightGrams >= 1000000000000) { // ab 1 Million Tonnen (1.000.000.000.000 g)
+            const mioTonnen = weightGrams / 1000000000000;
+            return mioTonnen.toLocaleString('de-DE', {maximumFractionDigits: 2}) + " Mio. t";
+        } else if (weightGrams >= 1000000) { // ab 1 Tonne
+            const tonnen = weightGrams / 1000000;
+            return tonnen.toLocaleString('de-DE', {maximumFractionDigits: 2}) + " t";
+        } else if (weightGrams >= 1000) { // ab 1 kg
+            const kg = weightGrams / 1000;
+            return kg.toLocaleString('de-DE', {maximumFractionDigits: 2}) + " kg";
+        } else {
+            return weightGrams.toLocaleString('de-DE', {maximumFractionDigits: 2}) + " g";
+        }
+    }
+
+    // Verkürzte Darstellung für das kleine Schachbrett-Feld
+    function formatShort(grainsBigInt) {
+        const num = Number(grainsBigInt);
+        if (num < 1000) return `${num}`;
+        if (num < 1000000) return `${Math.floor(num / 1000)}k`;
+        if (num < 1000000000) return `${Math.floor(num / 1000000)}M`;
+        if (num < 1000000000000) return `${Math.floor(num / 1000000000)} Mrd.`;
+        return num.toExponential(1);
+    }
+
+    function updateDashboard(fieldGrains) {
+        document.getElementById('current-field').innerText = `${currentStep} / 64`;
+        document.getElementById('field-value').innerText = formatGrains(fieldGrains);
+        document.getElementById('total-value').innerText = formatGrains(totalGrains);
+        document.getElementById('weight-value').innerText = formatWeight(totalGrains);
+        
+        // Logik für das Einblenden der Vergleiche
+        let anyRevealed = false;
+        milestones.forEach((m, index) => {
+            // 1 Korn = 0.025g => um 1g zu erreichen, brauchen wir 40 Körner
+            const requiredGrains = m.weight * 40n; 
+            const el = document.getElementById(`milestone-${index}`);
+            
+            if (totalGrains >= requiredGrains) {
+                if (!el.classList.contains('revealed')) {
+                    el.classList.add('revealed');
+                }
+                anyRevealed = true;
+            } else {
+                el.classList.remove('revealed');
+            }
+        });
+        
+        // Platzhalter-Text ausblenden, sobald das erste Objekt erschienen ist
+        document.getElementById('milestone-empty').style.display = anyRevealed ? 'none' : 'block';
+    }
+
+    function nextSquare() {
+        if (currentStep >= 64) return;
+
+        // Alten "Active" Status entfernen
+        if (currentStep > 0) {
+            document.getElementById(`square-${currentStep - 1}`).classList.remove('active-square');
+        }
+
+        // Berechnung: 2^currentStep
+        // Bitshift (1n << BigInt(currentStep)) ist extrem schnell und exakt für Zweierpotenzen
+        const grainsOnThisSquare = 1n << BigInt(currentStep); 
+        totalGrains += grainsOnThisSquare;
+
+        // Feld aktualisieren
+        const square = document.getElementById(`square-${currentStep}`);
+        square.classList.add('active-square');
+        square.innerText = formatShort(grainsOnThisSquare);
+
+        currentStep++;
+        updateDashboard(grainsOnThisSquare);
+
+        // Buttons deaktivieren, wenn fertig
+        if (currentStep >= 64) {
+            document.getElementById('btn-next').disabled = true;
+            document.getElementById('btn-next10').disabled = true;
+            document.getElementById('btn-all').disabled = true;
+        }
+    }
+
+    function nextTenSquares() {
+        const target = Math.min(currentStep + 10, 64);
+        let i = currentStep;
+        function step() {
+            if (i < target) {
+                nextSquare();
+                i++;
+                setTimeout(step, 100); 
+            }
+        }
+        step();
+    }
+
+    function fillAll() {
+        while (currentStep < 64) {
+            nextSquare();
+        }
+    }
+
+    function resetBoard() {
+        currentStep = 0;
+        totalGrains = 0n;
+        initBoard();
+        updateDashboard(0n);
+        
+        document.getElementById('btn-next').disabled = false;
+        document.getElementById('btn-next10').disabled = false;
+        document.getElementById('btn-all').disabled = false;
+    }
+
+    // Beim Start Brett und Meilensteine initialisieren
+    initMilestones();
+    initBoard();
+</script>
+
+</body>
+</html>

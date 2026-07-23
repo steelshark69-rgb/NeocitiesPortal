@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station 5: Die Quarantäne-Zone - Escape Room 2L</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        /* Escape-Room Styles für optimale Lesbarkeit */
+        .terminal-header {
+            background-color: #0f172a; 
+            border-bottom: 4px solid var(--primary);
+            padding: 2.5rem 1rem; 
+            text-align: center; 
+            color: #f8fafc;
+        }
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .task-item {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-left: 5px solid var(--primary);
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            color: #1e293b;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        .task-number {
+            font-weight: bold;
+            color: var(--primary);
+            font-family: monospace;
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+        .math-text {
+            font-family: "Courier New", Courier, monospace;
+            font-weight: bold;
+            font-size: 1.2rem;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .story-box {
+            background: #1e293b; 
+            color: white; 
+            padding: 1.5rem; 
+            border-radius: 8px; 
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body style="background-color: var(--bg); color: var(--text-main); font-family: sans-serif;">
+
+<script>
+    if(sessionStorage.getItem('rallye_progress') < 5 || !sessionStorage.getItem('rallye_team')) {
+        window.location.href = 'index.html';
+    }
+</script>
+
+<header class="terminal-header">
+    <h1 style="margin: 0; font-family: monospace; letter-spacing: 2px;">> STATION 5: QUARANTÄNE-ZONE_</h1>
+    <p style="margin-top: 0.5rem; color: #94a3b8; font-family: monospace;">Bereich: Geometrie Teil 2 (Kapitel 9 - Vierecke)</p>
+</header>
+
+<div style="display: flex; justify-content: center; margin-top: 1.5rem; margin-bottom: 2rem;">
+    <a href="index.html" class="btn-back">← Mission abbrechen</a>
+</div>
+
+<main style="max-width: 850px; margin: 0 auto; padding: 0 1.5rem; padding-bottom: 5rem;">
+    
+    <div class="subject-group">
+        <div class="story-box">
+            <p style="margin: 0; font-size: 1.1rem;">
+                <strong>Agenten-Team:</strong> <span id="display-team" style="color: #38bdf8; font-family: monospace; font-size: 1.2rem;"></span><br><br>
+                Achtung! Ihr betretet die Quarantäne-Zone des Netzwerks. Der Hacker hat die Daten in 4-eckigen Speicherblöcken isoliert und die Zugänge verriegelt. 
+                Berechnet Umfang, Flächeninhalte und Winkel dieser Vierecke. 
+                Die <strong>Summe eurer 8 Endergebnisse</strong> bricht die Firewall auf und öffnet den Weg zum finalen Master-Terminal!
+            </p>
+        </div>
+
+        <ul class="task-list">
+            <li class="task-item">
+                <span class="task-number">#01</span> Rechteck: Ein Speicherblock hat die Seiten <span class="math-text">a = 15 cm</span> und <span class="math-text">b = 8 cm</span>. Berechne den <strong>Umfang</strong> (U) in cm.
+            </li>
+            <li class="task-item">
+                <span class="task-number">#02</span> Quadrat: Der Umfang eines Quadrats beträgt <span class="math-text">40 cm</span>. Wie groß ist sein <strong>Flächeninhalt</strong> (A) in cm²?
+            </li>
+            <li class="task-item">
+                <span class="task-number">#03</span> Parallelogramm: Ein Parallelogramm hat eine Seitenlänge <span class="math-text">a = 12 cm</span> und die dazugehörige Höhe <span class="math-text">h<sub>a</sub> = 7 cm</span>. Berechne den <strong>Flächeninhalt</strong> (A) in cm².
+            </li>
+            <li class="task-item">
+                <span class="task-number">#04</span> Raute (Rhombus): Eine Raute hat die Diagonalen <span class="math-text">e = 16 cm</span> und <span class="math-text">f = 10 cm</span>. Wie groß ist ihr <strong>Flächeninhalt</strong> (A) in cm²?
+            </li>
+            <li class="task-item">
+                <span class="task-number">#05</span> Trapez: Ein Trapez hat die beiden parallelen Seiten <span class="math-text">a = 14 cm</span> und <span class="math-text">c = 6 cm</span>. Die Höhe beträgt <span class="math-text">h = 5 cm</span>. Berechne den <strong>Flächeninhalt</strong> (A) in cm².
+            </li>
+            <li class="task-item">
+                <span class="task-number">#06</span> Deltoid: Der Flächeninhalt eines Deltoids beträgt <span class="math-text">A = 120 cm²</span>. Die Diagonale e misst <span class="math-text">20 cm</span>. Wie lang ist die Diagonale <span class="math-text">f</span> in cm?
+            </li>
+            <li class="task-item">
+                <span class="task-number">#07</span> Winkelsumme: In einem allgemeinen Viereck messen drei der Innenwinkel <span class="math-text">75°</span>, <span class="math-text">110°</span> und <span class="math-text">85°</span>. Wie groß ist der vierte Winkel in Grad? (Gib nur die Zahl ein)
+            </li>
+            <li class="task-item">
+                <span class="task-number">#08</span> Parallelogramm-Winkel: In einem Parallelogramm misst der spitze Winkel <span class="math-text">α = 55°</span>. Wie groß ist der direkt benachbarte stumpfe Winkel <span class="math-text">β</span> in Grad?
+            </li>
+        </ul>
+
+        <div style="background: white; border: 2px dashed #94a3b8; border-radius: 8px; padding: 2rem; margin-top: 3rem; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h3 style="margin-top: 0; color: #1e293b;">Firewall-Code (Summe)</h3>
+            <p style="color: #64748b; margin-bottom: 1.5rem;">Addiert alle 8 Ergebnisse und gebt die Gesamtsumme hier ein:</p>
+            
+            <input type="number" id="station5-code" placeholder="Gesamtsumme" 
+                   style="padding: 15px; font-size: 1.5rem; text-align: center; border: 2px solid #cbd5e1; border-radius: 8px; width: 200px; outline: none; font-family: monospace; font-weight: bold;">
+            <br>
+            <p id="error-msg" style="color: var(--pdf-red); display: none; margin-top: 10px; font-weight: bold;">Zugriff verweigert! Quarantäne-Protokoll aktiv (falsche Berechnung).</p>
+            
+            <button onclick="checkCode()" 
+                    style="margin-top: 1.5rem; background-color: #10b981; color: white; font-size: 1.2rem; font-weight: bold; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;">
+                Quarantäne aufheben 🔓
+            </button>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Teamnamen aus der Session anzeigen
+    document.getElementById('display-team').innerText = sessionStorage.getItem('rallye_team');
+
+    function checkCode() {
+        const userInput = document.getElementById('station5-code').value;
+        const errorMsg = document.getElementById('error-msg');
+        
+        // Die korrekte Summe ist 587
+        if (userInput === "587") {
+            // Freigabe für Station 6 (Finale) speichern
+            sessionStorage.setItem('rallye_progress', '6');
+            window.location.href = "station6.html";
+        } else {
+            errorMsg.style.display = "block";
+            const inputField = document.getElementById('station5-code');
+            inputField.style.borderColor = "var(--pdf-red)";
+            inputField.value = "";
+            setTimeout(() => { inputField.style.borderColor = "#cbd5e1"; }, 800);
+        }
+    }
+</script>
+
+</body>
+</html>

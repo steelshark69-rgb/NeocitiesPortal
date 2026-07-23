@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexibles Glücksrad - Unterrichtstool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --wheel-transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
+        }
+        #wheel {
+            transform-origin: 250px 250px;
+            transition: var(--wheel-transition);
+        }
+        .pointer { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+        body { user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+        /* Scrollbar Styling für das Einstellungsmenü */
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #475569; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col md:flex-row p-4 gap-6 font-sans">
+
+    <!-- Einstellungs-Panel (Links) -->
+    <aside class="w-full md:w-96 bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col gap-6 shadow-2xl">
+        <div>
+            <h2 class="text-xl font-bold text-blue-400 mb-4 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.1a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                Konfiguration
+            </h2>
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="text-[10px] uppercase font-bold text-slate-500 ml-1">Klasse</label>
+                    <input id="input-class" type="text" value="1T" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase font-bold text-slate-500 ml-1">Thema / Grund</label>
+                    <input id="input-topic" type="text" value="Semesterferien-Hausübung" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 flex flex-col min-h-0">
+            <div class="flex justify-between items-center mb-2">
+                <label class="text-[10px] uppercase font-bold text-slate-500 ml-1">Felder & Gewichtung</label>
+                <button id="add-segment" class="text-xs bg-blue-600 hover:bg-blue-500 px-2 py-1 rounded-lg font-bold transition-colors">+ Feld</button>
+            </div>
+            
+            <div id="segments-container" class="space-y-2 overflow-y-auto pr-2 custom-scroll">
+                <!-- Dynamische Segmente kommen hierher -->
+            </div>
+        </div>
+
+        <button id="apply-settings" class="w-full bg-slate-100 text-slate-900 font-bold py-3 rounded-xl hover:bg-white transition-colors">
+            Änderungen übernehmen
+        </button>
+    </aside>
+
+    <!-- Hauptbereich (Glücksrad) -->
+    <main class="flex-1 flex flex-col items-center justify-center p-4">
+        <div class="max-w-xl w-full text-center space-y-6">
+            <header id="display-header">
+                <div id="badge-class" class="inline-block px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold mb-2 uppercase tracking-widest">
+                    Klasse 1T
+                </div>
+                <h1 id="display-topic" class="text-3xl font-black text-white leading-tight">
+                    Semesterferien-Hausübung
+                </h1>
+            </header>
+
+            <div class="relative inline-block">
+                <!-- Pointer -->
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-20">
+                    <svg width="40" height="40" viewBox="0 0 40 40">
+                        <path d="M20 40 L5 0 L35 0 Z" fill="#fff" stroke="#000" stroke-width="1"/>
+                    </svg>
+                </div>
+
+                <!-- SVG Rad -->
+                <svg id="wheel-svg" width="500" height="500" viewBox="0 0 500 500" class="max-w-full h-auto drop-shadow-2xl">
+                    <circle cx="250" cy="250" r="248" fill="#1e293b" />
+                    <g id="wheel"></g>
+                    <circle cx="250" cy="250" r="18" fill="white" />
+                    <circle cx="250" cy="250" r="10" fill="#0f172a" />
+                </svg>
+            </div>
+
+            <div class="flex flex-col items-center gap-4">
+                <div id="result-display" class="min-h-[80px] flex items-center justify-center w-full">
+                    <span id="winner-text" class="px-8 py-4 rounded-3xl bg-slate-900 border border-slate-800 text-slate-500 font-medium">
+                        Bereit zum Drehen...
+                    </span>
+                </div>
+
+                <button id="spin-btn" class="bg-blue-600 hover:bg-blue-500 active:scale-95 transition-all text-white font-black py-6 px-20 rounded-3xl text-3xl shadow-[0_12px_0_0_#1e40af] hover:shadow-[0_10px_0_0_#1e40af] active:shadow-none active:translate-y-[4px]">
+                    DREHEN!
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const wheel = document.getElementById('wheel');
+        const spinBtn = document.getElementById('spin-btn');
+        const winnerText = document.getElementById('winner-text');
+        const segmentsContainer = document.getElementById('segments-container');
+        const addSegmentBtn = document.getElementById('add-segment');
+        const applyBtn = document.getElementById('apply-settings');
+
+        // Initialer Zustand
+        let segments = [
+            { label: "FERIEN", weight: 9, color: "#10b981" },
+            { label: "HÜ", weight: 1, color: "#f43f5e" }
+        ];
+
+        let currentRotation = 0;
+        let isSpinning = false;
+
+        // UI: Einstellungs-Liste generieren
+        function renderSettingsList() {
+            segmentsContainer.innerHTML = '';
+            segments.forEach((seg, index) => {
+                const div = document.createElement('div');
+                div.className = "flex items-center gap-2 bg-slate-800 p-2 rounded-xl border border-slate-700";
+                div.innerHTML = `
+                    <input type="color" value="${seg.color}" class="w-8 h-8 rounded cursor-pointer bg-transparent border-none" onchange="updateSegData(${index}, 'color', this.value)">
+                    <input type="text" value="${seg.label}" placeholder="Name" class="flex-1 bg-slate-900 border-none rounded-lg px-2 py-1 text-sm outline-none" onchange="updateSegData(${index}, 'label', this.value)">
+                    <input type="number" value="${seg.weight}" placeholder="Wichtung" class="w-12 bg-slate-900 border-none rounded-lg px-2 py-1 text-sm outline-none" onchange="updateSegData(${index}, 'weight', this.value)">
+                    <button onclick="removeSegment(${index})" class="text-rose-500 hover:bg-rose-500/10 p-1 rounded-lg">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    </button>
+                `;
+                segmentsContainer.appendChild(div);
+            });
+        }
+
+        window.updateSegData = (index, key, value) => {
+            segments[index][key] = key === 'weight' ? parseFloat(value) || 1 : value;
+        };
+
+        window.removeSegment = (index) => {
+            if (segments.length > 2) {
+                segments.splice(index, 1);
+                renderSettingsList();
+            }
+        };
+
+        addSegmentBtn.addEventListener('click', () => {
+            const colors = ["#3b82f6", "#10b981", "#f59e0b", "#f43f5e", "#8b5cf6", "#06b6d4"];
+            segments.push({ 
+                label: "Neu", 
+                weight: 1, 
+                color: colors[segments.length % colors.length] 
+            });
+            renderSettingsList();
+        });
+
+        // Die Magie: Das Rad basierend auf Gewichtungen zeichnen
+        function drawWheel() {
+            wheel.innerHTML = '';
+            const totalWeight = segments.reduce((sum, s) => sum + s.weight, 0);
+            let currentAngle = 0;
+
+            segments.forEach((seg, i) => {
+                const angleSize = (seg.weight / totalWeight) * 360;
+                
+                // SVG Path Berechnung
+                const x1 = 250 + 240 * Math.cos(Math.PI * (currentAngle - 90) / 180);
+                const y1 = 250 + 240 * Math.sin(Math.PI * (currentAngle - 90) / 180);
+                const x2 = 250 + 240 * Math.cos(Math.PI * (currentAngle + angleSize - 90) / 180);
+                const y2 = 250 + 240 * Math.sin(Math.PI * (currentAngle + angleSize - 90) / 180);
+
+                const largeArc = angleSize > 180 ? 1 : 0;
+                const d = `M 250 250 L ${x1} ${y1} A 240 240 0 ${largeArc} 1 ${x2} ${y2} Z`;
+
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute("d", d);
+                path.setAttribute("fill", seg.color);
+                path.setAttribute("stroke", "#0f172a");
+                path.setAttribute("stroke-width", "1");
+                wheel.appendChild(path);
+
+                // Text Platzierung
+                const textAngle = currentAngle + (angleSize / 2);
+                const textRadius = 160;
+                const tx = 250 + textRadius * Math.cos(Math.PI * (textAngle - 90) / 180);
+                const ty = 250 + textRadius * Math.sin(Math.PI * (textAngle - 90) / 180);
+
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", tx);
+                text.setAttribute("y", ty);
+                text.setAttribute("fill", "white");
+                text.setAttribute("font-size", angleSize < 15 ? "8" : "16");
+                text.setAttribute("font-weight", "bold");
+                text.setAttribute("text-anchor", "middle");
+                text.setAttribute("alignment-baseline", "middle");
+                text.setAttribute("transform", `rotate(${textAngle}, ${tx}, ${ty})`);
+                text.textContent = seg.label;
+                wheel.appendChild(text);
+
+                currentAngle += angleSize;
+            });
+        }
+
+        applyBtn.addEventListener('click', () => {
+            document.getElementById('badge-class').textContent = "Klasse " + document.getElementById('input-class').value;
+            document.getElementById('display-topic').textContent = document.getElementById('input-topic').value;
+            drawWheel();
+        });
+
+        function spin() {
+            if (isSpinning) return;
+            isSpinning = true;
+            spinBtn.disabled = true;
+            winnerText.textContent = "Die Entscheidung fällt...";
+            winnerText.className = "px-8 py-4 rounded-3xl bg-slate-900 border border-slate-800 text-slate-400 italic";
+
+            const extraDegrees = Math.floor(Math.random() * 360);
+            const totalSpin = 1800 + extraDegrees; // 5 Runden + Random
+            currentRotation += totalSpin;
+
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+            setTimeout(() => {
+                isSpinning = false;
+                spinBtn.disabled = false;
+
+                const normalized = currentRotation % 360;
+                const winningAngle = (360 - normalized) % 360;
+                
+                // Gewinner über Gewichtungen finden
+                const totalWeight = segments.reduce((sum, s) => sum + s.weight, 0);
+                let cumulativeAngle = 0;
+                let winner = segments[0];
+
+                for (let seg of segments) {
+                    const segAngle = (seg.weight / totalWeight) * 360;
+                    if (winningAngle >= cumulativeAngle && winningAngle < cumulativeAngle + segAngle) {
+                        winner = seg;
+                        break;
+                    }
+                    cumulativeAngle += segAngle;
+                }
+
+                winnerText.textContent = winner.label;
+                winnerText.className = `px-10 py-5 rounded-3xl text-white font-black text-4xl animate-bounce shadow-2xl`;
+                winnerText.style.backgroundColor = winner.color;
+                winnerText.style.borderColor = "white";
+
+            }, 5000);
+        }
+
+        spinBtn.addEventListener('click', spin);
+        
+        // Init
+        renderSettingsList();
+        drawWheel();
+    </script>
+</body>
+</html>

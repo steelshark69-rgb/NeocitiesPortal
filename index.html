@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lehrer-Dashboard | Prof. Schweitzer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Mathe & Informatik Portal</h1>
+    <p>Unterrichtsmaterialien von Prof. Schweitzer</p>
+    <div class="main-nav">
+        <button id="btn-classes" class="nav-toggle active" onclick="toggleView('classes')">🏫 Klassenbereich</button>
+        <button id="btn-downloads" class="nav-toggle" onclick="toggleView('downloads')">📥 Downloadbereich</button>
+        <button id="btn-gluecksrad" class="nav-toggle" onclick="toggleView('gluecksrad')">🌐 Glücksrad</button>
+        <button id="btn-informatik" class="nav-toggle" onclick="window.location.href='/informatik/index.html'">💻 Informatik</button>    
+        <button id="btn-digi" class="nav-toggle" onclick="window.location.href='/digi/index.html'">💻 Digitale Grundbildung</button>  
+    </div>
+</header>
+
+<main>
+    <div id="view-classes" class="view-section active">
+        <h2>📚 Mathematik nach Klassenstufe</h2>
+        <div class="class-nav">
+            <a href="1T/index.html" class="class-pill">1. Klasse</a>
+            <a href="2L/index.html" class="class-pill">2. Klasse</a>
+            <a href="3L/index.html" class="class-pill">3. Klasse</a>
+            <a href="4B/index.html" class="class-pill">4. Klasse</a>
+            <a href="5S/index.html" class="class-pill">5. Klasse</a>
+        </div>
+        
+        <h2 style="margin-top: 3rem;">🖥️ Spezialbereich</h2>
+        <div class="class-nav">
+            <a href="digi/index.html" class="class-pill">💻 Digitale Grundbildung</a>
+            <a href="informatik/index.html" class="class-pill">💻 Informatik</a>
+        </div>
+        
+        <div style="text-align: center; margin-top: 2rem; color: var(--text-muted);">
+            <p>Bitte wähle oben eine Klasse aus, um zu den entsprechenden Materialien zu gelangen.</p>
+        </div>
+    </div>
+
+    <div id="view-downloads" class="view-section">
+        <h2>📥 Material-Download</h2>
+        <p>Hier finden Sie Vorlagen und Übungsblätter zum Herunterladen.</p>
+        <div class="download-grid">
+            <a href="files/ProgrammWienWoche.pdf" class="download-card" download>
+                <div class="file-icon icon-pdf">PDF</div>
+                <div class="file-info">
+                    <h4>Wien Woche</h4>
+                    <p>Programm</p>
+                </div>
+            </a>
+            <a href="files/protokoll.docx" class="download-card" download>
+                <div class="file-icon icon-doc">DOCX</div>
+                <div class="file-info">
+                    <h4>Protokoll-Vorlage</h4>
+                    <p>Word-Dokument für Referate</p>
+                </div>
+            </a>
+            <a href="files/notenrechner.xlsx" class="download-card" download>
+                <div class="file-icon icon-xls">XLSX</div>
+                <div class="file-info">
+                    <h4>Notenrechner</h4>
+                    <p>Excel-Tool für Schüler</p>
+                </div>
+            </a>
+            <a href="files/KIAlltag.html" class="download-card" download="KIAlltag.html">
+                <div class="file-icon icon-html">HTML</div>
+                <div class="file-info">
+                    <h4>Offline-Übung</h4>
+                    <p>Interaktive HTML-Datei (zum Speichern)</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <div id="view-gluecksrad" class="view-section">
+        <h2>Glücksrad</h2>
+        <p>Erstelle ein Glücksrad!</p>
+        <div class="download-grid">
+             <a href="gluecksrad.html" class="resource-card">
+                 <h4>🌐 Glücksrad</h4>
+                 <p>Spin the wheel</p>
+             </a>
+        </div>
+    </div>
+</main>
+
+<footer style="margin-top: 5rem; padding: 2rem 1rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.9rem;">
+    
+    <div style="max-width: 800px; margin: 0 auto 2rem auto; text-align: left; background: white; padding: 1.5rem; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <h4 style="margin-top: 0; color: #334155; font-size: 1.1rem;">Datenschutzhinweis (DSGVO) & Nutzungsbedingungen</h4>
+        
+        <p style="margin-bottom: 10px; line-height: 1.5;">Dieses Schulportal dient ausschließlich der Bereitstellung von interaktiven Lernmaterialien. Es handelt sich um eine rein statische Webseite, die auf maximale Datensparsamkeit ausgelegt ist. Das bedeutet:</p>
+        <ul style="margin-top: 0; margin-bottom: 15px; padding-left: 20px; line-height: 1.6;">
+            <li><strong>Keine Datenspeicherung:</strong> Es werden keine personenbezogenen Daten (wie Namen, E-Mail-Adressen oder Nutzerprofile) auf dem Server gespeichert. Es gibt keine Registrierung.</li>
+            <li><strong>Kein Tracking:</strong> Wir verwenden keine Cookies zur Nachverfolgung, keine Analyse-Tools (wie Google Analytics) und keine Werbe-Tracker.</li>
+            <li><strong>Lokale Verarbeitung:</strong> Alle interaktiven Werkzeuge laufen ausschließlich lokal im Browser auf dem Gerät Ihres Kindes. Es findet kein Datenaustausch mit dem Server statt.</li>
+        </ul>
+        
+        <div style="background: #f0fdf4; border-left: 4px solid #10b981; padding: 15px; border-radius: 4px; color: #047857; margin-bottom: 15px; line-height: 1.5;">
+            <p style="margin-top: 0; margin-bottom: 10px;"><strong>ℹ️ Reines Hilfsangebot:</strong> Die Nutzung dieses Portals ist absolut <strong>freiwillig</strong> und dient ausschließlich dazu, die Schülerinnen und Schüler beim Lernen zu unterstützen. Es gibt keine Nutzungspflicht und die Verwendung hat <strong>keinerlei Einfluss auf die Benotung</strong>. Da keine Daten erfasst werden, sehe ich als Lehrkraft nicht, wer das Portal nutzt.</p>
+            <p style="margin: 0;"><strong>⚠️ Kein Anspruch auf Vollständigkeit:</strong> Bitte beachten Sie, dass diese Seite <strong>nicht vollständig</strong> ist. Sie bildet weder den gesamten Lehrplan noch das komplette Schulbuch oder den vollständigen Stoff für Schularbeiten ab, sondern bietet lediglich punktuelle, interaktive Zusatzübungen.</p>
+        </div>
+
+        <p style="margin-bottom: 0; font-weight: bold; color: #334155;">Die Nutzung dieses Portals ist somit absolut datenschutzkonform, sicher und anonym.</p>
+    </div>
+
+    <div style="text-align: center; font-weight: bold;">
+        &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+    </div>
+    
+</footer>
+
+<script>
+    function toggleView(view) {
+        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+        document.querySelectorAll('.nav-toggle').forEach(b => b.classList.remove('active'));
+        
+        document.getElementById('view-' + view).classList.add('active');
+        document.getElementById('btn-' + view).classList.add('active');
+    }
+</script>
+
+</body>
+</html>

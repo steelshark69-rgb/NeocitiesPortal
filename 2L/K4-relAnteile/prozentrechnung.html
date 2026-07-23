@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prozentrechnung - Mathematik verstehen</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script>
+        MathJax = {
+            tex: { 
+                inlineMath: [['$', '$'], ['\\(', '\\)']], 
+                displayMath: [['$$', '$$'], ['\\[', '\\]']] 
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="../../js/mathjax/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        /* Spezifische Farben für dieses Modul */
+        :root {
+            --math-primary: #0284c7;
+            --math-dark: #0369a1;
+            --math-light: #e0f2fe;
+            --accent: #f59e0b;
+            --bg-gray: #f8fafc;
+            --text-main: #334155;
+            --border-color: #e2e8f0;
+        }
+
+        .hidden { display: none !important; }
+
+        /* Header Styling (Korrigiert für Lesbarkeit!) */
+        .module-header {
+            background-color: var(--math-primary);
+            color: white;
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+        .module-header h1 {
+            color: white; /* Zwingt die Überschrift auf Weiß */
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        .module-header p {
+            color: var(--math-light);
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        /* Navigation Tabs */
+        .tab-nav {
+            display: flex;
+            overflow-x: auto;
+            background: var(--math-primary);
+            color: white;
+            padding: 0 1rem;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--math-light);
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-bottom: 4px solid transparent;
+            white-space: nowrap;
+            transition: 0.2s;
+        }
+        .tab-btn:hover { background: var(--math-dark); }
+        .tab-btn.active { color: white; border-bottom-color: var(--accent); }
+
+        /* Layout & Container */
+        .module-container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        .grid-3 { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        @media(min-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr 1fr; }
+            .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Info Boxen (Grundlagen) */
+        .info-box { padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 1rem; }
+        .info-box h4 { margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .box-blue { background: #eff6ff; border-color: #bfdbfe; color: #1e3a8a; }
+        .box-amber { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+        .box-teal { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+
+        /* Prozent Grid Visualizer */
+        .visualizer-card { background: white; border: 1px solid var(--border-color); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; }
+        .percent-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px; width: 100%; max-width: 300px; aspect-ratio: 1; margin: 1.5rem auto; }
+        .grid-square { background: #e2e8f0; border-radius: 2px; transition: 0.2s; }
+        .grid-square.active { background: var(--math-primary); transform: scale(1.05); box-shadow: 0 0 5px rgba(2, 132, 199, 0.4); }
+        .slider-control { width: 100%; max-width: 300px; accent-color: var(--math-primary); }
+
+        /* Rechner Layout */
+        .calc-wrapper { background: white; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .calc-nav { display: flex; background: var(--bg-gray); border-bottom: 1px solid var(--border-color); flex-wrap: wrap; }
+        .calc-mode-btn { flex: 1; padding: 15px; border: none; background: transparent; font-weight: bold; color: #64748b; border-bottom: 3px solid transparent; cursor: pointer; min-width: 150px; }
+        .calc-mode-btn.active { background: white; color: var(--math-primary); border-bottom-color: var(--math-primary); }
+        
+        .input-group { margin-bottom: 1.5rem; }
+        .input-group label { display: block; font-weight: bold; margin-bottom: 5px; color: var(--text-main); }
+        .input-field { width: 100%; max-width: 300px; padding: 12px; border: 2px solid var(--border-color); border-radius: 6px; font-size: 1.1rem; outline: none; }
+        .input-field:focus { border-color: var(--math-primary); }
+
+        .result-area { background: var(--bg-gray); padding: 2rem; border-left: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: center; text-align: center; min-height: 300px; }
+        .formula-box { font-size: 1.2rem; margin-bottom: 1.5rem; min-height: 60px; }
+        .steps-box { background: white; padding: 15px; border-radius: 6px; font-family: monospace; color: #64748b; margin-bottom: 1.5rem; border: 1px dashed var(--border-color); }
+        .final-result { font-size: 2rem; font-weight: bold; color: var(--math-primary); }
+
+        /* Vermehren / Vermindern */
+        .vv-box { border-left: 4px solid; padding: 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 1rem; background: var(--bg-gray); }
+        .vv-up { border-left-color: #10b981; }
+        .vv-down { border-left-color: #ef4444; }
+        
+        .vv-result-card { background: #1e293b; color: white; padding: 2rem; border-radius: 12px; text-align: center; transition: 0.3s; position: relative; overflow: hidden; }
+        .vv-result-card.positive { background: #065f46; } 
+        .vv-result-card.negative { background: #7f1d1d; } 
+        .vv-big-number { font-size: 3.5rem; font-weight: bold; margin: 1rem 0; }
+
+        /* Kassenbon */
+        .receipt-box { background: #f8fafc; padding: 2rem; font-family: 'Courier New', Courier, monospace; border-left: 4px dashed #cbd5e1; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
+        .receipt-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 1.1rem; }
+        .receipt-total { border-top: 2px dashed #334155; padding-top: 10px; margin-top: 10px; font-weight: bold; font-size: 1.3rem; }
+    </style>
+</head>
+<body>
+
+<header class="module-header">
+    <h1>% Prozentrechnung Interaktiv</h1>
+    <p>Passend zu "Mathematik verstehen 2"</p>
+</header>
+
+<div class="tab-nav">
+    <button onclick="switchTab('grundlagen')" id="btn-grundlagen" class="tab-btn active">📖 Was ist Prozent?</button>
+    <button onclick="switchTab('rechnen')" id="btn-rechnen" class="tab-btn">🧮 Das gesuchte Berechnen</button>
+    <button onclick="switchTab('vermehren')" id="btn-vermehren" class="tab-btn">📈 Vermehren & Vermindern</button>
+    <button onclick="switchTab('brutto')" id="btn-brutto" class="tab-btn">🧾 Brutto, Netto & MwSt</button>
+</div>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Hauptübersicht</a>
+</div>
+
+<main class="module-container">
+
+    <section id="grundlagen" class="tab-content active">
+        <div class="grid-2">
+            <div>
+                <h2 style="color: var(--math-dark); margin-top: 0;">Was heißt eigentlich "Prozent"?</h2>
+                <p>Das Wort <strong>Prozent</strong> kommt aus dem Italienischen ("per cento") oder Lateinischen ("pro centum") und bedeutet wörtlich übersetzt: <strong style="color: var(--math-primary);">von Hundert</strong>.</p>
+                
+                <div style="background: white; border-left: 4px solid var(--math-primary); padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin: 1.5rem 0;">
+                    Ein Prozent (1 %) ist also nichts anderes als <strong>ein Hundertstel</strong> eines Ganzen.<br><br>
+                    Als Bruch: $1 \% = \frac{1}{100}$<br>
+                    Als Dezimalzahl: $1 \% = 0{,}01$
+                </div>
+                
+                <h3 style="color: var(--math-dark); margin-top: 2rem;">Die 3 wichtigen Grundbegriffe</h3>
+                
+                <div class="info-box box-blue">
+                    <h4>🧊 Grundbetrag (G)</h4>
+                    <p style="margin-bottom: 5px;">Das ist das <strong>Ganze</strong>. Alles, was da ist. Der Grundbetrag entspricht immer genau <strong>100 %</strong>.</p>
+                    <small>Beispiel: Alle 25 Schüler deiner Klasse.</small>
+                </div>
+                
+                <div class="info-box box-amber">
+                    <h4>🧩 Anteil (A)</h4>
+                    <p style="margin-bottom: 5px;">Das ist ein <strong>Teil vom Ganzen</strong>. Er wird oft als Zahl oder Betrag (z.B. in Euro, Kilogramm oder Stück) angegeben.</p>
+                    <small>Beispiel: 5 Schüler, die heute krank sind.</small>
+                </div>
+                
+                <div class="info-box box-teal">
+                    <h4>% Prozentsatz (p)</h4>
+                    <p style="margin-bottom: 5px;">Gibt an, wie groß der Anteil im Verhältnis zum Grundbetrag in <strong>Hundertsteln</strong> ist. Man erkennt ihn immer am %-Zeichen.</p>
+                    <small>Beispiel: 20 % der Klasse sind heute krank.</small>
+                </div>
+            </div>
+            
+            <div class="visualizer-card">
+                <h3 style="margin-top: 0;">Interaktive Prozent-Tafel</h3>
+                <p style="color: #64748b;">Bewege den Schieberegler, um zu sehen, wie viele Kästchen (von 100) eingefärbt werden.</p>
+                
+                <div class="percent-grid" id="percent-grid">
+                    </div>
+                
+                <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 10px;">
+                    <span>0%</span>
+                    <span id="grid-percent-display" style="color: var(--math-primary); font-size: 1.5rem;">25%</span>
+                    <span>100%</span>
+                </div>
+                <input type="range" id="grid-slider" min="0" max="100" value="25" class="slider-control">
+            </div>
+        </div>
+    </section>
+
+    <section id="rechnen" class="tab-content">
+        <h2 style="text-align: center; color: var(--math-dark);">Das gesuchte Berechnen</h2>
+        
+        <div class="calc-wrapper">
+            <div class="calc-nav">
+                <button onclick="setCalcMode('anteil')" id="mode-anteil" class="calc-mode-btn active">Anteil (A)</button>
+                <button onclick="setCalcMode('prozent')" id="mode-prozent" class="calc-mode-btn">Prozentsatz (p)</button>
+                <button onclick="setCalcMode('grundbetrag')" id="mode-grundbetrag" class="calc-mode-btn">Grundbetrag (G)</button>
+            </div>
+            
+            <div class="grid-2" style="gap: 0;">
+                <div style="padding: 2rem;">
+                    <h3 id="calc-title" style="margin-top: 0;">Ich suche den Anteil (A)</h3>
+                    <p id="calc-desc" style="color: #64748b; margin-bottom: 2rem;">Wenn du weißt, wie viel das Ganze ist und wie viel Prozent du brauchst.</p>
+                    
+                    <div id="input-group-g" class="input-group">
+                        <label>Grundbetrag (G) <span style="font-weight: normal; color: #64748b;">(Das Ganze, 100%)</span></label>
+                        <input type="number" id="input-g" class="input-field" placeholder="z.B. 200" oninput="calculate()">
+                    </div>
+
+                    <div id="input-group-p" class="input-group">
+                        <label>Prozentsatz (p) <span style="font-weight: normal; color: #64748b;">(in %)</span></label>
+                        <input type="number" id="input-p" class="input-field" placeholder="z.B. 15" oninput="calculate()">
+                    </div>
+
+                    <div id="input-group-a" class="input-group hidden">
+                        <label>Anteil (A) <span style="font-weight: normal; color: #64748b;">(Der Teil)</span></label>
+                        <input type="number" id="input-a" class="input-field" placeholder="z.B. 30" oninput="calculate()">
+                    </div>
+                </div>
+                
+                <div class="result-area">
+                    <span style="font-size: 0.9rem; font-weight: bold; color: #94a3b8; text-transform: uppercase;">Lösungsweg & Formel</span>
+                    <div id="formula-display" class="formula-box"></div>
+                    <div id="calculation-steps" class="steps-box">Bitte gib Werte ein...</div>
+                    <div id="final-result" class="final-result hidden"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="vermehren" class="tab-content">
+        <div class="grid-2">
+            <div>
+                <h2 style="color: var(--math-dark); margin-top: 0;">Vermehren und Vermindern</h2>
+                <p>Oft bleibt ein Wert nicht gleich. Preise steigen (Inflation, Aufschlag) oder fallen (Rabatt, Ausverkauf). Der alte Preis ist immer unser <strong>Ausgangswert (100 %)</strong>.</p>
+
+                <div class="vv-box vv-up">
+                    <h3 style="margin-top: 0; color: #047857;">📈 Vermehren (Plus rechnen)</h3>
+                    <p>Wenn etwas teurer wird. Zum Beispiel <strong>15 % Preiserhöhung</strong>.</p>
+                    <ul style="color: #064e3b; margin-bottom: 0;">
+                        <li>Alter Preis = 100 %</li>
+                        <li>Neuer Preis = 100 % + 15 % = <strong>115 %</strong></li>
+                    </ul>
+                </div>
+
+                <div class="vv-box vv-down">
+                    <h3 style="margin-top: 0; color: #b91c1c;">📉 Vermindern (Minus rechnen)</h3>
+                    <p>Wenn es einen Rabatt gibt. Zum Beispiel <strong>20 % Rabatt</strong>.</p>
+                    <ul style="color: #7f1d1d; margin-bottom: 0;">
+                        <li>Alter Preis = 100 %</li>
+                        <li>Du zahlst nur noch: 100 % - 20 % = <strong>80 %</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="visualizer-card">
+                <h3 style="margin-top: 0;">Probiere es aus!</h3>
+                
+                <div style="margin-bottom: 2rem;">
+                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Grundbetrag (Startwert in €):</label>
+                    <input type="number" id="vv-start" value="100" class="input-field" style="text-align: center; font-size: 1.5rem; width: 150px;" oninput="updateVV()">
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 10px;">
+                        <span style="color: #ef4444;">-50%</span>
+                        <span id="vv-percent-display" style="background: #e2e8f0; padding: 5px 15px; border-radius: 4px;">0%</span>
+                        <span style="color: #10b981;">+50%</span>
+                    </div>
+                    <input type="range" id="vv-slider" min="-50" max="50" value="0" class="slider-control" oninput="updateVV()">
+                </div>
+
+                <div id="vv-card" class="vv-result-card">
+                    <div style="text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; color: #cbd5e1;">Neuer Wert</div>
+                    <div id="vv-result" class="vv-big-number">100,00 €</div>
+                    <div id="vv-calculation" style="font-family: monospace; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px;">100% + 0% = 100%</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="brutto" class="tab-content">
+        <h2 style="text-align: center; color: var(--math-dark); margin-top: 0;">Brutto, Netto & Mehrwertsteuer (MwSt)</h2>
+        <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem auto;">In Österreich muss man beim Einkaufen Steuern an den Staat zahlen. Diese Steuer heißt <strong>Mehrwertsteuer (MwSt)</strong>.</p>
+
+        <div class="grid-3">
+            <div class="visualizer-card" style="border-top: 5px solid #3b82f6;">
+                <div style="font-size: 3rem; margin-bottom: 10px;">📦</div>
+                <h3 style="margin-top: 0;">Netto</h3>
+                <p>Der reine Preis der Ware.<br><strong>Ohne</strong> Steuern.</p>
+                <div style="background: #eff6ff; color: #1e40af; font-weight: bold; padding: 5px; border-radius: 4px;">Entspricht 100 %</div>
+            </div>
+
+            <div class="visualizer-card" style="border-top: 5px solid #f59e0b;">
+                <div style="font-size: 3rem; margin-bottom: 10px;">🏛️</div>
+                <h3 style="margin-top: 0;">MwSt</h3>
+                <p>Die Steuer für den Staat.<br>Meistens <strong>20 %</strong> oder <strong>10 %</strong>.</p>
+                <div style="background: #fffbeb; color: #92400e; font-weight: bold; padding: 5px; border-radius: 4px;">z.B. + 20 %</div>
+            </div>
+
+            <div class="visualizer-card" style="border-top: 5px solid #10b981;">
+                <div style="font-size: 3rem; margin-bottom: 10px;">🛒</div>
+                <h3 style="margin-top: 0;">Brutto</h3>
+                <p>Der Preis an der Kassa.<br><strong>Mit</strong> Steuern.</p>
+                <div style="background: #f0fdf4; color: #166534; font-weight: bold; padding: 5px; border-radius: 4px;">Meistens 120 %</div>
+            </div>
+        </div>
+
+        <div class="calc-wrapper" style="margin-top: 3rem;">
+            <div style="background: #1e293b; color: white; padding: 10px; text-align: center; font-family: monospace; font-weight: bold; letter-spacing: 2px;">KASSENZETTEL SIMULATOR</div>
+            <div class="grid-2" style="padding: 2rem;">
+                <div>
+                    <div class="input-group">
+                        <label>Nettopreis (100%) in €</label>
+                        <input type="number" id="receipt-netto" value="50" class="input-field" oninput="updateReceipt()">
+                    </div>
+                    <div class="input-group">
+                        <label>Welche Ware?</label>
+                        <select id="receipt-tax" class="input-field" style="width: 100%; max-width: 100%;" onchange="updateReceipt()">
+                            <option value="20">Normaler Artikel (20% MwSt)</option>
+                            <option value="10">Lebensmittel / Bücher (10% MwSt)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="receipt-box">
+                    <div style="text-align: center; font-weight: bold; margin-bottom: 15px; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">SUPERMARKT</div>
+                    <div class="receipt-row">
+                        <span>Ware (Netto)</span>
+                        <span id="out-netto">50,00 €</span>
+                    </div>
+                    <div class="receipt-row" style="color: #64748b;">
+                        <span>+ MwSt (<span id="out-tax-percent">20</span>%)</span>
+                        <span id="out-tax-val">10,00 €</span>
+                    </div>
+                    <div class="receipt-row receipt-total">
+                        <span>ZU ZAHLEN</span>
+                        <span id="out-brutto">60,00 €</span>
+                    </div>
+                    <div style="text-align: right; font-size: 0.85rem; color: #94a3b8; margin-top: 5px;">
+                        (= <span id="out-brutto-percent">120</span>% vom Netto)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer style="margin-top: 5rem; padding: 2rem 1rem; background-color: #f8fafc; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.9rem;">
+    <div style="max-width: 800px; margin: 0 auto 2rem auto; text-align: left; background: white; padding: 1.5rem; border: 1px solid #cbd5e1; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+        <h4 style="margin-top: 0; color: #334155; font-size: 1.1rem;">Datenschutzhinweis (DSGVO)</h4>
+        <p style="margin-bottom: 10px; line-height: 1.5;">Die Nutzung dieses Portals ist absolut datenschutzkonform. Es werden keine Eingaben an einen Server gesendet. Die Auswertung der Antworten erfolgt lokal im Browser.</p>
+    </div>
+    <div style="text-align: center; font-weight: bold;">
+        &copy; 2026 | GvP | Mag. Schweitzer | Mathematik & Informatik
+    </div>
+</footer>
+
+<script>
+    /* =========================================
+       TAB NAVIGATION LOGIC
+       ========================================= */
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+        document.getElementById(tabId).classList.add('active');
+        document.getElementById('btn-' + tabId).classList.add('active');
+
+        // WICHTIG: Wenn der "Rechnen" Tab geöffnet wird, MathJax aktualisieren!
+        if(tabId === 'rechnen' && window.MathJax) {
+            MathJax.typesetPromise([document.getElementById('formula-display')]);
+        }
+    }
+
+    /* =========================================
+       TAB 1: PERCENT GRID VISUALIZER
+       ========================================= */
+    const grid = document.getElementById('percent-grid');
+    const gridSlider = document.getElementById('grid-slider');
+    const gridDisplay = document.getElementById('grid-percent-display');
+
+    for (let i = 0; i < 100; i++) {
+        const square = document.createElement('div');
+        square.className = 'grid-square';
+        grid.appendChild(square);
+    }
+
+    function updateGrid() {
+        const val = parseInt(gridSlider.value);
+        gridDisplay.innerText = val + '%';
+        
+        const squares = grid.children;
+        for (let i = 0; i < 100; i++) {
+            if (i < val) {
+                squares[i].classList.add('active');
+            } else {
+                squares[i].classList.remove('active');
+            }
+        }
+    }
+    gridSlider.addEventListener('input', updateGrid);
+    updateGrid();
+
+    /* =========================================
+       TAB 2: CALCULATOR LOGIC & MATHJAX FIX
+       ========================================= */
+    let currentCalcMode = 'anteil';
+
+    function setCalcMode(mode) {
+        currentCalcMode = mode;
+        
+        document.querySelectorAll('.calc-mode-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('mode-' + mode).classList.add('active');
+
+        document.getElementById('input-group-g').classList.add('hidden');
+        document.getElementById('input-group-p').classList.add('hidden');
+        document.getElementById('input-group-a').classList.add('hidden');
+
+        const title = document.getElementById('calc-title');
+        const desc = document.getElementById('calc-desc');
+        const formulaDiv = document.getElementById('formula-display');
+
+        // Wir nutzen $$ für Display-Math, das ist in JS Strings am sichersten!
+        // WICHTIG: Backslashes müssen in JS Strings doppelt maskiert werden (\\)
+        if (mode === 'anteil') {
+            title.innerText = 'Ich suche den Anteil (A)';
+            desc.innerText = 'Du kennst das Ganze (G) und den Prozentsatz (p).';
+            document.getElementById('input-group-g').classList.remove('hidden');
+            document.getElementById('input-group-p').classList.remove('hidden');
+            formulaDiv.innerHTML = '$$ A = G \\cdot \\frac{p}{100} $$';
+        } else if (mode === 'prozent') {
+            title.innerText = 'Ich suche den Prozentsatz (p)';
+            desc.innerText = 'Du kennst das Ganze (G) und den Teil (A).';
+            document.getElementById('input-group-g').classList.remove('hidden');
+            document.getElementById('input-group-a').classList.remove('hidden');
+            formulaDiv.innerHTML = '$$ p = \\frac{A}{G} \\cdot 100 $$';
+        } else if (mode === 'grundbetrag') {
+            title.innerText = 'Ich suche den Grundbetrag (G)';
+            desc.innerText = 'Du kennst den Teil (A) und wie viel Prozent das sind (p).';
+            document.getElementById('input-group-a').classList.remove('hidden');
+            document.getElementById('input-group-p').classList.remove('hidden');
+            formulaDiv.innerHTML = '$$ G = \\frac{A}{p} \\cdot 100 $$';
+        }
+
+        document.getElementById('input-g').value = '';
+        document.getElementById('input-p').value = '';
+        document.getElementById('input-a').value = '';
+        
+        resetCalculationDisplay();
+        
+        // Formel sofort neu rendern, wenn der Button geklickt wird
+        if(window.MathJax) { 
+            MathJax.typesetPromise([formulaDiv]); 
+        }
+    }
+
+    function resetCalculationDisplay() {
+        document.getElementById('calculation-steps').innerHTML = 'Bitte gib Werte ein...';
+        document.getElementById('calculation-steps').style.opacity = '0.5';
+        document.getElementById('final-result').classList.add('hidden');
+    }
+
+    function calculate() {
+        const valG = parseFloat(document.getElementById('input-g').value);
+        const valP = parseFloat(document.getElementById('input-p').value);
+        const valA = parseFloat(document.getElementById('input-a').value);
+
+        const stepsDiv = document.getElementById('calculation-steps');
+        const resultDiv = document.getElementById('final-result');
+
+        if (currentCalcMode === 'anteil') {
+            if (isNaN(valG) || isNaN(valP)) { resetCalculationDisplay(); return; }
+            const result = valG * (valP / 100);
+            stepsDiv.style.opacity = '1';
+            stepsDiv.innerHTML = `A = ${valG} &middot; (${valP} / 100)<br>A = ${valG} &middot; ${valP/100}`;
+            resultDiv.innerHTML = `Anteil (A) = ${result.toLocaleString('de-DE')} <span style="font-size:1.2rem;">Einheiten</span>`;
+            resultDiv.classList.remove('hidden');
+        } 
+        else if (currentCalcMode === 'prozent') {
+            if (isNaN(valG) || isNaN(valA)) { resetCalculationDisplay(); return; }
+            if (valG === 0) { stepsDiv.innerHTML = 'Teilen durch 0 nicht möglich!'; return; }
+            const result = (valA / valG) * 100;
+            stepsDiv.style.opacity = '1';
+            stepsDiv.innerHTML = `p = (${valA} / ${valG}) &middot; 100<br>p = ${(valA/valG).toFixed(4)} &middot; 100`;
+            const formattedResult = Number.isInteger(result) ? result : result.toFixed(2).replace('.', ',');
+            resultDiv.innerHTML = `Prozentsatz = ${formattedResult} %`;
+            resultDiv.classList.remove('hidden');
+        }
+        else if (currentCalcMode === 'grundbetrag') {
+            if (isNaN(valA) || isNaN(valP)) { resetCalculationDisplay(); return; }
+            if (valP === 0) { stepsDiv.innerHTML = 'Teilen durch 0 nicht möglich!'; return; }
+            const result = (valA / valP) * 100;
+            stepsDiv.style.opacity = '1';
+            stepsDiv.innerHTML = `G = (${valA} / ${valP}) &middot; 100`;
+            const formattedResult = Number.isInteger(result) ? result : result.toFixed(2).replace('.', ',');
+            resultDiv.innerHTML = `Grundbetrag (G) = ${formattedResult} <span style="font-size:1.2rem;">Einheiten</span>`;
+            resultDiv.classList.remove('hidden');
+        }
+    }
+    
+    // Beim ersten Laden den ersten Tab initialisieren
+    window.addEventListener('load', () => { 
+        setCalcMode('anteil'); 
+    });
+
+    /* =========================================
+       TAB 3: VERMEHREN & VERMINDERN LOGIC
+       ========================================= */
+    function updateVV() {
+        let startVal = parseFloat(document.getElementById('vv-start').value);
+        if(isNaN(startVal)) startVal = 0;
+        const percentChange = parseInt(document.getElementById('vv-slider').value);
+        
+        const displaySpan = document.getElementById('vv-percent-display');
+        const card = document.getElementById('vv-card');
+        
+        let sign = '';
+        if (percentChange > 0) {
+            sign = '+';
+            displaySpan.style.color = '#10b981';
+            card.className = 'vv-result-card positive';
+        } else if (percentChange < 0) {
+            displaySpan.style.color = '#ef4444';
+            card.className = 'vv-result-card negative';
+        } else {
+            displaySpan.style.color = '#64748b';
+            card.className = 'vv-result-card';
+        }
+        displaySpan.innerText = sign + percentChange + '%';
+
+        const newPercent = 100 + percentChange;
+        const result = startVal * (newPercent / 100);
+        
+        document.getElementById('vv-result').innerText = result.toLocaleString('de-AT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €';
+        document.getElementById('vv-calculation').innerHTML = `100% ${sign} ${Math.abs(percentChange)}% = <strong>${newPercent}%</strong><br>${startVal} € &middot; ${newPercent/100}`;
+    }
+    updateVV();
+
+    /* =========================================
+       TAB 4: BRUTTO/NETTO LOGIC
+       ========================================= */
+    function updateReceipt() {
+        let netto = parseFloat(document.getElementById('receipt-netto').value);
+        if(isNaN(netto)) netto = 0;
+        const taxRate = parseInt(document.getElementById('receipt-tax').value);
+
+        const taxAmount = netto * (taxRate / 100);
+        const brutto = netto + taxAmount;
+
+        const formatCurr = (num) => num.toLocaleString('de-AT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €';
+
+        document.getElementById('out-netto').innerText = formatCurr(netto);
+        document.getElementById('out-tax-percent').innerText = taxRate;
+        document.getElementById('out-tax-val').innerText = formatCurr(taxAmount);
+        document.getElementById('out-brutto').innerText = formatCurr(brutto);
+        document.getElementById('out-brutto-percent').innerText = 100 + taxRate;
+    }
+    updateReceipt();
+</script>
+
+</body>
+</html>

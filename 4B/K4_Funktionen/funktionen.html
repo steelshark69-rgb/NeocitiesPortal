@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.0 Grundbegriffe der Funktionen | Prof. Schweitzer</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        .explanation-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary, #2563eb);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .term-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2rem 0;
+        }
+        .term-list li {
+            background: white;
+            border: 1px solid #cbd5e1;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .term-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary, #2563eb);
+            margin-bottom: 0.5rem;
+            display: block;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Interactive Container Styles */
+        .interactive-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #cbd5e1;
+        }
+        .controls {
+            flex: 1;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .canvas-container {
+            flex: 1.5;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        canvas {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            max-width: 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .toggle-group {
+            display: flex;
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        .toggle-btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: all 0.2s;
+            color: #475569;
+        }
+        .toggle-btn.active {
+            background: var(--primary, #2563eb);
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .slider-group {
+            background: #f8fafc;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+        }
+        .slider-group.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .slider-group label {
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        input[type="range"] { width: 100%; cursor: pointer; }
+
+        .equation-display {
+            text-align: center;
+            font-size: 1.5rem;
+            font-family: monospace;
+            background: #eff6ff;
+            color: #334155;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px dashed #93c5fd;
+        }
+        .dynamic-text {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Kapitel 4</h1>
+    <p>Das Vokabular der Funktionenlehre</p>
+    <div class="back-nav">
+        <a href="../index.html" class="btn-back">⬅ Zurück zur Übersicht</a>
+    </div>
+</header>
+
+<main>
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Wissen</span>
+            <h2 style="margin: 0; color: var(--primary);">Die Welt der Funktionen</h2>
+        </div>
+
+        <div class="explanation-box">
+            Bevor wir Funktionen zeichnen oder berechnen, müssen wir die mathematische Sprache verstehen. Hier sind die sechs wichtigsten Begriffe, die du für dieses Kapitel brauchst:
+        </div>
+
+        <ul class="term-list">
+            <li>
+                <span class="term-title">1. Funktion</span>
+                Eine Funktion ist eine eindeutige Zuordnung. Das bedeutet: Jedem erlaubten Eingangswert wird <strong>genau ein</strong> Ausgangswert zugeordnet. Wenn man eine Zahl in die "Funktionsmaschine" wirft, kommt am Ende immer ein eindeutiges Ergebnis heraus.
+            </li>
+            <li>
+                <span class="term-title">2. Argument (Stelle)</span>
+                Das Argument ist der mathematische Begriff für den Eingangswert. Es ist die Zahl, die du in die Funktion einsetzt. In Gleichungen wird das Argument fast immer mit dem Buchstaben <strong><i>x</i></strong> abgekürzt.
+            </li>
+            <li>
+                <span class="term-title">3. Term</span>
+                Ein Term ist ein sinnvoller mathematischer Ausdruck, der aus Zahlen, Variablen (wie <i>x</i>) und Rechenzeichen bestehen kann (z. B. 2<i>x</i> oder 3<i>x</i> - 4). Wichtig: Ein Term enthält selbst kein Gleichheitszeichen!
+            </li>
+            <li>
+                <span class="term-title">4. Termdarstellung (Funktionsgleichung)</span>
+                Wenn wir die Zuordnungsvorschrift als mathematische Gleichung aufschreiben, nennen wir das Termdarstellung. Sie zeigt genau, wie aus dem Argument der Funktionswert berechnet wird. <br>
+                Beispiel: <strong><i>f(x) = k &middot; x + d</i></strong>
+            </li>
+            <li>
+                <span class="term-title">5. Homogene lineare Funktion</span>
+                Eine lineare Funktion heißt homogen, wenn ihr Startwert <i>d</i> genau gleich 0 ist. Die Termdarstellung lautet dann einfach: <strong><i>f(x) = k &middot; x</i></strong>. <br>
+                Der Graph einer solchen Funktion ist eine Gerade, die immer exakt durch den Koordinatenursprung (0|0) verläuft (direkte Proportionalität).
+            </li>
+            <li>
+                <span class="term-title">6. Inhomogene lineare Funktion</span>
+                Eine lineare Funktion heißt inhomogen, wenn es einen festen Startwert <i>d</i> gibt, der ungleich 0 ist. Die Termdarstellung lautet: <strong><i>f(x) = k &middot; x + d</i></strong>. <br>
+                Ihr Graph ist eine Gerade, die die y-Achse beim Wert <i>d</i> schneidet und somit nach oben oder unten verschoben ist.
+            </li>
+        </ul>
+    </div>
+
+    <div class="subject-group">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Interaktiv</span>
+            <h2 style="margin: 0; color: var(--primary);">Der Funktionen-Trainer</h2>
+        </div>
+        
+        <p>Erforsche die Begriffe direkt im Koordinatensystem! Wähle den Funktionstyp, bestimme die Steigung (<i>k</i>) sowie den Startwert (<i>d</i>) und verändere das Argument (<i>x</i>).</p>
+
+        <div class="interactive-container">
+            <div class="controls">
+                
+                <div class="toggle-group">
+                    <div class="toggle-btn active" id="btnHomogen">Homogen (d=0)</div>
+                    <div class="toggle-btn" id="btnhomogen">Inhomogen (d≠0)</div>
+                </div>
+
+                <div class="slider-group">
+                    <label for="sliderK">
+                        <span>Steigung (k)</span>
+                        <span id="valK" style="color: var(--primary);">1,5</span>
+                    </label>
+                    <input type="range" id="sliderK" min="-4" max="4" step="0.5" value="1.5">
+                </div>
+
+                <div class="slider-group disabled" id="groupD">
+                    <label for="sliderD">
+                        <span>Startwert (d)</span>
+                        <span id="valD" style="color: #b45309;">0</span>
+                    </label>
+                    <input type="range" id="sliderD" min="-5" max="5" step="0.5" value="0">
+                </div>
+
+                <div class="slider-group" style="border-left: 4px solid #16a34a;">
+                    <label for="sliderX">
+                        <span>Argument (x)</span>
+                        <span id="valX" style="color: #16a34a;">2</span>
+                    </label>
+                    <input type="range" id="sliderX" min="-5" max="5" step="0.5" value="2">
+                </div>
+
+                <div class="equation-display" id="eqDisplay">
+                    <i>f(x)</i> = 1,5 &middot; <i>x</i>
+                </div>
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="funcCanvas" width="450" height="400"></canvas>
+                <div class="dynamic-text" id="dynamicText">
+                    Lade Erklärung...
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Elemente holen
+        const btnHomogen = document.getElementById("btnHomogen");
+        const btnhomogen = document.getElementById("btnhomogen");
+        const groupD = document.getElementById("groupD");
+        
+        const sliderK = document.getElementById("sliderK");
+        const sliderD = document.getElementById("sliderD");
+        const sliderX = document.getElementById("sliderX");
+        
+        const valK = document.getElementById("valK");
+        const valD = document.getElementById("valD");
+        const valX = document.getElementById("valX");
+        
+        const eqDisplay = document.getElementById("eqDisplay");
+        const dynamicText = document.getElementById("dynamicText");
+        
+        const canvas = document.getElementById("funcCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Status-Variablen
+        let isHomogen = true;
+        const scale = 32; // Pixel pro Einheit für Grid (-6 bis +6)
+        const width = canvas.width;
+        const height = canvas.height;
+        const originX = width / 2;
+        const originY = height / 2;
+
+        // UI Toggles
+        btnHomogen.addEventListener("click", () => {
+            isHomogen = true;
+            btnHomogen.classList.add("active");
+            btnhomogen.classList.remove("active");
+            groupD.classList.add("disabled");
+            sliderD.value = 0; // Zurücksetzen
+            updateAll();
+        });
+
+        btnhomogen.addEventListener("click", () => {
+            isHomogen = false;
+            btnhomogen.classList.add("active");
+            btnHomogen.classList.remove("active");
+            groupD.classList.remove("disabled");
+            if(parseFloat(sliderD.value) === 0) sliderD.value = 2; // Default wenn umgeschaltet wird
+            updateAll();
+        });
+
+        // Event Listener für Slider
+        sliderK.addEventListener("input", updateAll);
+        sliderD.addEventListener("input", updateAll);
+        sliderX.addEventListener("input", updateAll);
+
+        // Zahlen formatieren (Komma statt Punkt)
+        function formatNumber(num) {
+            return num.toString().replace('.', ',');
+        }
+
+        function drawGrid() {
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.beginPath();
+            ctx.strokeStyle = "#e2e8f0";
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= width; i += scale) {
+                ctx.moveTo(i, 0); ctx.lineTo(i, height); // vertikal
+                ctx.moveTo(0, i); ctx.lineTo(width, i); // horizontal
+            }
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.strokeStyle = "#334155";
+            ctx.lineWidth = 2;
+            ctx.moveTo(0, originY); ctx.lineTo(width, originY); // X-Achse
+            ctx.moveTo(originX, 0); ctx.lineTo(originX, height); // Y-Achse
+            ctx.stroke();
+
+            ctx.fillStyle = "#334155";
+            ctx.font = "12px sans-serif";
+            ctx.fillText("x", width - 15, originY - 10);
+            ctx.fillText("f(x)", originX + 10, 15);
+            ctx.fillText("0", originX - 12, originY + 15);
+            
+            ctx.textAlign = "center";
+            for(let x = -6; x <= 6; x++) {
+                if(x !== 0 && x % 2 === 0) { // Nur jede 2. Zahl für Übersichtlichkeit
+                    ctx.fillText(x, originX + x * scale, originY + 15);
+                    ctx.fillText(-x, originX - 12, originY + x * scale + 4);
+                }
+            }
+        }
+
+        function updateAll() {
+            const k = parseFloat(sliderK.value);
+            const d = isHomogen ? 0 : parseFloat(sliderD.value);
+            const xVal = parseFloat(sliderX.value);
+            const yVal = k * xVal + d;
+
+            // UI Update
+            valK.textContent = formatNumber(k);
+            valD.textContent = formatNumber(d);
+            valX.textContent = formatNumber(xVal);
+
+            // Termdarstellung formatieren
+            let dString = "";
+            if (!isHomogen) {
+                if (d > 0) dString = ` + <strong style="color:#b45309;">${formatNumber(d)}</strong>`;
+                else if (d < 0) dString = ` - <strong style="color:#b45309;">${formatNumber(Math.abs(d))}</strong>`;
+            }
+            eqDisplay.innerHTML = `<i>f(x)</i> = <strong style="color:var(--primary);">${formatNumber(k)}</strong> &middot; <i>x</i>${dString}`;
+
+            // Dynamischer Text
+            let typText = isHomogen ? "homogene" : "inhomogene";
+            let dInfo = isHomogen ? "Da <i>d</i> = 0 ist" : `Da <i>d</i> = ${formatNumber(d)} (und somit &ne; 0) ist`;
+            let schnittpunkt = isHomogen ? "exakt durch den Ursprung (0|0)" : `die y-Achse bei (0|${formatNumber(d)})`;
+            
+            dynamicText.innerHTML = `
+                ${dInfo}, handelt es sich um eine <strong>${typText} Funktion</strong>. 
+                Der Graph schneidet ${schnittpunkt}.<br><br>
+                Wenn du das Argument <strong style="color:#16a34a;"><i>x</i> = ${formatNumber(xVal)}</strong> in den Term einsetzt, 
+                berechnet die Funktion den entsprechenden Funktionswert 
+                <strong><i>f(${formatNumber(xVal)})</i> = ${formatNumber(yVal)}</strong>.
+            `;
+
+            // Canvas Zeichnen
+            drawGrid();
+
+            // Funktionsgraph (Linie)
+            ctx.beginPath();
+            ctx.strokeStyle = "#2563eb";
+            ctx.lineWidth = 3;
+            ctx.moveTo(originX + (-7) * scale, originY - (k * (-7) + d) * scale);
+            ctx.lineTo(originX + (7) * scale, originY - (k * (7) + d) * scale);
+            ctx.stroke();
+
+            // Hilfslinien zum Punkt
+            const px = originX + xVal * scale;
+            const py = originY - yVal * scale;
+
+            ctx.beginPath();
+            ctx.strokeStyle = "#64748b";
+            ctx.setLineDash([5, 5]);
+            ctx.lineWidth = 2;
+            ctx.moveTo(px, originY); // Von x-Achse hinauf/hinunter
+            ctx.lineTo(px, py);
+            ctx.lineTo(originX, py); // Zur y-Achse
+            ctx.stroke();
+            ctx.setLineDash([]); // Reset
+
+            // Markierung Argument (X-Achse)
+            ctx.beginPath();
+            ctx.fillStyle = "#16a34a"; // Grün
+            ctx.arc(px, originY, 4, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Markierung Funktionswert (Y-Achse)
+            ctx.beginPath();
+            ctx.fillStyle = "#ea580c"; // Orange
+            ctx.arc(originX, py, 4, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Der resultierende Punkt auf dem Graphen
+            ctx.beginPath();
+            ctx.fillStyle = "#ef4444"; // Rot
+            ctx.arc(px, py, 6, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Punkt Beschriftung
+            ctx.fillStyle = "#ef4444";
+            ctx.font = "bold 12px sans-serif";
+            ctx.textAlign = "left";
+            ctx.fillText(`P(${formatNumber(xVal)} | ${formatNumber(yVal)})`, px + 10, py - 10);
+        }
+
+        // Initiales Setup
+        updateAll();
+    });
+</script>
+
+</body>
+</html>

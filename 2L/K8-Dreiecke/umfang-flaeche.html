@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreiecke: Umfang und Flächeninhalt</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Umfang und Flächeninhalt</h1>
+    <p>Wie lang ist der Rand und wie groß ist die Fläche eines Dreiecks?</p>
+</header>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main>
+    <section class="subject-group" id="umfang">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 8.5</span>
+            <h2 style="margin: 0; color: var(--primary);">1. Der Umfang des Dreiecks</h2>
+        </div>
+        <p>Der Umfang ($u$) ist die Länge der äußeren Begrenzungslinie. Stell dir vor, das Dreieck ist eine Wiese und du möchtest einen Zaun darum bauen. Wie lang muss der Zaun sein? Du musst einfach alle drei Seitenlängen addieren!</p>
+        
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--primary); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <h4 style="margin-top: 0; color: var(--text-main);">Formel:</h4>
+            <div style="text-align: center; font-size: 1.5rem; font-weight: bold; color: var(--primary); margin: 1rem 0;">
+                $u = a + b + c$
+            </div>
+            <p style="margin-bottom: 0;"><strong>Beispiel:</strong> Ein Dreieck hat die Seiten $a = 5$ cm, $b = 4$ cm und $c = 7$ cm.<br>
+            Der Umfang ist $u = 5 + 4 + 7 = \mathbf{16}$ <strong>cm</strong>.</p>
+        </div>
+    </section>
+
+    <section class="subject-group" id="flaeche-rechtwinkelig">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 8.5</span>
+            <h2 style="margin: 0; color: var(--primary);">2. Flächeninhalt: Rechtwinkeliges Dreieck</h2>
+        </div>
+        <p>Ein rechtwinkeliges Dreieck ist ganz einfach zu berechnen, wenn du einen Trick kennst: <strong>Es ist immer genau die Hälfte eines Rechtecks!</strong> Die beiden Seiten, die den rechten Winkel bilden (man nennt sie Katheten), sind wie die Länge und Breite des Rechtecks.</p>
+        
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--info-color); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <h4 style="margin-top: 0; color: var(--text-main);">Formel:</h4>
+            <div style="text-align: center; font-size: 1.5rem; font-weight: bold; color: var(--info-color); margin: 1rem 0;">
+                $A = \frac{a \cdot b}{2}$
+            </div>
+            <p style="margin-bottom: 0;"><strong>Beispiel:</strong> Die Katheten sind $a = 6$ cm und $b = 4$ cm.<br>
+            Das ganze Rechteck hätte $6 \cdot 4 = 24$ cm².<br>
+            Das Dreieck ist genau die Hälfte: $A = \frac{24}{2} = \mathbf{12}$ <strong>cm²</strong>.</p>
+        </div>
+    </section>
+
+    <section class="subject-group" id="flaeche-allgemein">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 8.5</span>
+            <h2 style="margin: 0; color: var(--primary);">3. Flächeninhalt: Allgemeines Dreieck</h2>
+        </div>
+        <p>Was ist, wenn das Dreieck keinen rechten Winkel hat? Dann erschaffen wir uns einen, indem wir eine <strong>Höhe ($h$)</strong> einzeichnen! Die Höhe steht immer im rechten Winkel ($90^\circ$) auf einer Seite (der Grundlinie). Jedes Dreieck ist nämlich genau die Hälfte eines Parallelogramms.</p>
+        
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--pdf-red); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+            <h4 style="margin-top: 0; color: var(--text-main);">Formel:</h4>
+            <p>Du multiplizierst eine beliebige Grundlinie (z.B. $c$) mit der dazugehörigen Höhe (z.B. $h_c$) und teilst das Ergebnis durch 2. Das klappt mit jeder der drei Seiten!</p>
+            <div style="text-align: center; font-size: 1.5rem; font-weight: bold; color: var(--pdf-red); margin: 1rem 0;">
+                $A = \frac{c \cdot h_c}{2} = \frac{a \cdot h_a}{2} = \frac{b \cdot h_b}{2}$
+            </div>
+            <p style="margin-bottom: 0;"><strong>Beispiel:</strong> Die Grundlinie ist $c = 8$ m und die zugehörige Höhe ist $h_c = 5$ m.<br>
+            $A = \frac{8 \cdot 5}{2} = \frac{40}{2} = \mathbf{20}$ <strong>m²</strong>.</p>
+        </div>
+    </section>
+
+    <section class="subject-group" id="labor">
+        <div class="subject-header">
+            <span class="subject-badge bg-info">Labor</span>
+            <h2 style="margin: 0; color: var(--primary);">Interaktives Flächen-Labor</h2>
+        </div>
+        <p>Bewege die Schieberegler! Du kannst die <strong>Grundlinie $c$</strong> und die <strong>Höhe $h_c$</strong> verändern. Das Spannendste ist aber der dritte Regler: Verschiebe die Spitze des Dreiecks nach links oder rechts. Achte darauf, was mit dem Flächeninhalt passiert!</p>
+        
+        <div style="background: white; border: 2px solid var(--primary); padding: 1.5rem; border-radius: 12px; display: flex; flex-wrap: wrap; gap: 2rem;">
+            
+            <div style="flex: 1; min-width: 250px;">
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="sliderC" style="font-weight: bold; color: var(--doc-blue);">Grundlinie $c$ (cm): <span id="valC">8</span></label><br>
+                    <input type="range" id="sliderC" min="2" max="15" value="8" step="1" style="width: 100%; margin-top: 0.5rem;" oninput="updateLab()">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="sliderH" style="font-weight: bold; color: var(--pdf-red);">Höhe $h_c$ (cm): <span id="valH">5</span></label><br>
+                    <input type="range" id="sliderH" min="2" max="10" value="5" step="1" style="width: 100%; margin-top: 0.5rem;" oninput="updateLab()">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="sliderShift" style="font-weight: bold; color: var(--xls-green);">Spitze verschieben (Scherung):</label><br>
+                    <input type="range" id="sliderShift" min="-5" max="15" value="3" step="1" style="width: 100%; margin-top: 0.5rem;" oninput="updateLab()">
+                </div>
+
+                <div style="background: var(--bg); padding: 1.5rem 1rem; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
+                    <span style="font-size: 0.9rem; color: var(--text-muted);">Berechnung:</span><br>
+                    
+                    <div style="display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin: 10px 0;">
+                        <span style="font-style: italic; margin-right: 8px;">A</span> = 
+                        <div style="display: inline-flex; flex-direction: column; align-items: center; margin: 0 8px;">
+                            <span style="border-bottom: 2px solid var(--text-main); padding: 0 5px 2px 5px;">
+                                <span id="mathC" style="color: var(--doc-blue); font-weight: bold;">8</span> &middot; 
+                                <span id="mathH" style="color: var(--pdf-red); font-weight: bold;">5</span>
+                            </span>
+                            <span style="padding-top: 2px;">2</span>
+                        </div>
+                    </div>
+
+                    <strong style="font-size: 1.8rem; color: var(--primary); display: block; margin-top: 1rem;">
+                        <span style="font-style: italic;">A</span> = <span id="mathRes">20</span> cm²
+                    </strong>
+                </div>
+            </div>
+
+            <div style="flex: 1; min-width: 300px; background: var(--bg); border: 1px solid #e2e8f0; border-radius: 8px; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 1rem;">
+                <svg id="areaSvg" viewBox="0 0 400 250" width="100%" height="250" style="background: white; border-radius: 4px;">
+                    <defs>
+                        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e2e8f0" stroke-width="0.5"/>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" />
+                    
+                    <g id="dynamicElements">
+                        <line id="lineH" x1="0" y1="0" x2="0" y2="0" stroke="var(--pdf-red)" stroke-dasharray="5,5" stroke-width="2" />
+                        <text id="textH" x="0" y="0" fill="var(--pdf-red)" font-weight="bold">h</text>
+                        
+                        <polygon id="triPolygon" points="0,0 0,0 0,0" fill="rgba(59, 130, 246, 0.2)" stroke="var(--primary)" stroke-width="3" />
+                        
+                        <line id="lineC" x1="0" y1="0" x2="0" y2="0" stroke="var(--doc-blue)" stroke-width="4" />
+                        <text id="textC" x="0" y="0" fill="var(--doc-blue)" font-weight="bold">c</text>
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Mathematik verstehen 2 | Geometrie - Umfang und Flächeninhalt</p>
+</footer>
+
+<script>
+    function updateLab() {
+        const c = parseInt(document.getElementById('sliderC').value);
+        const h = parseInt(document.getElementById('sliderH').value);
+        const shift = parseInt(document.getElementById('sliderShift').value);
+
+        document.getElementById('valC').innerText = c;
+        document.getElementById('valH').innerText = h;
+        
+        const area = (c * h) / 2;
+        
+        document.getElementById('mathC').innerText = c;
+        document.getElementById('mathH').innerText = h;
+        // Zahl formatieren, falls sie Kommastellen hat (z.B. 12.5 -> 12,5)
+        document.getElementById('mathRes').innerText = Number.isInteger(area) ? area : area.toFixed(1).replace('.', ',');
+
+        const scale = 20;
+        const baseY = 210; 
+        const baseX = 80;  
+        
+        const ptA_x = baseX;
+        const ptA_y = baseY;
+        
+        const ptB_x = baseX + (c * scale);
+        const ptB_y = baseY;
+        
+        const ptC_x = baseX + (shift * scale);
+        const ptC_y = baseY - (h * scale);
+
+        const polygon = document.getElementById('triPolygon');
+        polygon.setAttribute('points', `${ptA_x},${ptA_y} ${ptB_x},${ptB_y} ${ptC_x},${ptC_y}`);
+
+        const lineH = document.getElementById('lineH');
+        lineH.setAttribute('x1', ptC_x);
+        lineH.setAttribute('y1', ptC_y);
+        lineH.setAttribute('x2', ptC_x);
+        lineH.setAttribute('y2', baseY);
+        
+        const textH = document.getElementById('textH');
+        textH.setAttribute('x', ptC_x + 5);
+        textH.setAttribute('y', baseY - (h * scale) / 2);
+
+        const lineC = document.getElementById('lineC');
+        lineC.setAttribute('x1', ptA_x);
+        lineC.setAttribute('y1', baseY);
+        lineC.setAttribute('x2', ptB_x);
+        lineC.setAttribute('y2', baseY);
+        
+        const textC = document.getElementById('textC');
+        textC.setAttribute('x', baseX + (c * scale) / 2 - 5);
+        textC.setAttribute('y', baseY + 20);
+    }
+
+    // Beim Laden einmal ausführen
+    window.onload = updateLab;
+</script>
+
+</body>
+</html>

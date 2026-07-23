@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vierecke: Grundlagen und Eigenschaften</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Grundlagen der Vierecke</h1>
+    <p>Ecken, Seiten, Winkel und Diagonalen richtig benennen</p>
+</header>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main>
+    <section class="subject-group" id="aufbau">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 9.1</span>
+            <h2 style="margin: 0; color: var(--primary);">1. Wie ist ein Viereck aufgebaut?</h2>
+        </div>
+        <p>Ein Viereck ist eine ebene, von vier Strecken begrenzte Figur. In der Mathematik halten wir uns an ganz bestimmte Regeln, um ein Viereck zu beschriften. So weiß jeder sofort, welche Seite oder welcher Winkel gemeint ist!</p>
+        
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;">
+            
+            <div style="flex: 1; min-width: 250px;">
+                <h4 style="margin-top: 0; color: var(--primary);">Die Beschriftungs-Regeln:</h4>
+                <ul style="line-height: 1.8;">
+                    <li><strong>Eckpunkte:</strong> Werden mit Großbuchstaben bezeichnet (\(A, B, C, D\)). Man beschriftet sie <strong>gegen den Uhrzeigersinn</strong>.</li>
+                    <li><strong>Seiten:</strong> Werden mit Kleinbuchstaben bezeichnet (\(a, b, c, d\)). Die Seite \(a\) liegt meist zwischen \(A\) und \(B\).</li>
+                    <li><strong>Winkel:</strong> Befinden sich in den Ecken und werden mit griechischen Buchstaben benannt: \(\alpha\) (Alpha), \(\beta\) (Beta), \(\gamma\) (Gamma) und \(\delta\) (Delta).</li>
+                    <li><strong>Diagonalen:</strong> Das sind die Verbindungsstrecken gegenüberliegender Ecken. Sie heißen \(e\) (von \(A\) nach \(C\)) und \(f\) (von \(B\) nach \(D\)).</li>
+                </ul>
+            </div>
+
+            <div style="flex: 1; min-width: 300px; text-align: center; background: var(--bg); padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <svg viewBox="0 0 350 250" width="100%" height="200">
+                    <polygon points="50,200 250,230 300,50 100,80" fill="#e0f2fe" stroke="none" />
+                    <line x1="50" y1="200" x2="300" y2="50" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,5" />
+                    <line x1="250" y1="230" x2="100" y2="80" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,5" />
+                    <text x="160" y="120" fill="#64748b" font-weight="bold">e</text>
+                    <text x="190" y="160" fill="#64748b" font-weight="bold">f</text>
+                    <polygon points="50,200 250,230 300,50 100,80" fill="none" stroke="var(--primary)" stroke-width="3" />
+                    <text x="30" y="220" font-weight="bold" fill="var(--text-main)">A</text>
+                    <text x="260" y="250" font-weight="bold" fill="var(--text-main)">B</text>
+                    <text x="310" y="45" font-weight="bold" fill="var(--text-main)">C</text>
+                    <text x="80" y="70" font-weight="bold" fill="var(--text-main)">D</text>
+                    <text x="150" y="235" font-weight="bold" fill="var(--doc-blue)">a</text>
+                    <text x="285" y="150" font-weight="bold" fill="var(--doc-blue)">b</text>
+                    <text x="200" y="55" font-weight="bold" fill="var(--doc-blue)">c</text>
+                    <text x="60" y="140" font-weight="bold" fill="var(--doc-blue)">d</text>
+                    <text x="70" y="190" fill="var(--pdf-red)" font-weight="bold">α</text>
+                    <text x="230" y="210" fill="var(--pdf-red)" font-weight="bold">β</text>
+                    <text x="270" y="80" fill="var(--pdf-red)" font-weight="bold">γ</text>
+                    <text x="110" y="110" fill="var(--pdf-red)" font-weight="bold">δ</text>
+                </svg>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Ein allgemeines Viereck ABCD</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="subject-group" id="eigenschaften">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 9.1</span>
+            <h2 style="margin: 0; color: var(--primary);">2. Umfang und Winkelsumme</h2>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+            <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--doc-blue); padding: 1.5rem; border-radius: 8px;">
+                <h4 style="margin-top: 0;">Der Umfang (\(u\))</h4>
+                <p style="font-size: 0.95rem;">Stell dir vor, du baust einen Zaun genau auf den Seitenlinien des Vierecks. Die Gesamtlänge des Zauns ist der Umfang. Man addiert einfach alle vier Seitenlängen.</p>
+                <div style="text-align: center; font-size: 1.3rem; font-weight: bold; color: var(--doc-blue); margin-top: 1rem;">
+                    \(u = a + b + c + d\)
+                </div>
+            </div>
+
+            <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--pdf-red); padding: 1.5rem; border-radius: 8px;">
+                <h4 style="margin-top: 0;">Die Winkelsumme</h4>
+                <p style="font-size: 0.95rem;">Ein Viereck lässt sich durch eine Diagonale immer in <strong>zwei Dreiecke</strong> zerschneiden. Da ein Dreieck eine Winkelsumme von \(180^\circ\) hat, haben zwei Dreiecke zusammen \(360^\circ\).</p>
+                <div style="text-align: center; font-size: 1.3rem; font-weight: bold; color: var(--pdf-red); margin-top: 1rem;">
+                    \(\alpha + \beta + \gamma + \delta = 360^\circ\)
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="subject-group" id="labor">
+        <div class="subject-header">
+            <span class="subject-badge bg-info">Labor</span>
+            <h2 style="margin: 0; color: var(--primary);">Interaktiver Winkel-Detektiv</h2>
+        </div>
+        <p>In Vierecken ist oft ein Winkel "versteckt" (nicht angegeben). Da du nun weißt, dass alle vier Winkel zusammen immer exakt <strong>360°</strong> ergeben müssen, kannst du den fehlenden Winkel berechnen. Probier es aus!</p>
+        
+        <div style="background: white; border: 2px solid var(--primary); padding: 1.5rem; border-radius: 12px;">
+            <p style="font-weight: bold; margin-bottom: 1rem;">Gib drei bekannte Winkel eines Vierecks ein:</p>
+            
+            <div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center; margin-bottom: 1.5rem;">
+                <div>
+                    <label for="angAlpha" style="font-size: 0.9rem; color: var(--text-muted);">\(\alpha\) (in Grad):</label><br>
+                    <input type="number" id="angAlpha" value="85" min="1" max="357" style="width: 80px; padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+                <div>
+                    <label for="angBeta" style="font-size: 0.9rem; color: var(--text-muted);">\(\beta\) (in Grad):</label><br>
+                    <input type="number" id="angBeta" value="110" min="1" max="357" style="width: 80px; padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+                <div>
+                    <label for="angGamma" style="font-size: 0.9rem; color: var(--text-muted);">\(\gamma\) (in Grad):</label><br>
+                    <input type="number" id="angGamma" value="65" min="1" max="357" style="width: 80px; padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+                <div style="margin-top: 1.2rem;">
+                    <button class="nav-toggle active" onclick="calculateMissingAngle()" style="border: none;">Fehlenden Winkel \(\delta\) berechnen</button>
+                </div>
+            </div>
+
+            <div id="angleResult" style="display: none; background: var(--bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px;">
+                </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Mathematik verstehen 2 | Ebene Geometrie - Vierecke</p>
+</footer>
+
+<script>
+    function calculateMissingAngle() {
+        const alpha = parseFloat(document.getElementById('angAlpha').value);
+        const beta = parseFloat(document.getElementById('angBeta').value);
+        const gamma = parseFloat(document.getElementById('angGamma').value);
+        
+        const resultBox = document.getElementById('angleResult');
+
+        if (isNaN(alpha) || isNaN(beta) || isNaN(gamma) || alpha <= 0 || beta <= 0 || gamma <= 0) {
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = `<strong style="color: var(--pdf-red);">Bitte gib drei gültige, positive Zahlen ein!</strong>`;
+            return;
+        }
+
+        const currentSum = alpha + beta + gamma;
+
+        if (currentSum >= 360) {
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = `
+                <strong style="color: var(--pdf-red);">Unmöglich!</strong><br>
+                Die Summe der drei Winkel beträgt bereits ${currentSum}°. 
+                In einem Viereck dürfen <em>alle vier Winkel zusammen</em> aber maximal 360° haben. Bitte wähle kleinere Winkel.
+            `;
+            return;
+        }
+
+        const delta = 360 - currentSum;
+
+        resultBox.style.display = 'block';
+        resultBox.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <strong>Rechenweg:</strong><br>
+                    <span style="color: var(--text-muted);">Summe der bekannten Winkel: ${alpha}° + ${beta}° + ${gamma}° = ${currentSum}°</span><br>
+                    <span style="color: var(--text-muted);">Fehlender Winkel: 360° - ${currentSum}° =</span>
+                </div>
+                <div style="background: white; border: 2px solid var(--pdf-red); padding: 1rem 2rem; border-radius: 12px; text-align: center;">
+                    <span style="font-size: 0.9rem; color: var(--text-muted);">Winkel \(\\delta\)</span><br>
+                    <strong style="font-size: 2rem; color: var(--pdf-red);">${delta}°</strong>
+                </div>
+            </div>
+        `;
+
+        if (typeof MathJax !== 'undefined') {
+            MathJax.typesetPromise ? MathJax.typesetPromise() : MathJax.typeset();
+        }
+    }
+</script>
+
+</body>
+</html>

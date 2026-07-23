@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreiecke: Konstruktionen (SSS, SWS, WSW, SsW)</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+   
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* Spezifische Hilfsklassen für das interaktive Labor auf dieser Seite */
+        .step-btn {
+            background: var(--bg);
+            border: 2px solid #e2e8f0;
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .step-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        .svg-container {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Dreiecke konstruieren</h1>
+    <p>Die vier Kongruenzsätze: SSS, SWS, WSW und SsW</p>
+</header>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main>
+    <div style="background: var(--bg); border-left: 4px solid var(--doc-blue); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+        <p style="margin: 0;"><strong>Die Kongruenzsätze:</strong> Um ein Dreieck eindeutig (also so, dass es bei jedem in der Klasse gleich aussieht) zeichnen zu können, brauchst du immer genau <strong>drei bestimmte Bestimmungsstücke</strong> (Seiten oder Winkel). Hier lernst du die vier Methoden kennen!</p>
+    </div>
+
+    <section class="subject-group" id="sss">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 8.3</span>
+            <h2 style="margin: 0; color: var(--primary);">1. Der SSS-Satz (Seit-Seit-Seit)</h2>
+        </div>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+            <div style="flex: 1; min-width: 300px;">
+                <p><strong>Gegeben:</strong> Alle drei Seitenlängen ($a, b, c$).<br>
+                <strong>Werkzeug:</strong> Lineal und Zirkel.</p>
+                <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 12px;">
+                    <h4 style="margin-top: 0; color: var(--doc-blue);">Anleitung:</h4>
+                    <ol style="line-height: 1.8;">
+                        <li>Zeichne die Seite $c$ (Strecke $\overline{AB}$).</li>
+                        <li>Nimm die Länge der Seite $b$ in den Zirkel, stich in $A$ ein und ziehe einen Kreisbogen.</li>
+                        <li>Nimm die Länge der Seite $a$ in den Zirkel, stich in $B$ ein und ziehe einen Kreisbogen.</li>
+                        <li>Der Schnittpunkt der beiden Bögen ist der Eckpunkt $C$. Verbinde die Punkte!</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div style="flex: 1; min-width: 300px; background: var(--bg); padding: 1.5rem; border-radius: 12px; border: 2px solid var(--doc-blue);">
+                <h4 style="margin-top:0; text-align: center;">Simulator: SSS-Satz</h4>
+                <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="step-btn active" id="btn-sss-0" onclick="showStep('sss', 0)">Start</button>
+                    <button class="step-btn" id="btn-sss-1" onclick="showStep('sss', 1)">Schritt 1</button>
+                    <button class="step-btn" id="btn-sss-2" onclick="showStep('sss', 2)">Schritt 2</button>
+                    <button class="step-btn" id="btn-sss-3" onclick="showStep('sss', 3)">Schritt 3</button>
+                </div>
+                <div class="svg-container">
+                    <svg viewBox="0 0 300 200" width="100%" height="200">
+                        <g id="sss-step1" style="display: none;">
+                            <line x1="50" y1="150" x2="250" y2="150" stroke="var(--primary)" stroke-width="3" />
+                            <text x="40" y="170" font-weight="bold">A</text>
+                            <text x="250" y="170" font-weight="bold">B</text>
+                            <text x="145" y="170" fill="var(--doc-blue)" font-weight="bold">c</text>
+                        </g>
+                        <g id="sss-step2" style="display: none;">
+                            <circle cx="50" cy="150" r="150" fill="none" stroke="var(--pdf-red)" stroke-width="1.5" stroke-dasharray="5,5" />
+                        </g>
+                        <g id="sss-step3" style="display: none;">
+                            <circle cx="250" cy="150" r="130" fill="none" stroke="var(--xls-green)" stroke-width="1.5" stroke-dasharray="5,5" />
+                            <circle cx="164" cy="52.5" r="4" fill="var(--text-main)" />
+                            <text x="160" y="42" font-weight="bold">C</text>
+                            <line x1="50" y1="150" x2="164" y2="52.5" stroke="var(--primary)" stroke-width="3" />
+                            <line x1="250" y1="150" x2="164" y2="52.5" stroke="var(--primary)" stroke-width="3" />
+                            <text x="95" y="95" fill="var(--doc-blue)" font-weight="bold">b</text>
+                            <text x="215" y="95" fill="var(--doc-blue)" font-weight="bold">a</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="subject-group" id="sws">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 8.3</span>
+            <h2 style="margin: 0; color: var(--primary);">2. Der SWS-Satz (Seit-Winkel-Seit)</h2>
+        </div>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+            <div style="flex: 1; min-width: 300px;">
+                <p><strong>Gegeben:</strong> Zwei Seiten und der von ihnen <strong>eingeschlossene</strong> Winkel (z.B. $b, c, \alpha$).<br>
+                <strong>Werkzeug:</strong> Geodreieck und Zirkel (oder Lineal).</p>
+                <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 12px;">
+                    <h4 style="margin-top: 0; color: var(--info-color);">Anleitung:</h4>
+                    <ol style="line-height: 1.8;">
+                        <li>Zeichne die Seite $c$ (Strecke $\overline{AB}$).</li>
+                        <li>Trage in Punkt $A$ den Winkel $\alpha$ mit dem Geodreieck auf und ziehe einen langen Strahl.</li>
+                        <li>Nimm die Länge der Seite $b$ in den Zirkel, stich in $A$ ein und schlage auf dem Strahl ab. Das ist Punkt $C$.</li>
+                        <li>Verbinde $B$ und $C$.</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div style="flex: 1; min-width: 300px; background: var(--bg); padding: 1.5rem; border-radius: 12px; border: 2px solid var(--info-color);">
+                <h4 style="margin-top:0; text-align: center;">Simulator: SWS-Satz</h4>
+                <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="step-btn active" id="btn-sws-0" onclick="showStep('sws', 0)">Start</button>
+                    <button class="step-btn" id="btn-sws-1" onclick="showStep('sws', 1)">Schritt 1</button>
+                    <button class="step-btn" id="btn-sws-2" onclick="showStep('sws', 2)">Schritt 2</button>
+                    <button class="step-btn" id="btn-sws-3" onclick="showStep('sws', 3)">Schritt 3</button>
+                </div>
+                <div class="svg-container">
+                    <svg viewBox="0 0 300 200" width="100%" height="200">
+                        <g id="sws-step1" style="display: none;">
+                            <line x1="50" y1="150" x2="250" y2="150" stroke="var(--primary)" stroke-width="3" />
+                            <text x="40" y="170" font-weight="bold">A</text>
+                            <text x="250" y="170" font-weight="bold">B</text>
+                            <text x="145" y="170" fill="var(--doc-blue)" font-weight="bold">c</text>
+                        </g>
+                        <g id="sws-step2" style="display: none;">
+                            <path d="M 90 150 A 40 40 0 0 0 80.6 124.3" fill="none" stroke="var(--pdf-red)" stroke-width="2" />
+                            <text x="95" y="140" fill="var(--pdf-red)" font-weight="bold">α</text>
+                            <line x1="50" y1="150" x2="241.5" y2="-10.7" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,4" />
+                        </g>
+                        <g id="sws-step3" style="display: none;">
+                            <path d="M 188.6 70 A 160 160 0 0 0 152.8 27.4" fill="none" stroke="var(--xls-green)" stroke-width="2" />
+                            <circle cx="172.6" cy="47.1" r="4" fill="var(--text-main)" />
+                            <text x="160" y="40" font-weight="bold">C</text>
+                            <line x1="50" y1="150" x2="172.6" y2="47.1" stroke="var(--primary)" stroke-width="3" />
+                            <line x1="250" y1="150" x2="172.6" y2="47.1" stroke="var(--primary)" stroke-width="3" />
+                            <text x="100" y="90" fill="var(--doc-blue)" font-weight="bold">b</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="subject-group" id="wsw">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 8.3</span>
+            <h2 style="margin: 0; color: var(--primary);">3. Der WSW-Satz (Winkel-Seit-Winkel)</h2>
+        </div>
+        
+        
+
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+            <div style="flex: 1; min-width: 300px;">
+                <p><strong>Gegeben:</strong> Eine Seite und die beiden <strong>anliegenden</strong> Winkel (z.B. $c, \alpha, \beta$).<br>
+                <strong>Werkzeug:</strong> Geodreieck.</p>
+                <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 12px;">
+                    <h4 style="margin-top: 0; color: var(--html-orange);">Anleitung:</h4>
+                    <ol style="line-height: 1.8;">
+                        <li>Zeichne die Seite $c$ (Strecke $\overline{AB}$).</li>
+                        <li>Trage im Punkt $A$ den Winkel $\alpha$ ein und zeichne einen langen Strahl.</li>
+                        <li>Trage im Punkt $B$ den Winkel $\beta$ ein und zeichne ebenfalls einen Strahl.</li>
+                        <li>Dort, wo sich die beiden Strahlen kreuzen, liegt der Eckpunkt $C$.</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div style="flex: 1; min-width: 300px; background: var(--bg); padding: 1.5rem; border-radius: 12px; border: 2px solid var(--html-orange);">
+                <h4 style="margin-top:0; text-align: center;">Simulator: WSW-Satz</h4>
+                <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="step-btn active" id="btn-wsw-0" onclick="showStep('wsw', 0)">Start</button>
+                    <button class="step-btn" id="btn-wsw-1" onclick="showStep('wsw', 1)">Schritt 1</button>
+                    <button class="step-btn" id="btn-wsw-2" onclick="showStep('wsw', 2)">Schritt 2</button>
+                    <button class="step-btn" id="btn-wsw-3" onclick="showStep('wsw', 3)">Schritt 3</button>
+                </div>
+                <div class="svg-container">
+                    <svg viewBox="0 0 300 200" width="100%" height="200">
+                        <g id="wsw-step1" style="display: none;">
+                            <line x1="50" y1="150" x2="250" y2="150" stroke="var(--primary)" stroke-width="3" />
+                            <text x="40" y="170" font-weight="bold">A</text>
+                            <text x="250" y="170" font-weight="bold">B</text>
+                        </g>
+                        <g id="wsw-step2" style="display: none;">
+                            <path d="M 90 150 A 40 40 0 0 0 78.3 121.7" fill="none" stroke="var(--pdf-red)" stroke-width="2" />
+                            <text x="95" y="140" fill="var(--pdf-red)" font-weight="bold">α</text>
+                            <line x1="50" y1="150" x2="220" y2="-20" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,4" />
+                        </g>
+                        <g id="wsw-step3" style="display: none;">
+                            <path d="M 210 150 A 40 40 0 0 1 227.1 117.2" fill="none" stroke="var(--pdf-red)" stroke-width="2" />
+                            <text x="195" y="140" fill="var(--pdf-red)" font-weight="bold">β</text>
+                            <line x1="250" y1="150" x2="110" y2="-49.9" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,4" />
+                            <circle cx="167.6" cy="32.4" r="4" fill="var(--text-main)" />
+                            <text x="167.6" y="22.4" font-weight="bold">C</text>
+                            <line x1="50" y1="150" x2="167.6" y2="32.4" stroke="var(--primary)" stroke-width="3" />
+                            <line x1="250" y1="150" x2="167.6" y2="32.4" stroke="var(--primary)" stroke-width="3" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="subject-group" id="ssw">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 8.3</span>
+            <h2 style="margin: 0; color: var(--primary);">4. Der SsW-Satz (Seit-Seit-Winkel)</h2>
+        </div>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+            <div style="flex: 1; min-width: 300px;">
+                <p><strong>Gegeben:</strong> Zwei Seiten und der Winkel, der der <strong>längeren</strong> Seite gegenüberliegt (z.B. $c, a, \alpha$ und $a > c$).<br>
+                <strong>Werkzeug:</strong> Geodreieck und Zirkel.</p>
+                <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--pdf-red); padding: 1.5rem; border-radius: 12px;">
+                    <h4 style="margin-top: 0; color: var(--text-main);">Anleitung:</h4>
+                    <ol style="line-height: 1.8;">
+                        <li>Zeichne die Seite $c$ (Strecke $\overline{AB}$).</li>
+                        <li>Trage im Punkt $A$ den Winkel $\alpha$ ein und zeichne einen langen Strahl.</li>
+                        <li>Nimm die Länge der Seite $a$ in den Zirkel! Stich in $B$ ein und schlage die Länge ab, sodass der Bogen den Strahl schneidet.</li>
+                        <li>Der Schnittpunkt ist $C$. Verbinde $B$ und $C$.</li>
+                    </ol>
+                </div>
+            </div>
+            
+            <div style="flex: 1; min-width: 300px; background: var(--bg); padding: 1.5rem; border-radius: 12px; border: 2px solid var(--pdf-red);">
+                <h4 style="margin-top:0; text-align: center;">Simulator: SsW-Satz</h4>
+                <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="step-btn active" id="btn-ssw-0" onclick="showStep('ssw', 0)">Start</button>
+                    <button class="step-btn" id="btn-ssw-1" onclick="showStep('ssw', 1)">Schritt 1</button>
+                    <button class="step-btn" id="btn-ssw-2" onclick="showStep('ssw', 2)">Schritt 2</button>
+                    <button class="step-btn" id="btn-ssw-3" onclick="showStep('ssw', 3)">Schritt 3</button>
+                </div>
+                <div class="svg-container">
+                    <svg viewBox="0 0 300 200" width="100%" height="200">
+                        <g id="ssw-step1" style="display: none;">
+                            <line x1="50" y1="150" x2="190" y2="150" stroke="var(--primary)" stroke-width="3" />
+                            <text x="40" y="170" font-weight="bold">A</text>
+                            <text x="190" y="170" font-weight="bold">B</text>
+                            <text x="115" y="170" fill="var(--doc-blue)" font-weight="bold">c</text>
+                        </g>
+                        <g id="ssw-step2" style="display: none;">
+                            <path d="M 90 150 A 40 40 0 0 0 80.6 124.3" fill="none" stroke="var(--pdf-red)" stroke-width="2" />
+                            <text x="95" y="140" fill="var(--pdf-red)" font-weight="bold">α</text>
+                            <line x1="50" y1="150" x2="280" y2="-42.9" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,4" />
+                        </g>
+                        <g id="ssw-step3" style="display: none;">
+                            <circle cx="190" cy="150" r="160" fill="none" stroke="var(--xls-green)" stroke-width="1.5" stroke-dasharray="5,5" />
+                            <circle cx="233.5" cy="-3.9" r="4" fill="var(--text-main)" />
+                            <text x="215" y="5" font-weight="bold">C</text>
+                            <line x1="50" y1="150" x2="233.5" y2="-3.9" stroke="var(--primary)" stroke-width="3" />
+                            <line x1="190" y1="150" x2="233.5" y2="-3.9" stroke="var(--primary)" stroke-width="3" />
+                            <text x="220" y="80" fill="var(--doc-blue)" font-weight="bold">a</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Mathematik verstehen 2 | Geometrie - Dreiecke Konstruieren</p>
+</footer>
+
+<script>
+    function showStep(method, step) {
+        for(let i=0; i<=3; i++) {
+            let btn = document.getElementById(`btn-${method}-${i}`);
+            if(btn) {
+                btn.classList.remove('active');
+            }
+        }
+        document.getElementById(`btn-${method}-${step}`).classList.add('active');
+
+        let s1 = document.getElementById(`${method}-step1`);
+        let s2 = document.getElementById(`${method}-step2`);
+        let s3 = document.getElementById(`${method}-step3`);
+
+        if(s1) s1.style.display = (step >= 1) ? 'block' : 'none';
+        if(s2) s2.style.display = (step >= 2) ? 'block' : 'none';
+        if(s3) s3.style.display = (step >= 3) ? 'block' : 'none';
+    }
+</script>
+
+</body>
+</html>

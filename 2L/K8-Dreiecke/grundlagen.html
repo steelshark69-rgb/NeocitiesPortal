@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dreiecke: Grundlagen & Dreiecksungleichung</title>
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Dreiecke: Grundlagen</h1>
+    <p>Ecken, Seiten, Winkel und die Dreiecksungleichung</p>
+</header>
+
+<div class="back-nav">
+    <a href="../index.html" class="btn-back">← Zurück zur Übersicht</a>
+</div>
+
+<main>
+    <section class="subject-group" id="beschriftung">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 8.1</span>
+            <h2 style="margin: 0; color: var(--primary);">1. Wie beschriftet man ein Dreieck?</h2>
+        </div>
+        <p>Ein Dreieck hat drei Ecken, drei Seiten und drei Winkel. Damit es keine Missverständnisse gibt, beschriften wir Mathematiker Dreiecke auf der ganzen Welt nach dem exakt gleichen System.</p>
+        
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;">
+            <div style="flex: 1; min-width: 250px;">
+                <ul style="line-height: 1.8;">
+                    <li><strong>Eckpunkte:</strong> Werden mit Großbuchstaben bezeichnet ($A, B, C$). Man beschriftet sie <strong>gegen den Uhrzeigersinn</strong>.</li>
+                    <li><strong>Seiten:</strong> Werden mit Kleinbuchstaben bezeichnet ($a, b, c$). 
+                        <br><span style="color: var(--doc-blue); font-weight: bold;">Wichtig:</span> Die Seite $a$ liegt immer genau <em>gegenüber</em> vom Eckpunkt $A$!</li>
+                    <li><strong>Winkel:</strong> Liegen in den Ecken und werden mit griechischen Buchstaben benannt: $\alpha$ (in der Ecke A), $\beta$ (in B) und $\gamma$ (in C).</li>
+                </ul>
+            </div>
+            <div style="flex: 1; min-width: 300px; text-align: center; background: var(--bg); padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <svg viewBox="0 0 300 250" width="100%" height="200">
+                    <polygon points="50,200 250,200 120,50" fill="#e0f2fe" stroke="var(--primary)" stroke-width="3" />
+                    <text x="30" y="220" font-weight="bold" fill="var(--text-main)">A</text>
+                    <text x="260" y="220" font-weight="bold" fill="var(--text-main)">B</text>
+                    <text x="110" y="35" font-weight="bold" fill="var(--text-main)">C</text>
+                    <text x="195" y="120" font-weight="bold" fill="var(--doc-blue)">a</text>
+                    <text x="70" y="120" font-weight="bold" fill="var(--doc-blue)">b</text>
+                    <text x="150" y="220" font-weight="bold" fill="var(--doc-blue)">c</text>
+                    <text x="75" y="190" fill="var(--pdf-red)" font-weight="bold">α</text>
+                    <text x="220" y="190" fill="var(--pdf-red)" font-weight="bold">β</text>
+                    <text x="125" y="85" fill="var(--pdf-red)" font-weight="bold">γ</text>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <section class="subject-group" id="ungleichung">
+        <div class="subject-header">
+            <span class="subject-badge bg-math">Kapitel 8.1</span>
+            <h2 style="margin: 0; color: var(--primary);">2. Die Dreiecksungleichung</h2>
+        </div>
+        <p>Kann man aus *jeden* drei Stöcken ein geschlossenes Dreieck legen? Nein! Wenn ein Stock viel zu lang ist und die anderen beiden zu kurz sind, treffen sie sich in der Mitte nicht.</p>
+        
+        <div style="background: var(--card-bg); border: 1px solid #e2e8f0; border-left: 5px solid var(--pdf-red); padding: 1.5rem; border-radius: 8px;">
+            <h4 style="margin-top: 0; color: var(--text-main);">Der Merksatz:</h4>
+            <p style="font-size: 1.05rem;">In jedem Dreieck muss die Summe von zwei beliebigen Seitenlängen <strong>immer größer</strong> sein als die dritte Seite.</p>
+            <div style="text-align: center; font-size: 1.3rem; font-weight: bold; color: var(--pdf-red); margin-top: 1rem;">
+                $a + b > c$ <br>
+                $a + c > b$ <br>
+                $b + c > a$
+            </div>
+        </div>
+    </section>
+
+    <section class="subject-group" id="labor">
+        <div class="subject-header">
+            <span class="subject-badge bg-info">Labor</span>
+            <h2 style="margin: 0; color: var(--primary);">Der Baustellen-Test</h2>
+        </div>
+        <p>Du hast drei Holzlatten mit bestimmten Längen. Prüfe, ob du daraus ein geschlossenes Dreieck bauen kannst!</p>
+        
+        <div style="background: white; border: 2px solid var(--primary); padding: 1.5rem; border-radius: 12px;">
+            <div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center; margin-bottom: 1.5rem;">
+                <div>
+                    <label for="sideA" style="font-size: 0.9rem; color: var(--text-muted);">Seite $a$ (cm):</label><br>
+                    <input type="number" id="sideA" value="5" min="1" step="any" style="width: 80px; padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+                <div>
+                    <label for="sideB" style="font-size: 0.9rem; color: var(--text-muted);">Seite $b$ (cm):</label><br>
+                    <input type="number" id="sideB" value="4" min="1" step="any" style="width: 80px; padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+                <div>
+                    <label for="sideC" style="font-size: 0.9rem; color: var(--text-muted);">Seite $c$ (cm):</label><br>
+                    <input type="number" id="sideC" value="10" min="1" step="any" style="width: 80px; padding: 0.6rem; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+                <div style="margin-top: 1.2rem;">
+                    <button class="nav-toggle active" onclick="checkeequality()" style="border: none;">Baubarkeit prüfen</button>
+                </div>
+            </div>
+
+            <div id="checkResult" style="display: none; background: var(--bg); border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px;">
+                </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>Mathematik verstehen 2 | Geometrie - Dreiecke</p>
+</footer>
+
+<script>
+    function checkeequality() {
+        const a = parseFloat(document.getElementById('sideA').value);
+        const b = parseFloat(document.getElementById('sideB').value);
+        const c = parseFloat(document.getElementById('sideC').value);
+        
+        const resultBox = document.getElementById('checkResult');
+
+        if (isNaN(a) || isNaN(b) || isNaN(c) || a <= 0 || b <= 0 || c <= 0) {
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = `<strong style="color: var(--pdf-red);">Bitte gib drei gültige, positive Zahlen ein!</strong>`;
+            return;
+        }
+
+        // Bedingungen prüfen
+        const test1 = (a + b) > c;
+        const test2 = (a + c) > b;
+        const test3 = (b + c) > a;
+
+        resultBox.style.display = 'block';
+
+        if (test1 && test2 && test3) {
+            resultBox.innerHTML = `
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <div style="background: var(--xls-green); color: white; padding: 1rem; border-radius: 8px; font-weight: bold; font-size: 1.5rem;">✓</div>
+                    <div>
+                        <strong style="color: var(--xls-green); font-size: 1.2rem;">Es klappt!</strong><br>
+                        Aus diesen drei Seiten lässt sich ein Dreieck bauen. Jede Seite ist kürzer als die Summe der anderen beiden.
+                    </div>
+                </div>
+            `;
+        } else {
+            // Herausfinden, woran es scheitert
+            let reason = "";
+            if (!test1) reason = `Die Seiten a (${a} cm) und b (${b} cm) sind zusammen nur ${a+b} cm lang. Das ist zu kurz, um die Seite c (${c} cm) zu überbrücken!`;
+            else if (!test2) reason = `Die Seiten a (${a} cm) und c (${c} cm) sind zusammen nur ${a+c} cm lang. Das ist zu kurz, um die Seite b (${b} cm) zu überbrücken!`;
+            else if (!test3) reason = `Die Seiten b (${b} cm) und c (${c} cm) sind zusammen nur ${b+c} cm lang. Das ist zu kurz, um die Seite a (${a} cm) zu überbrücken!`;
+
+            resultBox.innerHTML = `
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <div style="background: var(--pdf-red); color: white; padding: 1rem; border-radius: 8px; font-weight: bold; font-size: 1.5rem;">✗</div>
+                    <div>
+                        <strong style="color: var(--pdf-red); font-size: 1.2rem;">Das geht sich nicht aus!</strong><br>
+                        ${reason}
+                    </div>
+                </div>
+            `;
+        }
+    }
+</script>
+
+</body>
+</html>

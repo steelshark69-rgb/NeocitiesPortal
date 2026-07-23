@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station 3: Der Server-Raum - Escape Room 2L</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        /* Escape-Room Styles für optimale Lesbarkeit */
+        .terminal-header {
+            background-color: #0f172a; 
+            border-bottom: 4px solid var(--primary);
+            padding: 2.5rem 1rem; 
+            text-align: center; 
+            color: #f8fafc;
+        }
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .task-item {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-left: 5px solid var(--primary);
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            color: #1e293b;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        .task-number {
+            font-weight: bold;
+            color: var(--primary);
+            font-family: monospace;
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+        .math-text {
+            font-family: "Courier New", Courier, monospace;
+            font-weight: bold;
+            font-size: 1.2rem;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .story-box {
+            background: #1e293b; 
+            color: white; 
+            padding: 1.5rem; 
+            border-radius: 8px; 
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body style="background-color: var(--bg); color: var(--text-main); font-family: sans-serif;">
+
+<script>
+    if(sessionStorage.getItem('rallye_progress') < 3 || !sessionStorage.getItem('rallye_team')) {
+        window.location.href = 'index.html';
+    }
+</script>
+
+<header class="terminal-header">
+    <h1 style="margin: 0; font-family: monospace; letter-spacing: 2px;">> STATION 3: DER SERVER-RAUM_</h1>
+    <p style="margin-top: 0.5rem; color: #94a3b8; font-family: monospace;">Bereich: Gleichungen & Proportionalitäten (Kapitel 5 & 6)</p>
+</header>
+
+<div style="display: flex; justify-content: center; margin-top: 1.5rem; margin-bottom: 2rem;">
+    <a href="index.html" class="btn-back">← Mission abbrechen</a>
+</div>
+
+<main style="max-width: 850px; margin: 0 auto; padding: 0 1.5rem; padding-bottom: 5rem;">
+    
+    <div class="subject-group">
+        <div class="story-box">
+            <p style="margin: 0; font-size: 1.1rem;">
+                <strong>Agenten-Team:</strong> <span id="display-team" style="color: #38bdf8; font-family: monospace; font-size: 1.2rem;"></span><br><br>
+                Ihr seid tief in die Server-Struktur vorgedrungen. Doch die Hardware spielt verrückt! 
+                Der Hacker hat die Rechenleistung durch Gleichungen und vertauschte Proportionalitäten blockiert. 
+                Bestimmt den Wert der Variablen und löst die Schlussrechnungen. 
+                Die <strong>Summe eurer 8 Endergebnisse</strong> fährt die Server wieder hoch!
+            </p>
+        </div>
+
+        <ul class="task-list">
+            <li class="task-item">
+                <span class="task-number">#01</span> Löse die Gleichung nach x auf: <span class="math-text">3 · x + 14 = 35</span>
+            </li>
+            <li class="task-item">
+                <span class="task-number">#02</span> Löse die Gleichung nach a auf: <span class="math-text">5 · a − 12 = 33</span>
+            </li>
+            <li class="task-item">
+                <span class="task-number">#03</span> Textgleichung: "Wenn ich das Vierfache einer bestimmten Zahl um 8 vermindere, erhalte ich als Ergebnis 32." Wie lautet die gesuchte Zahl?
+            </li>
+            <li class="task-item">
+                <span class="task-number">#04</span> Direkte Proportionalität: Die Miete für 6 Server-Blöcke kostet 1.200 €. Wie viel Euro kosten 4 dieser Server-Blöcke?
+            </li>
+            <li class="task-item">
+                <span class="task-number">#05</span> Indirekte Proportionalität: 3 Prozessoren brauchen für eine Entschlüsselung 20 Millisekunden. Wie viele Millisekunden brauchen 5 Prozessoren für dieselbe Arbeit?
+            </li>
+            <li class="task-item">
+                <span class="task-number">#06</span> Direkte Proportionalität: Ein Datentransfer von 5 Gigabyte dauert genau 15 Sekunden. Wie viele Sekunden dauert ein Transfer von 12 Gigabyte bei gleicher Geschwindigkeit?
+            </li>
+            <li class="task-item">
+                <span class="task-number">#07</span> Indirekte Proportionalität: Ein Notstrom-Akku reicht bei 4 aktiven Kühlern genau 15 Stunden. Wie viele Stunden reicht er, wenn 6 Kühler laufen?
+            </li>
+            <li class="task-item">
+                <span class="task-number">#08</span> Geometrische Gleichung: Ein Server-Rack hat eine rechteckige Grundfläche mit einem Umfang von 200 cm. Die Breite beträgt 40 cm. Wie groß ist die Länge in cm?
+            </li>
+        </ul>
+
+        <div style="background: white; border: 2px dashed #94a3b8; border-radius: 8px; padding: 2rem; margin-top: 3rem; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h3 style="margin-top: 0; color: #1e293b;">Tresor-Eingabe (Summe)</h3>
+            <p style="color: #64748b; margin-bottom: 1.5rem;">Addiert alle 8 Ergebnisse und gebt die Gesamtsumme hier ein:</p>
+            
+            <input type="number" id="station3-code" placeholder="Gesamtsumme" 
+                   style="padding: 15px; font-size: 1.5rem; text-align: center; border: 2px solid #cbd5e1; border-radius: 8px; width: 200px; outline: none; font-family: monospace; font-weight: bold;">
+            <br>
+            <p id="error-msg" style="color: var(--pdf-red); display: none; margin-top: 10px; font-weight: bold;">Zugriff verweigert! Server antwortet nicht (falsche Berechnung).</p>
+            
+            <button onclick="checkCode()" 
+                    style="margin-top: 1.5rem; background-color: #10b981; color: white; font-size: 1.2rem; font-weight: bold; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;">
+                Server-Neustart initiieren 🔓
+            </button>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Teamnamen aus der Session anzeigen
+    document.getElementById('display-team').innerText = sessionStorage.getItem('rallye_team');
+
+    function checkCode() {
+        const userInput = document.getElementById('station3-code').value;
+        const errorMsg = document.getElementById('error-msg');
+        
+        // Die korrekte Summe ist 944
+        if (userInput === "944") {
+            // Freigabe für Station 4 speichern
+            sessionStorage.setItem('rallye_progress', '4');
+            window.location.href = "station4.html";
+        } else {
+            errorMsg.style.display = "block";
+            const inputField = document.getElementById('station3-code');
+            inputField.style.borderColor = "var(--pdf-red)";
+            inputField.value = "";
+            setTimeout(() => { inputField.style.borderColor = "#cbd5e1"; }, 800);
+        }
+    }
+</script>
+
+</body>
+</html>

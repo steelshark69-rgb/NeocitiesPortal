@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station 1: Kryptografie - Escape Room 2L</title>
+    <link rel="stylesheet" href="../../style.css">
+    <style>
+        /* Spezifische Escape-Room Styles für optimale Lesbarkeit */
+        .terminal-header {
+            background-color: #0f172a; 
+            border-bottom: 4px solid var(--primary);
+            padding: 2.5rem 1rem; 
+            text-align: center; 
+            color: #f8fafc;
+        }
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .task-item {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-left: 5px solid var(--primary);
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            color: #1e293b; /* Dunkler Text für Lesbarkeit */
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+        .task-number {
+            font-weight: bold;
+            color: var(--primary);
+            font-family: monospace;
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+        .math-text {
+            font-family: "Courier New", Courier, monospace;
+            font-weight: bold;
+            font-size: 1.2rem;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body style="background-color: var(--bg); color: var(--text-main); font-family: sans-serif;">
+
+<script>
+    if(sessionStorage.getItem('rallye_progress') < 1 || !sessionStorage.getItem('rallye_team')) {
+        window.location.href = 'index.html';
+    }
+</script>
+
+<header class="terminal-header">
+    <h1 style="margin: 0; font-family: monospace; letter-spacing: 2px;">> STATION 1: KRYPTOGRAFIE_</h1>
+    <p style="margin-top: 0.5rem; color: #94a3b8; font-family: monospace;">Bereich: Zahlen und Maße (Kapitel 1, 2 & 3)</p>
+</header>
+
+<div style="display: flex; justify-content: center; margin-top: 1.5rem; margin-bottom: 2rem;">
+    <a href="index.html" class="btn-back">← Mission abbrechen</a>
+</div>
+
+<main style="max-width: 850px; margin: 0 auto; padding: 0 1.5rem; padding-bottom: 5rem;">
+    
+    <div class="subject-group">
+        <div style="background: #1e293b; color: white; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+            <p style="margin: 0; font-size: 1.1rem;">
+                <strong>Agenten-Team:</strong> <span id="display-team" style="color: #38bdf8; font-family: monospace; font-size: 1.2rem;"></span><br><br>
+                Der erste Sicherheitsknoten verlangt das Entschlüsseln grundlegender Zahlencodes. Berechnet die Ergebnisse der 8 Fragmente. 
+                Die <strong>Summe eurer 8 Ergebnisse</strong> ist der Code für das Portal zur nächsten Station!
+            </p>
+        </div>
+
+        <ul class="task-list">
+            <li class="task-item">
+                <span class="task-number">#01</span> Bestimme den größten gemeinsamen Teiler: <span class="math-text">ggT(36, 48)</span>
+            </li>
+            <li class="task-item">
+                <span class="task-number">#02</span> Bestimme das kleinste gemeinsame Vielfache: <span class="math-text">kgV(6, 8)</span>
+            </li>
+            <li class="task-item">
+                <span class="task-number">#03</span> Berechne den Teil eines Ganzen: <span class="math-text">3/5 von 200</span>
+            </li>
+            <li class="task-item">
+                <span class="task-number">#04</span> Addiere die beiden Dezimalzahlen: <span class="math-text">12,4 + 7,6</span>
+            </li>
+            <li class="task-item">
+                <span class="task-number">#05</span> Löse die Rechnung mit ganzen Zahlen: <span class="math-text">−15 + 45</span>
+            </li>
+            <li class="task-item">
+                <span class="task-number">#06</span> Multipliziere die beiden negativen Zahlen: <span class="math-text">(−4) · (−5)</span>
+            </li>
+            <li class="task-item">
+                <span class="task-number">#07</span> Kürze den Bruch <span class="math-text">15/25</span> so weit wie möglich. Welche Zahl steht danach im Zähler (oben)?
+            </li>
+            <li class="task-item">
+                <span class="task-number">#08</span> Wie lautet die allererste (kleinste) Primzahl der Mathematik?
+            </li>
+        </ul>
+
+        <div style="background: white; border: 2px dashed #94a3b8; border-radius: 8px; padding: 2rem; margin-top: 3rem; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h3 style="margin-top: 0; color: #1e293b;">Tresor-Eingabe (Summe)</h3>
+            <p style="color: #64748b; margin-bottom: 1.5rem;">Addiert alle 8 Ergebnisse und gebt die Gesamtsumme hier ein:</p>
+            
+            <input type="number" id="station1-code" placeholder="Gesamtsumme" 
+                   style="padding: 15px; font-size: 1.5rem; text-align: center; border: 2px solid #cbd5e1; border-radius: 8px; width: 200px; outline: none; font-family: monospace; font-weight: bold;">
+            <br>
+            <p id="error-msg" style="color: var(--pdf-red); display: none; margin-top: 10px; font-weight: bold;">Zugriff verweigert! Berechnung fehlerhaft.</p>
+            
+            <button onclick="checkCode()" 
+                    style="margin-top: 1.5rem; background-color: #10b981; color: white; font-size: 1.2rem; font-weight: bold; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;">
+                Code bestätigen 🔓
+            </button>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Teamnamen aus der Session anzeigen
+    document.getElementById('display-team').innerText = sessionStorage.getItem('rallye_team');
+
+    function checkCode() {
+        const userInput = document.getElementById('station1-code').value;
+        const errorMsg = document.getElementById('error-msg');
+        
+        // Die korrekte Summe ist 231
+        // (12 + 24 + 120 + 20 + 30 + 20 + 3 + 2 = 231)
+        if (userInput === "231") {
+            // Freigabe für Station 2 speichern
+            sessionStorage.setItem('rallye_progress', '2');
+            window.location.href = "station2.html";
+        } else {
+            errorMsg.style.display = "block";
+            const inputField = document.getElementById('station1-code');
+            inputField.style.borderColor = "var(--pdf-red)";
+            inputField.value = "";
+            setTimeout(() => { inputField.style.borderColor = "#cbd5e1"; }, 800);
+        }
+    }
+</script>
+
+</body>
+</html>
